@@ -122,6 +122,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &161193256 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: fbe315b0c66964f65a925c60f5d44bfa,
+    type: 3}
+  m_PrefabInstance: {fileID: 1582063547}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &206994752
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -189,11 +195,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 309c5e22c533648758c2d27c606396b7, type: 2}
+      objectReference: {fileID: 9100000, guid: a2579fb47c596437d835abb890bce504, type: 2}
     - target: {fileID: 5866666021909216657, guid: 6039b4fb8d5014ec2b2b6e5f8b2e5256,
         type: 3}
       propertyPath: m_ApplyRootMotion
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -455,12 +461,6 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
---- !u!4 &482672702 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6039b4fb8d5014ec2b2b6e5f8b2e5256,
-    type: 3}
-  m_PrefabInstance: {fileID: 206994752}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1468447193
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -528,7 +528,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 309c5e22c533648758c2d27c606396b7, type: 2}
+      objectReference: {fileID: 9100000, guid: a2579fb47c596437d835abb890bce504, type: 2}
     - target: {fileID: 5866666021909216657, guid: c709dbbc40b8b4367bcd9e6f1bbf7bdc,
         type: 3}
       propertyPath: m_ApplyRootMotion
@@ -652,7 +652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd0064fcf68d4c0b94fea3debc1b246, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 482672702}
+  target: {fileID: 161193256}
   rotationSpeed: 5
   zoomSpeed: 10
   moveSpeed: 5
