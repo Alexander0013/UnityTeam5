@@ -124,7 +124,7 @@ namespace UnityChan
 			trs.rotation = Quaternion.Lerp (org.rotation, secondaryRotation, managerRef.dynamicRatio);
 		}
 
-		/*
+		
 		private void OnDrawGizmos ()
 		{
 			if (debug) {
@@ -132,6 +132,6 @@ namespace UnityChan
 				Gizmos.DrawWireSphere (currTipPos, radius);
 			}
 		}
-		*/
+		
 	}
 }

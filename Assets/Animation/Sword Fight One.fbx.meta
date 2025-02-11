@@ -1,24 +1,9 @@
 fileFormatVersion: 2
-guid: 54936334f3c084942959f30d767ca43a
+guid: 5132c797979d42940b858dc169afe4ad
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: "\u53E3"
-    second: {fileID: 2100000, guid: 74f120b7343558848ac8b2d10ed9b3f9, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: "\u808C2"
-    second: {fileID: 2100000, guid: f0b654e02d1ffed43be198211714771e, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: "\u99702"
-    second: {fileID: 2100000, guid: 570ca7617ccb60f41b74f3f709c4a41e, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -108,7 +93,7 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 1
+    hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1

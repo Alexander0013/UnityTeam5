@@ -34,7 +34,7 @@ namespace UnityChan
 			Transform[] transforms = GetComponentsInChildren<Transform>();
 			foreach (Transform t in transforms)
 			{
-				if (t.name.StartsWith("HF"))
+				if (t.name.StartsWith("裙"))
 				{
 					if (t.childCount > 0)
 					{
