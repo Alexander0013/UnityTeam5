@@ -220,7 +220,7 @@
                 {
                     "name": "",
                     "id": "3b0371bf-08c7-4be7-a8ba-4aaf0d750cd5",
-                    "path": "<Mouse>/scroll/y",
+                    "path": "<Mouse>/scroll/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

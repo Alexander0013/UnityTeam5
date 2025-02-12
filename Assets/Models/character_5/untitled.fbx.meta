@@ -636,7 +636,7 @@ ModelImporter:
     - name: Left arm
       parentName: Left shoulder
       position: {x: -9.313226e-10, y: 0.08882688, z: -0.000000017869752}
-      rotation: {x: 0.049031474, y: 0.22219232, z: 0.04570023, w: 0.97269624}
+      rotation: {x: 0.049031477, y: 0.22219232, z: 0.045700233, w: 0.97269624}
       scale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
     - name: Left elbow
       parentName: Left arm
@@ -711,7 +711,7 @@ ModelImporter:
     - name: Thumb0_L
       parentName: Left wrist
       position: {x: -0.000000041909516, y: 0.03524176, z: -0.000000016763806}
-      rotation: {x: 0.03710097, y: 0.03785297, z: 0.08330427, w: 0.99511355}
+      rotation: {x: 0.037100974, y: 0.037852973, z: 0.08330428, w: 0.9951136}
       scale: {x: 1.0000001, y: 1, z: 0.99999994}
     - name: Thumb1_L
       parentName: Thumb0_L
@@ -737,7 +737,7 @@ ModelImporter:
     - name: Neck
       parentName: Upper Chest
       position: {x: -1.4016566e-13, y: 0.24387941, z: -0.0000000098384225}
-      rotation: {x: 0.3767987, y: 0.000007427283, z: -0.000003846208, w: 0.9262952}
+      rotation: {x: 0.38779694, y: 0.000008337382, z: -0.0000030749245, w: 0.9217449}
       scale: {x: 1, y: 0.9999998, z: 0.99999994}
     - name: Head
       parentName: Neck
