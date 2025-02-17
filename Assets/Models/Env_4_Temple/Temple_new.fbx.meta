@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a9ce858cdaf464e538907ef84642b44e
+guid: 28528d52e489feb429010ded9e68664b
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -34,21 +34,6 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: "\u6750\u8CEA14"
     second: {fileID: 2100000, guid: 323c88765697c4c98b6016e38688729c, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: "\u6750\u8CEA15"
-    second: {fileID: 2100000, guid: 1753acd8bc194485d8461dd9c253ef17, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: "\u6750\u8CEA16"
-    second: {fileID: 2100000, guid: cb57385c1354b4e18ae5c371cb7b6ca5, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: "\u6750\u8CEA17"
-    second: {fileID: 2100000, guid: a6a0eac61c05d421a8ab623b76a7ad47, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -102,21 +87,6 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: "\u6750\u8CEA27"
-    second: {fileID: 2100000, guid: 0a8f15f021b654ad5af12b5b479ac877, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: "\u6750\u8CEA28"
-    second: {fileID: 2100000, guid: 4ee33ae62705844c0adfb4eee0f0be49, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: "\u6750\u8CEA29"
-    second: {fileID: 2100000, guid: dfaa6f406dbb74b5ca31f040af81bafa, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
       name: "\u6750\u8CEA3"
     second: {fileID: 2100000, guid: 0a3c0b2613c1140be9238f226d1afc0d, type: 2}
   - first:
@@ -127,23 +97,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: "\u6750\u8CEA31"
-    second: {fileID: 2100000, guid: a941c04be08134881820beb0d4364982, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
       name: "\u6750\u8CEA32"
     second: {fileID: 2100000, guid: e892a01c95f774673ade56e50b279350, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: "\u6750\u8CEA33"
-    second: {fileID: 2100000, guid: e6046aec40625438e8f0ad44f904e803, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: "\u6750\u8CEA34"
-    second: {fileID: 2100000, guid: 1f6e28ff227d24bf4835eec21df9d6cd, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -179,11 +134,6 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: "\u6750\u8CEA40"
     second: {fileID: 2100000, guid: 1c7383a80ff844e22aba1ac96b9959ba, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: "\u6750\u8CEA5"
-    second: {fileID: 2100000, guid: 573b74eb2b9b640d49df496abf4871c5, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -248,7 +198,7 @@ ModelImporter:
     nodeNameCollisionStrategy: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
-    generateSecondaryUV: 1
+    generateSecondaryUV: 0
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
