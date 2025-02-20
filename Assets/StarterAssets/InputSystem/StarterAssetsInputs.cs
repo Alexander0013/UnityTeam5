@@ -13,6 +13,9 @@ namespace StarterAssets
 		public bool jump;
 		public bool sprint;
 
+		[Header("Combat Input Values")]
+        public bool attack; // Added attack input
+
 		[Header("Movement Settings")]
 		public bool analogMovement;
 
@@ -42,7 +45,14 @@ namespace StarterAssets
 		public void OnSprint(InputValue value)
 		{
 			SprintInput(value.isPressed);
+			Debug.Log("Sprint input received: " + value.isPressed);
 		}
+		// New method for attack input via the new Input System.
+        public void OnAttack(InputValue value)
+        {
+            AttackInput(value.isPressed);
+			Debug.Log("Attack input received: " + value.isPressed);
+        }
 #endif
 
 
@@ -65,6 +75,12 @@ namespace StarterAssets
 		{
 			sprint = newSprintState;
 		}
+
+		// Method to set the attack state.
+        public void AttackInput(bool newAttackState)
+        {
+            attack = newAttackState;
+        }
 
 		private void OnApplicationFocus(bool hasFocus)
 		{
