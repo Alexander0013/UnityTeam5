@@ -26,7 +26,7 @@ public class IdleState : PlayerBaseState
         idleTimer += Time.deltaTime;
 
         // After 3 seconds of idle, hide the weapon if it hasn't been hidden yet.
-        if (!weaponHidden && idleTimer >= 3f)
+        if (!weaponHidden && idleTimer >= 2.0f)
         {
             WeaponController weaponController = player.GetComponent<WeaponController>();
             if (weaponController != null)
@@ -34,6 +34,16 @@ public class IdleState : PlayerBaseState
                 weaponController.HideWeapon();
                 Debug.Log("Weapon hidden after 3 seconds idle.");
                 weaponHidden = true;
+            }
+        }
+        // Only allow weapon switching if the weapon is not hidden.
+        if (!weaponHidden && Input.GetKeyDown(KeyCode.Tab))
+        {
+            WeaponSwitcher weaponSwitcher = player.GetComponent<WeaponSwitcher>();
+            if (weaponSwitcher != null)
+            {
+                weaponSwitcher.SwitchWeapon();
+                Debug.Log("Weapon switched using Tab key.");
             }
         }
 
