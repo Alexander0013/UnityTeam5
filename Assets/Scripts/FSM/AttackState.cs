@@ -3,71 +3,90 @@ using StarterAssets;
 
 public class AttackState : PlayerBaseState
 {
-    private bool comboQueued = false;
-    private bool weaponAppeared = false;
+    // The current combo count (e.g., 1 for Attack1, 2 for Attack2, etc.)
+    private int comboCount;
     private float timer = 0f;
+
+    // Combo window (in seconds) during which additional input is accepted.
+    private const float comboWindowStart = 0.2f;
+    private const float comboWindowEnd = 0.5f;
+
+    // Total duration of the attack animation (adjust to your clip's length).
+    private float attackDuration = 1f;
+
+    // Maximum combo count (3 in this example).
+    private const int maxCombo = 3;
+
+    // Constructor: default to comboCount 1 if not provided.
+    public AttackState(int comboCount = 1)
+    {
+        this.comboCount = comboCount;
+    }
+
     public override void EnterState(PlayerStateManager player)
     {
-        Debug.Log("Entering Attack State");
-        if (player.Animator != null){
-            // Force the attack animation to start from the beginning.
-            player.Animator.Play("Attack", 0, 0f);
+        timer = 0f;
+        Debug.Log("Entering Attack State, combo count: " + comboCount);
+        
+        // Enable the Attack layer so its animations override the base layer.
+        int attackLayerIndex = player.Animator.GetLayerIndex("Attack Layer");
+        player.Animator.SetLayerWeight(attackLayerIndex, 1f);
+
+        if (player.Animator != null)
+        {
+            // Set the combo parameter so the Animator plays the correct attack animation.
+            player.Animator.SetInteger("ComboCount", comboCount);
+            // Fire the attack trigger.
             player.Animator.SetTrigger("AttackTrigger");
         }
-            
-        comboQueued = false;
-        weaponAppeared = false;
+
+        // Immediately show the weapon.
+        WeaponController weaponController = player.GetComponent<WeaponController>();
+        if (weaponController != null)
+        {
+            weaponController.ShowWeapon();
+            Debug.Log("Weapon shown in AttackState");
+        }
     }
 
     public override void UpdateState(PlayerStateManager player)
     {
         timer += Time.deltaTime;
-        // Get current animation state info.
-        var stateInfo = player.Animator.GetCurrentAnimatorStateInfo(0);
-
-        // Check for the proper window to display the weapon
-        if (!weaponAppeared && timer >= 0.1f)
-        {
-            Debug.Log("weapon appear");
-            WeaponController weaponController = player.GetComponent<WeaponController>();
-            if (weaponController != null)
-            {
-                weaponController.ShowWeapon();
-                weaponAppeared = true;
-            }
-        }
-        // Check if we are in the combo window for chaining attacks
-        if (timer >= 0.3f && timer <= 0.7f)
-        {
-            if (player.Input.attack)
-            {
-                comboQueued = true;
-                player.SwitchState(new AttackState());
-                Debug.Log("Combo queued");
-            }
-        }
-        // When the animation finishes, switch state (weapon hide logic might be in IdleState)
-        if ( timer >= 1f)
-        {
-            if (comboQueued)
-            {
-                Debug.Log("Combo attack triggered");
-                player.SwitchState(new AttackState());
-            }
-            else
-            {
-                Debug.Log("Attack animation finished. Switching to Idle State.");
-                player.SwitchState(new IdleState());
-            }
-        }
         
-        
+        // During the combo window, if additional input is detected, increase the combo count.
+        if (timer >= comboWindowStart && timer <= comboWindowEnd && player.Input.attack)
+        {
+            player.Input.attack = false; // Consume the input.
+            if (comboCount < maxCombo)
+            {
+                comboCount++;
+                Debug.Log("Combo input detected. New combo count: " + comboCount);
+                // Optionally, you might want to immediately switch state here or simply let the Animator
+                // handle the transition via its conditions.
+                // For this example, we simply update the parameter:
+                player.Animator.SetInteger("ComboCount", comboCount);
+            }
+            if (comboCount == 2 ){
+                attackDuration += 1.0f;
+            }
+            if (comboCount == 3 ){
+                attackDuration += 2.0f;
+            }
+        }
+        // When the attack animation has finished, return to Idle.
+        if (timer >= attackDuration)
+        {
+            Debug.Log("Attack animation finished. Returning to Idle.");
+            player.SwitchState(new IdleState());
+        }
     }
 
     public override void ExitState(PlayerStateManager player)
     {
-        // Ensure the attack flag is cleared so subsequent clicks work.
+        // Clear the attack input flag.
         player.Input.attack = false;
+        // Disable the Attack layer so the base (Idle) animations resume.
+        int attackLayerIndex = player.Animator.GetLayerIndex("Attack Layer");
+        player.Animator.SetLayerWeight(attackLayerIndex, 0f);
     }
 }
-
