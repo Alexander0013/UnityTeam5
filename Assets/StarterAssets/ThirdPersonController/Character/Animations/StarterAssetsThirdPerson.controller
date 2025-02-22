@@ -273,9 +273,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: ComboCount
     m_EventTreshold: 3
-  - m_ConditionMode: 3
-    m_ConditionEvent: Speed
-    m_EventTreshold: 3
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6452129455654003083}
   m_Solo: 0
@@ -643,9 +640,6 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: ComboCount
-    m_EventTreshold: 2
-  - m_ConditionMode: 3
     m_ConditionEvent: ComboCount
     m_EventTreshold: 2
   m_DstStateMachine: {fileID: 0}
