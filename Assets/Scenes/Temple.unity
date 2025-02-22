@@ -638,6 +638,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player_1_Fossil
       objectReference: {fileID: 0}
+    - target: {fileID: 7278616230412251536, guid: ba9ad19d07261415bbebe6648432990f,
+        type: 3}
+      propertyPath: stiffnessForce
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -876,7 +881,7 @@ MonoBehaviour:
   m_DistanceLimit: 0
   m_MinimumOcclusionTime: 0
   m_CameraRadius: 0.1
-  m_Strategy: 0
+  m_Strategy: 2
   m_MaximumEffort: 4
   m_SmoothingTime: 0
   m_Damping: 0
@@ -1053,6 +1058,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scene1Name: Temple
   scene2Name: Boss
+  scene3Name: Scene_Demo
 --- !u!4 &1846453474 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2005345871271550444, guid: ba9ad19d07261415bbebe6648432990f,
