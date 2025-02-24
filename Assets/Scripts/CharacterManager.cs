@@ -2,23 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using UnityChan; // For SpringManager
 
 public class CharacterManager : MonoBehaviour
 {
-    // List of all character GameObjects
+    // List of all character GameObjects.
     public List<GameObject> characters;
 
-    // Reference to the Cinemachine Virtual Camera
+    // Reference to the Cinemachine Virtual Camera.
     public CinemachineVirtualCamera virtualCamera;
 
-    // Index to track the currently active character
+    // Index to track the currently active character.
     private int currentCharacterIndex = 0;
 
-    // Name of the child object used for the camera target
+    // Name of the child object used for the camera target.
     private string cameraRootName = "PlayerCameraRoot";
 
-    // Duration to hide the renderers after activation to avoid hair glitches
-    public float hideDuration = 1f;
+    // Delay before activating the initial character.
+    public float initialActivationDelay = 0.1f;
+
+    // Duration (in seconds) over which to ramp up hair simulation.
+    public float hairRampUpDuration = 0.5f;
 
     void Start()
     {
@@ -28,23 +32,20 @@ public class CharacterManager : MonoBehaviour
             character.SetActive(false);
         }
 
-        // Delay activation of the initial player for 1 second.
+        // Delay activation of the initial player.
         StartCoroutine(ActivateInitialCharacter());
     }
 
     IEnumerator ActivateInitialCharacter()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(initialActivationDelay);
 
         // Activate the first character.
         currentCharacterIndex = 0;
         GameObject initialPlayer = characters[currentCharacterIndex];
         initialPlayer.SetActive(true);
 
-        // Temporarily hide the renderers so the hair isn't visible while it settles.
-        SetRenderersEnabled(initialPlayer, false);
-
-        // Set the camera's follow and look-at targets to the active character's camera root.
+        // Set the camera's follow and look-at targets.
         Transform cameraRoot = GetCameraRoot(initialPlayer);
         if (cameraRoot != null)
         {
@@ -56,16 +57,13 @@ public class CharacterManager : MonoBehaviour
             Debug.LogWarning("Camera root not found on " + initialPlayer.name);
         }
 
-        // Wait for the specified hide duration.
-        yield return new WaitForSeconds(hideDuration);
-
-        // Re-enable renderers to show the player.
-        SetRenderersEnabled(initialPlayer, true);
+        // Gradually ramp up hair simulation to hide abrupt movements.
+        StartCoroutine(RampUpHairSimulation(initialPlayer));
     }
 
     void Update()
     {
-        // Check for the key press to switch characters (e.g., using the C key)
+        // Check for the key press to switch characters (e.g., using the C key).
         if (Input.GetKeyDown(KeyCode.C))
         {
             SwitchCharacter();
@@ -74,7 +72,7 @@ public class CharacterManager : MonoBehaviour
 
     void SwitchCharacter()
     {
-        // Get the current active character and store its transform data.
+        // Store transform data from the current active character.
         GameObject currentCharacter = characters[currentCharacterIndex];
         Vector3 currentPos = currentCharacter.transform.position;
         Quaternion currentRot = currentCharacter.transform.rotation;
@@ -86,13 +84,10 @@ public class CharacterManager : MonoBehaviour
         currentCharacterIndex = (currentCharacterIndex + 1) % characters.Count;
         GameObject newCharacter = characters[currentCharacterIndex];
 
-        // Set the new character's position and rotation to match the previous character.
+        // Match the new character's transform to the previous one.
         newCharacter.transform.position = currentPos;
         newCharacter.transform.rotation = currentRot;
         newCharacter.SetActive(true);
-
-        // Temporarily hide new character renderers to avoid hair glitches.
-        StartCoroutine(TemporarilyHideCharacter(newCharacter));
 
         // Update the camera's follow and look-at targets.
         Transform cameraRoot = GetCameraRoot(newCharacter);
@@ -105,28 +100,40 @@ public class CharacterManager : MonoBehaviour
         {
             Debug.LogWarning("Camera root not found on " + newCharacter.name);
         }
+
+        // Gradually ramp up hair simulation for the new character.
+        StartCoroutine(RampUpHairSimulation(newCharacter));
     }
 
-    IEnumerator TemporarilyHideCharacter(GameObject character)
+    // Coroutine that gradually ramps up the hair simulation.
+    IEnumerator RampUpHairSimulation(GameObject character)
     {
-        SetRenderersEnabled(character, false);
-        yield return new WaitForSeconds(hideDuration);
-        SetRenderersEnabled(character, true);
+        // Try to get the SpringManager component from the character's children.
+        SpringManager springManager = character.GetComponentInChildren<SpringManager>();
+        if (springManager != null)
+        {
+            // Store the target dynamic ratio (assumed to be 1.0f, adjust if needed).
+            float targetRatio = 1.0f;
+            // Start with simulation disabled.
+            springManager.dynamicRatio = 0f;
+            float elapsed = 0f;
+            while (elapsed < hairRampUpDuration)
+            {
+                elapsed += Time.deltaTime;
+                springManager.dynamicRatio = Mathf.Lerp(0f, targetRatio, elapsed / hairRampUpDuration);
+                yield return null;
+            }
+            springManager.dynamicRatio = targetRatio;
+        }
+        else
+        {
+            yield break;
+        }
     }
 
     // Helper function to find the PlayerCameraRoot transform in a character.
     Transform GetCameraRoot(GameObject character)
     {
         return character.transform.Find(cameraRootName);
-    }
-
-    // Helper function to enable/disable all renderers in a GameObject.
-    void SetRenderersEnabled(GameObject obj, bool enabled)
-    {
-        Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
-        foreach (Renderer r in renderers)
-        {
-            r.enabled = enabled;
-        }
     }
 }

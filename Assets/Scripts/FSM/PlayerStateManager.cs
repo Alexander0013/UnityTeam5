@@ -5,6 +5,12 @@ public class PlayerStateManager : MonoBehaviour
 {
     public PlayerBaseState currentState;
 
+    //timer for weapon
+    public float idleWeaponTimer = 0f;
+    public bool firstEntry = true;
+    public bool idleWeaponHide = true;
+    public bool HideidleWeaponfromAttack = false;
+
     // References to your input, animator, and controller.
     public StarterAssetsInputs Input;
     public Animator Animator;

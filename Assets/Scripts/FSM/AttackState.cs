@@ -8,8 +8,8 @@ public class AttackState : PlayerBaseState
 
     // Allowed window (in seconds) during which the next combo input is accepted.
     private const float comboWindowStart = 0.2f;
-    private const float comboWindowEnd = 0.5f;
-    private const int maxCombo = 3;
+    private const float comboWindowEnd = 1.2f;
+    private const int maxCombo = 4;
 
     // Array of durations (in seconds) for each attack animation.
     // Adjust these values to match your animation clip lengths.
@@ -27,7 +27,7 @@ public class AttackState : PlayerBaseState
     // Helper: calculate the total duration for the current combo sequence.
     private float CalculateTotalDuration(int count)
     {
-        float sum = 0.5f;
+        float sum = 1.0f;
         for (int i = 0; i < count; i++)
         {
             sum += attackDurations[i];
@@ -37,7 +37,8 @@ public class AttackState : PlayerBaseState
 
     public override void EnterState(PlayerStateManager player)
     {
-        timer = 0f;
+        // Reset the idle weapon timer upon entering attack.
+        player.idleWeaponTimer = 0f;
         Debug.Log("Entering Attack State, combo count: " + comboCount);
 
         // Enable the Attack layer.
@@ -49,6 +50,7 @@ public class AttackState : PlayerBaseState
         if (weaponController != null)
         {
             weaponController.HideIdleWeapon(); // Make sure this method hides the idle model.
+            player.HideidleWeaponfromAttack = true;
             weaponController.ShowAttackWeapon();
             Debug.Log("Attack weapon displayed.");
         }
@@ -100,7 +102,7 @@ public class AttackState : PlayerBaseState
         if (weaponController != null)
         {
             weaponController.HideAttackWeapon();
-            Debug.Log("Attack weapon hidden.");
+            Debug.Log("Attack weapon hidden");
         }
     }
 }

@@ -3,11 +3,8 @@ using StarterAssets;
 
 public class IdleState : PlayerBaseState
 {
-    private float idleTimer = 0f;
-
     public override void EnterState(PlayerStateManager player)
     {
-        idleTimer = 0f;
         Debug.Log("Entering Idle State");
 
         if (player.Animator != null)
@@ -18,27 +15,49 @@ public class IdleState : PlayerBaseState
             int attackLayerIndex = player.Animator.GetLayerIndex("Attack Layer");
             player.Animator.SetLayerWeight(attackLayerIndex, 0f);
         }
-        
+
         // Clear any pending attack input.
         player.Input.attack = false;
 
-        // Ensure the idle weapon is active and the attack weapon is hidden.
-        WeaponController weaponController = player.GetComponent<WeaponController>();
-        if (weaponController != null)
+        if (player.firstEntry)
         {
-            weaponController.ShowIdleWeapon();
-            Debug.Log("Idle weapon displayed.");
+            WeaponController weaponController = player.GetComponent<WeaponController>();
+            // On the very first scene entry, hide both weapons.
+            if (weaponController != null)
+            {
+                weaponController.HideBothWeapons();
+                Debug.Log("Initial entry: Both weapons hidden."); 
+                player.firstEntry = false;
+            }
+
+        }
+        
+        if (player.HideidleWeaponfromAttack)
+        {
+            WeaponController weaponController = player.GetComponent<WeaponController>();
+            // after scene entry, show the idle weapon.
+            if (weaponController != null)
+            {
+                player.idleWeaponHide = false;
+                weaponController.ShowIdleWeapon();
+                weaponController.HideAttackWeapon();   
+            }
         }
     }
 
     public override void UpdateState(PlayerStateManager player)
     {
-        idleTimer += Time.deltaTime;
-        WeaponController weaponController = player.GetComponent<WeaponController>();
-        if(idleTimer >= 2.0f)
+        // Increment the shared timer.
+        player.idleWeaponTimer += Time.deltaTime;
+        if (!player.idleWeaponHide && player.idleWeaponTimer >= 5.0f)
         {
-            weaponController.HideIdleWeapon();
-            Debug.Log("Idle weapon hided.");
+            WeaponController weaponController = player.GetComponent<WeaponController>();
+            if (weaponController != null)
+            {
+                weaponController.HideIdleWeapon();
+                player.idleWeaponHide = true;
+                Debug.Log("Idle weapon hidden");
+            }
         }
 
         // Transition based on player input.
