@@ -3,22 +3,27 @@ using StarterAssets;
 
 public class JumpState : PlayerBaseState
 {
-    private float jumpTimer = 0f;
-    private bool weaponHidden = false;
-
     public override void EnterState(PlayerStateManager player)
     {
+        
         Debug.Log("Entering Jump State");
-        jumpTimer = 0f;
-        weaponHidden = false;
-        WeaponController weaponController = player.GetComponent<WeaponController>();
-        weaponController.HideWeapon();
         if (player.Animator != null)
             player.Animator.SetBool(Animator.StringToHash("Jump"), true);
     }
 
     public override void UpdateState(PlayerStateManager player)
     {
+        player.idleWeaponTimer += Time.deltaTime;
+        if (!player.idleWeaponHide && player.idleWeaponTimer >= 5.0f)
+        {
+            WeaponController weaponController = player.GetComponent<WeaponController>();
+            if (weaponController != null)
+            {
+                weaponController.HideIdleWeapon();
+                player.idleWeaponHide = true;
+                Debug.Log("Idle weapon hidden");
+            }
+        }
         // Transition back to Idle once grounded.
         if (player.IsGrounded())
         {
@@ -32,4 +37,3 @@ public class JumpState : PlayerBaseState
             player.Animator.SetBool(Animator.StringToHash("Jump"), false);
     }
 }
-

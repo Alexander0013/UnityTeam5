@@ -3,32 +3,28 @@ using StarterAssets;
 
 public class RunState : PlayerBaseState
 {
-    private float runTimer = 0f;
-    private bool weaponHidden = false;
 
     public override void EnterState(PlayerStateManager player)
     {
         Debug.Log("Entering Run State");
-        runTimer = 0f;
-        weaponHidden = false;
         if (player.Animator != null)
             player.Animator.SetFloat("Speed", 1f);
     }
 
     public override void UpdateState(PlayerStateManager player)
     {
-        runTimer += Time.deltaTime;
-        if (!weaponHidden && runTimer >= 2f)
+        player.idleWeaponTimer += Time.deltaTime;
+        if (!player.idleWeaponHide && player.idleWeaponTimer >= 5.0f)
         {
             WeaponController weaponController = player.GetComponent<WeaponController>();
             if (weaponController != null)
             {
-                weaponController.HideWeapon();
-                Debug.Log("Weapon hidden after 2 seconds in Run State.");
-                weaponHidden = true;
+                weaponController.HideIdleWeapon();
+                player.idleWeaponHide = true;
+                Debug.Log("Idle weapon hidden");
             }
         }
-        
+
         if (player.Input.move == Vector2.zero)
         {
             player.SwitchState(new IdleState());
@@ -44,6 +40,7 @@ public class RunState : PlayerBaseState
         else if (player.Input.attack)
         {
             player.SwitchState(new AttackState());
+            player.Input.attack = false;
         }
     }
 
