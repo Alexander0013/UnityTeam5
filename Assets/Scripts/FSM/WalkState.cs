@@ -23,8 +23,8 @@ public class WalkState : PlayerBaseState
             WeaponController weaponController = player.GetComponent<WeaponController>();
             if (weaponController != null)
             {
-                weaponController.HideWeapon();
-                Debug.Log("Weapon hidden after 2 seconds in Walk State.");
+                weaponController.HideBothWeapons();
+                Debug.Log("Both weapons hidden after 2 seconds in Walk State.");
                 weaponHidden = true;
             }
         }

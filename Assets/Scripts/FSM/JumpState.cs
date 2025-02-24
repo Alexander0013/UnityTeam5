@@ -4,15 +4,20 @@ using StarterAssets;
 public class JumpState : PlayerBaseState
 {
     private float jumpTimer = 0f;
-    private bool weaponHidden = false;
-
+    
     public override void EnterState(PlayerStateManager player)
     {
         Debug.Log("Entering Jump State");
         jumpTimer = 0f;
-        weaponHidden = false;
+        
+        // Hide both weapons in JumpState.
         WeaponController weaponController = player.GetComponent<WeaponController>();
-        weaponController.HideWeapon();
+        if (weaponController != null)
+        {
+            weaponController.HideIdleWeapon();
+            Debug.Log("Both weapons hidden for Jump State.");
+        }
+        
         if (player.Animator != null)
             player.Animator.SetBool(Animator.StringToHash("Jump"), true);
     }
@@ -32,4 +37,3 @@ public class JumpState : PlayerBaseState
             player.Animator.SetBool(Animator.StringToHash("Jump"), false);
     }
 }
-

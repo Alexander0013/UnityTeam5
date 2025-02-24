@@ -5,7 +5,7 @@ public class StoneHideController : MonoBehaviour
 {
     private Animator animator;
     private bool isTakingDamage = false;
-    public GameObject deathEffectPrefab; // ³]¸m¦º¤`¯S®Ä
+    public GameObject deathEffectPrefab; // ï¿½]ï¿½mï¿½ï¿½ï¿½`ï¿½Sï¿½ï¿½
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -14,7 +14,7 @@ public class StoneHideController : MonoBehaviour
 
     void Update()
     {
-        // «ö¤UªÅ¥ÕÁä¶}©l­Ë¼Æ
+        // ï¿½ï¿½ï¿½Uï¿½Å¥ï¿½ï¿½ï¿½}ï¿½lï¿½Ë¼ï¿½
         if (Input.GetKeyDown(KeyCode.Space) && !isTakingDamage)
         {
             StartCoroutine(TakeDamageSequence());
@@ -24,21 +24,21 @@ public class StoneHideController : MonoBehaviour
     IEnumerator TakeDamageSequence()
     {
         isTakingDamage = true;
-        // ¤Á´«¨ì¨üÀ»°Êµe
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµe
         animator.SetBool("Hit", true);
 
-        // µ¥«Ý5¬í
+        // ï¿½ï¿½ï¿½ï¿½5ï¿½ï¿½
         yield return new WaitForSeconds(3f);
 
-        // ¤Á´«¨ì¦º¤`°Êµe
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ì¦ºï¿½`ï¿½Êµe
         animator.SetBool("Hit", false);
         animator.SetTrigger("Die");
 
-        // µ¥«Ý0.5¬í«á¾P·´
+        // ï¿½ï¿½ï¿½ï¿½0.5ï¿½ï¿½ï¿½ï¿½Pï¿½ï¿½
         yield return new WaitForSeconds(1f);
         Destroy(gameObject);
 
-        //¥Í¦¨¦º¤`¯S®Ä
+        //ï¿½Í¦ï¿½ï¿½ï¿½ï¿½`ï¿½Sï¿½ï¿½
         if (deathEffectPrefab != null)
         {
             Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);

@@ -23,8 +23,8 @@ public class RunState : PlayerBaseState
             WeaponController weaponController = player.GetComponent<WeaponController>();
             if (weaponController != null)
             {
-                weaponController.HideWeapon();
-                Debug.Log("Weapon hidden after 2 seconds in Run State.");
+                weaponController.HideBothWeapons();
+                Debug.Log("Both weapons hidden after 2 seconds in Run State.");
                 weaponHidden = true;
             }
         }
@@ -44,6 +44,7 @@ public class RunState : PlayerBaseState
         else if (player.Input.attack)
         {
             player.SwitchState(new AttackState());
+            player.Input.attack = false;
         }
     }
 

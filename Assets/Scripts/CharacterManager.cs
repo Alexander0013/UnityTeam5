@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
@@ -16,16 +17,35 @@ public class CharacterManager : MonoBehaviour
     // Name of the child object used for the camera target
     private string cameraRootName = "PlayerCameraRoot";
 
+    // Duration to hide the renderers after activation to avoid hair glitches
+    public float hideDuration = 1f;
+
     void Start()
     {
-        // Activate only the first character by default and deactivate others
-        for (int i = 0; i < characters.Count; i++)
+        // Initially deactivate all characters.
+        foreach (GameObject character in characters)
         {
-            characters[i].SetActive(i == currentCharacterIndex);
+            character.SetActive(false);
         }
 
-        // Set the camera's follow and look-at targets to the active character's camera root
-        Transform cameraRoot = GetCameraRoot(characters[currentCharacterIndex]);
+        // Delay activation of the initial player for 1 second.
+        StartCoroutine(ActivateInitialCharacter());
+    }
+
+    IEnumerator ActivateInitialCharacter()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        // Activate the first character.
+        currentCharacterIndex = 0;
+        GameObject initialPlayer = characters[currentCharacterIndex];
+        initialPlayer.SetActive(true);
+
+        // Temporarily hide the renderers so the hair isn't visible while it settles.
+        SetRenderersEnabled(initialPlayer, false);
+
+        // Set the camera's follow and look-at targets to the active character's camera root.
+        Transform cameraRoot = GetCameraRoot(initialPlayer);
         if (cameraRoot != null)
         {
             virtualCamera.Follow = cameraRoot;
@@ -33,8 +53,14 @@ public class CharacterManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Camera root not found on " + characters[currentCharacterIndex].name);
+            Debug.LogWarning("Camera root not found on " + initialPlayer.name);
         }
+
+        // Wait for the specified hide duration.
+        yield return new WaitForSeconds(hideDuration);
+
+        // Re-enable renderers to show the player.
+        SetRenderersEnabled(initialPlayer, true);
     }
 
     void Update()
@@ -48,28 +74,30 @@ public class CharacterManager : MonoBehaviour
 
     void SwitchCharacter()
     {
-        // Get the current active character and store its transform data
+        // Get the current active character and store its transform data.
         GameObject currentCharacter = characters[currentCharacterIndex];
         Vector3 currentPos = currentCharacter.transform.position;
         Quaternion currentRot = currentCharacter.transform.rotation;
 
-        // Deactivate the current character
+        // Deactivate the current character.
         currentCharacter.SetActive(false);
 
-        // Determine the next character index (wrap around if needed)
+        // Determine the next character index (wrap around if needed).
         currentCharacterIndex = (currentCharacterIndex + 1) % characters.Count;
         GameObject newCharacter = characters[currentCharacterIndex];
 
-        // Set the new character's position and rotation to match the previous character
+        // Set the new character's position and rotation to match the previous character.
         newCharacter.transform.position = currentPos;
         newCharacter.transform.rotation = currentRot;
         newCharacter.SetActive(true);
 
-        // Get the new character's camera root transform
+        // Temporarily hide new character renderers to avoid hair glitches.
+        StartCoroutine(TemporarilyHideCharacter(newCharacter));
+
+        // Update the camera's follow and look-at targets.
         Transform cameraRoot = GetCameraRoot(newCharacter);
         if (cameraRoot != null)
         {
-            // Update the Cinemachine Virtual Camera's follow and look-at targets
             virtualCamera.Follow = cameraRoot;
             virtualCamera.LookAt = cameraRoot;
         }
@@ -79,9 +107,26 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
-    // Helper function to find the PlayerCameraRoot transform in a character
+    IEnumerator TemporarilyHideCharacter(GameObject character)
+    {
+        SetRenderersEnabled(character, false);
+        yield return new WaitForSeconds(hideDuration);
+        SetRenderersEnabled(character, true);
+    }
+
+    // Helper function to find the PlayerCameraRoot transform in a character.
     Transform GetCameraRoot(GameObject character)
     {
         return character.transform.Find(cameraRootName);
+    }
+
+    // Helper function to enable/disable all renderers in a GameObject.
+    void SetRenderersEnabled(GameObject obj, bool enabled)
+    {
+        Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
+        foreach (Renderer r in renderers)
+        {
+            r.enabled = enabled;
+        }
     }
 }

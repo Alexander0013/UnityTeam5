@@ -4,44 +4,44 @@ using StarterAssets;
 public class IdleState : PlayerBaseState
 {
     private float idleTimer = 0f;
-    private bool weaponHidden = false;
 
     public override void EnterState(PlayerStateManager player)
     {
         idleTimer = 0f;
-        weaponHidden = false;
         Debug.Log("Entering Idle State");
+
         if (player.Animator != null)
         {
-            // Set movement parameters to zero.
+            // Reset movement and combo parameters.
             player.Animator.SetFloat(Animator.StringToHash("Speed"), 0f);
-            // Reset the combo parameter.
             player.Animator.SetInteger("ComboCount", 0);
-            // Ensure the Attack layer is disabled.
             int attackLayerIndex = player.Animator.GetLayerIndex("Attack Layer");
             player.Animator.SetLayerWeight(attackLayerIndex, 0f);
         }
+        
         // Clear any pending attack input.
         player.Input.attack = false;
+
+        // Ensure the idle weapon is active and the attack weapon is hidden.
+        WeaponController weaponController = player.GetComponent<WeaponController>();
+        if (weaponController != null)
+        {
+            weaponController.ShowIdleWeapon();
+            Debug.Log("Idle weapon displayed.");
+        }
     }
 
     public override void UpdateState(PlayerStateManager player)
     {
         idleTimer += Time.deltaTime;
-
-        // After a short idle period, hide the weapon.
-        if (!weaponHidden && idleTimer >= 2.0f)
+        WeaponController weaponController = player.GetComponent<WeaponController>();
+        if(idleTimer >= 2.0f)
         {
-            WeaponController weaponController = player.GetComponent<WeaponController>();
-            if (weaponController != null)
-            {
-                weaponController.HideWeapon();
-                Debug.Log("Weapon hidden after idle period.");
-                weaponHidden = true;
-            }
+            weaponController.HideIdleWeapon();
+            Debug.Log("Idle weapon hided.");
         }
 
-        // Transition based on input.
+        // Transition based on player input.
         if (player.Input.move != Vector2.zero)
         {
             if (player.Input.sprint)
@@ -63,6 +63,6 @@ public class IdleState : PlayerBaseState
 
     public override void ExitState(PlayerStateManager player)
     {
-        // Optionally, when leaving Idle, you can show the weapon immediately.
+        // Additional exit logic if needed.
     }
 }
