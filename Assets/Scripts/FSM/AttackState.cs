@@ -9,7 +9,7 @@ public class AttackState : PlayerBaseState
     // Allowed window (in seconds) during which the next combo input is accepted.
     private const float comboWindowStart = 0.2f;
     private const float comboWindowEnd = 1.2f;
-    private const int maxCombo = 4;
+    private const int maxCombo = 3;
 
     // Array of durations (in seconds) for each attack animation.
     // Adjust these values to match your animation clip lengths.
