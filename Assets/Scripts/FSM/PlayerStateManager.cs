@@ -1,5 +1,6 @@
 using UnityEngine;
-using StarterAssets; // For accessing StarterAssetsInputs
+using StarterAssets;
+using System.Collections; // For accessing StarterAssetsInputs
 
 public class PlayerStateManager : MonoBehaviour
 {
@@ -78,6 +79,21 @@ public class PlayerStateManager : MonoBehaviour
         currentState = newState;
         currentState.EnterState(this);
     }
+
+    public IEnumerator BlendAttackLayerWeight(int layerIndex, float blendDuration)
+    {
+        float startWeight = Animator.GetLayerWeight(layerIndex);
+        float time = 0f;
+        while (time < blendDuration)
+        {
+            time += Time.deltaTime;
+            float newWeight = Mathf.Lerp(startWeight, 0f, time / blendDuration);
+            Animator.SetLayerWeight(layerIndex, newWeight);
+            yield return null;
+        }
+        Animator.SetLayerWeight(layerIndex, 0f);
+    }
+
 
     // Returns true if the attack animation (in the Animator) has finished.
     public bool IsAttackAnimationFinished()

@@ -19,28 +19,29 @@ public class IdleState : PlayerBaseState
         // Clear any pending attack input.
         player.Input.attack = false;
 
+        // On the very first scene entry, hide idle weapons.
         if (player.firstEntry)
         {
             WeaponController weaponController = player.GetComponent<WeaponController>();
-            // On the very first scene entry, hide both weapons.
+            
             if (weaponController != null)
             {
                 weaponController.HideBothWeapons();
-                Debug.Log("Initial entry: Both weapons hidden."); 
+                Debug.Log("Initial entry: Idle weapon hidden."); 
                 player.firstEntry = false;
             }
 
         }
-        
+        // after scene entry, show the idle weapon.
         if (player.HideidleWeaponfromAttack)
         {
             WeaponController weaponController = player.GetComponent<WeaponController>();
-            // after scene entry, show the idle weapon.
             if (weaponController != null)
             {
-                player.idleWeaponHide = false;
                 weaponController.ShowIdleWeapon();
-                weaponController.HideAttackWeapon();   
+                player.idleWeaponHide = false;
+                weaponController.HideAttackWeapon();
+                player.HideidleWeaponfromAttack = false;   
             }
         }
     }
@@ -55,6 +56,7 @@ public class IdleState : PlayerBaseState
             if (weaponController != null)
             {
                 weaponController.HideIdleWeapon();
+                player.idleWeaponTimer = 0f;
                 player.idleWeaponHide = true;
                 Debug.Log("Idle weapon hidden");
             }
