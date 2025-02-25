@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456cd0c8bd6a4706a97451aeef26931, type: 3}
   m_Name: AttackData
   m_EditorClassIdentifier: 
-  baseDamage: 1
+  baseDamage: 5
   comboMultiplier: 1
-  hitRadius: 1.5
+  hitRadius: 0.8
   enemyLayers:
     serializedVersion: 2
     m_Bits: 256

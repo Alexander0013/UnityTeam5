@@ -110,7 +110,9 @@ public class AttackState : PlayerBaseState
         // Clear the attack input and disable the Attack layer.
         player.Input.attack = false;
         int attackLayerIndex = player.Animator.GetLayerIndex("Attack Layer");
-        player.Animator.SetLayerWeight(attackLayerIndex, 0f);
+
+        // Instead of setting weight to 0 instantly, start a coroutine to blend out.
+        player.StartCoroutine(player.BlendAttackLayerWeight(attackLayerIndex, 0.3f));
 
         // Hide the attack weapon (IdleState will show the idle weapon).
         WeaponController weaponController = player.GetComponent<WeaponController>();
