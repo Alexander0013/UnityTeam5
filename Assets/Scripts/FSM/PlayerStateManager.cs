@@ -93,6 +93,19 @@ public class PlayerStateManager : MonoBehaviour
         }
         Animator.SetLayerWeight(layerIndex, 0f);
     }
+    public IEnumerator BlendAttackLayerWeightTo(int layerIndex, float targetWeight, float blendDuration)
+    {
+        float startWeight = Animator.GetLayerWeight(layerIndex);
+        float time = 0f;
+        while (time < blendDuration)
+        {
+            time += Time.deltaTime;
+            float newWeight = Mathf.Lerp(startWeight, targetWeight, time / blendDuration);
+            Animator.SetLayerWeight(layerIndex, newWeight);
+            yield return null;
+        }
+        Animator.SetLayerWeight(layerIndex, targetWeight);
+    }
 
 
     // Returns true if the attack animation (in the Animator) has finished.

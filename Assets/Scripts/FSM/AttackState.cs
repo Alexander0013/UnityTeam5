@@ -32,7 +32,7 @@ public class AttackState : PlayerBaseState
     // Helper: calculate the total duration for the current combo sequence.
     private float CalculateTotalDuration(int count)
     {
-        float sum = 1.0f;
+        float sum = 0f;
         for (int i = 0; i < count; i++)
         {
             sum += attackDurations[i];
@@ -46,9 +46,11 @@ public class AttackState : PlayerBaseState
         player.idleWeaponTimer = 0f;
         Debug.Log("Entering Attack State, combo count: " + comboCount);
 
-        // Enable the Attack layer.
+
+        // Enable the Attack layer by smoothly blending its weight from 0 to 1.
         int attackLayerIndex = player.Animator.GetLayerIndex("Attack Layer");
-        player.Animator.SetLayerWeight(attackLayerIndex, 1f);
+        player.StartCoroutine(player.BlendAttackLayerWeightTo(attackLayerIndex, 1f, 0.5f)); // 0.5 seconds blend
+
 
         // Switch weapons: hide the idle weapon and show the attack weapon.
         WeaponController weaponController = player.GetComponent<WeaponController>();
@@ -112,7 +114,7 @@ public class AttackState : PlayerBaseState
         int attackLayerIndex = player.Animator.GetLayerIndex("Attack Layer");
 
         // Instead of setting weight to 0 instantly, start a coroutine to blend out.
-        player.StartCoroutine(player.BlendAttackLayerWeight(attackLayerIndex, 0.3f));
+        player.StartCoroutine(player.BlendAttackLayerWeight(attackLayerIndex, 0.2f));
 
         // Hide the attack weapon (IdleState will show the idle weapon).
         WeaponController weaponController = player.GetComponent<WeaponController>();
