@@ -12,11 +12,16 @@ public class AttackState : PlayerBaseState
     private const int maxCombo = 3;
 
     // Array of durations (in seconds) for each attack animation.
-    // Adjust these values to match your animation clip lengths.
     private float[] attackDurations = new float[4] { 1.2f, 1.2f, 1.2f, 1.2f };
 
     // Total duration is the sum of durations for the attacks in the combo.
     private float totalAttackDuration;
+
+    // -----------------------
+    // NEW: Reference to AttackData ScriptableObject.
+    public AttackData attackData;
+
+    // -----------------------
 
     public AttackState(int comboCount = 1)
     {
@@ -49,7 +54,7 @@ public class AttackState : PlayerBaseState
         WeaponController weaponController = player.GetComponent<WeaponController>();
         if (weaponController != null)
         {
-            weaponController.HideIdleWeapon(); // Make sure this method hides the idle model.
+            weaponController.HideIdleWeapon();
             player.HideidleWeaponfromAttack = true;
             weaponController.ShowAttackWeapon();
             Debug.Log("Attack weapon displayed.");
@@ -62,6 +67,16 @@ public class AttackState : PlayerBaseState
             // Trigger the attack sequence.
             player.Animator.SetTrigger("AttackTrigger");
         }
+
+        // ---------------------------
+        // NEW: Assign the AttackData to the CombatController.
+        // Assumes you have a CombatController component that handles hit detection.
+        CombatController combatController = player.GetComponent<CombatController>();
+        if (combatController != null && attackData != null)
+        {
+            combatController.currentAttackData = attackData;
+        }
+        // ---------------------------
     }
 
     public override void UpdateState(PlayerStateManager player)

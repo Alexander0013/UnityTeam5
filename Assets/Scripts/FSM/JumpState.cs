@@ -20,6 +20,7 @@ public class JumpState : PlayerBaseState
             if (weaponController != null)
             {
                 weaponController.HideIdleWeapon();
+                player.idleWeaponTimer = 0f;
                 player.idleWeaponHide = true;
                 Debug.Log("Idle weapon hidden");
             }

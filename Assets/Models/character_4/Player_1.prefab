@@ -588,7 +588,6 @@ GameObject:
   - component: {fileID: 644571851706212124}
   - component: {fileID: 7635281468536687834}
   - component: {fileID: 5432242198357477360}
-  - component: {fileID: 4652089278432667674}
   - component: {fileID: 6506534479156118940}
   - component: {fileID: 38750560873067101}
   m_Layer: 8
@@ -886,20 +885,6 @@ MonoBehaviour:
   animator: {fileID: 529529932684270673}
   attackLayerIndex: 1
   blendSpeed: 2
---- !u!114 &4652089278432667674
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2164789799884172173}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1223a6354e6e02e40bbd17807e9637ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rightHandSocket: {fileID: 6080772222355875982}
-  weaponPrefab: {fileID: 1347206615183333045}
 --- !u!114 &6506534479156118940
 MonoBehaviour:
   m_ObjectHideFlags: 0
