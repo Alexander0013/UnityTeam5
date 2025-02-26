@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: "\u6307\u7532 1"
+  m_Name: dying material
   m_Shader: {fileID: 4800000, guid: d973f3ff4a8f24bb3b4f1adb83dc56a7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0

@@ -5,6 +5,7 @@ public class Enemy : MonoBehaviour
 {
     public float health = 10f;
     public GameObject deathEffectPrefab;
+    public GameObject hitEffectPrefab;  // Assign your hit effect particle prefab here
     public float fadeDuration = 1.0f; // Duration for the dissolve fade effect
     public Material deathMaterial;  // Assign this in the Inspector – this material should use your dissolve shader
 
@@ -23,10 +24,18 @@ public class Enemy : MonoBehaviour
 
     IEnumerator GetHit()
     {
+        // Instantiate the hit effect at the enemy's position.
+        if (hitEffectPrefab != null)
+        {
+            GameObject hitEffect = Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
+            // Optionally destroy the hit effect after 0.5 second.
+            Destroy(hitEffect, 0.5f);
+        }
         Animator animator = GetComponent<Animator>();
         animator.SetBool("getHit", true);
         yield return new WaitForSeconds(0.53f);
         animator.SetBool("getHit", false);
+        
     }
 
     IEnumerator Die()
@@ -48,7 +57,6 @@ public class Enemy : MonoBehaviour
         foreach (Renderer r in renderers)
         {
             // Replace each renderer's material with the death material.
-            // If you have multiple material slots per renderer, you can replace each one:
             Material[] mats = new Material[r.materials.Length];
             for (int i = 0; i < mats.Length; i++)
             {

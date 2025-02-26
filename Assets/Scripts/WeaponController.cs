@@ -60,7 +60,7 @@ public class WeaponController : MonoBehaviour
             }
         }
     }
-    
+
     //Fade Out idle weapon (dissolve from visible to fully dissolved).
     public IEnumerator FadeOutIdleWeapon(float duration, float delay = 0.1f)
     {
@@ -74,7 +74,7 @@ public class WeaponController : MonoBehaviour
                 while (timer < duration)
                 {
                     timer += Time.deltaTime;
-                    float dissolve = Mathf.Lerp(0f, 1f, timer / duration);
+                    float dissolve = Mathf.Lerp(0f, 0.2f, timer / duration);
                     rend.material.SetFloat("_DissolveAmount", dissolve);
                     yield return null;
                 }
