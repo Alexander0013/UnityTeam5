@@ -4,10 +4,9 @@ using UnityEngine.UI;
 
 public class HealthBar :PlayerHealthBar
 {
-    
+
     public GameObject redBar;
-    public GameObject yellowBar;     
-    public float maxHealth;    
+    public GameObject yellowBar;       
     public CanvasGroup canvasGroup;
     public Transform player;
     public float visibilityRange = 10f; //顯示距離
@@ -16,10 +15,11 @@ public class HealthBar :PlayerHealthBar
     private bool isVisible = false;
 
 
-    void Start()
-    {        
+    protected override void Start()
+    {
         hpSlider.value = 1f;  // 初始為滿血
         yellowSlider.value = 1f;
+        health = maxHealth;
         canvasGroup.alpha = 0f;
         enemyTransform = transform.parent;
         redBar.SetActive(false);
@@ -31,7 +31,7 @@ public class HealthBar :PlayerHealthBar
         UpdateVisibility();
     }
 
-    private void UpdateVisibility()
+    private void UpdateVisibility() //決定顯示血條與否
     {
         if (player == null) return;
 
@@ -51,7 +51,7 @@ public class HealthBar :PlayerHealthBar
         }
     }
 
-    private IEnumerator FadeCanvasGroup(CanvasGroup cg, float targetAlpha)
+    private IEnumerator FadeCanvasGroup(CanvasGroup cg, float targetAlpha) //處理淡入淡出過程
     {
         while (!Mathf.Approximately(cg.alpha, targetAlpha))
         {
@@ -71,19 +71,33 @@ public class HealthBar :PlayerHealthBar
         }
     }
 
-    public void TakeDamage(float damage)
+    public override void SetDamage(float damage)
     {
-        damage = Mathf.Clamp(damage, 0, maxHealth);
-        float healthPercent = damage / maxHealth;
-
-        hpSlider.value = healthPercent;
-        StartCoroutine(SmoothYellowBar(healthPercent));
+        health -= damage;
+        float hpValue = health / maxHealth;
+        hpSlider.value = hpValue;
+        
+        StartCoroutine(SmoothYellowBar(hpValue));
 
         if (hpSlider.value <= 0)
         {
             StartCoroutine(FadeCanvasGroup(canvasGroup, 0f)); // 血量歸零時隱藏血條
         }
     }
+
+    //public void TakeDamage(float damage)
+    //{
+    //    damage = Mathf.Clamp(damage, 0, maxHealth);
+    //    float healthPercent = damage / maxHealth;
+
+    //    hpSlider.value = healthPercent;
+    //    StartCoroutine(SmoothYellowBar(healthPercent));
+
+    //    if (hpSlider.value <= 0)
+    //    {
+    //        StartCoroutine(FadeCanvasGroup(canvasGroup, 0f)); // 血量歸零時隱藏血條
+    //    }
+    //}
 
 
 

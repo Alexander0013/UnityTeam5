@@ -8,25 +8,26 @@ public class PlayerHealthBar : MonoBehaviour
     public Slider yellowSlider;    
     public Gradient gradient;
     public Image fill;
+    public float health;
+    public float maxHealth;
 
-    public void Start()
+    protected virtual void Start()
     {
-        
-    }
-
-    public void SetMaxHealth(Slider slider, int health)
-    {
-        slider.maxValue = health;
-        slider.value = health;
-
         fill.color = gradient.Evaluate(1f);
+        health = maxHealth;
+        hpSlider.value = 1f;
+        yellowSlider.value = 1f;
     }
 
-    public void SetHealth(Slider slider,int damage)
+
+
+    public virtual void SetDamage(float damage)
     {
-        slider.value -=damage;
-        fill.color = gradient.Evaluate(Mathf.Lerp(1, slider.normalizedValue, 0.3f * Time.deltaTime));
-            //gradient.Evaluate(slider.normalizedValue);
+        health -= damage;
+        float hpValue = health/maxHealth;
+        hpSlider.value = hpValue;
+        fill.color = gradient.Evaluate(Mathf.Lerp(1, hpSlider.normalizedValue, 0.3f * Time.deltaTime));
+        StartCoroutine(SmoothYellowBar(hpValue));       
     }
 
     
