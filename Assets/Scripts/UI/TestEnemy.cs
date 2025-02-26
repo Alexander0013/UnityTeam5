@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class TestEnemy : MonoBehaviour
 {
     public Slider slider;
-    private HealthBar healthBar;
+    private PlayerHealthBar healthBar;
     float maxHP = 100f;
     float HP=0;
 
@@ -12,7 +12,7 @@ public class TestEnemy : MonoBehaviour
     void Start()
     {
         HP = maxHP;
-        //healthBar = GetComponentInChildren<HealthBar>(); // 自動尋找子物件的血條
+        healthBar = GetComponentInChildren<PlayerHealthBar>(); // 自動尋找子物件的血條
     }
 
     void Update()
@@ -26,9 +26,10 @@ public class TestEnemy : MonoBehaviour
     void DealDamage() 
     {
         if (healthBar != null)
-        {            
+        {
             Debug.Log("get damage");
             healthBar.SetDamage(10);//  讓血條減少
         }
+        else Debug.Log("health bar null");
     }
 }

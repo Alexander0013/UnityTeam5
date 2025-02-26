@@ -19,8 +19,6 @@ public class PlayerHealthBar : MonoBehaviour
         yellowSlider.value = 1f;
     }
 
-
-
     public virtual void SetDamage(float damage)
     {
         health -= damage;
@@ -28,9 +26,7 @@ public class PlayerHealthBar : MonoBehaviour
         hpSlider.value = hpValue;
         fill.color = gradient.Evaluate(Mathf.Lerp(1, hpSlider.normalizedValue, 0.3f * Time.deltaTime));
         StartCoroutine(SmoothYellowBar(hpValue));       
-    }
-
-    
+    }    
 
     public IEnumerator SmoothYellowBar(float targetValue)
     {

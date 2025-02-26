@@ -84,21 +84,4 @@ public class HealthBar :PlayerHealthBar
             StartCoroutine(FadeCanvasGroup(canvasGroup, 0f)); // 血量歸零時隱藏血條
         }
     }
-
-    //public void TakeDamage(float damage)
-    //{
-    //    damage = Mathf.Clamp(damage, 0, maxHealth);
-    //    float healthPercent = damage / maxHealth;
-
-    //    hpSlider.value = healthPercent;
-    //    StartCoroutine(SmoothYellowBar(healthPercent));
-
-    //    if (hpSlider.value <= 0)
-    //    {
-    //        StartCoroutine(FadeCanvasGroup(canvasGroup, 0f)); // 血量歸零時隱藏血條
-    //    }
-    //}
-
-
-
 }
