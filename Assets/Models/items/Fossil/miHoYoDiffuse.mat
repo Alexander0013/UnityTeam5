@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: miHoYoDiffuse
-  m_Shader: {fileID: 4800000, guid: 3eaff811887a8490585222856a47c4c8, type: 3}
+  m_Shader: {fileID: 4800000, guid: d973f3ff4a8f24bb3b4f1adb83dc56a7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -41,6 +41,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _DetailNormalMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DissolveNoise:
+        m_Texture: {fileID: 2800000, guid: 99845f6e97a54463f8f294239719aad8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -100,6 +104,7 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DirectLightMultiplier: 1
+    - _DissolveAmount: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EmissionMulByBaseColor: 0

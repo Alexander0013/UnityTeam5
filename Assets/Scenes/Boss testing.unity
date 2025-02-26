@@ -1201,6 +1201,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 10
   deathEffectPrefab: {fileID: 0}
+  fadeDuration: 1
+  deathMaterial: {fileID: 2100000, guid: 41ebb44deb3b343c1bebecbbb96e3e81, type: 2}
 --- !u!1 &693251498 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5454955733429253567, guid: ac44eff4aa1f83b41bc8af6cd9adbe50,
@@ -1244,6 +1246,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 15
   deathEffectPrefab: {fileID: 0}
+  fadeDuration: 1
+  deathMaterial: {fileID: 2100000, guid: 41ebb44deb3b343c1bebecbbb96e3e81, type: 2}
 --- !u!1 &744925076 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 673468124249295997, guid: e7924d2df465b704ea5a83b3983ad7fc,
@@ -2123,6 +2127,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 20
   deathEffectPrefab: {fileID: 0}
+  fadeDuration: 1
+  deathMaterial: {fileID: 0}
 --- !u!1001 &1609227435
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3114,6 +3120,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: churl1
       objectReference: {fileID: 0}
+    - target: {fileID: 8829580351550922305, guid: e38217023420b134bb4a8c9ec2679158,
+        type: 3}
+      propertyPath: deathMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 41ebb44deb3b343c1bebecbbb96e3e81, type: 2}
     - target: {fileID: 8897755248591414678, guid: e38217023420b134bb4a8c9ec2679158,
         type: 3}
       propertyPath: m_LocalPosition.x
