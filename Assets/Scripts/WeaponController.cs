@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class WeaponController : MonoBehaviour
@@ -26,7 +27,7 @@ public class WeaponController : MonoBehaviour
         if (idleWeapon != null) idleWeapon.SetActive(false);
         if (attackWeapon != null) attackWeapon.SetActive(false);
     }
-    // Optional: Hide the attack weapon (for cleanup).
+    //Hide the attack weapon (for cleanup).
     public void HideAttackWeapon()
     {
         if (attackWeapon != null) attackWeapon.SetActive(false);
@@ -35,5 +36,51 @@ public class WeaponController : MonoBehaviour
     public void HideIdleWeapon()
     {
         if (idleWeapon != null) idleWeapon.SetActive(false);
+    }
+    //Fade In idle weapon (dissolve from fully dissolved to visible).
+    public IEnumerator FadeInIdleWeapon(float duration, float delay = 0.1f)
+    {
+        yield return new WaitForSeconds(delay);
+        if (idleWeapon != null)
+        {
+            idleWeapon.SetActive(true);
+            Renderer rend = idleWeapon.GetComponent<Renderer>();
+            if (rend != null)
+            {
+                // Assume the material has _DissolveAmount property: 1 = invisible, 0 = visible.
+                float timer = 0f;
+                while (timer < duration)
+                {
+                    timer += Time.deltaTime;
+                    float dissolve = Mathf.Lerp(1f, 0f, timer / duration);
+                    rend.material.SetFloat("_DissolveAmount", dissolve);
+                    yield return null;
+                }
+                rend.material.SetFloat("_DissolveAmount", 0f);
+            }
+        }
+    }
+    
+    //Fade Out idle weapon (dissolve from visible to fully dissolved).
+    public IEnumerator FadeOutIdleWeapon(float duration, float delay = 0.1f)
+    {
+        yield return new WaitForSeconds(delay);
+        if (idleWeapon != null)
+        {
+            Renderer rend = idleWeapon.GetComponent<Renderer>();
+            if (rend != null)
+            {
+                float timer = 0f;
+                while (timer < duration)
+                {
+                    timer += Time.deltaTime;
+                    float dissolve = Mathf.Lerp(0f, 1f, timer / duration);
+                    rend.material.SetFloat("_DissolveAmount", dissolve);
+                    yield return null;
+                }
+                rend.material.SetFloat("_DissolveAmount", 1f);
+            }
+            idleWeapon.SetActive(false);
+        }
     }
 }

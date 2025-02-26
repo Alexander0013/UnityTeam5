@@ -32,18 +32,20 @@ public class IdleState : PlayerBaseState
             }
 
         }
-        // after scene entry, show the idle weapon.
+        // after scene entry, show the idle weapon with a fade in.
         if (player.HideidleWeaponfromAttack)
         {
             WeaponController weaponController = player.GetComponent<WeaponController>();
             if (weaponController != null)
             {
-                weaponController.ShowIdleWeapon();
+                // Start fade-in coroutine with a short delay (e.g., 0.1 seconds) and fade duration 0.3 seconds
+                player.StartCoroutine(weaponController.FadeInIdleWeapon(0.3f, 0.1f));
                 player.idleWeaponHide = false;
                 weaponController.HideAttackWeapon();
                 player.HideidleWeaponfromAttack = false;   
             }
         }
+        
     }
 
     public override void UpdateState(PlayerStateManager player)
