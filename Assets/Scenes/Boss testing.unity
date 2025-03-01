@@ -916,6 +916,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &314766275 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3576365277567780518, guid: b77962cf27968b049b3c55e1f9bdba1a,
+    type: 3}
+  m_PrefabInstance: {fileID: 7303094445945765190}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &314766277
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314766275}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &334026349
 GameObject:
   m_ObjectHideFlags: 0
@@ -1181,6 +1208,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 15
   deathEffectPrefab: {fileID: 0}
+  hitEffectPrefab: {fileID: 0}
   fadeDuration: 1
   deathMaterial: {fileID: 2100000, guid: 41ebb44deb3b343c1bebecbbb96e3e81, type: 2}
 --- !u!1 &750053825
@@ -1214,7 +1242,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scene1Name: Boss
   scene2Name: Temple
-  scene3Name: Temple
 --- !u!4 &750053827
 Transform:
   m_ObjectHideFlags: 0
@@ -1957,6 +1984,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 20
   deathEffectPrefab: {fileID: 0}
+  hitEffectPrefab: {fileID: 0}
   fadeDuration: 1
   deathMaterial: {fileID: 0}
 --- !u!1001 &1609227435
@@ -2284,6 +2312,21 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2193375175805271226}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &673468123777922110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 673468123777922099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94b6fbe1e2d5813438813cdd313f00e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 334026351}
+  transparencyDistance: 1
+  fadeSpeed: 5
 --- !u!1001 &2193375175805271226
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2295,7 +2338,7 @@ PrefabInstance:
     - target: {fileID: 7093380772008791394, guid: 3795fb12dcaef614284e7dbd8c9a3a8f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -1.129
       objectReference: {fileID: 0}
     - target: {fileID: 7093380772008791394, guid: 3795fb12dcaef614284e7dbd8c9a3a8f,
         type: 3}
@@ -2347,10 +2390,19 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player_2 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7455818752020803704, guid: 3795fb12dcaef614284e7dbd8c9a3a8f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7455818752020803704, guid: 3795fb12dcaef614284e7dbd8c9a3a8f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 673468123777922110}
   m_SourcePrefab: {fileID: 100100000, guid: 3795fb12dcaef614284e7dbd8c9a3a8f, type: 3}
 --- !u!1001 &7231224067718273618
 PrefabInstance:
@@ -2478,15 +2530,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6372836167675041510, guid: b77962cf27968b049b3c55e1f9bdba1a,
+        type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 334026351}
+    - target: {fileID: 8188070310010105618, guid: b77962cf27968b049b3c55e1f9bdba1a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8859030211229458744, guid: b77962cf27968b049b3c55e1f9bdba1a,
         type: 3}
       propertyPath: m_Name
       value: Player_1_update
       objectReference: {fileID: 0}
+    - target: {fileID: 8859030211229458744, guid: b77962cf27968b049b3c55e1f9bdba1a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3576365277567780518, guid: b77962cf27968b049b3c55e1f9bdba1a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 314766277}
   m_SourcePrefab: {fileID: 100100000, guid: b77962cf27968b049b3c55e1f9bdba1a, type: 3}
 --- !u!1001 &8442631022877275842
 PrefabInstance:

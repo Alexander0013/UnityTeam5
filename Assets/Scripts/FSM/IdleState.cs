@@ -39,7 +39,7 @@ public class IdleState : PlayerBaseState
             if (weaponController != null)
             {
                 // Start fade-in coroutine with a short delay (e.g., 0.1 seconds) and fade duration 0.3 seconds
-                player.StartCoroutine(weaponController.FadeInIdleWeapon(0.1f, 0.3f));
+                player.StartCoroutine(weaponController.FadeInIdleWeapon(1f, 0.5f));
                 player.idleWeaponHide = false;
                 weaponController.HideAttackWeapon();
                 player.HideidleWeaponfromAttack = false;   
@@ -52,7 +52,7 @@ public class IdleState : PlayerBaseState
     {
         // Increment the shared timer.
         player.idleWeaponTimer += Time.deltaTime;
-        if (!player.idleWeaponHide && player.idleWeaponTimer >= 3.0f)
+        if (!player.idleWeaponHide && player.idleWeaponTimer >= 8.0f)
         {
             WeaponController weaponController = player.GetComponent<WeaponController>();
             if (weaponController != null)
