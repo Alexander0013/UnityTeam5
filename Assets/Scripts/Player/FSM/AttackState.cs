@@ -7,7 +7,7 @@ public class AttackState : PlayerBaseState
     private float stateTimer = 0f;
     private float comboTimer = 0f;
     private const float comboInputWindow = 0.5f;
-    private const float normalizedEndThreshold = 0.9f;
+    private const float normalizedEndThreshold = 1.2f;
     private const float maxStateDuration = 30f;
     private bool chainActive = true;
 
@@ -36,7 +36,7 @@ public class AttackState : PlayerBaseState
             weaponController.AttachWeaponToAttack();
             weaponController.ShowWeapon();
         }
-        
+
         // Auto-target the nearest enemy in front
         CombatController combat = player.GetComponent<CombatController>();
         if (combat != null)
@@ -100,7 +100,7 @@ public class AttackState : PlayerBaseState
         }
 
         // Check current animation normalized time
-        AnimatorStateInfo attackStateInfo = 
+        AnimatorStateInfo attackStateInfo =
             player.Animator.GetCurrentAnimatorStateInfo(player.Animator.GetLayerIndex("Attack Layer"));
         float normalizedTime = attackStateInfo.normalizedTime;
 

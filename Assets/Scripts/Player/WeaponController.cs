@@ -10,6 +10,8 @@ public class WeaponController : MonoBehaviour
     public Transform idleAttach;   // e.g., HipAttach
     public Transform attackAttach; // e.g., HandAttach
 
+    public Transform slashSpawn; // Assign this in the Inspector on your weapon prefab.
+
     // Show / Hide the entire weapon GameObject
     public void ShowWeapon()
     {

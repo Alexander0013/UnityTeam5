@@ -21,6 +21,8 @@ public class PlayerStateManager : MonoBehaviour
     // A simple grounded flag – replace with your actual grounded logic.
     public bool isGrounded = true;
 
+    // Reference to a slash VFX object (a child object or prefab with a ParticleSystem).
+    public GameObject slashVFX;
     // Movement and combat parameters
     public float MoveSpeed = 2.0f;
     public float SprintSpeed = 5.335f;

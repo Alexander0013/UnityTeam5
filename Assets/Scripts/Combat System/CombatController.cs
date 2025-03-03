@@ -7,82 +7,19 @@ public class CombatController : MonoBehaviour
     public Transform attackHitPoint; // Set this in the Inspector.
 
     [Header("Auto-Target Settings")]
-    public float autoTargetRadius = 5f;     // How far to search for enemies
-    public float autoTargetAngle = 60f;     // Must be within this angle from forward
-    public LayerMask enemyLayer;            // The layer used by enemy colliders
+    public float autoTargetRadius = 10f;
+    public float autoTargetAngle = 60f;
+    public LayerMask enemyLayer;
+
+    [Header("VFX")]
+    public GameObject electroSlashVFX; // Assign your slash VFX prefab here.
 
     [HideInInspector]
-    public Transform currentTarget;         // The target we selected (if any)
+    public Transform currentTarget;
 
     /// <summary>
-    /// Call this from an "Attack" button press or AttackState, before you actually trigger your attack animation.
-    /// This method attempts to find the "best" enemy in front of you within autoTargetRadius/autoTargetAngle.
-    /// If found, it orients you toward that enemy (soft lock-on), and sets currentTarget to that transform.
-    /// </summary>
-    public void TryAutoTarget()
-    {
-        // 1) Find all enemies in a sphere around the player
-        Collider[] colliders = Physics.OverlapSphere(transform.position, autoTargetRadius, enemyLayer);
-
-        if (colliders.Length == 0)
-        {
-            currentTarget = null; // no enemy found
-            return;
-        }
-
-        // 2) Filter by angle and pick the closest
-        float closestDist = Mathf.Infinity;
-        Transform bestTarget = null;
-
-        foreach (Collider c in colliders)
-        {
-            Vector3 dirToEnemy = c.transform.position - transform.position;
-            float dist = dirToEnemy.magnitude;
-            float angle = Vector3.Angle(transform.forward, dirToEnemy.normalized);
-
-            // Check if within our angle cone
-            if (angle <= autoTargetAngle)
-            {
-                // Check if it's the closest
-                if (dist < closestDist)
-                {
-                    closestDist = dist;
-                    bestTarget = c.transform;
-                }
-            }
-        }
-
-        // 3) If we found a target, rotate toward it
-        if (bestTarget != null)
-        {
-            currentTarget = bestTarget;
-            FaceTarget(bestTarget);
-            Debug.Log($"[CombatController] Auto-target locked on {bestTarget.name}");
-        }
-        else
-        {
-            currentTarget = null;
-            Debug.Log("[CombatController] No valid target in angle range.");
-        }
-    }
-
-    /// <summary>
-    /// Rotate the player horizontally to face the target.
-    /// If your game allows vertical aiming, remove the 'y = 0f' line.
-    /// </summary>
-    private void FaceTarget(Transform target)
-    {
-        Vector3 dir = target.position - transform.position;
-        dir.y = 0f; // Keep the rotation horizontal
-        if (dir.sqrMagnitude > 0.01f)
-        {
-            transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
-        }
-    }
-
-    /// <summary>
-    /// This is called via an Animation Event at the hit frame of your attack animation.
-    /// It uses OverlapSphere to see which enemies were hit. 
+    /// Called via an Animation Event at the hit frame of your attack animation.
+    /// It performs hit detection and instantiates the slash VFX.
     /// </summary>
     public void PerformHitDetection()
     {
@@ -93,9 +30,39 @@ public class CombatController : MonoBehaviour
             return;
         }
 
-        float damage = currentAttackData.baseDamage * currentAttackData.comboMultiplier;
+        // Get the WeaponController from the player (assume it's on the same object or parent).
+        WeaponController wc = GetComponentInParent<WeaponController>();
+        Quaternion spawnRotation = attackHitPoint.rotation;
+        if (wc != null && wc.attackAttach != null)
+        {
+            // Use the attackAttach rotation so the VFX follows the weapon's attack direction.
+            spawnRotation = wc.attackAttach.rotation;
+        }
 
-        // Perform a sphere overlap around 'attackHitPoint'
+        // Instantiate the slash VFX at the attack hit point, using the desired rotation.
+        if (electroSlashVFX != null)
+        {
+            // Use the dedicated slash spawn transform
+            Quaternion SpawnRotation = wc.slashSpawn.rotation;
+            Vector3 spawnPosition = wc.slashSpawn.position;
+            GameObject vfxInstance = Instantiate(electroSlashVFX, spawnPosition, SpawnRotation);
+            // Optionally, parent the instance so it follows for a brief moment:
+            // vfxInstance.transform.SetParent(wc.slashSpawn);
+
+            ParticleSystem ps = vfxInstance.GetComponent<ParticleSystem>();
+            if (ps != null)
+            {
+                float destroyDelay = ps.main.duration + ps.main.startLifetime.constantMax;
+                Destroy(vfxInstance, destroyDelay);
+            }
+            else
+            {
+                Destroy(vfxInstance, 1.5f);
+            }
+        }
+
+        // Damage calculation remains unchanged.
+        float damage = currentAttackData.baseDamage * currentAttackData.comboMultiplier;
         Collider[] hitColliders = Physics.OverlapSphere(
             attackHitPoint.position,
             currentAttackData.hitRadius,
@@ -112,5 +79,60 @@ public class CombatController : MonoBehaviour
         }
 
         Debug.DrawRay(attackHitPoint.position, Vector3.one * currentAttackData.hitRadius, Color.red, 1f);
+    }
+
+
+    /// <summary>
+    /// Rotates the player to face the target enemy.
+    /// </summary>
+    private void FaceTarget(Transform target)
+    {
+        Vector3 dir = target.position - transform.position;
+        dir.y = 0f; // Only rotate horizontally.
+        if (dir.sqrMagnitude > 0.01f)
+        {
+            transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
+        }
+    }
+
+    /// <summary>
+    /// Tries to auto-target the closest enemy within range and angle.
+    /// </summary>
+    public void TryAutoTarget()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, autoTargetRadius, enemyLayer);
+
+        if (colliders.Length == 0)
+        {
+            currentTarget = null;
+            return;
+        }
+
+        float closestDist = Mathf.Infinity;
+        Transform bestTarget = null;
+
+        foreach (Collider c in colliders)
+        {
+            Vector3 dirToEnemy = c.transform.position - transform.position;
+            float dist = dirToEnemy.magnitude;
+            float angle = Vector3.Angle(transform.forward, dirToEnemy.normalized);
+            if (angle <= autoTargetAngle && dist < closestDist)
+            {
+                closestDist = dist;
+                bestTarget = c.transform;
+            }
+        }
+
+        if (bestTarget != null)
+        {
+            currentTarget = bestTarget;
+            FaceTarget(bestTarget);
+            Debug.Log($"[CombatController] Auto-target locked on {bestTarget.name}");
+        }
+        else
+        {
+            currentTarget = null;
+            Debug.Log("[CombatController] No valid target in angle range.");
+        }
     }
 }
