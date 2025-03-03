@@ -15,11 +15,11 @@ public class ChurlPatrolSrate : ChurlBase
     public override void Enter()
     {
         GeneratePatrolPoints();
-        Debug.Log("¶i¤J¨µÅÞª¬ºA");
-        SetAnimatorLayerWeight("walkLayer", 1); // ±Ò¥Î¨µÅÞ Layer
-        SetAnimatorLayerWeight("combatLayer", 0); // ¸T¥Î¾Ô°« Layer
-        SetAnimatorLayerWeight("deathLayer", 0); // ¸T¥Î¦º¤` Layer
-        animator.SetBool("isWalking", true); // Ä²µo¨µÅÞ°Êµe
+        Debug.Log("ï¿½iï¿½Jï¿½ï¿½ï¿½Þªï¿½ï¿½A");
+        SetAnimatorLayerWeight("walkLayer", 1); // ï¿½Ò¥Î¨ï¿½ï¿½ï¿½ Layer
+        SetAnimatorLayerWeight("combatLayer", 0); // ï¿½Tï¿½Î¾Ô°ï¿½ Layer
+        SetAnimatorLayerWeight("deathLayer", 0); // ï¿½Tï¿½Î¦ï¿½ï¿½` Layer
+        animator.SetBool("isWalking", true); // Ä²ï¿½oï¿½ï¿½ï¿½Þ°Êµe
     }
 
     public override void Update()
@@ -32,7 +32,7 @@ public class ChurlPatrolSrate : ChurlBase
 
     public override void Exit()
     {
-        // Â÷¶}¨µÅÞª¬ºA®É¤£»Ý­n°µ¯S®í³B²z
+        // ï¿½ï¿½ï¿½}ï¿½ï¿½ï¿½Þªï¿½ï¿½Aï¿½É¤ï¿½ï¿½Ý­nï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Bï¿½z
     }
 
     private void GeneratePatrolPoints()
