@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +20,11 @@ public class InventoryManager : MonoBehaviour
     //儲存生成過的slots
     public List<GameObject> slots = new List<GameObject>();
 
+    Equipment[] currentEquipment;
+
+    public delegate void OnEquipmentChanged(Equipment newItem,Equipment oldItem);
+    public OnEquipmentChanged onEquipmentChanged;
+
     void Awake()
     {
         if (instance != null)
@@ -34,24 +40,68 @@ public class InventoryManager : MonoBehaviour
         instance.itemInfo.text = "";
     }
 
+    private void Start()
+    {
+        int numSlots = System.Enum.GetNames(typeof(EquipmentType)).Length;
+        currentEquipment = new Equipment[numSlots];
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyUp(KeyCode.Escape))
+        {
+            UnEquipAll();
+        }
+    }
+
+    public void Equip(Equipment newItem)
+    {
+        int slotIndex = (int)newItem.type;
+        
+        Equipment oldItem = UnEquip(slotIndex);
+        if (onEquipmentChanged != null)
+        {
+            onEquipmentChanged.Invoke(newItem, oldItem);
+        }
+        currentEquipment[slotIndex] = newItem;
+        RefreshItems();
+    }
+
+    public Equipment UnEquip(int slotIndex)
+    {
+        if (currentEquipment[slotIndex] != null)
+        {
+            Equipment oldItem = currentEquipment[slotIndex];
+            int empty = myBag.FindEmpty();
+            if (empty != -1)
+            {
+                myBag.itemList[empty] = oldItem;
+            }
+            currentEquipment[slotIndex] = null;
+
+            if (onEquipmentChanged != null)
+            {
+                onEquipmentChanged.Invoke(null, oldItem);
+            }
+            return oldItem;
+        }
+        return null;
+    }
+
+    public void UnEquipAll()
+    {
+        for(int i = 0; i < currentEquipment.Length; i++)
+        {
+            UnEquip(i);
+        }
+    }
+
     public static void UpdateItemInfo(Image itemImage,string itemDescription)
     {
         instance.itemInfo.text = itemDescription;
         instance.itemImage.sprite = itemImage.sprite;
     }
-
-    ////myBag List的資訊同步到Grid(背包介面)
-    //public static void CreateNewItem(Item item)
-    //{
-    //    Debug.Log("AddNewItem");
-    //    Slot newItem = Instantiate(instance.slotPrefab, instance.slotGrid.transform.position, Quaternion.identity);
-    //    newItem.gameObject.transform.SetParent(instance.slotGrid.transform);
-    //    //新建物品的資訊
-    //    newItem.slotItem = item;
-    //    newItem.slotImage.sprite = item.itemImage;
-    //    newItem.slotText.text = item.itemHeld.ToString();
-    //}
-
+    
     public static void RefreshItems() //銷毀背包物件->重新生成物件(數量被更新)
     {
         for (int i = 0; i < instance.slotGrid.transform.childCount; i++)        
@@ -71,6 +121,7 @@ public class InventoryManager : MonoBehaviour
             instance.slots[i].GetComponent<Slot>().SetUpSlot(instance.myBag.itemList[i]);            
         }        
     }
+
 
    
 }

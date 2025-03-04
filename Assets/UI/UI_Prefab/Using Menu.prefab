@@ -90,7 +90,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 852932754738497897}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6649792434219552444}
+        m_TargetAssemblyTypeName: RightClickMenu, Assembly-CSharp
+        m_MethodName: OnUseButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &852932754738497897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,6 +387,7 @@ MonoBehaviour:
   myBag: {fileID: 11400000, guid: a30253c32cc4039489511d2a42d1a9b3, type: 2}
   useButton: {fileID: 707089469259166458}
   dropButton: {fileID: 7010220360468559679}
+  useButtonText: {fileID: 5417357304869101861}
 --- !u!1 &5662070023905265402
 GameObject:
   m_ObjectHideFlags: 0

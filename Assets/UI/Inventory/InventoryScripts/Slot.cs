@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-//using UnityEngine.EventSystems;
 
-public class Slot : MonoBehaviour/*,IPointerClickHandler*/
+public class Slot : MonoBehaviour
 {
     public int slotID;//背包格子編號
     public Item slotItem;
@@ -15,9 +14,6 @@ public class Slot : MonoBehaviour/*,IPointerClickHandler*/
 
     public GameObject itemInSlot;
 
-    //public GameObject menuPrefab; // 右鍵選單的 Prefab
-    //private GameObject spawnedMenu; // 產生的選單
-    
 
     //點擊顯示物品描述
     public void ItemOnClick()
@@ -36,7 +32,11 @@ public class Slot : MonoBehaviour/*,IPointerClickHandler*/
             return;
         }
         slotImage.sprite = item.itemImage;
-        slotText.text = item.itemHeld.ToString();
+        if(item.itemName== "Potion")
+        {
+            slotText.text = item.itemHeld.ToString();
+        }
+        
         slotInfo = item.itemInfo;
         slotItem = item;
     }

@@ -6,6 +6,8 @@ public class Bag : MonoBehaviour
 {
     public GameObject myBag;
     public bool isOpen;
+
+    private GameObject spawnedMenu;
    
     void Start()
     {
@@ -21,6 +23,14 @@ public class Bag : MonoBehaviour
         {
             isOpen = !isOpen;
             myBag.SetActive(isOpen);
+            Destroy(spawnedMenu);
         }
     }
+
+    public void SetMenu(GameObject menu)
+    {
+        spawnedMenu = menu; // 記錄當前生成的 Menu
+    }
+
+    
 }

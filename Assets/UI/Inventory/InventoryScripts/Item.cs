@@ -10,27 +10,11 @@ public class Item :ScriptableObject
     public Sprite itemImage;
     public int itemHeld;
     [TextArea]
-    public string itemInfo;
-    public ItemType itemType;
+    public string itemInfo;   
 
-    public void OnUse()
-    {
-        switch (itemType)
-        {
-            case ItemType.Equipment:
-                Debug.Log("裝備");
-                break;
-            case ItemType.Prop:
-                Debug.Log("道具");
-                break;
-            default:
-                break;
-        }
+    public virtual void Use()
+    {        
+        Debug.Log("Use :" + itemName);
     }
 
-}
-public enum ItemType
-{   
-    Equipment,
-    Prop
 }

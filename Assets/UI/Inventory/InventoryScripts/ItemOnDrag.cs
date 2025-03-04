@@ -11,6 +11,11 @@ public class ItemOnDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     public void OnBeginDrag(PointerEventData eventData) //eventData:滑鼠拖曳事件資訊
     {
+        GameObject usingMenu = GameObject.Find("Using Menu(Clone)");
+        if (usingMenu != null)
+        {
+            Destroy(usingMenu);
+        }
         originalParent = transform.parent;//記錄原本的父物件
         currentItemID = originalParent.GetComponent<Slot>().slotID;
         transform.position = eventData.position;
@@ -27,9 +32,9 @@ public class ItemOnDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         GameObject target = eventData.pointerCurrentRaycast.gameObject;
         Debug.Log(target);
         if (target != null)
-        {           
+        {
             //有拖曳到Item Image上
-            if (target.name == "Item Image"|| target.name =="Text")
+            if (target.name == "Item Image" || target.name == "Text")
             {
                 //置換位置跟parent到目標
                 transform.SetParent(target.transform.parent.parent);
@@ -41,12 +46,9 @@ public class ItemOnDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
                 target.transform.parent.position = originalParent.position;
                 target.transform.parent.SetParent(originalParent);
-                GetComponent<CanvasGroup>().blocksRaycasts = true;
-                InventoryManager.RefreshItems();
-                return;
             }
             //拖曳到空格上
-            if (target.name == "Slot(Clone)")
+            else if (target.name == "Slot(Clone)")
             {
                 transform.SetParent(target.transform);
                 transform.position = target.transform.position;
@@ -56,16 +58,16 @@ public class ItemOnDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
                 {
                     myBag.itemList[currentItemID] = null;//原本的位置清空
                 }
-                GetComponent<CanvasGroup>().blocksRaycasts = true;
-                InventoryManager.RefreshItems();
-                return;
-            }        
+            }
+            //Other
+            else
+            {
+                transform.SetParent(originalParent);
+                transform.position = originalParent.position;
+            }
+            GetComponent<CanvasGroup>().blocksRaycasts = true;
+            InventoryManager.RefreshItems();
         }
-        //Other
-        transform.SetParent(originalParent);
-        transform.position = originalParent.position;
-        GetComponent<CanvasGroup>().blocksRaycasts = true;
-        InventoryManager.RefreshItems();
     }
 }
 
