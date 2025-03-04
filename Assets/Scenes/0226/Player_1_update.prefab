@@ -2226,13 +2226,15 @@ GameObject:
   - component: {fileID: 6372836167675041510}
   - component: {fileID: 8912223741807664854}
   - component: {fileID: 4845758553230878177}
+  - component: {fileID: 7049669916395680236}
+  - component: {fileID: 515141104352360966}
   m_Layer: 7
   m_Name: Player_1_update
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1285355173518746441
 Transform:
   m_ObjectHideFlags: 0
@@ -2377,7 +2379,7 @@ MonoBehaviour:
   sprint: 0
   attack: 0
   analogMovement: 0
-  cursorLocked: 1
+  cursorLocked: 0
   cursorInputForLook: 1
 --- !u!114 &237476063556277931
 MonoBehaviour:
@@ -2497,6 +2499,8 @@ MonoBehaviour:
   Animator: {fileID: 0}
   Controller: {fileID: 0}
   isGrounded: 1
+  slashVFX: {fileID: 3153472991145048103, guid: 3407e378c048bb5438424b28c7740b48,
+    type: 3}
   MoveSpeed: 2
   SprintSpeed: 5
   RotationSmoothTime: 0.12
@@ -2535,6 +2539,7 @@ MonoBehaviour:
   weapon: {fileID: 205364813153091496}
   idleAttach: {fileID: 1663115417718560776}
   attackAttach: {fileID: 113987684859345182}
+  slashSpawn: {fileID: 113987684859345182}
 --- !u!114 &4845758553230878177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2549,6 +2554,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentAttackData: {fileID: 11400000, guid: 031d10717e65a48f49b0e197dd525f57, type: 2}
   attackHitPoint: {fileID: 113987684859345182}
+  autoTargetRadius: 10
+  autoTargetAngle: 60
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  electroSlashVFX: {fileID: 3153472991145048103, guid: 3407e378c048bb5438424b28c7740b48,
+    type: 3}
+  currentTarget: {fileID: 0}
+--- !u!114 &7049669916395680236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8859030211229458744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9adcd06f5ff1548be85a8e5a665d29cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerAttackData: {fileID: 11400000, guid: 031d10717e65a48f49b0e197dd525f57, type: 2}
+--- !u!114 &515141104352360966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8859030211229458744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94b6fbe1e2d5813438813cdd313f00e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 0}
+  transparencyDistance: 1.5
+  fadeSpeed: 5
 --- !u!1 &8943502449524735383
 GameObject:
   m_ObjectHideFlags: 0
@@ -2804,6 +2845,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6652580649077526880, guid: de0a347a1d82a4884994d99e0176ce7e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6652580649077526880, guid: de0a347a1d82a4884994d99e0176ce7e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.316
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5479,7 +5530,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dynamicRatio: 1
-  stiffnessForce: 0.4
+  stiffnessForce: 0.5
   stiffnessCurve:
     serializedVersion: 2
     m_Curve:
@@ -5504,7 +5555,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  dragForce: 1.4
+  dragForce: 1.2
   dragCurve:
     serializedVersion: 2
     m_Curve:

@@ -10,7 +10,7 @@ public class AttackState : PlayerBaseState
     private const float normalizedEndThreshold = 1.6f;
     private const float maxStateDuration = 30f;
     private bool chainActive = true;
-    private const float dashStep = 0.7f;
+    private const float dashStep = 1f;
 
     public AttackData attackData;
 
