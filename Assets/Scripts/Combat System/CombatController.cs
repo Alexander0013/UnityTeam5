@@ -7,8 +7,7 @@ public class CombatController : MonoBehaviour
     public Transform attackHitPoint; // Set this in the Inspector.
 
     [Header("Auto-Target Settings")]
-    public float autoTargetRadius = 10f;
-    public float autoTargetAngle = 60f;
+    public float autoTargetRadius = 5f;
     public LayerMask enemyLayer;
 
     [Header("VFX")]
@@ -85,7 +84,7 @@ public class CombatController : MonoBehaviour
     /// <summary>
     /// Rotates the player to face the target enemy.
     /// </summary>
-    private void FaceTarget(Transform target)
+    public void FaceTarget(Transform target)
     {
         Vector3 dir = target.position - transform.position;
         dir.y = 0f; // Only rotate horizontally.
@@ -116,7 +115,7 @@ public class CombatController : MonoBehaviour
             Vector3 dirToEnemy = c.transform.position - transform.position;
             float dist = dirToEnemy.magnitude;
             float angle = Vector3.Angle(transform.forward, dirToEnemy.normalized);
-            if (angle <= autoTargetAngle && dist < closestDist)
+            if (dist < closestDist)
             {
                 closestDist = dist;
                 bestTarget = c.transform;
@@ -126,13 +125,52 @@ public class CombatController : MonoBehaviour
         if (bestTarget != null)
         {
             currentTarget = bestTarget;
-            FaceTarget(bestTarget);
             Debug.Log($"[CombatController] Auto-target locked on {bestTarget.name}");
         }
         else
         {
             currentTarget = null;
-            Debug.Log("[CombatController] No valid target in angle range.");
+            Debug.Log("[CombatController] No valid target in range.");
         }
     }
+    public void DashToTarget(float dashStep)
+{
+    // Use this.transform because CombatController is on the player.
+    Transform playerTransform = transform;
+
+    if (currentTarget != null && currentAttackData != null)
+    {
+        // Calculate the horizontal direction from player to target.
+        Vector3 dashDirection = currentTarget.position - playerTransform.position;
+        dashDirection.y = 0f;
+        if (dashDirection.sqrMagnitude < 0.01f)
+            return;
+        dashDirection.Normalize();
+
+        // Rotate the player to face the target.
+        Quaternion targetRotation = Quaternion.LookRotation(dashDirection, Vector3.up);
+        playerTransform.rotation = targetRotation;
+
+        // Log computed dashDirection for debugging.
+        Debug.Log("[DashToTarget] Computed dashDirection: " + dashDirection);
+
+        // Calculate the distance to the target.
+        float dist = Vector3.Distance(playerTransform.position, currentTarget.position);
+        Debug.Log($"[DashToTarget] Distance to target: {dist}, HitRadius: {currentAttackData.hitRadius}");
+
+        // If the target is farther than the hit radius, dash toward it.
+        if (dist > currentAttackData.hitRadius + 2.4f)
+        {
+            // Move using the computed dashDirection. Multiply by Time.deltaTime for frame-rate independent movement.
+            CharacterController cc = GetComponent<CharacterController>();
+            if (cc != null)
+            {
+                cc.Move(dashDirection * dashStep);
+                Debug.Log("[DashToTarget] Dashing toward target in direction: " + dashDirection);
+            }
+        }
+    }
+}
+
+
 }

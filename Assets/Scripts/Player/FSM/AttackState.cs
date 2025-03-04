@@ -7,9 +7,10 @@ public class AttackState : PlayerBaseState
     private float stateTimer = 0f;
     private float comboTimer = 0f;
     private const float comboInputWindow = 0.5f;
-    private const float normalizedEndThreshold = 1.2f;
+    private const float normalizedEndThreshold = 1.6f;
     private const float maxStateDuration = 30f;
     private bool chainActive = true;
+    private const float dashStep = 0.7f;
 
     public AttackData attackData;
 
@@ -42,6 +43,7 @@ public class AttackState : PlayerBaseState
         if (combat != null)
         {
             combat.TryAutoTarget();
+            combat.DashToTarget(dashStep);
         }
 
         // Set animator params
@@ -57,6 +59,9 @@ public class AttackState : PlayerBaseState
         {
             combatController.currentAttackData = attackData;
         }
+        player.Animator.applyRootMotion = false;
+        //dash to target
+
     }
 
     public override void UpdateState(PlayerStateManager player)
@@ -100,9 +105,11 @@ public class AttackState : PlayerBaseState
         }
 
         // Check current animation normalized time
-        AnimatorStateInfo attackStateInfo =
-            player.Animator.GetCurrentAnimatorStateInfo(player.Animator.GetLayerIndex("Attack Layer"));
+        AnimatorStateInfo attackStateInfo = player.Animator.GetCurrentAnimatorStateInfo(player.Animator.GetLayerIndex("Attack Layer"));
         float normalizedTime = attackStateInfo.normalizedTime;
+
+        // Access CombatController to check for current target.
+        CombatController combat = player.GetComponent<CombatController>();
 
         if (chainActive)
         {
@@ -111,6 +118,9 @@ public class AttackState : PlayerBaseState
             {
                 player.Input.attack = false;
                 comboTimer = 0f;
+                combat.DashToTarget(dashStep);
+                // Attempt to dash toward target while still performing the attack combo.
+                // Update combo count
                 comboCount = (comboCount % 3) + 1;
                 Debug.Log("[AttackState] Combo input received. comboCount=" + comboCount);
                 if (player.Animator != null)
@@ -148,10 +158,13 @@ public class AttackState : PlayerBaseState
                     player.Animator.SetInteger("ComboCount", comboCount);
                     player.Animator.SetTrigger("AttackTrigger");
                 }
+                player.Animator.applyRootMotion = false;
+                //dash to target
+                combat.DashToTarget(dashStep);
             }
         }
     }
-
+    
     public override void ExitState(PlayerStateManager player)
     {
         // Clear attack input
@@ -169,4 +182,5 @@ public class AttackState : PlayerBaseState
             Debug.Log("[AttackState] Attack weapon hidden.");
         }
     }
+    
 }
