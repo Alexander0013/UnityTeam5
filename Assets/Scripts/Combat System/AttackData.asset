@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseDamage: 5
   comboMultiplier: 1
-  hitRadius: 1
+  hitRadius: 1.5
   enemyLayers:
     serializedVersion: 2
     m_Bits: 256
+  health: 100

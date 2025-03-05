@@ -44,6 +44,8 @@ namespace UnityChan
 		UpdateParameters();
 #endif
 		}
+
+		
 	
 		private void LateUpdate ()
 		{

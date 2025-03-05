@@ -611,8 +611,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 10
   deathEffectPrefab: {fileID: 0}
+  hitEffectPrefab: {fileID: 0}
   fadeDuration: 1
-  deathMaterial: {fileID: 2100000, guid: 41ebb44deb3b343c1bebecbbb96e3e81, type: 2}
+  deathMaterial: {fileID: 2100000, guid: bc62f6190f4584cd989a3527e11fd8d3, type: 2}
 --- !u!136 &5717761115699845923
 CapsuleCollider:
   m_ObjectHideFlags: 0
