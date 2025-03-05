@@ -62,6 +62,7 @@ public class InventoryManager : MonoBehaviour
         if (onEquipmentChanged != null)
         {
             onEquipmentChanged.Invoke(newItem, oldItem);
+            Debug.Log("onEquipmentChanged");
         }
         currentEquipment[slotIndex] = newItem;
     }

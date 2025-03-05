@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Sword1
   itemImage: {fileID: 21300000, guid: 14c97628f0962a040abe5534c16fecee, type: 3}
   itemHeld: 1
-  itemInfo: Damage+100
-  attackModifier: 100
-  healthModifier: 0
+  itemInfo: Damage+10
+  damageModifier: 10
+  armorModifier: 0
   type: 0

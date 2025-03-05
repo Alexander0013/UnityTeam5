@@ -5,8 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Equipment", menuName = "Inventory/New Equipment")]
 public class Equipment : Item
 {
-    public int attackModifier;
-    public int healthModifier;
+    public int damageModifier;
+    public int armorModifier;
     public EquipmentType type; 
     public override void Use()
     {

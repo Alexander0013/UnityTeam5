@@ -32,8 +32,7 @@ public class GetClick : MonoBehaviour, IPointerClickHandler
 
     public void ShowMenu(Slot slot, Vector2 position)
     {
-        Debug.Log("show menu");
-
+        //Debug.Log("show menu");
         GameObject bag = FindObjectOfType<Bag>().gameObject; // 取得 Bag 物件
         
         // 產生選單
