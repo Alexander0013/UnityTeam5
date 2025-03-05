@@ -64,7 +64,6 @@ public class InventoryManager : MonoBehaviour
             onEquipmentChanged.Invoke(newItem, oldItem);
         }
         currentEquipment[slotIndex] = newItem;
-        RefreshItems();
     }
 
     public Equipment UnEquip(int slotIndex)
@@ -83,6 +82,7 @@ public class InventoryManager : MonoBehaviour
             {
                 onEquipmentChanged.Invoke(null, oldItem);
             }
+            RefreshItems();
             return oldItem;
         }
         return null;
