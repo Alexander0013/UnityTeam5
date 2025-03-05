@@ -2228,13 +2228,14 @@ GameObject:
   - component: {fileID: 4845758553230878177}
   - component: {fileID: 7049669916395680236}
   - component: {fileID: 515141104352360966}
+  - component: {fileID: 6180631101826482689}
   m_Layer: 7
   m_Name: Player_1_update
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1285355173518746441
 Transform:
   m_ObjectHideFlags: 0
@@ -2536,7 +2537,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8e5cb97fbd684f4eba6d65557f03d0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapon: {fileID: 205364813153091496}
+  weaponPrefabs:
+  - {fileID: 205364813153091496}
+  - {fileID: 5477724673352139249, guid: c7c508f49e4e2bb499ac4755f4f0fcbb, type: 3}
+  playerAttackData: {fileID: 11400000, guid: 031d10717e65a48f49b0e197dd525f57, type: 2}
+  currentWeapon: {fileID: 205364813153091496}
   idleAttach: {fileID: 1663115417718560776}
   attackAttach: {fileID: 113987684859345182}
   slashSpawn: {fileID: 113987684859345182}
@@ -2590,6 +2595,19 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   transparencyDistance: 1.5
   fadeSpeed: 5
+--- !u!114 &6180631101826482689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8859030211229458744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14760dda32821ff44b9ea070a052bb4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponController: {fileID: 8912223741807664854}
 --- !u!1 &8943502449524735383
 GameObject:
   m_ObjectHideFlags: 0

@@ -53,7 +53,7 @@ public class AttackState : PlayerBaseState
             player.Animator.SetTrigger("AttackTrigger");
         }
 
-        // If needed, pass attack data
+        // Pass attack data
         var combatController = player.GetComponent<CombatController>();
         if (combatController != null && attackData != null)
         {

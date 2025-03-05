@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerTransparencyController : MonoBehaviour
 {
     public Camera mainCamera;               // Assign in Inspector or defaults to Camera.main
-    public float transparencyDistance = 1.5f; // Distance threshold¡Xif the camera is closer than this, the player becomes fully transparent.
+    public float transparencyDistance = 1f; // Distance threshold: if the camera is closer than this, player becomes fully transparent.
     public float fadeSpeed = 5.0f;            // How quickly the alpha transitions
 
     private Renderer[] renderers;
@@ -12,21 +12,24 @@ public class PlayerTransparencyController : MonoBehaviour
     {
         if (mainCamera == null)
             mainCamera = Camera.main;
-        renderers = GetComponentsInChildren<Renderer>();
+        // Cache renderers at start.
+        UpdateRenderers();
     }
 
     void Update()
     {
+        // Use the cached renderers.
         float distance = Vector3.Distance(mainCamera.transform.position, transform.position);
-        // If the camera is closer than the threshold, target alpha is 0 (completely transparent), otherwise 1 (fully opaque)
         float targetAlpha = distance < transparencyDistance ? 0f : 1f;
 
-        // Update all materials on the player
+        // Process each renderer in the cached list.
         foreach (Renderer rend in renderers)
         {
+            if (rend == null)
+                continue;
             foreach (Material mat in rend.materials)
             {
-                // Check for a common color property. For URP Lit, it might be _BaseColor.
+                // Check for _BaseColor or _Color property.
                 if (mat.HasProperty("_BaseColor"))
                 {
                     Color col = mat.GetColor("_BaseColor");
@@ -41,5 +44,11 @@ public class PlayerTransparencyController : MonoBehaviour
                 }
             }
         }
+    }
+
+    // Call this function to update the cached renderer list (e.g., after a weapon switch).
+    public void UpdateRenderers()
+    {
+        renderers = GetComponentsInChildren<Renderer>();
     }
 }
