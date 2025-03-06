@@ -2343,8 +2343,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8e5cb97fbd684f4eba6d65557f03d0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponPrefabs: []
-  playerAttackData: {fileID: 0}
+  weaponPrefabs:
+  - {fileID: 1254693235023651936, guid: eeef00f7a52a44952a102e9e49dc9b7a, type: 3}
+  - {fileID: 2320997243640447249, guid: 4162c57d7123b764e8d24b420ea956ac, type: 3}
+  playerAttackData: {fileID: 11400000, guid: 2aeb211d0910a8d4fb7e2576561484ca, type: 2}
   currentWeapon: {fileID: 7540509581796487738}
   idleAttach: {fileID: 4834886743894511811}
   attackAttach: {fileID: 3793585885558827118}

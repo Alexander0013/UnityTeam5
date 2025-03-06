@@ -279,6 +279,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &77202525 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 943971083201808605, guid: b77962cf27968b049b3c55e1f9bdba1a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1777734170}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &91943351
 GameObject:
   m_ObjectHideFlags: 0
@@ -293,7 +299,7 @@ GameObject:
   - component: {fileID: 91943355}
   - component: {fileID: 91943356}
   - component: {fileID: 91943357}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -369,7 +375,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.000000024910904, y: 0.00000016899372, z: 4.2097864e-15,
     w: 1}
-  m_LocalPosition: {x: 0, y: 1.375, z: -4}
+  m_LocalPosition: {x: 0, y: 1.375, z: -1.0999999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -486,7 +492,7 @@ GameObject:
   - component: {fileID: 129845637}
   - component: {fileID: 129845639}
   - component: {fileID: 129845638}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -879,7 +885,7 @@ GameObject:
   - component: {fileID: 668005620}
   - component: {fileID: 668005622}
   - component: {fileID: 668005623}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Virtual Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -904,8 +910,8 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
+  m_LookAt: {fileID: 77202525}
+  m_Follow: {fileID: 77202525}
   m_Lens:
     FieldOfView: 51
     OrthographicSize: 5
@@ -935,7 +941,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.000000024910904, y: 0.00000016899372, z: 4.2097864e-15,
     w: 1}
-  m_LocalPosition: {x: 0, y: 1.375, z: -4}
+  m_LocalPosition: {x: 0, y: 1.375, z: -1.0999999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -965,7 +971,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 668005619}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bc8c08ddd0ebe6346b11d264fcdf2cf1, type: 3}
   m_Name: 
@@ -973,10 +979,10 @@ MonoBehaviour:
   collisionLayers:
     serializedVersion: 2
     m_Bits: 1
-  detectionRadius: 0.3
+  detectionRadius: 0.5
   colliderRadius: 0.1
   collisionOffset: 0.2
-  minDistance: 1
+  minDistance: 0.5
 --- !u!1001 &692493010
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1285,6 +1291,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6372836167675041510, guid: b77962cf27968b049b3c55e1f9bdba1a,
+        type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 91943353}
     - target: {fileID: 8859030211229458744, guid: b77962cf27968b049b3c55e1f9bdba1a,
         type: 3}
       propertyPath: m_Name

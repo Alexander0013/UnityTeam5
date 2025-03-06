@@ -62,17 +62,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 72af73544f2ff5d4db970427fb0dfa1c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -44.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 72af73544f2ff5d4db970427fb0dfa1c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 5.01
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 72af73544f2ff5d4db970427fb0dfa1c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 3.82
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 72af73544f2ff5d4db970427fb0dfa1c,
         type: 3}
@@ -642,6 +642,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6303995808958120285}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 72af73544f2ff5d4db970427fb0dfa1c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6964157825913405510}
   m_SourcePrefab: {fileID: 100100000, guid: 72af73544f2ff5d4db970427fb0dfa1c, type: 3}
 --- !u!4 &3833257942875669635 stripped
 Transform:
@@ -734,3 +738,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackHitPoint: {fileID: 838619692378817258}
   npcStateData: {fileID: 11400000, guid: 79815c692afd44bd5b0faa8a102169d0, type: 2}
+--- !u!114 &6964157825913405510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7959752456691109694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a1a3508b7488af4fbaacd788d022ea4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

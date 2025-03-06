@@ -2500,8 +2500,7 @@ MonoBehaviour:
   Animator: {fileID: 0}
   Controller: {fileID: 0}
   isGrounded: 1
-  slashVFX: {fileID: 3153472991145048103, guid: 3407e378c048bb5438424b28c7740b48,
-    type: 3}
+  slashVFX: {fileID: 0}
   MoveSpeed: 2
   SprintSpeed: 5
   RotationSmoothTime: 0.12
@@ -2564,7 +2563,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 256
-  electroSlashVFX: {fileID: 3153472991145048103, guid: 3407e378c048bb5438424b28c7740b48,
+  electroSlashVFX: {fileID: 1171201465392465800, guid: 4aa9f30a28a77224ba84b2a2c334c71b,
     type: 3}
   currentTarget: {fileID: 0}
 --- !u!114 &7049669916395680236
@@ -2593,7 +2592,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 0}
-  transparencyDistance: 1.5
+  transparencyDistance: 1
   fadeSpeed: 5
 --- !u!114 &6180631101826482689
 MonoBehaviour:

@@ -9,9 +9,19 @@ public class ChurlAttackState : ChurlBase
     private float attackInterval = 1f;  // �������j1��
     private float attackRange = 1f;     // �P���ު��A�������d��ۦP
     private Coroutine attackCoroutine;
+    private float outOfRangeTimer = 0f;
+
+    private float minAttackInterval = 1f;
+    private float maxAttackInterval = 3f;
+    //public object PlayerHealth;
+
+    // Cached reference to the player's health component
+    private PlayerHealth cachedPlayerHealth;
+
 
     public override void Enter()
     {
+        
         if (churl == null)
         {
             churl = GetComponent<Churl>();
@@ -23,28 +33,74 @@ public class ChurlAttackState : ChurlBase
         if (animator == null)
         {
             animator = churlObject.GetComponent<Animator>();
+            Debug.Log("find animator");
         }
         // ���� Animator �� attackLayer�]���] attackLayer �w�b Animator ���]�w�^
+        //StartCoroutine(SmoothSetAnimatorLayerWeight("attackLayer", 1f));
+
+        //StartCoroutine(SmoothSetAnimatorLayerWeight("walkLayer", 0f));
+
         SetAnimatorLayerWeight("attackLayer", 1);
         SetAnimatorLayerWeight("walkLayer", 0);
-        //SetAnimatorLayerWeight("deathLayer", 0);
-        Debug.Log("�i�J�������A");
-        attackCoroutine = churl.StartCoroutine(AttackRoutine());
+        attackCoroutine = StartCoroutine(AttackRoutine());
+
+        Debug.Log("Enter churl attack");
+
+        // Cache the player's health component once here:
+        GameObject player = GameObject.FindWithTag("Player");
+        if (player != null)
+        {
+            cachedPlayerHealth = player.GetComponent<PlayerHealth>();
+        }
+        else
+        {
+            Debug.LogWarning("Player not found when caching health!");
+        }
+
     }
 
     public override void Update()
     {
         Debug.Log("CASUpdate");
         if (churl == null) return;
-        GameObject player = GameObject.FindWithTag("Player");
-        if (player != null && churlObject != null)
+        
+        // Check if player's health is 0 or below.
+        if (cachedPlayerHealth != null && cachedPlayerHealth.CurrentHealth <= 0)
         {
-            float distance = Vector3.Distance(churlObject.transform.position, player.transform.position);
-            // �Y���a�]�X�����d��A�����^���ު��A
-            if (distance > attackRange)
+            Debug.Log("Player is dead. Switching to PatrolState.");
+            churl.ChangeState(new ChurlPatrolState());
+            return;
+        }
+
+        // Fallback: if cached reference is lost, try to get it once more
+        if (cachedPlayerHealth == null)
+        {
+            GameObject player = GameObject.FindWithTag("Player");
+            if (player != null)
             {
-                Debug.Log("changeToPatrol");
-                churl.ChangeState(new ChurlPatrolState());
+                cachedPlayerHealth = player.GetComponent<PlayerHealth>();
+            }
+        }
+
+        GameObject playerObj = cachedPlayerHealth != null ? cachedPlayerHealth.gameObject : GameObject.FindWithTag("Player");
+        if (playerObj != null && churlObject != null)
+        {
+            float distance = Vector3.Distance(churlObject.transform.position, playerObj.transform.position);
+            // If the player is significantly farther than the attack range, increment a timer.
+            if (distance >= attackRange * 1.2f)
+            {
+                outOfRangeTimer += Time.deltaTime;
+                if (outOfRangeTimer >= 0.5f)
+                {
+                    Debug.Log("Player is out of range for 0.5 sec, switching to PatrolState.");
+                    churl.ChangeState(new ChurlPatrolState());
+                    return;
+                }
+            }
+            else
+            {
+                // Reset the timer if the player comes back into range.
+                outOfRangeTimer = 0f;
             }
         }
     }
@@ -61,19 +117,18 @@ public class ChurlAttackState : ChurlBase
         }
     }
 
+    
     private IEnumerator AttackRoutine()
     {
-        if (true)
+        // Optional: add an initial random delay so enemies don't all start at the same time.
+        yield return new WaitForSeconds(Random.Range(0f, 2f));
+
+        while (true)
         {
-            Debug.Log("�������a�I");
-            // �o��Ĳ�o�����ʵe�A�i�H�� animator.SetTrigger("Attack")
             animator.SetTrigger("Attack");
-            // �b���B�i�I�s�ˮ`�B�z�޿�
-            yield return new WaitForSeconds(attackInterval);
-        }
-        else
-        {
-            Exit();
+            // Wait for a random duration between min and max attack intervals
+            float delay = Random.Range(minAttackInterval, maxAttackInterval);
+            yield return new WaitForSeconds(delay);
         }
     }
     /// <summary>

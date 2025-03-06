@@ -21,6 +21,7 @@ public abstract class ChurlBase:MonoBehaviour
     public abstract void Update();
     public abstract void Exit();
 
+    
     protected void SetAnimatorLayerWeight(string layerName, float weight)
     {
         int layerIndex = animator.GetLayerIndex(layerName);
@@ -30,6 +31,25 @@ public abstract class ChurlBase:MonoBehaviour
             return;
         }
         animator.SetLayerWeight(layerIndex, weight);
+    }
+
+    protected IEnumerator SmoothSetAnimatorLayerWeight(string layerName, float targetWeight)
+    {
+        int layerIndex = animator.GetLayerIndex(layerName);
+        float initialWeight = animator.GetLayerWeight(layerIndex);
+        float elapsed = 0f;
+        float duration = 0.5f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float newWeight = Mathf.Lerp(initialWeight, targetWeight, elapsed / duration);
+            animator.SetLayerWeight(layerIndex, newWeight);
+            yield return null;
+        }
+
+        // Ensure the target value is set at the end.
+        animator.SetLayerWeight(layerIndex, targetWeight);
     }
 
 

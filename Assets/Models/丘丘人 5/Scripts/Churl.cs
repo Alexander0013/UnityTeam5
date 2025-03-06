@@ -35,7 +35,6 @@ public class Churl : MonoBehaviour
     }
     void Update()
     {
-        AlignToGround();
         currentState?.Update();
 
     }
@@ -51,23 +50,10 @@ public class Churl : MonoBehaviour
         }
         currentState = newState;
         currentState.SetChurl(this); // �]�m Churl �Ѧ�
-        Debug.Log("�������A��G" + newState.GetType().Name);
+        Debug.Log("Enter" + newState.GetType().Name);
         currentState.Enter();
     }
-    void AlignToGround()
-{
-    RaycastHit hit;
-    // Cast a ray from 1 unit above the enemy downward.
-    Vector3 rayOrigin = transform.position + Vector3.up * 1f;
-    // Use a reasonable distance (e.g., 10 units) and a ground layer mask (adjust if needed)
-    if (Physics.Raycast(rayOrigin, Vector3.down, out hit, 10f, LayerMask.GetMask("Default")))
-    {
-        Vector3 pos = transform.position;
-        // Optionally add a small offset (like 0.1f) so the enemy doesn't clip into the ground.
-        pos.y = hit.point.y + 0.1f;
-        transform.position = pos;
-    }
-}
+
 
 
 

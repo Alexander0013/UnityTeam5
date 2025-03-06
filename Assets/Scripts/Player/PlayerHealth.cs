@@ -8,6 +8,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private float currentHealth;
 
     private Animator animator;
+    public float CurrentHealth
+    {
+        get { return currentHealth; }
+    }
 
     void Start()
     {
@@ -50,7 +54,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     // Resets the getHit flag after a short duration.
     IEnumerator ResetGetHit()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
         if (animator != null)
             animator.SetBool("getHit", false);
     }
@@ -59,7 +63,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     IEnumerator DieAndDisable()
     {
         // Adjust the wait time to match your die animation length.
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(1.5f);
         gameObject.SetActive(false);
     }
 }

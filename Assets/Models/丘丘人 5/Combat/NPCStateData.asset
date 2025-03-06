@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseDamage: 10
   comboMultiplier: 1
-  hitRadius: 1
+  hitRadius: 1.5
   maxHealth: 30
   playerLayers:
     serializedVersion: 2

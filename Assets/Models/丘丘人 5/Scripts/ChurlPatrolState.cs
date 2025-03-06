@@ -6,7 +6,7 @@ public class ChurlPatrolState : ChurlBase
 {
     private List<Vector3> patrolPoints = new List<Vector3>();
     private int currentPointIndex = 0;
-    private float patrolRange = 3f;
+    //private float patrolRange = 3f;
     private float moveSpeed = 2f;
     private float detectionRange = 5f; // �����d��
     private LayerMask playerLayer; // ���a�h
@@ -25,29 +25,7 @@ public class ChurlPatrolState : ChurlBase
         {
             GeneratePatrolPoints();
         }
-        //if (playerLayer == 0)
-        //{
-        //    Debug.LogWarning("Player Layer ���]�m�I");
-        //}
-
-        //if (detectionRange <= 0)
-        //{
-        //    Debug.LogWarning("Detection Range �� 0 �έt�ơI");
-        //}
-
-        //if (churl == null)
-        //{
-        //    churl = GetComponent<Churl>();
-        //}
-
-        //if (churl != null)
-        //{
-        //    Debug.Log("Start(): Churl ��l�Ʀ��\�G" + churl.gameObject.name);
-        //}
-        //else
-        //{
-        //    Debug.LogError("Start(): Churl �� null�A�нT�{ Churl ����O�_���T�����I");
-        //}
+        
         if (churl == null)
         {
             churl = GetComponent<Churl>();
@@ -67,10 +45,6 @@ public class ChurlPatrolState : ChurlBase
         if (animator == null)
         {
             animator = churlObject.GetComponent<Animator>();
-            if (animator == null)
-            {
-                return;
-            }
         }
         // **�Ĥ@���i�J�ɡA�]�w���ޤ���**
         if (patrolCenter == Vector3.zero)
@@ -96,9 +70,12 @@ public class ChurlPatrolState : ChurlBase
         ChasePlayer();
         if (patrolPoints != null && patrolPoints.Count > 0)
         {
+            //StartCoroutine(SmoothSetAnimatorLayerWeight("attackLayer", 0f));
+
+            //StartCoroutine(SmoothSetAnimatorLayerWeight("walkLayer", 1f));
             SetAnimatorLayerWeight("walkLayer", 1);
             SetAnimatorLayerWeight("attackLayer", 0);
-            SetAnimatorLayerWeight("deathLayer", 0);
+            //SetAnimatorLayerWeight("deathLayer", 0);
             //animator.SetBool("isWalking", true);
         }
     }
@@ -142,13 +119,15 @@ public class ChurlPatrolState : ChurlBase
         if (detected)
         {
             float distance = Vector3.Distance(churlObject.transform.position, player.transform.position);
-            if (distance > attackRange)
+            //Debug.Log("Distance to player: " + distance);
+            if (distance <= attackRange * 0.8f)
             {
-                ChasePlayer();
+                Debug.Log("Switching to AttackState because player is close enough.");
+                churl.ChangeState(new ChurlAttackState());
             }
             else
             {
-                churl.ChangeState(new ChurlAttackState());
+                ChasePlayer();
             }
         }
         else
