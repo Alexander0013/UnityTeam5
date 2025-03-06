@@ -5548,7 +5548,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dynamicRatio: 1
-  stiffnessForce: 0.5
+  stiffnessForce: 0.2
   stiffnessCurve:
     serializedVersion: 2
     m_Curve:
@@ -5573,7 +5573,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  dragForce: 1.2
+  dragForce: 1.3
   dragCurve:
     serializedVersion: 2
     m_Curve:

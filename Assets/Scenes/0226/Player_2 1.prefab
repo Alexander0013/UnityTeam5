@@ -2343,7 +2343,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8e5cb97fbd684f4eba6d65557f03d0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapon: {fileID: 7540509581796487738}
+  weaponPrefabs: []
+  playerAttackData: {fileID: 0}
+  currentWeapon: {fileID: 7540509581796487738}
   idleAttach: {fileID: 4834886743894511811}
   attackAttach: {fileID: 3793585885558827118}
   slashSpawn: {fileID: 3793585885558827118}
