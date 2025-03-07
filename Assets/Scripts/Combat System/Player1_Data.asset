@@ -18,4 +18,5 @@ MonoBehaviour:
   enemyLayers:
     serializedVersion: 2
     m_Bits: 256
-  health: 100
+  health: 20
+  currentWeaponIndex: 0

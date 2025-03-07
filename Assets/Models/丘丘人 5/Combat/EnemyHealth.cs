@@ -3,22 +3,23 @@ using System.Collections;
 
 public class EnemyHealth : MonoBehaviour, IDamageable
 {
-    // Assign your NPCStateData asset in the Inspector.
     public NPCStateData npcStateData;
-
-    // Optional visual effects and material for death/dissolve.
-    public GameObject hitEffectPrefab;      // Particle prefab to spawn when hit.
-    public GameObject deathEffectPrefab;    // Particle prefab to spawn when dying.
-    public float fadeDuration = 1.0f;         // Duration for the dissolve fade effect.
-    public Material deathMaterial;            // Material that uses your dissolve shader.
+    public GameObject hitEffectPrefab;
+    public GameObject deathEffectPrefab;
+    public float fadeDuration = 1.0f;
+    public Material deathMaterial;
 
     private float currentHealth;
     private Animator animator;
     private bool isDead = false;
 
+    // Reference to your FSM if you want it:
+    private EnemyFSM fsm;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        fsm = GetComponent<EnemyFSM>(); // If you want to notify the FSM of death
     }
 
     private void Start()
@@ -34,9 +35,6 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         }
     }
 
-    /// <summary>
-    /// Call this method to apply damage to the enemy.
-    /// </summary>
     public void TakeDamage(float amount)
     {
         if (isDead) return;
@@ -44,50 +42,62 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         currentHealth -= amount;
         Debug.Log($"{gameObject.name} took {amount} damage. Remaining health: {currentHealth}");
 
-        // Trigger the get hit reaction.
-        StartCoroutine(GetHit());
-
-        if (currentHealth <= 0)
+        // Trigger the get-hit reaction & animation if still alive
+        if (currentHealth > 0)
         {
-            StartCoroutine(Die());
+            StartCoroutine(GetHitRoutine());
+        }
+        else
+        {
+            // HP is zero or below
+            StartCoroutine(DieRoutine());
         }
     }
 
-    /// <summary>
-    /// Plays hit effects and triggers the GetHit animation.
-    /// </summary>
-    IEnumerator GetHit()
+    IEnumerator GetHitRoutine()
     {
+        // Optional: spawn a hit effect
         if (hitEffectPrefab != null)
         {
-            // Instantiate hit effect at the enemy's position.
-            GameObject hitEffect = Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
-            Destroy(hitEffect, 0.5f);
+            GameObject hitFx = Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
+            Destroy(hitFx, 0.5f);
         }
-        animator.SetTrigger("GetHit");
-        yield return new WaitForSeconds(0.53f); // Adjust if needed.
+
+        // Trigger the GetHit animation
+        animator.SetTrigger("GotHit");
+
+        // Wait a fraction of a second to let the flinch play, if you like
+        yield return new WaitForSeconds(0.5f);
+
+        // If you want the FSM to do something special (like not chase for a moment),
+        // you can do so here, or rely on the AnyState->GotHit animator transitions
     }
 
-    /// <summary>
-    /// Plays the death animation and dissolves the enemy over time before destroying it.
-    /// </summary>
-    IEnumerator Die()
+    IEnumerator DieRoutine()
     {
         if (isDead) yield break;
         isDead = true;
-        Debug.Log($"{gameObject.name} has died.");
 
+        Debug.Log($"{gameObject.name} has died.");
         animator.SetTrigger("Die");
 
+        // (Optional) Let the FSM know we're dead so it can stop AI logic
+        if (fsm != null)
+        {
+            fsm.isDead = true; 
+            // or do fsm.TransitionToState(fsm.deadState), if you want
+        }
+
+        // Spawn a death effect, if any
         if (deathEffectPrefab != null)
         {
             Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
         }
 
-        // Wait briefly to allow the death animation to start.
+        // Wait a short moment for the death animation
         yield return new WaitForSeconds(0.5f);
 
-        // Swap all renderer materials to the death material (assumed to use a dissolve shader).
+        // Swap in dissolve material
         Renderer[] renderers = GetComponentsInChildren<Renderer>();
         foreach (Renderer r in renderers)
         {
@@ -99,12 +109,12 @@ public class EnemyHealth : MonoBehaviour, IDamageable
             r.materials = mats;
         }
 
-        // Fade out enemy by updating the dissolve value.
         float timer = 0f;
         while (timer < fadeDuration)
         {
             timer += Time.deltaTime;
             float dissolveValue = Mathf.Lerp(0f, 1f, timer / fadeDuration);
+
             foreach (Renderer r in renderers)
             {
                 foreach (Material mat in r.materials)
@@ -118,6 +128,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
             yield return null;
         }
 
+        // Finally, destroy the object
         Destroy(gameObject);
     }
 }
