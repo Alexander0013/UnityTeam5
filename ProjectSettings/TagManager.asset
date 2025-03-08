@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - CinemachineTarget
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -15,8 +16,8 @@ TagManager:
   - Camera
   - Player
   - Enemy
-  - 
-  - 
+  - Ground
+  - GroundTEST
   - 
   - 
   - 
