@@ -55,11 +55,20 @@ public class IdleState : PlayerBaseState
 
     public override void UpdateState(PlayerStateManager player)
     {
-        if (Input.GetKeyDown(KeyCode.Q)) 
+        WeaponController wc = player.GetComponent<WeaponController>(); // or GetComponentInChildren<WeaponController>()
+        if (wc != null)
         {
-            WeaponSwitcher ws = player.GetComponent<WeaponSwitcher>();
-            ws.SwitchWeapon();
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                wc.SwitchWeapon();
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                wc.SwitchWeapon();
+            }
+
         }
+        
         // Then normal idle logic (movement transitions, jump, attack, etc.)
         if (player.Input.move != Vector2.zero)
         {

@@ -75,11 +75,12 @@ public class CombatController : MonoBehaviour
 
         foreach (Collider hit in hitColliders)
         {
-            Enemy enemy = hit.GetComponent<Enemy>();
-            if (enemy != null)
+            IDamageable damageable = hit.GetComponent<IDamageable>();
+            if (damageable != null)
             {
-                enemy.TakeDamage(damage);
+                damageable.TakeDamage(damage);
             }
+
         }
 
         Debug.DrawRay(attackHitPoint.position, Vector3.one * currentAttackData.hitRadius, Color.red, 1f);

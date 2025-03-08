@@ -1,13 +1,17 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : MonoBehaviour, IDamageable
 {
     // Reference to an AttackData asset that contains the player's health.
     public AttackData playerAttackData;
     private float currentHealth;
 
     private Animator animator;
+    public float CurrentHealth
+    {
+        get { return currentHealth; }
+    }
 
     void Start()
     {
@@ -18,7 +22,10 @@ public class PlayerHealth : MonoBehaviour
         Debug.Log("Player Health Initialized: " + currentHealth);
     }
 
-    // Call this method when the player takes damage.
+    /// <summary>
+    /// Applies damage to the player, triggers hit reaction or death.
+    /// </summary>
+    /// <param name="damage">The damage to apply.</param>
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
@@ -47,7 +54,7 @@ public class PlayerHealth : MonoBehaviour
     // Resets the getHit flag after a short duration.
     IEnumerator ResetGetHit()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
         if (animator != null)
             animator.SetBool("getHit", false);
     }
@@ -56,8 +63,7 @@ public class PlayerHealth : MonoBehaviour
     IEnumerator DieAndDisable()
     {
         // Adjust the wait time to match your die animation length.
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(1.5f);
         gameObject.SetActive(false);
     }
 }
-

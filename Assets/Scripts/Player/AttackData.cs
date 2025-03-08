@@ -8,4 +8,5 @@ public class AttackData : ScriptableObject
     public float hitRadius = 1.5f;
     public LayerMask enemyLayers; // Set in Inspector to include enemy layers.
     public float health = 100f;
+    public int currentWeaponIndex = 0;
 }

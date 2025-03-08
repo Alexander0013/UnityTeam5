@@ -54,12 +54,14 @@ public class PlayerStateManager : MonoBehaviour
 
     private void Start()
     {
+        DontDestroyOnLoad(gameObject);
         _jumpTimeoutDelta = JumpTimeout;
         _fallTimeoutDelta = FallTimeout;
         // Start in Idle state.
         currentState = new IdleState();
         currentState.EnterState(this);
         Debug.Log("[PlayerStateManager] Entering Idle State");
+
     }
 
     private void Update()

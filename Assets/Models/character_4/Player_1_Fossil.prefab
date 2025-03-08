@@ -527,7 +527,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1694006901711705549
 Transform:
   m_ObjectHideFlags: 0
@@ -1530,10 +1530,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d949a8908ab7744a9b7b03c4f5189c01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  idleWeaponTimer: 0
+  firstEntry: 1
+  idleWeaponHide: 1
   Input: {fileID: 0}
   Animator: {fileID: 0}
   Controller: {fileID: 0}
   isGrounded: 1
+  slashVFX: {fileID: 0}
   MoveSpeed: 2
   SprintSpeed: 5
   RotationSmoothTime: 0.12
@@ -2890,7 +2894,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dynamicRatio: 1
-  stiffnessForce: 0.25
+  stiffnessForce: 0.4
   stiffnessCurve:
     serializedVersion: 2
     m_Curve:
@@ -2915,7 +2919,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  dragForce: 1.3
+  dragForce: 1.5
   dragCurve:
     serializedVersion: 2
     m_Curve:
