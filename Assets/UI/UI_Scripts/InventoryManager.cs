@@ -33,13 +33,8 @@ public class InventoryManager : MonoBehaviour
     public Image[] equipmentSlots_B;
     public GameObject[] equipmentText_B;
 
-    public delegate void OnEquipmentChanged(Equipment newItem,Equipment oldItem);
+    public delegate void OnEquipmentChanged(Equipment newItem,Equipment oldItem,int genderIndex);
     public OnEquipmentChanged onEquipmentChanged;
-
-    //public AttackData attackData;
-
-    public TextMeshProUGUI damageText;
-    public TextMeshProUGUI healthText;
 
     void Awake()
     {
@@ -54,7 +49,7 @@ public class InventoryManager : MonoBehaviour
     {
         RefreshItems();
         instance.itemInfo.text = "";
-        UpdateEquipmentUI(0);  
+       
     }
 
 
@@ -81,11 +76,7 @@ public class InventoryManager : MonoBehaviour
         // 觸發 UI 更新
         UpdateEquipmentUI(genderIndex);
 
-        if (onEquipmentChanged != null)
-        {
-            onEquipmentChanged.Invoke(newItem, oldItem);
-            //Debug.Log("onEquipmentChanged");
-        }
+        onEquipmentChanged?.Invoke(newItem, oldItem, genderIndex);
     }
 
     public Equipment UnEquip(int genderIndex,int slotIndex)
@@ -100,9 +91,11 @@ public class InventoryManager : MonoBehaviour
             {
                 myBag.itemList[empty] = oldItem;
             }
+            
+            onEquipmentChanged?.Invoke(null, oldItem, genderIndex);
 
             equipmentList.UnEquipItem(slotIndex);
-            UpdateEquipmentUI(0);
+            UpdateEquipmentUI(genderIndex);
             RefreshItems();
             return oldItem;
         }
@@ -149,67 +142,62 @@ public class InventoryManager : MonoBehaviour
         }        
     }
 
-    //private void UpdateEquipmentImage(Equipment newItem, int slotIndex)
-    //{
-    //    if (newItem != null && equipmentSlots_A[slotIndex] != null)
-    //    {
-    //        equipmentSlots_A[slotIndex].sprite = newItem.itemImage;
-    //        equipmentSlots_A[slotIndex].enabled = true; // 確保圖片可見
-    //    }
-    //}
 
     private void UpdateEquipmentUI(int genderIndex)
     {
         if (genderIndex == 0)
         {
-            for (int i = 0; i < equipmentSlots_A.Length; i++)
-            {
-                Equipment equippedItem = equipmentList_A.GetEquippedItem(i);
-                if (equippedItem != null)
-                {
-                    equipmentSlots_A[i].sprite = equippedItem.itemImage;
-                    equipmentSlots_A[i].enabled = true;
-                    equipmentText_A[i].SetActive(false);
-                }
-                else
-                {
-                    equipmentSlots_A[i].sprite = null;
-                    equipmentSlots_A[i].enabled = false;
-                    equipmentText_A[i].SetActive(true);
-                }
-            }
-            UpdateStatsText();
+            UpdateEquipmentUI_A();
             //Debug.Log("gender0");
         }
         else
         {
-            for (int i = 0; i < equipmentSlots_A.Length; i++)
-            {
-                Equipment equippedItem = equipmentList_B.GetEquippedItem(i);
-                if (equippedItem != null)
-                {
-                    equipmentSlots_B[i].sprite = equippedItem.itemImage;
-                    equipmentSlots_B[i].enabled = true;
-                    equipmentText_B[i].SetActive(false);
-                }
-                else
-                {
-                    equipmentSlots_B[i].sprite = null;
-                    equipmentSlots_B[i].enabled = false;
-                    equipmentText_B[i].SetActive(true);
-                }
-            }
-            UpdateStatsText();
+            UpdateEquipmentUI_B();
             //Debug.Log("gender1");
         }
-        
+        //UpdateStatsText();
     }
 
-    public void UpdateStatsText()
+    public void UpdateEquipmentUI_A()
     {
-        //damageText.text = attackData.
-        //healthText.text = attackData.
+        for (int i = 0; i < equipmentSlots_A.Length; i++)
+        {
+            Equipment equippedItem = equipmentList_A.GetEquippedItem(i);
+            if (equippedItem != null)
+            {
+                equipmentSlots_A[i].sprite = equippedItem.itemImage;
+                equipmentSlots_A[i].enabled = true;
+                equipmentText_A[i].SetActive(false);
+            }
+            else
+            {
+                equipmentSlots_A[i].sprite = null;
+                equipmentSlots_A[i].enabled = false;
+                equipmentText_A[i].SetActive(true);
+            }
+        }
     }
+
+    public void UpdateEquipmentUI_B()
+    {
+        for (int i = 0; i < equipmentSlots_A.Length; i++)
+        {
+            Equipment equippedItem = equipmentList_B.GetEquippedItem(i);
+            if (equippedItem != null)
+            {
+                equipmentSlots_B[i].sprite = equippedItem.itemImage;
+                equipmentSlots_B[i].enabled = true;
+                equipmentText_B[i].SetActive(false);
+            }
+            else
+            {
+                equipmentSlots_B[i].sprite = null;
+                equipmentSlots_B[i].enabled = false;
+                equipmentText_B[i].SetActive(true);
+            }
+        }
+    }
+
 
     public EquipmentList GetEquipmentList(int genderIndex)
     {

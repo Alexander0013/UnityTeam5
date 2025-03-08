@@ -11,7 +11,7 @@ public class ItemOnDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     public void OnBeginDrag(PointerEventData eventData) //eventData:滑鼠拖曳事件資訊
     {
-        GameObject usingMenu = GameObject.Find("Using Menu(Clone)");
+        GameObject usingMenu = GameObject.Find("Bag Menu(Clone)");
         if (usingMenu != null)
         {
             Destroy(usingMenu);

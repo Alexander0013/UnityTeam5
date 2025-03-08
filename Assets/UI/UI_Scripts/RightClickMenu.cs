@@ -14,9 +14,9 @@ public class RightClickMenu : MonoBehaviour
 
 
 
-    public void SetTargetItem(Slot slot)
+    public void SetTargetItem(Slot Item)
     {
-        targetItem = slot;
+        targetItem = Item;
     }
 
     public void OnUseButtonClick()
@@ -35,7 +35,7 @@ public class RightClickMenu : MonoBehaviour
     }
 
     public void UseItem(Slot slot)
-    {       
+    {        
         if (targetItem.slotItem is Equipment equipment)  // 檢查 targetItem 是否是 Equipment 類型
         {
             equipment.Use();  // 呼叫 Equipment 的 Use 方法            

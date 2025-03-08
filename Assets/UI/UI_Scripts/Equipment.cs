@@ -6,7 +6,7 @@ using UnityEngine;
 public class Equipment : Item
 {
     public int damageModifier;
-    public int armorModifier;
+    public int healthModifier;
     public EquipmentType type;
     public Gender gender;
     public override void Use()
@@ -15,6 +15,8 @@ public class Equipment : Item
         InventoryManager.instance.Equip(this);
         // 裝備到角色身上
     }
+
+    
 }
 
 public enum EquipmentType { Weapon, Ring }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -6,27 +7,36 @@ public class GetClick : MonoBehaviour, IPointerClickHandler
 {   
     public GameObject menuPrefab; // 右鍵選單的 Prefab
     private static GameObject spawnedMenu; // 產生的選單
-    
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        Debug.Log(eventData.pointerCurrentRaycast.gameObject.name);
         if (spawnedMenu != null)
         {
             Destroy(spawnedMenu); // 刪除舊選單
             spawnedMenu = null;
         }
 
-        Slot slot = this.gameObject.GetComponentInParent<Slot>();
-        if (eventData.button == PointerEventData.InputButton.Right) // 右鍵
+        if (eventData.pointerCurrentRaycast.gameObject.name == "Item Image")
         {
-            ShowMenu(slot, eventData.position);
-            //Debug.Log(this.gameObject.GetComponent<Slot>());
+            Debug.Log(this.gameObject.name);
+            Slot slot = this.gameObject.GetComponentInParent<Slot>();
+            Debug.Log("slot = " + slot);
+            if (slot != null)
+            {
+                if (eventData.button == PointerEventData.InputButton.Right) // 右鍵
+                {
+                    ShowMenu(slot, eventData.position);
+                    //Debug.Log(this.gameObject.GetComponent<Slot>());                
+                }
+                else if (eventData.button == PointerEventData.InputButton.Left) // 左鍵
+                {
+                    //Debug.Log("左鍵點擊 " );                
+                }
+                InventoryManager.UpdateItemInfo(slot.slotImage, slot.slotInfo);
+            }
         }
-        else if (eventData.button == PointerEventData.InputButton.Left) // 左鍵
-        {
-            //Debug.Log("左鍵點擊 " );
-            InventoryManager.UpdateItemInfo(slot.slotImage, slot.slotInfo);
-        }
+        
     }
 
     public void ShowMenu(Slot slot, Vector2 position)

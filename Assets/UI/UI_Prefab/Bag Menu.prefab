@@ -280,7 +280,7 @@ GameObject:
   - component: {fileID: 5353124012686827583}
   - component: {fileID: 6649792434219552444}
   m_Layer: 5
-  m_Name: Using Menu
+  m_Name: Bag Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class CharaterStats : MonoBehaviour
 {
+    //¥Î¤£¨ì
     public Stat damage;
-    public Stat armor;
+    public Stat health;
     public int maxHealth = 100;
     public int currentHealth { get; private set; }
 
@@ -22,7 +23,7 @@ public class CharaterStats : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        damage-=armor.GetValue();
+        damage-=health.GetValue_A();
         damage = Mathf.Clamp(damage, 0, int.MaxValue);
         
         currentHealth -= damage;
