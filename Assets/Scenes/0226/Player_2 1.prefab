@@ -2029,6 +2029,7 @@ GameObject:
   - component: {fileID: 796321670836239071}
   - component: {fileID: 6237336898837302893}
   - component: {fileID: 8112533081466459284}
+  - component: {fileID: 1628652179079811283}
   m_Layer: 7
   m_Name: Player_2 1
   m_TagString: Player
@@ -2321,14 +2322,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dced2607b58f64e668433ebf3e1553ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentAttackData: {fileID: 11400000, guid: 031d10717e65a48f49b0e197dd525f57, type: 2}
+  currentAttackData: {fileID: 11400000, guid: 2aeb211d0910a8d4fb7e2576561484ca, type: 2}
   attackHitPoint: {fileID: 3793585885558827118}
   autoTargetRadius: 10
   autoTargetAngle: 60
   enemyLayer:
     serializedVersion: 2
     m_Bits: 256
-  electroSlashVFX: {fileID: 3153472991145048103, guid: 3407e378c048bb5438424b28c7740b48,
+  electroSlashVFX: {fileID: 5252296284410480035, guid: f96c9b53a9bcfe5498f5e7edad953acb,
     type: 3}
   currentTarget: {fileID: 0}
 --- !u!114 &6237336898837302893
@@ -2366,6 +2367,19 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   transparencyDistance: 1
   fadeSpeed: 5
+--- !u!114 &1628652179079811283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7455818752020803704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9adcd06f5ff1548be85a8e5a665d29cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerAttackData: {fileID: 11400000, guid: 2aeb211d0910a8d4fb7e2576561484ca, type: 2}
 --- !u!1 &7538192910552991007
 GameObject:
   m_ObjectHideFlags: 0

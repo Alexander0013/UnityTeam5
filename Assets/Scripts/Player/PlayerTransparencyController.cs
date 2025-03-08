@@ -33,13 +33,13 @@ public class PlayerTransparencyController : MonoBehaviour
                 if (mat.HasProperty("_BaseColor"))
                 {
                     Color col = mat.GetColor("_BaseColor");
-                    col.a = Mathf.Lerp(col.a, targetAlpha, Time.deltaTime * fadeSpeed);
+                    col.a = Mathf.Lerp(col.a, targetAlpha,fadeSpeed);
                     mat.SetColor("_BaseColor", col);
                 }
                 else if (mat.HasProperty("_Color"))
                 {
                     Color col = mat.GetColor("_Color");
-                    col.a = Mathf.Lerp(col.a, targetAlpha, Time.deltaTime * fadeSpeed);
+                    col.a = Mathf.Lerp(col.a, targetAlpha,fadeSpeed);
                     mat.SetColor("_Color", col);
                 }
             }

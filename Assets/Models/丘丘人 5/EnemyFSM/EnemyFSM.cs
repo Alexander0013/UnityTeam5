@@ -12,8 +12,8 @@ public class EnemyFSM : MonoBehaviour
 
     [Header("Enemy Settings")]
     public NPCStateData npcData;
-    public float detectionRadius = 7f;  // detectDistance
-    public float attackRadius = 2f;     // hitRadius
+    public float detectionRadius = 6f;  // detectDistance
+    public float attackRadius = 1f;     // hitRadius
     public Transform treasureTransform; // The position to return to if player is dead
     public float treasureReturnRadius = 1f; // They gather within 1 unit of treasure
     public float separationForce = 2f;  // how strongly they push away from each other

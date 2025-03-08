@@ -2592,7 +2592,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 0}
-  transparencyDistance: 1
+  transparencyDistance: 2
   fadeSpeed: 5
 --- !u!114 &6180631101826482689
 MonoBehaviour:

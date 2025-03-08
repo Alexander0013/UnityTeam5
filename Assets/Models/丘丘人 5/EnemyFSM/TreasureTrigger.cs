@@ -13,6 +13,8 @@ public class TreasureTrigger : MonoBehaviour
     private bool hasSpawnedEnemies = false;
     private List<GameObject> spawnedEnemies = new List<GameObject>();
 
+    public GameObject magicShield; 
+
     private void Update()
     {
         // Check distance between player and treasure
@@ -26,6 +28,7 @@ public class TreasureTrigger : MonoBehaviour
         {
             SpawnEnemies();
             hasSpawnedEnemies = true;
+            magicShield.SetActive(true);
         }
 
         // Optional: if you want the trigger to do something else once the player has triggered it
@@ -87,6 +90,7 @@ public class TreasureTrigger : MonoBehaviour
         if (invisibleWall != null)
         {
             invisibleWall.SetActive(false);
+            magicShield.SetActive(false);
         }
 
         Debug.Log("All enemies defeated! Invisible wall disabled.");
