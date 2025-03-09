@@ -16,12 +16,7 @@ public class EnemyChaseState : EnemyBaseState
 
     public override void UpdateState(EnemyFSM enemy)
     {
-        if (enemy.playerTarget == null || IsPlayerDead())
-        {
-            enemy.TransitionToState(enemy.returnState);
-            return;
-        }
-
+        
         float distance = Vector3.Distance(enemy.transform.position, enemy.playerTarget.position);
 
         // If within attack range, transition
@@ -73,12 +68,5 @@ public class EnemyChaseState : EnemyBaseState
             speed * Time.deltaTime
         );
     }
-
-    private bool IsPlayerDead()
-    {
-        GameObject playerObj = GameObject.FindWithTag("Player");
-        if (playerObj == null) return true;
-        PlayerHealth ph = playerObj.GetComponent<PlayerHealth>();
-        return (ph != null && ph.CurrentHealth <= 0);
-    }
+    
 }

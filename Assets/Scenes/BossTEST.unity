@@ -655,8 +655,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91ab685bf014944b79bb28b82581ff22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scene1Name: Boss
-  scene2Name: Temple
+  scene1Name: cchurlTest
+  scene2Name: BossTEST
 --- !u!4 &750053827
 Transform:
   m_ObjectHideFlags: 0

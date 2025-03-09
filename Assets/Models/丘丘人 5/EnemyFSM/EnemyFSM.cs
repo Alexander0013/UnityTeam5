@@ -12,16 +12,13 @@ public class EnemyFSM : MonoBehaviour
 
     [Header("Enemy Settings")]
     public NPCStateData npcData;
-    public float detectionRadius = 6f;  // detectDistance
-    public float attackRadius = 1f;     // hitRadius
-    public Transform treasureTransform; // The position to return to if player is dead
-    public float treasureReturnRadius = 1f; // They gather within 1 unit of treasure
-    public float separationForce = 2f;  // how strongly they push away from each other
-    public float separationRadius = 1f; // if enemies are within 1 unit, they separate
+    public float detectionRadius = 6f;  
+    public float attackRadius = 1f;     
+    public Transform treasureTransform; 
+    public float treasureReturnRadius = 1f; 
 
     [HideInInspector] public Animator animator;
     [HideInInspector] public Transform playerTarget;
-    [HideInInspector] public float currentHealth;
     [HideInInspector] public bool isDead;
     [HideInInspector] public EnemyBaseState currentState;
 
@@ -29,39 +26,67 @@ public class EnemyFSM : MonoBehaviour
 
     private void Awake()
     {
-        // Register in a static list so each enemy can check others for separation
         allEnemies.Add(this);
 
         animator = GetComponent<Animator>();
         if (npcData != null)
         {
-            currentHealth = npcData.maxHealth;
+            // You mentioned currentHealth in code, but you're using EnemyHealth for actual HP in other examples
+            // If you're not using it anymore, you can remove this if/else entirely
         }
         else
         {
-            currentHealth = 100f;
+            // fallback
         }
     }
 
     private void Start()
     {
-        // Find player
-        GameObject playerObj = GameObject.FindWithTag("Player");
-        if (playerObj != null)
+        // Attempt an initial player find
+        playerTarget = FindActiveLivingPlayer();
+
+        // Start in Idle (or ReturnState if no player found)
+        if (playerTarget == null)
         {
-            playerTarget = playerObj.transform;
+            TransitionToState(returnState);
         }
-        
-        // Start in Idle
-        TransitionToState(idleState);
+        else
+        {
+            TransitionToState(idleState);
+        }
     }
 
     private void Update()
     {
-        if (!isDead && currentState != null)
+        // Skip updates if we're flagged dead or have no current state
+        if (isDead || currentState == null) return;
+
+        // 1) Check if the currently assigned player is valid
+        if (playerTarget != null)
         {
-            currentState.UpdateState(this);
+            // If that player is no longer active or HP <= 0, we set it null and go to Return
+            if (!playerTarget.gameObject.activeInHierarchy || !IsPlayerAlive(playerTarget))
+            {
+                playerTarget = null;
+                // Immediately go to ReturnState
+                TransitionToState(returnState);
+            }
         }
+        else
+        {
+            // 2) We have no current target. Try to find one
+            Transform newTarget = FindActiveLivingPlayer();
+            if (newTarget != null)
+            {
+                // Found a new valid player => go back to Idle so we can detect and chase them
+                playerTarget = newTarget;
+                TransitionToState(idleState);
+            }
+            // else remain in ReturnState or whatever state we're in
+        }
+
+        // Finally, let our currentState do its logic
+        currentState.UpdateState(this);
 
         // Always prevent collisions among enemies
         PreventTeamCollision();
@@ -77,33 +102,52 @@ public class EnemyFSM : MonoBehaviour
         currentState.EnterState(this);
     }
 
-
     private void OnDestroy()
     {
-        // Remove from static list on destroy
         allEnemies.Remove(this);
     }
 
-    /// <summary>
-    /// Simple method to keep enemies from overlapping each other, applying a separation force.
-    /// This is a naive approach, but works similarly to how Genshin Impact enemies spread out in a group.
-    /// </summary>
     private void PreventTeamCollision()
     {
+        // your existing separation logic
         foreach (EnemyFSM otherEnemy in allEnemies)
         {
-            if (otherEnemy == this) continue; // skip self
+            if (otherEnemy == this) continue;
             if (otherEnemy == null) continue;
 
             float dist = Vector3.Distance(transform.position, otherEnemy.transform.position);
-            if (dist < separationRadius && dist > 0f)
+            if (dist < 1f && dist > 0f)  // you can use separationRadius
             {
                 Vector3 pushDir = (transform.position - otherEnemy.transform.position);
-                pushDir.y = 0f;                      // Zero out vertical
-                pushDir = pushDir.normalized;        // Re-normalize after you remove y
-                transform.position += pushDir * (separationForce * Time.deltaTime);
-
+                pushDir.y = 0f;                      
+                pushDir = pushDir.normalized;        
+                transform.position += pushDir * (2f * Time.deltaTime); 
             }
         }
+    }
+
+    /// <summary>
+    /// Returns the first valid player transform that is activeInHierarchy and has HP > 0,
+    /// or null if none found.
+    /// </summary>
+    private Transform FindActiveLivingPlayer()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject p in players)
+        {
+            if (p.activeInHierarchy && IsPlayerAlive(p.transform))
+            {
+                return p.transform;
+            }
+        }
+        return null;
+    }
+
+    private bool IsPlayerAlive(Transform playerTransform)
+    {
+        // Check the player's HP
+        PlayerHealth ph = playerTransform.GetComponent<PlayerHealth>();
+        if (ph == null) return false;
+        return (ph.CurrentHealth > 0);
     }
 }

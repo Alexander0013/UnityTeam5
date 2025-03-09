@@ -22,12 +22,6 @@ public class EnemyIdleState : EnemyBaseState
     {
         if (enemy.isDead) return;
 
-        // If player is missing or dead, return to treasure
-        if (enemy.playerTarget == null || IsPlayerDead())
-        {
-            enemy.TransitionToState(enemy.returnState);
-            return;
-        }
 
         float distance = Vector3.Distance(enemy.transform.position, enemy.playerTarget.position);
 
@@ -68,14 +62,6 @@ public class EnemyIdleState : EnemyBaseState
     {
         // Not needed here
         Debug.Log("Exit enemy idle State");
-    }
-
-    private bool IsPlayerDead()
-    {
-        GameObject playerObj = GameObject.FindWithTag("Player");
-        if (playerObj == null) return true;
-        PlayerHealth ph = playerObj.GetComponent<PlayerHealth>();
-        return (ph != null && ph.CurrentHealth <= 0);
     }
 
     private void DecideIdleOrChase(EnemyFSM enemy)
