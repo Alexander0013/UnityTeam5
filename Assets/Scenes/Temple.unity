@@ -347,7 +347,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 51
+  field of view: 45
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -652,7 +652,7 @@ PrefabInstance:
     - target: {fileID: 1285355173518746441, guid: b77962cf27968b049b3c55e1f9bdba1a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.9
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1285355173518746441, guid: b77962cf27968b049b3c55e1f9bdba1a,
         type: 3}
@@ -689,11 +689,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6372836167675041510, guid: b77962cf27968b049b3c55e1f9bdba1a,
-        type: 3}
-      propertyPath: mainCamera
-      value: 
-      objectReference: {fileID: 91943353}
     - target: {fileID: 8859030211229458744, guid: b77962cf27968b049b3c55e1f9bdba1a,
         type: 3}
       propertyPath: m_Name
@@ -983,10 +978,10 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
+  m_LookAt: {fileID: 1366893920}
+  m_Follow: {fileID: 1366893920}
   m_Lens:
-    FieldOfView: 51
+    FieldOfView: 45
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -1124,6 +1119,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3795fb12dcaef614284e7dbd8c9a3a8f, type: 3}
+--- !u!4 &1366893920 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 943971083201808605, guid: b77962cf27968b049b3c55e1f9bdba1a,
+    type: 3}
+  m_PrefabInstance: {fileID: 133244042}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1593658866
 GameObject:
   m_ObjectHideFlags: 0

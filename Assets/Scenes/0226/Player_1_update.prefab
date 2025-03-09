@@ -2223,12 +2223,9 @@ GameObject:
   - component: {fileID: 8384673294514560457}
   - component: {fileID: 237476063556277931}
   - component: {fileID: 3178359596632956329}
-  - component: {fileID: 6372836167675041510}
   - component: {fileID: 8912223741807664854}
   - component: {fileID: 4845758553230878177}
   - component: {fileID: 7049669916395680236}
-  - component: {fileID: 515141104352360966}
-  - component: {fileID: 6180631101826482689}
   m_Layer: 7
   m_Name: Player_1_update
   m_TagString: Player
@@ -2509,21 +2506,6 @@ MonoBehaviour:
   Gravity: -15
   JumpTimeout: 0.5
   FallTimeout: 0.15
---- !u!114 &6372836167675041510
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8859030211229458744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94b6fbe1e2d5813438813cdd313f00e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainCamera: {fileID: 0}
-  transparencyDistance: 1
-  fadeSpeed: 5
 --- !u!114 &8912223741807664854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2579,34 +2561,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerAttackData: {fileID: 11400000, guid: 031d10717e65a48f49b0e197dd525f57, type: 2}
---- !u!114 &515141104352360966
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8859030211229458744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94b6fbe1e2d5813438813cdd313f00e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainCamera: {fileID: 0}
-  transparencyDistance: 2
-  fadeSpeed: 5
---- !u!114 &6180631101826482689
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8859030211229458744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14760dda32821ff44b9ea070a052bb4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weaponController: {fileID: 8912223741807664854}
 --- !u!1 &8943502449524735383
 GameObject:
   m_ObjectHideFlags: 0

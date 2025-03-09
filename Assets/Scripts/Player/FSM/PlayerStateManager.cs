@@ -1,10 +1,9 @@
 using UnityEngine;
 using StarterAssets;
 using System.Collections;
-
+using UnityEngine.SceneManagement;
 public class PlayerStateManager : MonoBehaviour
 {
-
     public PlayerBaseState previousState = null; // track the old state
     public PlayerBaseState currentState;
 
@@ -50,11 +49,12 @@ public class PlayerStateManager : MonoBehaviour
         Animator = GetComponent<Animator>();
         Controller = GetComponent<CharacterController>();
         _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        //DontDestroyOnLoad(gameObject);
+
     }
 
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
         _jumpTimeoutDelta = JumpTimeout;
         _fallTimeoutDelta = FallTimeout;
         // Start in Idle state.
