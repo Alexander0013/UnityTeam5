@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class EnemyFSM : MonoBehaviour
 {
@@ -13,9 +14,11 @@ public class EnemyFSM : MonoBehaviour
     [Header("Enemy Settings")]
     public NPCStateData npcData;
     public float detectionRadius = 6f;  
-    public float attackRadius = 1f;     
+    public float attackRadius = 2.5f;     
     public Transform treasureTransform; 
     public float treasureReturnRadius = 1f; 
+    public Transform attackHitPoint;
+    
 
     [HideInInspector] public Animator animator;
     [HideInInspector] public Transform playerTarget;
@@ -23,6 +26,7 @@ public class EnemyFSM : MonoBehaviour
     [HideInInspector] public EnemyBaseState currentState;
 
     private static List<EnemyFSM> allEnemies = new List<EnemyFSM>(); // For team collision avoidance
+    private bool waitingForReturn = false;
 
     private void Awake()
     {
@@ -64,31 +68,30 @@ public class EnemyFSM : MonoBehaviour
         // 1) Check if the currently assigned player is valid
         if (playerTarget != null)
         {
-            // If that player is no longer active or HP <= 0, we set it null and go to Return
+            // If that player is no longer active or HP <= 0, set it to null
             if (!playerTarget.gameObject.activeInHierarchy || !IsPlayerAlive(playerTarget))
             {
                 playerTarget = null;
-                // Immediately go to ReturnState
-                TransitionToState(returnState);
+                // Instead of immediately switching, start the wait coroutine if not already waiting.
+                if (!waitingForReturn)
+                    StartCoroutine(WaitAndReturnCoroutine());
             }
         }
         else
         {
-            // 2) We have no current target. Try to find one
+        // 2) We have no current target. Try to find one.
             Transform newTarget = FindActiveLivingPlayer();
             if (newTarget != null)
             {
-                // Found a new valid player => go back to Idle so we can detect and chase them
+                // Found a new valid player => go back to Idle so we can detect and chase them.
                 playerTarget = newTarget;
                 TransitionToState(idleState);
             }
-            // else remain in ReturnState or whatever state we're in
+            // Otherwise, remain in the current state (which might be Return or Idle).
         }
 
-        // Finally, let our currentState do its logic
+        // Let our current state perform its update logic.
         currentState.UpdateState(this);
-
-        // Always prevent collisions among enemies
         PreventTeamCollision();
     }
 
@@ -149,5 +152,18 @@ public class EnemyFSM : MonoBehaviour
         PlayerHealth ph = playerTransform.GetComponent<PlayerHealth>();
         if (ph == null) return false;
         return (ph.CurrentHealth > 0);
+    }
+
+    private IEnumerator WaitAndReturnCoroutine()
+    {
+        waitingForReturn = true;
+        Debug.Log("Player dead detected. Waiting 2 seconds before returning...");
+        yield return new WaitForSeconds(2f);
+        // Double-check that the player is still dead (playerTarget is null)
+        if (playerTarget == null)
+        {
+            TransitionToState(returnState);
+        }
+        waitingForReturn = false;
     }
 }

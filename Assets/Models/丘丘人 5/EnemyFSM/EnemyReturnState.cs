@@ -30,29 +30,25 @@ public class EnemyReturnState : EnemyBaseState
 
     public override void UpdateState(EnemyFSM enemy)
     {
-        // If we don't have a target or enemy is dead, do nothing
         if (!hasTargetPoint || enemy.isDead) return;
 
         MoveToPoint(enemy);
 
-        // Once close enough, remain there (Idle, or just freeze)
         float dist = Vector3.Distance(enemy.transform.position, targetPoint);
         if (dist < 0.2f)
         {
+            // Once close enough, transition to idle.
             enemy.TransitionToState(enemy.idleState);
-            // Compute a direction away from the treasure (targetPoint)
-            Vector3 awayDirection = (enemy.transform.position - targetPoint).normalized;
+            // After arriving, rotate to face opposite the treasure.
+            Vector3 awayDirection = (enemy.transform.position - enemy.transform.parent.position).normalized;
             if (awayDirection != Vector3.zero)
             {
-                Quaternion rot = Quaternion.LookRotation(awayDirection);
-                enemy.transform.rotation = Quaternion.Slerp(
-                    enemy.transform.rotation,
-                    rot,
-                    Time.deltaTime * 5f
-                );
+                Quaternion desiredRotation = Quaternion.LookRotation(awayDirection);
+                enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, desiredRotation, Time.deltaTime * 5f);
             }
         }
     }
+
 
     public override void ExitState(EnemyFSM enemy)
     {
