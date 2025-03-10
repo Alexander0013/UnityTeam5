@@ -7,58 +7,51 @@ public class Stat
 {
     //¯dµÛ
     [SerializeField]
-    private int baseValue_A; // °òÂ¦­È
-    [SerializeField]
-    private int baseValue_B; // °òÂ¦­È
+    private int baseValue; // °òÂ¦­È
 
-    private List<int> modifiers_A = new List<int>(); // ­×¹¢­È
-    private List<int> modifiers_B = new List<int>(); // ­×¹¢­È
+    private Dictionary<int, int> modifiers = new Dictionary<int, int>(); // ­×¹¢­È
 
-    public int GetValue_A()
+
+
+    public Stat(float baseValue)
     {
-        int finalValue_A = baseValue_A;
-        modifiers_A.ForEach(x => finalValue_A += x);
-        return finalValue_A;
-    }
-    public int GetValue_B()
-    {
-        int finalValue_B = baseValue_B;
-        modifiers_B.ForEach(x => finalValue_B += x);
-        return finalValue_B;
+        this.baseValue = Mathf.FloorToInt(baseValue);
     }
 
-    public void AddModifier(int genderIndex,int modifier)
+
+    public int GetValue()
     {
-        if (genderIndex == 0)
+        int finalValue = baseValue;
+        foreach (var modifier in modifiers.Values)
         {
-            if (modifier != 0)
-            {
-                modifiers_A.Add(modifier);
-            }
+            finalValue += modifier;
         }
-        else
+        return finalValue;
+    }
+
+    public void AddModifier(int genderIndex, int modifier)
+    {
+        if (modifier != 0)
         {
-            if (modifier != 0)
+            if (modifiers.ContainsKey(genderIndex))
             {
-                modifiers_B.Add(modifier);
+                modifiers[genderIndex] += modifier;
+            }
+            else
+            {
+                modifiers.Add(genderIndex, modifier);
             }
         }
     }
 
-    public void RemoveModifier(int genderIndex,int modifier)
+    public void RemoveModifier(int genderIndex, int modifier)
     {
-        if (genderIndex == 0)
+        if (modifier != 0 && modifiers.ContainsKey(genderIndex))
         {
-            if (modifier != 0)
+            modifiers[genderIndex] -= modifier;
+            if (modifiers[genderIndex] == 0)
             {
-                modifiers_A.Remove(modifier);
-            }
-        }
-        else
-        {
-            if (modifier != 0)
-            {
-                modifiers_B.Remove(modifier);
+                modifiers.Remove(genderIndex);
             }
         }
     }
