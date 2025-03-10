@@ -8,7 +8,6 @@ public class EquipmentList : ScriptableObject
 
     public void EquipItem(int typeIndex, Equipment newItem)
     {
-        //// ½T«O list ªø«×¨¬°÷
         //while (equippedItems.Count <= slotIndex)
         //{
         //    equippedItems.Add(null);

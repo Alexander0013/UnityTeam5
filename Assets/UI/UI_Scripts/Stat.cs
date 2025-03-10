@@ -5,20 +5,15 @@ using UnityEngine;
 [System.Serializable]
 public class Stat
 {
-    //¯dµÛ
     [SerializeField]
-    private int baseValue; // °òÂ¦­È
+    private int baseValue;
 
-    private Dictionary<int, int> modifiers = new Dictionary<int, int>(); // ­×¹¢­È
-
-
+    private Dictionary<int, int> modifiers = new Dictionary<int, int>(); 
 
     public Stat(float baseValue)
     {
         this.baseValue = Mathf.FloorToInt(baseValue);
     }
-
-
     public int GetValue()
     {
         int finalValue = baseValue;
@@ -43,7 +38,6 @@ public class Stat
             }
         }
     }
-
     public void RemoveModifier(int genderIndex, int modifier)
     {
         if (modifier != 0 && modifiers.ContainsKey(genderIndex))

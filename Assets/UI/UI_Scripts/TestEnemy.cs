@@ -28,7 +28,7 @@ public class TestEnemy : MonoBehaviour
         if (healthBar != null)
         {
             Debug.Log("get damage");
-            healthBar.SetDamage(10);//  讓血條減少
+            //healthBar.SetHealthBar(10);//  讓血條減少
         }
         else Debug.Log("health bar null");
     }

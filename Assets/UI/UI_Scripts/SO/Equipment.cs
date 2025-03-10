@@ -13,10 +13,7 @@ public class Equipment : Item
     {
         base.Use();
         InventoryManager.instance.Equip(this);
-        // 裝備到角色身上
     }
-
-    
 }
 
 public enum EquipmentType { Weapon, Ring }
