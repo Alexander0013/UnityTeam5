@@ -3,9 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class SceneSwitcher : MonoBehaviour
 {
-    [SerializeField] private string scene1Name; // Set the first scene name
-    [SerializeField] private string scene2Name; // Set the second scene name
-    //[SerializeField] private string scene3Name; // Set the third scene name
+    [SerializeField] private string scene1Name = "Temple"; // Set the first scene name
+    [SerializeField] private string scene2Name = "PureNature"; // Set the second scene name
+    [SerializeField] private string scene3Name = "Boss"; // Set the third scene name
 
     void Update()
     {
@@ -29,6 +29,10 @@ public class SceneSwitcher : MonoBehaviour
             SceneManager.LoadScene(scene2Name);
         }
         else if (currentScene == scene2Name)
+        {
+            SceneManager.LoadScene(scene3Name);
+        }
+        else if (currentScene == scene3Name)
         {
             SceneManager.LoadScene(scene1Name);
         }

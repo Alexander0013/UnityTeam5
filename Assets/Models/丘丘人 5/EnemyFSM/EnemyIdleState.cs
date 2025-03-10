@@ -22,7 +22,7 @@ public class EnemyIdleState : EnemyBaseState
     {
         if (enemy.isDead) return;
 
-
+        if (enemy.playerTarget == null) return;
         float distance = Vector3.Distance(enemy.transform.position, enemy.playerTarget.position);
 
         // Decrement the idleTime while we're out of detection range

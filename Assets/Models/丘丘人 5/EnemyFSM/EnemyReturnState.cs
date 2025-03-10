@@ -40,6 +40,17 @@ public class EnemyReturnState : EnemyBaseState
         if (dist < 0.2f)
         {
             enemy.TransitionToState(enemy.idleState);
+            // Compute a direction away from the treasure (targetPoint)
+            Vector3 awayDirection = (enemy.transform.position - targetPoint).normalized;
+            if (awayDirection != Vector3.zero)
+            {
+                Quaternion rot = Quaternion.LookRotation(awayDirection);
+                enemy.transform.rotation = Quaternion.Slerp(
+                    enemy.transform.rotation,
+                    rot,
+                    Time.deltaTime * 5f
+                );
+            }
         }
     }
 
@@ -70,5 +81,8 @@ public class EnemyReturnState : EnemyBaseState
             targetPoint,
             returnSpeed * Time.deltaTime
         );
+
+        //Rotate to face opposite side of target
+
     }
 }

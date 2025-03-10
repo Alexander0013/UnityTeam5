@@ -1,95 +1,81 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public class TreasureTrigger : MonoBehaviour
 {
     [Header("Treasure Trigger Settings")]
-    public float triggerRadius = 5f;
-    public GameObject enemyPrefab; // Assign your enemy prefab in the Inspector
-    public int enemyCount = 4;
-    public float spawnRadius = 10f;
-    public GameObject invisibleWall; // Assign a GameObject that represents the invisible wall/battlefield
+    public float triggerRadius = 6f;
+    
+    [Tooltip("Assign the invisible wall or barrier GameObject here.")]
+    public GameObject invisibleWall; 
 
-    private bool hasSpawnedEnemies = false;
-    private List<GameObject> spawnedEnemies = new List<GameObject>();
+    [Tooltip("Assign your magic shield (if any) here.")]
+    public GameObject magicShield;
+    
+    [Header("Pre-Placed Enemies")]
+    [Tooltip("Drag all pre-placed enemy GameObjects into this list in the Inspector.")]
+    public List<GameObject> sceneEnemies = new List<GameObject>();
 
-    public GameObject magicShield; 
+    public GameObject player; 
+
+    private bool hasTriggered = false;
+
+    private void Start()
+    {
+        player = GameObject.FindWithTag("Player");
+        
+    }
+
 
     private void Update()
     {
-        // Check distance between player and treasure
-        GameObject player = GameObject.FindWithTag("Player");
+        
         if (player == null) return;
-
+        // 1) Check distance between player and treasure
         float distance = Vector3.Distance(player.transform.position, transform.position);
 
-        // If the player is within triggerRadius and we haven't spawned yet
-        if (!hasSpawnedEnemies && distance < triggerRadius)
+        // 2) If the player is within triggerRadius and we haven't triggered yet
+        if (!hasTriggered && distance < triggerRadius)
         {
-            SpawnEnemies();
-            hasSpawnedEnemies = true;
-            magicShield.SetActive(true);
-        }
+            hasTriggered = true; 
+            
+            // Enable the wall + shield
+            if (invisibleWall != null) invisibleWall.SetActive(true);
+            if (magicShield != null) magicShield.SetActive(true);
 
-        // Optional: if you want the trigger to do something else once the player has triggered it
+            // Start checking if all enemies in sceneEnemies are dead
+            StartCoroutine(CheckAllEnemiesDead());
+        }
     }
 
-    private void SpawnEnemies()
+    private IEnumerator CheckAllEnemiesDead()
     {
-        // Enable the invisible wall/battlefield
-        if (invisibleWall != null)
-        {
-            invisibleWall.SetActive(true);
-        }
-
-        // Spawn multiple enemies in random positions within 'spawnRadius'
-        for (int i = 0; i < enemyCount; i++)
-        {
-            Vector3 randomPos = GetRandomSpawnPosition();
-            GameObject newEnemy = Instantiate(enemyPrefab, randomPos, Quaternion.identity);
-            newEnemy.transform.SetParent(transform);  // 'transform' is the treasure's transform
-            spawnedEnemies.Add(newEnemy);
-        }
-
-        // Optionally, track how many are alive
-        // Then if all are dead, disable the invisible wall
-        StartCoroutine(CheckAllEnemiesDead());
-    }
-
-    private Vector3 GetRandomSpawnPosition()
-    {
-        Vector2 randCircle = Random.insideUnitCircle * spawnRadius;
-        Vector3 spawnPos = new Vector3(
-            transform.position.x + randCircle.x,
-            transform.position.y,
-            transform.position.z + randCircle.y
-        );
-        return spawnPos;
-    }
-
-    private System.Collections.IEnumerator CheckAllEnemiesDead()
-    {
-        // Wait a frame so the enemies are instantiated
+        // Wait a frame for safety
         yield return null;
 
         bool allDead = false;
         while (!allDead)
         {
-            // Filter out destroyed (null) entries
-            spawnedEnemies.RemoveAll(e => e == null);
+            // Remove null references (enemies that have been destroyed)
+            sceneEnemies.RemoveAll(e => e == null);
 
             // If nothing is left, all are dead
-            if (spawnedEnemies.Count == 0)
+            if (sceneEnemies.Count == 0)
             {
                 allDead = true;
             }
+
             yield return new WaitForSeconds(1f);
         }
 
-        // Once all enemies are dead, disable the invisible wall
+        // Once all enemies are dead, disable the invisible wall and shield
         if (invisibleWall != null)
         {
             invisibleWall.SetActive(false);
+        }
+        if (magicShield != null)
+        {
             magicShield.SetActive(false);
         }
 
@@ -98,11 +84,8 @@ public class TreasureTrigger : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        // Just for visualization in the Editor
+        // For visualization in the Editor: trigger radius
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, triggerRadius);
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, spawnRadius);
     }
 }

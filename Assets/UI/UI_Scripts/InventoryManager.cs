@@ -1,9 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,7 +16,7 @@ public class InventoryManager : MonoBehaviour
     public GameObject emptySlot;
     public TextMeshProUGUI itemInfo;
     public Image itemImage;
-    //Àx¦s¥Í¦¨¹Lªºslots
+    //ï¿½xï¿½sï¿½Í¦ï¿½ï¿½Lï¿½ï¿½slots
     public List<GameObject> slots = new List<GameObject>();
 
     //Equipment
@@ -70,10 +67,10 @@ public class InventoryManager : MonoBehaviour
 
         equipmentList = GetEquipmentList(genderIndex);
 
-        // §ó·s `EquipmentList`      
+        // ï¿½ï¿½s `EquipmentList`      
         equipmentList.EquipItem(typeIndex, newItem);    
 
-        // Ä²µo UI §ó·s
+        // Ä²ï¿½o UI ï¿½ï¿½s
         UpdateEquipmentUI(genderIndex);
 
         onEquipmentChanged?.Invoke(newItem, oldItem, genderIndex);
@@ -110,9 +107,9 @@ public class InventoryManager : MonoBehaviour
             UnEquip(0,i);
             UnEquip(1, i);
             equipmentSlots_A[i].sprite = null;
-            equipmentSlots_A[i].enabled = false; // ÁôÂÃ¹Ï¤ù
+            equipmentSlots_A[i].enabled = false; // ï¿½ï¿½ï¿½Ã¹Ï¤ï¿½
             equipmentSlots_B[i].sprite = null;
-            equipmentSlots_B[i].enabled = false; // ÁôÂÃ¹Ï¤ù
+            equipmentSlots_B[i].enabled = false; // ï¿½ï¿½ï¿½Ã¹Ï¤ï¿½
         }
     }
 
@@ -122,7 +119,7 @@ public class InventoryManager : MonoBehaviour
         instance.itemImage.sprite = itemImage.sprite;
     }
     
-    public static void RefreshItems() //¾P·´­I¥]ª«¥ó->­«·s¥Í¦¨ª«¥ó(¼Æ¶q³Q§ó·s)
+    public static void RefreshItems() //ï¿½Pï¿½ï¿½ï¿½Iï¿½]ï¿½ï¿½ï¿½ï¿½->ï¿½ï¿½ï¿½sï¿½Í¦ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Æ¶qï¿½Qï¿½ï¿½s)
     {
         for (int i = 0; i < instance.slotGrid.transform.childCount; i++)        
         {
