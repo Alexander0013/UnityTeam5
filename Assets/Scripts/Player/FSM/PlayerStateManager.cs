@@ -60,7 +60,7 @@ public class PlayerStateManager : MonoBehaviour
         // Start in Idle state.
         currentState = new IdleState();
         currentState.EnterState(this);
-        Debug.Log("[PlayerStateManager] Entering Idle State");
+        //Debug.Log("[PlayerStateManager] Entering Idle State");
 
     }
 

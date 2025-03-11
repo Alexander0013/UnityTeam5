@@ -20,7 +20,7 @@ public class WeaponIKController : MonoBehaviour
             {
                 animator.SetIKPosition(AvatarIKGoal.RightHand, rightHandTarget.position);
                 animator.SetIKRotation(AvatarIKGoal.RightHand, rightHandTarget.rotation);
-                Debug.Log("apply IK");
+                //Debug.Log("apply IK");
             }
         }
     }

@@ -5,7 +5,7 @@ public class WalkState : PlayerBaseState
 {
     public override void EnterState(PlayerStateManager player)
     {
-        Debug.Log("[WalkState] Enter");
+        //Debug.Log("[WalkState] Enter");
 
         // Immediately hide the weapon when entering WalkState
         WeaponController weaponController = player.GetComponent<WeaponController>();
@@ -36,7 +36,7 @@ public class WalkState : PlayerBaseState
         }
         else if (player.Input.attack)
         {
-            Debug.Log("[WalkState] Attack triggered");
+            //Debug.Log("[WalkState] Attack triggered");
             player.SwitchState(new AttackState());
             player.Input.attack = false;
         }

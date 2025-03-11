@@ -9,7 +9,7 @@ public class EnemyAttackState : EnemyBaseState
 
     public override void EnterState(EnemyFSM enemy)
     {
-        Debug.Log("Enter Attack State");
+        //Debug.Log("Enter Attack State");
         enemy.animator.SetBool("isAttacking", true);
         enemy.animator.SetBool("isWalking", false);
         isAttacking = false;

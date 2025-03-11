@@ -29,7 +29,7 @@ public class PlayerShield : MonoBehaviour
         {
             activeShieldVisual = Instantiate(shieldVisualPrefab, transform);
         }
-        Debug.Log("Shield activated with HP: " + currentShieldHP + " for " + duration + " seconds.");
+        //Debug.Log("Shield activated with HP: " + currentShieldHP + " for " + duration + " seconds.");
 
         // Cancel any existing duration coroutine to avoid duplicate timers.
         if (shieldDurationCoroutine != null)
@@ -48,7 +48,7 @@ public class PlayerShield : MonoBehaviour
             return damage;
 
         currentShieldHP -= damage;
-        Debug.Log("Shield absorbs " + damage + " damage. Remaining Shield HP: " + currentShieldHP);
+        //Debug.Log("Shield absorbs " + damage + " damage. Remaining Shield HP: " + currentShieldHP);
 
         if (currentShieldHP <= 0)
         {
@@ -65,7 +65,7 @@ public class PlayerShield : MonoBehaviour
     /// </summary>
     public void DeactivateShield()
     {
-        Debug.Log("Shield is deactivated.");
+        //Debug.Log("Shield is deactivated.");
         if (activeShieldVisual != null)
         {
             Destroy(activeShieldVisual);

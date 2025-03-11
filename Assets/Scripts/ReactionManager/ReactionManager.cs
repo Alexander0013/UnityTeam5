@@ -24,7 +24,7 @@ public class ReactionManager : MonoBehaviour
 
     private void HandleCrystallize(ElementType reactant, Vector3 position)
     {
-        Debug.Log($"ReactionManager received Crystallize reaction for {reactant} at {position}");
+        //Debug.Log($"ReactionManager received Crystallize reaction for {reactant} at {position}");
         // Here you could spawn additional VFX, apply shield logic, etc.
     }
 }

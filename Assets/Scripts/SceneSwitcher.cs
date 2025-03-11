@@ -38,13 +38,13 @@ public class SceneSwitcher : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Current scene does not match the specified scenes! Check scene names.");
+            //Debug.LogError("Current scene does not match the specified scenes! Check scene names.");
         }
     }
 
     private void QuitApplication()
     {
-        Debug.Log("Quitting Application...");
+        //Debug.Log("Quitting Application...");
         Application.Quit();
 
         // This is only for testing in the Unity Editor (it won’t work in the build)

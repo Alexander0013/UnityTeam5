@@ -5,7 +5,7 @@ public class IdleState : PlayerBaseState
 {
     public override void EnterState(PlayerStateManager player)
     {
-        Debug.Log("[IdleState] Entering Idle");
+        //Debug.Log("[IdleState] Entering Idle");
 
         // Reset movement/anim combos
         if (player.Animator != null)
@@ -31,19 +31,19 @@ public class IdleState : PlayerBaseState
                 weaponController.ShowWeapon();
                 // Or if you want a fade: 
                 // player.StartCoroutine(weaponController.FadeInWeapon(1f, 0.5f));
-                Debug.Log("[IdleState] Showing weapon (came from Jump/Attack).");
+                //Debug.Log("[IdleState] Showing weapon (came from Jump/Attack).");
             }
             else if (player.previousState is RunState || player.previousState is WalkState)
             {
                 // Coming from run or walk => hide the idle weapon
                 weaponController.HideWeapon();
-                Debug.Log("[IdleState] Hiding weapon (came from Run/Walk).");
+                //Debug.Log("[IdleState] Hiding weapon (came from Run/Walk).");
             }
             else
             {
                 // If it's the first entry or some other state,
                 weaponController.HideWeapon();
-                Debug.Log("[IdleState] Default: hiding weapon (unknown previous state).");
+                //Debug.Log("[IdleState] Default: hiding weapon (unknown previous state).");
             }
         }
 
@@ -83,7 +83,7 @@ public class IdleState : PlayerBaseState
         }
         else if (player.Input.attack)
         {
-            Debug.Log("[IdleState] Attack triggered, switching to AttackState.");
+            //Debug.Log("[IdleState] Attack triggered, switching to AttackState.");
             player.SwitchState(new AttackState(1));
             player.Input.attack = false;
         }

@@ -30,7 +30,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         }
         else
         {
-            Debug.LogWarning("NPCStateData not assigned. Defaulting health to 100.");
+            //Debug.LogWarning("NPCStateData not assigned. Defaulting health to 100.");
             currentHealth = 100f;
         }
     }
@@ -40,7 +40,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         if (isDead) return;
 
         currentHealth -= amount;
-        Debug.Log($"{gameObject.name} took {amount} damage. Remaining health: {currentHealth}");
+        //Debug.Log($"{gameObject.name} took {amount} damage. Remaining health: {currentHealth}");
 
         // Trigger the get-hit reaction & animation if still alive
         if (currentHealth > 0)
@@ -78,7 +78,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         if (isDead) yield break;
         isDead = true;
 
-        Debug.Log($"{gameObject.name} has died.");
+        //Debug.Log($"{gameObject.name} has died.");
         animator.SetTrigger("Die");
 
         // (Optional) Let the FSM know we're dead so it can stop AI logic

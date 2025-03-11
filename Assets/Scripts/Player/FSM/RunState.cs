@@ -5,7 +5,7 @@ public class RunState : PlayerBaseState
 {
     public override void EnterState(PlayerStateManager player)
     {
-        Debug.Log("[RunState] Enter");
+        //Debug.Log("[RunState] Enter");
         if (player.Animator != null)
             player.Animator.SetFloat("Speed", 1f);
         /// Immediately hide the weapon when entering

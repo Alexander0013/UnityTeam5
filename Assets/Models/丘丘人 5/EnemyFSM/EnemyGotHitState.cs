@@ -8,7 +8,7 @@ public class EnemyGotHitState : EnemyBaseState
 
     public override void EnterState(EnemyFSM enemy)
     {
-        Debug.Log("Enter GotHit State");
+        //Debug.Log("Enter GotHit State");
         
         // Trigger the “GotHit” animation in Animator
         enemy.animator.SetTrigger("GotHit"); 

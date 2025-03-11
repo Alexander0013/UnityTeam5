@@ -27,10 +27,10 @@ public class CombatController : MonoBehaviour
     /// </summary>
     public void PerformHitDetection()
     {
-        Debug.Log("PerformHitDetection");
+        //Debug.Log("PerformHitDetection");
         if (currentAttackData == null)
         {
-            Debug.LogWarning("AttackData is not assigned.");
+            //Debug.LogWarning("AttackData is not assigned.");
             return;
         }
 
@@ -91,7 +91,7 @@ public class CombatController : MonoBehaviour
 
         }
 
-        Debug.DrawRay(attackHitPoint.position, Vector3.one * currentAttackData.hitRadius, Color.red, 1f);
+        //Debug.DrawRay(attackHitPoint.position, Vector3.one * currentAttackData.hitRadius, Color.red, 1f);
     }
 
 
@@ -142,12 +142,12 @@ public class CombatController : MonoBehaviour
         if (bestTarget != null)
         {
             currentTarget = bestTarget;
-            Debug.Log($"[CombatController] Auto-target locked on {bestTarget.name}");
+            //Debug.Log($"[CombatController] Auto-target locked on {bestTarget.name}");
         }
         else
         {
             currentTarget = null;
-            Debug.Log("[CombatController] No valid target in range.");
+            //Debug.Log("[CombatController] No valid target in range.");
         }
     }
     
@@ -170,11 +170,11 @@ public class CombatController : MonoBehaviour
         playerTransform.rotation = targetRotation;
 
         // Log computed dashDirection for debugging.
-        Debug.Log("[DashToTarget] Computed dashDirection: " + dashDirection);
+        //Debug.Log("[DashToTarget] Computed dashDirection: " + dashDirection);
 
         // Calculate the distance to the target.
         float dist = Vector3.Distance(playerTransform.position, currentTarget.position);
-        Debug.Log($"[DashToTarget] Distance to target: {dist}, HitRadius: {currentAttackData.hitRadius}");
+        //Debug.Log($"[DashToTarget] Distance to target: {dist}, HitRadius: {currentAttackData.hitRadius}");
 
         // If the target is farther than the hit radius, dash toward it.
         if (dist > currentAttackData.hitRadius )
@@ -184,7 +184,7 @@ public class CombatController : MonoBehaviour
             if (cc != null)
             {
                 cc.Move(dashDirection * dashStep * Time.deltaTime * 15f);
-                Debug.Log("[DashToTarget] Dashing toward target in direction: " + dashDirection);
+                //Debug.Log("[DashToTarget] Dashing toward target in direction: " + dashDirection);
             }
         }
     }

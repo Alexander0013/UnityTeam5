@@ -157,7 +157,7 @@ public class EnemyFSM : MonoBehaviour
     private IEnumerator WaitAndReturnCoroutine()
     {
         waitingForReturn = true;
-        Debug.Log("Player dead detected. Waiting 2 seconds before returning...");
+        //Debug.Log("Player dead detected. Waiting 2 seconds before returning...");
         yield return new WaitForSeconds(2f);
         // Double-check that the player is still dead (playerTarget is null)
         if (playerTarget == null)

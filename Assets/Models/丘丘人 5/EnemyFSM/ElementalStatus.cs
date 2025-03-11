@@ -28,7 +28,7 @@ public class ElementalStatus : MonoBehaviour
         {
             currentElement = newElement;
             effectDuration = duration;
-            Debug.Log($"{gameObject.name} is now affected by {newElement} for {duration} seconds.");
+            //Debug.Log($"{gameObject.name} is now affected by {newElement} for {duration} seconds.");
         }
         else
         {
@@ -45,7 +45,7 @@ public class ElementalStatus : MonoBehaviour
             {
                 // Otherwise, refresh the duration of the existing effect (or optionally combine effects).
                 effectDuration = duration;
-                Debug.Log($"{gameObject.name} refreshes its {currentElement} effect for {duration} seconds.");
+                //Debug.Log($"{gameObject.name} refreshes its {currentElement} effect for {duration} seconds.");
             }
         }
     }
@@ -56,7 +56,7 @@ public class ElementalStatus : MonoBehaviour
     /// <param name="reactant">The element that was already present on the character.</param>
     private void TriggerCrystallizeReaction(ElementType reactant)
     {
-        Debug.Log($"Crystallize reaction triggered! {reactant} reacts with Geo.");
+        //Debug.Log($"Crystallize reaction triggered! {reactant} reacts with Geo.");
         // Spawn a corresponding shard if a prefab is assigned.
         if (crystallizeShardPrefab != null)
         {
@@ -78,7 +78,7 @@ public class ElementalStatus : MonoBehaviour
     /// </summary>
     public void ClearElement()
     {
-        Debug.Log($"{gameObject.name} clears its {currentElement} effect.");
+        //Debug.Log($"{gameObject.name} clears its {currentElement} effect.");
         currentElement = ElementType.None;
         effectDuration = 0f;
     }

@@ -9,7 +9,7 @@ public class EnemyIdleState : EnemyBaseState
 
     public override void EnterState(EnemyFSM enemy)
     {
-        Debug.Log("Enter Idle State");
+        //Debug.Log("Enter Idle State");
         enemy.animator.SetBool("isWalking", false);
         enemy.animator.SetBool("isAttacking", false);
 
@@ -61,7 +61,7 @@ public class EnemyIdleState : EnemyBaseState
     public override void ExitState(EnemyFSM enemy)
     {
         // Not needed here
-        Debug.Log("Exit enemy idle State");
+        //Debug.Log("Exit enemy idle State");
     }
 
     private void DecideIdleOrChase(EnemyFSM enemy)
@@ -73,12 +73,12 @@ public class EnemyIdleState : EnemyBaseState
             // remain idle: pick a new idleTime
             idleTime = Random.Range(minIdle, maxIdle);
             deciding = false;
-            Debug.Log("Decided: remain idle");
+            //Debug.Log("Decided: remain idle");
         }
         else
         {
             // transition to chase immediately
-            Debug.Log("Decided: chase");
+            //Debug.Log("Decided: chase");
             enemy.TransitionToState(enemy.chaseState);
             // no further code needed, the chase state sets isWalking = true
         }
@@ -93,16 +93,16 @@ public class EnemyIdleState : EnemyBaseState
             // remain idle
             idleTime = Random.Range(minIdle, maxIdle);
             deciding = false;
-            Debug.Log("Decided: remain idle (within attackRadius)");
+            //Debug.Log("Decided: remain idle (within attackRadius)");
         }
         else if (rand < 0.2f)
         {
-            Debug.Log("Decided: chase (within attackRadius)");
+            //Debug.Log("Decided: chase (within attackRadius)");
             enemy.TransitionToState(enemy.chaseState);
         }
         else
         {
-            Debug.Log("Decided: attack (within attackRadius)");
+            //Debug.Log("Decided: attack (within attackRadius)");
             enemy.TransitionToState(enemy.attackState);
         }
     }

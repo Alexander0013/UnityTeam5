@@ -9,14 +9,14 @@ public class EnemyReturnState : EnemyBaseState
 
     public override void EnterState(EnemyFSM enemy)
     {
-        Debug.Log("Enter Return State");
+        //Debug.Log("Enter Return State");
         enemy.animator.SetBool("isWalking", true);
 
         // Find the treasure by checking our parent
         Transform treasure = enemy.transform.parent;
         if (treasure == null)
         {
-            Debug.LogWarning("Enemy has no parent to return to!");
+            //Debug.LogWarning("Enemy has no parent to return to!");
             hasTargetPoint = false;
             return;
         }

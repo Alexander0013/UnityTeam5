@@ -47,7 +47,7 @@ public class WeaponController : MonoBehaviour
         currentWeapon.transform.localRotation = Quaternion.identity;
         currentWeapon.transform.localScale = Vector3.one;
 
-        Debug.Log("[WeaponController] Attached to Idle position.");
+        //Debug.Log("[WeaponController] Attached to Idle position.");
     }
 
     // Attach the current weapon to the attack (hand) attachment.
@@ -61,7 +61,7 @@ public class WeaponController : MonoBehaviour
         currentWeapon.transform.localRotation = Quaternion.identity;
         currentWeapon.transform.localScale = Vector3.one;
 
-        Debug.Log("[WeaponController] Attached to Attack position.");
+        //Debug.Log("[WeaponController] Attached to Attack position.");
     }
 
     // Fade in the current weapon.
@@ -119,14 +119,14 @@ public class WeaponController : MonoBehaviour
     {
         if (playerAttackData == null)
         {
-            Debug.LogWarning("[WeaponController] PlayerAttackData is not assigned.");
+            //Debug.LogWarning("[WeaponController] PlayerAttackData is not assigned.");
             return;
         }
         int index = playerAttackData.currentWeaponIndex;
 
         if (weaponPrefabs == null || weaponPrefabs.Count <= index)
         {
-            Debug.LogWarning("[WeaponController] No weapon prefab found at index: " + index);
+            //Debug.LogWarning("[WeaponController] No weapon prefab found at index: " + index);
             return;
         }
 
@@ -146,7 +146,7 @@ public class WeaponController : MonoBehaviour
             newWeapon.transform.localScale = Vector3.one;
             currentWeapon = newWeapon;
 
-            Debug.Log("[WeaponController] Switched to new weapon at index " + index);
+            //Debug.Log("[WeaponController] Switched to new weapon at index " + index);
             StartCoroutine(FadeInWeapon(0.2f));
 
             // Update the transparency controller so it caches the new weapon's renderer.

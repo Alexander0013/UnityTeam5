@@ -80,7 +80,7 @@ public class TreasureTrigger : MonoBehaviour
             magicShield.SetActive(false);
         }
 
-        Debug.Log("All enemies defeated! Invisible wall disabled.");
+        //Debug.Log("All enemies defeated! Invisible wall disabled.");
     }
 
     private void OnDrawGizmosSelected()

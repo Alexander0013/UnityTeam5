@@ -5,7 +5,7 @@ public class JumpState : PlayerBaseState
 {
     public override void EnterState(PlayerStateManager player)
     {
-        Debug.Log("[JumpState] Enter");
+        //Debug.Log("[JumpState] Enter");
 
         if (player.Animator != null)
             player.Animator.SetBool(Animator.StringToHash("Jump"), true);

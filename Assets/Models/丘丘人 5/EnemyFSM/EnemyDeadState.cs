@@ -4,7 +4,7 @@ public class EnemyDeadState : EnemyBaseState
 {
     public override void EnterState(EnemyFSM enemy)
     {
-        Debug.Log(enemy.name + " is Dead");
+        //Debug.Log(enemy.name + " is Dead");
         enemy.animator.SetTrigger("Die");
         // Optionally, remove collider or other components
         Collider col = enemy.GetComponent<Collider>();

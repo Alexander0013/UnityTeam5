@@ -12,14 +12,14 @@ public class WeaponSwitcher : MonoBehaviour
         if (weaponHolder.childCount > 0) {
             currentWeapon = weaponHolder.GetChild(0).gameObject;
         } else {
-            Debug.LogWarning("No weapon found in weaponHolder at Start!");
+            //Debug.LogWarning("No weapon found in weaponHolder at Start!");
         }
     }
 
     public void SwitchWeapon()
     {
         if(currentWeapon == null) {
-            Debug.LogWarning("Current weapon is null. Instantiating new weapon directly.");
+            //Debug.LogWarning("Current weapon is null. Instantiating new weapon directly.");
             currentWeapon = Instantiate(newWeaponPrefab, weaponHolder);
             return;
         }

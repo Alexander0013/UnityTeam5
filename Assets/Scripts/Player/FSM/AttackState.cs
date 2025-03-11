@@ -24,7 +24,7 @@ public class AttackState : PlayerBaseState
         stateTimer = 0f;
         comboTimer = 0f;
         chainActive = true;
-        Debug.Log("[AttackState] Entering Attack. Combo start: " + comboCount);
+        //Debug.Log("[AttackState] Entering Attack. Combo start: " + comboCount);
 
         // Blend in Attack layer
         int attackLayerIndex = player.Animator.GetLayerIndex("Attack Layer");
@@ -71,7 +71,7 @@ public class AttackState : PlayerBaseState
         // Interrupt if jump
         if (player.Input.jump)
         {
-            Debug.Log("[AttackState] Interrupted by jump");
+            //Debug.Log("[AttackState] Interrupted by jump");
             player.Input.jump = false;
             if (player.Animator != null)
                 player.Animator.SetTrigger("AttackEnd");
@@ -82,7 +82,7 @@ public class AttackState : PlayerBaseState
         // Interrupt if movement
         if (player.Input.move != Vector2.zero)
         {
-            Debug.Log("[AttackState] Interrupted by movement");
+            //Debug.Log("[AttackState] Interrupted by movement");
             player.Input.attack = false;
             if (player.Animator != null)
                 player.Animator.SetTrigger("AttackEnd");
@@ -97,7 +97,7 @@ public class AttackState : PlayerBaseState
         // End after maxStateDuration
         if (stateTimer >= maxStateDuration)
         {
-            Debug.Log("[AttackState] Duration exceeded, forced end.");
+            //Debug.Log("[AttackState] Duration exceeded, forced end.");
             if (player.Animator != null)
                 player.Animator.SetTrigger("AttackEnd");
             player.SwitchState(new IdleState());
@@ -122,7 +122,7 @@ public class AttackState : PlayerBaseState
                 // Attempt to dash toward target while still performing the attack combo.
                 // Update combo count
                 comboCount = (comboCount % 3) + 1;
-                Debug.Log("[AttackState] Combo input received. comboCount=" + comboCount);
+                //Debug.Log("[AttackState] Combo input received. comboCount=" + comboCount);
                 if (player.Animator != null)
                 {
                     player.Animator.SetInteger("ComboCount", comboCount);
@@ -137,7 +137,7 @@ public class AttackState : PlayerBaseState
                 if (comboTimer > comboInputWindow || normalizedTime >= normalizedEndThreshold)
                 {
                     chainActive = false;
-                    Debug.Log("[AttackState] Combo chain ended, going to 'sword idle' in Attack layer.");
+                    //Debug.Log("[AttackState] Combo chain ended, going to 'sword idle' in Attack layer.");
                     if (player.Animator != null)
                         player.Animator.SetTrigger("AttackEnd");
                 }
@@ -149,7 +149,7 @@ public class AttackState : PlayerBaseState
             if (player.Input.attack)
             {
                 player.Input.attack = false;
-                Debug.Log("[AttackState] New chain started from sword idle.");
+                //Debug.Log("[AttackState] New chain started from sword idle.");
                 comboCount = 1;
                 chainActive = true;
                 comboTimer = 0f;
@@ -179,7 +179,7 @@ public class AttackState : PlayerBaseState
         if (weaponController != null)
         {
             weaponController.HideWeapon();
-            Debug.Log("[AttackState] Attack weapon hidden.");
+            //Debug.Log("[AttackState] Attack weapon hidden.");
         }
     }
     
