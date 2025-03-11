@@ -10,9 +10,9 @@ public class NPCStateData : ScriptableObject
     
     // Health for the enemy
     public float maxHealth = 100f;
-    
-    
-    // For enemies, you'll likely want to detect the player when attacking.
-    // You can set this to the layer(s) your player(s) are on.
-    public LayerMask playerLayers;
+    public LayerMask playerLayers; // set to player layer
+
+    // the elemental state currently affecting this NPC.
+    // Initially, it can be set to None. Later, when an attack is applied, you can update this.
+    public ElementType currentElement = ElementType.None;
 }

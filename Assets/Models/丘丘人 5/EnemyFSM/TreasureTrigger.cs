@@ -24,6 +24,7 @@ public class TreasureTrigger : MonoBehaviour
     private void Start()
     {
         player = GameObject.FindWithTag("Player");
+        StartCoroutine(UpdatePlayerReferenceCoroutine());
         
     }
 
@@ -88,4 +89,23 @@ public class TreasureTrigger : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, triggerRadius);
     }
+
+    private IEnumerator UpdatePlayerReferenceCoroutine()
+{
+    while (true)
+    {
+        GameObject newPlayer = GameObject.FindWithTag("Player");
+        if (newPlayer != null && newPlayer.activeInHierarchy)
+        {
+            player = newPlayer;
+        }
+        else
+        {
+            player = null;
+        }
+        yield return new WaitForSeconds(1f); // update every  second
+    }
+}
+
+
 }

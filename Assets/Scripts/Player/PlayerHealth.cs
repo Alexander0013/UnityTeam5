@@ -6,11 +6,21 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     // Reference to an AttackData asset that contains the player's health.
     public AttackData playerAttackData;
     private float currentHealth;
+    private float maxHealth; 
 
     private Animator animator;
+    private PlayerShield playerShield; // Reference to the shield component.
     public float CurrentHealth
     {
         get { return currentHealth; }
+        private set
+        {
+            if (currentHealth != value)
+            {
+                currentHealth = Mathf.Clamp(value, 0f, 100);
+                //OnHealthChanged?.Invoke();
+            }
+        }
     }
 
     void Start()
@@ -18,7 +28,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         // Initialize current health from AttackData, fallback to 100 if not assigned.
         currentHealth = (playerAttackData != null) ? playerAttackData.health : 100f;
         animator = GetComponent<Animator>();
-
+        playerShield = GetComponent<PlayerShield>(); // Cache the shield component.
         Debug.Log("Player Health Initialized: " + currentHealth);
     }
 
@@ -28,33 +38,42 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     /// <param name="damage">The damage to apply.</param>
     public void TakeDamage(float damage)
     {
-        currentHealth -= damage;
-        Debug.Log("Player takes " + damage + " damage. Current health: " + currentHealth);
+        // If a shield is active, let it absorb damage first.
+        if (playerShield != null && playerShield.IsShieldActive)
+        {
+            damage = playerShield.AbsorbDamage(damage);
+        }
+
+        if (damage > 0)
+        {
+            currentHealth -= damage;
+            Debug.Log("Player takes " + damage + " damage. Current health: " + currentHealth);
+            if (currentHealth > 0)
+            {
+                // Trigger hit animation.
+                if (animator != null)
+                {
+                    animator.SetBool("getHit", true);
+                    StartCoroutine(ResetGetHit());
+                }
+            }
+            else
+            {
+                // Health <= 0: trigger die animation.
+                if (animator != null)
+                {
+                    animator.SetTrigger("Die");
+                }
+                StartCoroutine(DieAndDisable());
+            }
+        }
         
-        if (currentHealth > 0)
-        {
-            // Trigger hit animation.
-            if (animator != null)
-            {
-                animator.SetBool("getHit", true);
-                StartCoroutine(ResetGetHit());
-            }
-        }
-        else
-        {
-            // Health <= 0: trigger die animation.
-            if (animator != null)
-            {
-                animator.SetTrigger("Die");
-            }
-            StartCoroutine(DieAndDisable());
-        }
     }
 
     // Resets the getHit flag after a short duration.
     IEnumerator ResetGetHit()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.5f);
         if (animator != null)
             animator.SetBool("getHit", false);
     }
@@ -65,5 +84,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         // Adjust the wait time to match your die animation length.
         yield return new WaitForSeconds(1.5f);
         gameObject.SetActive(false);
+    }
+    // Optional: a method to reset health, called by a GameManager upon respawn.
+    public void ResetHealth()
+    {
+        currentHealth = (playerAttackData != null) ? playerAttackData.health : 100f;
     }
 }

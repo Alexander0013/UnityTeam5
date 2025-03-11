@@ -8,7 +8,7 @@ public class CombatController : MonoBehaviour
     public Transform attackHitPoint; // Set this in the Inspector.
 
     [Header("Auto-Target Settings")]
-    public float autoTargetRadius = 5f;
+    public float autoTargetRadius = 6f;
     public float autoTargetAngle = 90f;
     public LayerMask enemyLayer;
 
@@ -79,6 +79,14 @@ public class CombatController : MonoBehaviour
             if (damageable != null)
             {
                 damageable.TakeDamage(damage);
+                // Assume attacker’s AttackData includes an element field.
+                ElementalStatus targetStatus = hit.GetComponent<ElementalStatus>();
+                if (targetStatus != null)
+                {
+                    // Apply the attack's element with a duration.
+                    targetStatus.ApplyElement(currentAttackData.element, 15f);
+                }
+
             }
 
         }
@@ -182,64 +190,6 @@ public class CombatController : MonoBehaviour
     }
 }
     
-    /*
-    /// <summary>
-    /// Starts dashing toward the current target. Uses a coroutine to update movement over frames.
-    /// </summary>
-    /// <param name="dashSpeed">The movement speed for the dash.</param>
-    public void DashToTarget(float dashSpeed)
-    {
-        // Stop any existing dash coroutine before starting a new one.
-        if (dashCoroutine != null)
-        {
-            StopCoroutine(dashCoroutine);
-            dashCoroutine = null;
-        }
-        dashCoroutine = StartCoroutine(DashToTargetCoroutine(dashSpeed));
-    }
-
-    /// <summary>
-    /// Coroutine that dashes the player toward the target over multiple frames.
-    /// </summary>
-    /// <param name="dashSpeed">The speed of the dash.</param>
-    private IEnumerator DashToTargetCoroutine(float dashSpeed)
-    {
-        if (currentTarget == null || currentAttackData == null)
-            yield break;
-
-        CharacterController cc = GetComponent<CharacterController>();
-        if (cc == null)
-            yield break;
-
-        // Define a maximum duration for the dash to prevent overshooting.
-        float maxDashTime = 0.3f;
-        float dashTimer = 0f;
-
-        while (dashTimer < maxDashTime)
-        {
-            Vector3 dashDirection = currentTarget.position - transform.position;
-            dashDirection.y = 0f;
-
-            if (dashDirection.sqrMagnitude < 0.01f)
-                break;
-            dashDirection.Normalize();
-
-            // Rotate the player to face the target each frame.
-            Quaternion targetRotation = Quaternion.LookRotation(dashDirection, Vector3.up);
-            transform.rotation = targetRotation;
-
-            float dist = Vector3.Distance(transform.position, currentTarget.position);
-            // Stop dashing if the player is within the desired distance.
-            if (dist <= currentAttackData.hitRadius)
-                break;
-
-            cc.Move(dashDirection * dashSpeed * Time.deltaTime);
-            dashTimer += Time.deltaTime;
-
-            yield return null;
-        }
-    }
-    */
 
 
 }

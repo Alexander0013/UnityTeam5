@@ -18,7 +18,7 @@ public class EnemyAttackState : EnemyBaseState
 
     public override void UpdateState(EnemyFSM enemy)
     {
-
+        if(enemy.playerTarget == null) return;
         float distance = Vector3.Distance(enemy.transform.position, enemy.playerTarget.position);
 
         // If out of attack range, do something else
@@ -53,9 +53,8 @@ public class EnemyAttackState : EnemyBaseState
         // OverlapSphere or direct check for your "old logic" of dealing damage
         float damage = enemy.npcData.baseDamage * enemy.npcData.comboMultiplier;
         float radius = enemy.npcData.hitRadius; // or enemy.attackRadius, whichever you used
-        Vector3 attackCenter = enemy.transform.position + enemy.transform.forward * 1f; 
-        // Adjust as needed
-
+        // Use the attackHitPoint (weapon position) as the center for hit detection.
+        Vector3 attackCenter = enemy.attackHitPoint.position;
         // Example OverlapSphere
         Collider[] hits = Physics.OverlapSphere(attackCenter, radius, enemy.npcData.playerLayers);
         foreach (Collider c in hits)
@@ -67,8 +66,7 @@ public class EnemyAttackState : EnemyBaseState
             }
         }
 
-        // Wait a bit, then transition (or do probability again)
-        yield return new WaitForSeconds(0.5f);
+        
         isAttacking = false;
         // Could go directly back to idle or do random logic again
         enemy.TransitionToState(enemy.idleState);
