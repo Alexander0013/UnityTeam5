@@ -24,11 +24,11 @@ public class PlayerHealthBar : MonoBehaviour
         yellowSlider.value = playerHealth.CurrentHealth;
 
 
-        //playerHealth.OnHealthChanged += UpdateHealthBar;
+        playerHealth.OnHealthChanged += UpdateHealthBar;
         fill.color = gradient.Evaluate(1f);
        
-        healthSlider.value = 1f;
-        yellowSlider.value = 1f;
+       // healthSlider.value = 1f;
+        //yellowSlider.value = 1f;
     }
     //can delete
     //when get hurt "SetDamage()"
