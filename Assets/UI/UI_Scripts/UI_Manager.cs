@@ -8,8 +8,10 @@ public class UI_Manager : MonoBehaviour
     public GameObject equipmentUI_A;
     public GameObject equipmentUI_B;
     public GameObject playerHealthBar_A;
+    public CanvasGroup canvasGroup_A;
     public GameObject playerHealthBar_B;
-    public GameObject CharacterManager;
+    public CanvasGroup canvasGroup_B;
+    public CharacterManager CharacterManager;
 
     public bool bagIsOpen;
     public bool equipAIsOpen_A;
@@ -19,12 +21,12 @@ public class UI_Manager : MonoBehaviour
 
     public void OnEnable()
     {
-        //CharacterManager.OnHealthChanged += SwitchPlayerHealthBar;
+        CharacterManager.SwitchPlayer += SwitchPlayerHealthBar;
     }
 
     public void OnDisable()
     {
-        //CharacterManager.OnHealthChanged -= SwitchPlayerHealthBar;
+        CharacterManager.SwitchPlayer -= SwitchPlayerHealthBar;
     }
 
     void Start()
@@ -32,8 +34,12 @@ public class UI_Manager : MonoBehaviour
         myBag.SetActive(bagIsOpen);
         equipmentUI_A.SetActive(equipAIsOpen_A);
         equipmentUI_B.SetActive(equipBIsOpen_B);
-        playerHealthBar_A.SetActive(playerAonUsed);
-        playerHealthBar_B.SetActive(!playerAonUsed);
+
+        canvasGroup_A.alpha = 1.0f;
+        canvasGroup_B.alpha = 0.0f;
+
+        canvasGroup_A = playerHealthBar_A.GetComponent<CanvasGroup>();
+        canvasGroup_B = playerHealthBar_B.GetComponent<CanvasGroup>();
     }
     void Update()
     {
@@ -136,8 +142,18 @@ public class UI_Manager : MonoBehaviour
     public void SwitchPlayerHealthBar()
     {
         playerAonUsed = !playerAonUsed;
-        playerHealthBar_A.SetActive(playerAonUsed);
-        playerHealthBar_B.SetActive(!playerAonUsed);
+        if (playerAonUsed)
+        {
+            canvasGroup_B.alpha = 0;
+            canvasGroup_A.alpha = 1;
+        }
+        else
+        {
+            canvasGroup_B.alpha = 1;
+            canvasGroup_A.alpha = 0;
+        }
+        //playerHealthBar_A.SetActive(playerAonUsed);
+        //playerHealthBar_B.SetActive(!playerAonUsed);
     }
     
 }
