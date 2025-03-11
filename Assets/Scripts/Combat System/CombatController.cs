@@ -79,6 +79,14 @@ public class CombatController : MonoBehaviour
             if (damageable != null)
             {
                 damageable.TakeDamage(damage);
+                // Assume attacker’s AttackData includes an element field.
+                ElementalStatus targetStatus = hit.GetComponent<ElementalStatus>();
+                if (targetStatus != null)
+                {
+                    // Apply the attack's element with a duration.
+                    targetStatus.ApplyElement(currentAttackData.element, 15f);
+                }
+
             }
 
         }

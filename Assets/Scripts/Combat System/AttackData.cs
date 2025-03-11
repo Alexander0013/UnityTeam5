@@ -9,4 +9,6 @@ public class AttackData : ScriptableObject
     public LayerMask enemyLayers; // Set in Inspector to include enemy layers.
     public float health = 100f;
     public int currentWeaponIndex = 0;
+     
+    public ElementType element = ElementType.None; //the elemental type of this attack.
 }

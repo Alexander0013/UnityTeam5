@@ -662,6 +662,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6075071594025139486}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 72af73544f2ff5d4db970427fb0dfa1c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5134335583699503607}
   m_SourcePrefab: {fileID: 100100000, guid: 72af73544f2ff5d4db970427fb0dfa1c, type: 3}
 --- !u!1 &3233126738226738724 stripped
 GameObject:
@@ -730,6 +734,22 @@ MonoBehaviour:
   deathEffectPrefab: {fileID: 0}
   fadeDuration: 1
   deathMaterial: {fileID: 2100000, guid: 141484ef1fe8c45f684fdc8e1080c72f, type: 2}
+--- !u!114 &5134335583699503607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3233126738226738724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c6df36402ac34a06a8840020941ba54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentElement: 0
+  effectDuration: 15
+  crystallizeShardPrefab: {fileID: 1040462336315258571, guid: 5d6865d914cbb4b1d9caefe4ecba5796,
+    type: 3}
 --- !u!4 &8618360019307675033 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -2916741891282405652, guid: 72af73544f2ff5d4db970427fb0dfa1c,

@@ -20,3 +20,4 @@ MonoBehaviour:
     m_Bits: 256
   health: 15
   currentWeaponIndex: 0
+  element: 2

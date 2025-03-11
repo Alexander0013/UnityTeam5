@@ -2226,6 +2226,7 @@ GameObject:
   - component: {fileID: 8912223741807664854}
   - component: {fileID: 4845758553230878177}
   - component: {fileID: 7049669916395680236}
+  - component: {fileID: 213745076309753795}
   m_Layer: 7
   m_Name: Player_1_update
   m_TagString: Player
@@ -2377,7 +2378,7 @@ MonoBehaviour:
   sprint: 0
   attack: 0
   analogMovement: 0
-  cursorLocked: 0
+  cursorLocked: 1
   cursorInputForLook: 1
 --- !u!114 &237476063556277931
 MonoBehaviour:
@@ -2561,6 +2562,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerAttackData: {fileID: 11400000, guid: 031d10717e65a48f49b0e197dd525f57, type: 2}
+--- !u!114 &213745076309753795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8859030211229458744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d576a86697a5b4da5a41eb945ee98db3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxShieldHP: 10
+  shieldElement: 0
+  shieldVisualPrefab: {fileID: 1289543790355709915, guid: 947c2514bb952446587edee47c0d8aa9,
+    type: 3}
 --- !u!1 &8943502449524735383
 GameObject:
   m_ObjectHideFlags: 0
