@@ -1,65 +1,90 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
+using TMPro;
 
 public class PlayerHealthBar : MonoBehaviour
 {
     public Slider healthSlider;
     public Slider yellowSlider;    
+
     public Gradient gradient;
     public Image fill;
-    //public float health;
-    //public float maxHealth;
-    public float smoothSpeed = 0.3f;
+    public float colorChangeTime; // 顏色變化時間
+    Color startColor;
+    Color targetColor;
 
+    public float smoothSpeed;
     public PlayerHealth playerHealth;
+
+    public TextMeshProUGUI healthBarText;
+
+
+
+    public void OnEnable()
+    {
+        playerHealth.OnHealthChanged += UpdateHealthBar;
+    }
+
+    public void OnDisable()
+    {
+        playerHealth.OnHealthChanged -= UpdateHealthBar;
+    }
 
     protected virtual void Start()
     {
         //Initialize the health bar
         healthSlider.maxValue = playerHealth.playerAttackData.health;
         yellowSlider.maxValue = playerHealth.playerAttackData.health;
-        healthSlider.value = playerHealth.CurrentHealth;
-        yellowSlider.value = playerHealth.CurrentHealth;
+        healthSlider.value = healthSlider.maxValue;
+        yellowSlider.value = yellowSlider.maxValue;
 
-
-        playerHealth.OnHealthChanged += UpdateHealthBar;
         fill.color = gradient.Evaluate(1f);
-       
-       // healthSlider.value = 1f;
-        //yellowSlider.value = 1f;
+        UpdateHealthBarText();
+        //UpdateHealthBar();
     }
-    //can delete
-    //when get hurt "SetDamage()"
-    //public virtual void SetHealthBar(float damage)
-    //{
-    //    health -= damage;
-    //    float hpValue = health/maxHealth;
-
-    //    hpSlider.value = hpValue;
-
-    //    fill.color = gradient.Evaluate(Mathf.Lerp(1, hpSlider.normalizedValue, 0.3f * Time.deltaTime));
-    //    StartCoroutine(SmoothYellowBar(hpValue));       
-    //}
+    
     
     private void UpdateHealthBar()
     {
+        StartCoroutine(SmoothColorChange());
         if (playerHealth != null)
         {
             healthSlider.value = playerHealth.CurrentHealth;
         }
-        fill.color = gradient.Evaluate(Mathf.Lerp(1, healthSlider.normalizedValue, 0.3f * Time.deltaTime));
         StartCoroutine(SmoothYellowBar(healthSlider.value));
+        UpdateHealthBarText();
+
     }
 
     public IEnumerator SmoothYellowBar(float targetValue)
     {
-        yield return new WaitForSeconds(0.3f); // wait for 0.3 seconds
+        yield return new WaitForSeconds(0.2f); // wait for 0.3 seconds
         while (!Mathf.Approximately(yellowSlider.value, targetValue))
         {
             yellowSlider.value = Mathf.MoveTowards(yellowSlider.value, targetValue, smoothSpeed * Time.deltaTime);
             yield return null;
         }
+    }
+
+    private IEnumerator SmoothColorChange()
+    {        
+        float elapsed = 0f;
+        startColor = fill.color;
+        targetColor = gradient.Evaluate(healthSlider.normalizedValue);
+
+        while (elapsed < colorChangeTime)
+        {
+            elapsed += Time.deltaTime;
+            fill.color = Color.Lerp(startColor, targetColor, elapsed / colorChangeTime);
+            yield return null;
+        }
+
+        fill.color = targetColor;
+    }
+
+    public void UpdateHealthBarText()
+    {
+        healthBarText.text = healthSlider.value.ToString()+ " / " + healthSlider.maxValue.ToString();
     }
 }

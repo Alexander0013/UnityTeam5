@@ -19,7 +19,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         {
             if (currentHealth != value)
             {
-                currentHealth = Mathf.Clamp(value, 0f, 100);
+                currentHealth = value;
                 OnHealthChanged?.Invoke();
             }
         }
@@ -32,6 +32,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         animator = GetComponent<Animator>();
         playerShield = GetComponent<PlayerShield>(); // Cache the shield component.
         Debug.Log("Player Health Initialized: " + currentHealth);
+
+        //OnHealthChanged?.Invoke();
     }
 
     /// <summary>
@@ -48,8 +50,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
         if (damage > 0)
         {
-            currentHealth -= damage;
-            Debug.Log("Player takes " + damage + " damage. Current health: " + currentHealth);
+            CurrentHealth -= damage;
+            Debug.Log("Player takes " + damage + " damage. Current health: " + CurrentHealth);
             if (currentHealth > 0)
             {
                 // Trigger hit animation.
@@ -90,6 +92,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     // Optional: a method to reset health, called by a GameManager upon respawn.
     public void ResetHealth()
     {
-        currentHealth = (playerAttackData != null) ? playerAttackData.health : 100f;
+        CurrentHealth = (playerAttackData != null) ? playerAttackData.health : 100f;
     }
 }
