@@ -2,22 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bag : MonoBehaviour
+public class UI_Manager : MonoBehaviour
 {
     public GameObject myBag;
     public GameObject equipmentUI_A;
     public GameObject equipmentUI_B;
+    public GameObject playerHealthBar_A;
+    public GameObject playerHealthBar_B;
+    public GameObject CharacterManager;
+
     public bool bagIsOpen;
     public bool equipAIsOpen_A;
     public bool equipBIsOpen_B;
-
+    public bool playerAonUsed;
     private GameObject spawnedMenu;
-   
+
+    public void OnEnable()
+    {
+        //CharacterManager.OnHealthChanged += SwitchPlayerHealthBar;
+    }
+
+    public void OnDisable()
+    {
+        //CharacterManager.OnHealthChanged -= SwitchPlayerHealthBar;
+    }
+
     void Start()
     {
         myBag.SetActive(bagIsOpen);
         equipmentUI_A.SetActive(equipAIsOpen_A);
         equipmentUI_B.SetActive(equipBIsOpen_B);
+        playerHealthBar_A.SetActive(playerAonUsed);
+        playerHealthBar_B.SetActive(!playerAonUsed);
     }
     void Update()
     {
@@ -103,29 +119,6 @@ public class Bag : MonoBehaviour
         equipmentUI_B.SetActive(equipBIsOpen_B);
     }
 
-
-    //void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.I)) ToggleUI(ref bagIsOpen, myBag, ref equipIsOpen, equipmentUI);
-    //    if (Input.GetKeyDown(KeyCode.U)) ToggleUI(ref equipIsOpen, equipmentUI, ref bagIsOpen, myBag);
-    //}
-
-    //public void ToggleUI(ref bool toggleTarget, GameObject targetUI, ref bool otherToggle, GameObject otherUI)
-    //{
-    //    toggleTarget = !toggleTarget;
-    //    targetUI.SetActive(toggleTarget);
-
-    //    if (toggleTarget) // 如果開啟新的 UI，就關閉另一個 UI
-    //    {
-    //        otherToggle = false;
-    //        otherUI.SetActive(false);
-    //    }
-
-    //    MenuOff(); // 刪除右鍵選單
-    //}
-
-
-
     public void SetMenu(GameObject menu)
     {
         spawnedMenu = menu; // 記錄當前生成的 Menu
@@ -138,6 +131,13 @@ public class Bag : MonoBehaviour
             Destroy(spawnedMenu);
             spawnedMenu = null;
         }
+    }
+
+    public void SwitchPlayerHealthBar()
+    {
+        playerAonUsed = !playerAonUsed;
+        playerHealthBar_A.SetActive(playerAonUsed);
+        playerHealthBar_B.SetActive(!playerAonUsed);
     }
     
 }

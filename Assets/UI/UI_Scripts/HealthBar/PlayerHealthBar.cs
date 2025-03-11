@@ -15,6 +15,8 @@ public class PlayerHealthBar : MonoBehaviour
     Color targetColor;
 
     public float smoothSpeed;
+    private bool isRunning = false;
+    private float yellowBarTarget;
     public PlayerHealth playerHealth;
 
     public TextMeshProUGUI healthBarText;
@@ -46,25 +48,47 @@ public class PlayerHealthBar : MonoBehaviour
     
     
     private void UpdateHealthBar()
-    {
-        StartCoroutine(SmoothColorChange());
+    {        
         if (playerHealth != null)
         {
             healthSlider.value = playerHealth.CurrentHealth;
         }
-        StartCoroutine(SmoothYellowBar(healthSlider.value));
+
+        yellowBarTarget = healthSlider.value; // 確保目標數值正確
+        StartSmoothYellowBar(); // 使用統一方法來啟動協程
+
         UpdateHealthBarText();
+        StartCoroutine(SmoothColorChange()); // 確保顏色變化
 
     }
 
-    public IEnumerator SmoothYellowBar(float targetValue)
+
+    public void StartSmoothYellowBar()
     {
-        yield return new WaitForSeconds(0.2f); // wait for 0.3 seconds
-        while (!Mathf.Approximately(yellowSlider.value, targetValue))
+        if (!isRunning)
         {
-            yellowSlider.value = Mathf.MoveTowards(yellowSlider.value, targetValue, smoothSpeed * Time.deltaTime);
+            StartCoroutine(SmoothYellowBar());
+        }
+    }
+
+    public IEnumerator SmoothYellowBar()
+    {
+        isRunning = true;
+
+        yield return new WaitForSeconds(0.2f); 
+        //while (!Mathf.Approximately(yellowSlider.value, targetValue))
+        //{
+        //    yellowSlider.value = Mathf.MoveTowards(yellowSlider.value, targetValue, smoothSpeed * Time.deltaTime);
+        //    yield return null;
+        //}
+
+        while (Mathf.Abs(yellowSlider.value - yellowBarTarget) > 0.01f) // 避免無窮迴圈
+        {
+            yellowSlider.value = Mathf.MoveTowards(yellowSlider.value, yellowBarTarget, smoothSpeed * Time.deltaTime);
             yield return null;
         }
+
+        isRunning = false;
     }
 
     private IEnumerator SmoothColorChange()
