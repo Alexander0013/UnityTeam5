@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class EnemyHealth : MonoBehaviour, IDamageable
 {
@@ -20,11 +21,13 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         private set
         {
             _currentHealth = value;
-            OnHealthChange?.Invoke();
+            OnHealthChanged?.Invoke(_currentHealth);
         }
     }
 
-    public event System.Action OnHealthChange;
+    public event Action<float> OnHealthChanged;
+    public event Action OnDeath;
+    public bool isInitialized=false;
 
     // Reference to your FSM if you want it:
     private EnemyFSM fsm;
@@ -45,6 +48,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         {
             currentHealth = 100f;
         }
+        isInitialized= true;
     }
 
 
@@ -143,5 +147,6 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
         // Finally, destroy the object
         Destroy(gameObject);
+        OnDeath?.Invoke();
     }
 }
