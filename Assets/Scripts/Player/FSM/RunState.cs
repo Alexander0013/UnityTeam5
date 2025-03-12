@@ -31,11 +31,11 @@ public class RunState : PlayerBaseState
         {
             player.SwitchState(new JumpState());
         }
-        else if (player.Input.attack)
-        {
-            player.SwitchState(new AttackState());
-            player.Input.attack = false;
-        }
+        //else if (player.Input.attack)
+        //{
+        //    player.SwitchState(new AttackState());
+        //    player.Input.attack = false;
+        //}
     }
 
     public override void ExitState(PlayerStateManager player)

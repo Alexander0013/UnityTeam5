@@ -34,12 +34,12 @@ public class WalkState : PlayerBaseState
         {
             player.SwitchState(new JumpState());
         }
-        else if (player.Input.attack)
-        {
-            //Debug.Log("[WalkState] Attack triggered");
-            player.SwitchState(new AttackState());
-            player.Input.attack = false;
-        }
+        //else if (player.Input.attack)
+        //{
+        //    //Debug.Log("[WalkState] Attack triggered");
+        //    player.SwitchState(new AttackState());
+        //    player.Input.attack = false;
+        //}
     }
 
     public override void ExitState(PlayerStateManager player)
