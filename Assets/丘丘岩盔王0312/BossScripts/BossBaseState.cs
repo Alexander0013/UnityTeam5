@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public abstract class BossBaseState
 {
     public abstract void EnterState(BossFSM boss);
