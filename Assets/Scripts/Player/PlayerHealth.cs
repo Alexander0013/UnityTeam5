@@ -33,7 +33,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         playerShield = GetComponent<PlayerShield>(); // Cache the shield component.
         Debug.Log("Player Health Initialized: " + currentHealth);
 
-        //OnHealthChanged?.Invoke();
+        OnHealthChanged?.Invoke();
     }
 
     /// <summary>

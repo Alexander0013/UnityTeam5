@@ -9,9 +9,20 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     public float fadeDuration = 1.0f;
     public Material deathMaterial;
 
-    private float currentHealth;
+    //private float currentHealth;
     private Animator animator;
     private bool isDead = false;
+
+    public float currentHealth
+    {
+        get { return currentHealth; }
+        private set
+        {
+            currentHealth = value;
+            OnHealthChange?.Invoke();
+        }
+    }
+    public event System.Action OnHealthChange;
 
     // Reference to your FSM if you want it:
     private EnemyFSM fsm;

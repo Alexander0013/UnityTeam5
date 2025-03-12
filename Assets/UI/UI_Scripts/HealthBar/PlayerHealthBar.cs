@@ -1,22 +1,21 @@
 ﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
-public class PlayerHealthBar : MonoBehaviour
+public class PlayerHealthBar : HealthBar
 {
-    public Slider healthSlider;
-    public Slider yellowSlider;    
 
+    //Change color
     public Gradient gradient;
     public Image fill;
-    public float colorChangeTime; // 顏色變化時間
+    public float colorChangeTime; 
     Color startColor;
     Color targetColor;
 
-    public float smoothSpeed;
-    public PlayerHealth playerHealth;
 
+    public PlayerHealth playerHealth;
+    //public CharacterManager characterManager;
     public TextMeshProUGUI healthBarText;
 
 
@@ -24,54 +23,53 @@ public class PlayerHealthBar : MonoBehaviour
     public void OnEnable()
     {
         playerHealth.OnHealthChanged += UpdateHealthBar;
+        //characterManager.SwitchPlayer += StopSmoothBar;
     }
 
     public void OnDisable()
     {
         playerHealth.OnHealthChanged -= UpdateHealthBar;
+        //characterManager.SwitchPlayer -= StopSmoothBar;
     }
 
     protected virtual void Start()
     {
         //Initialize the health bar
-        healthSlider.maxValue = playerHealth.playerAttackData.health;
+        mainSlider.maxValue = playerHealth.playerAttackData.health;
         yellowSlider.maxValue = playerHealth.playerAttackData.health;
-        healthSlider.value = healthSlider.maxValue;
+        mainSlider.value = mainSlider.maxValue;
         yellowSlider.value = yellowSlider.maxValue;
 
         fill.color = gradient.Evaluate(1f);
         UpdateHealthBarText();
-        //UpdateHealthBar();
     }
     
     
     private void UpdateHealthBar()
-    {
-        StartCoroutine(SmoothColorChange());
+    {        
         if (playerHealth != null)
         {
-            healthSlider.value = playerHealth.CurrentHealth;
+            mainSlider.value = playerHealth.CurrentHealth;
         }
-        StartCoroutine(SmoothYellowBar(healthSlider.value));
+
+        yellowBarTarget = mainSlider.value; // make sure slider's target value correct
+        StartSmoothYellowBar(); 
+
         UpdateHealthBarText();
-
+        StartCoroutine(SmoothColorChange()); 
     }
 
-    public IEnumerator SmoothYellowBar(float targetValue)
-    {
-        yield return new WaitForSeconds(0.2f); // wait for 0.3 seconds
-        while (!Mathf.Approximately(yellowSlider.value, targetValue))
-        {
-            yellowSlider.value = Mathf.MoveTowards(yellowSlider.value, targetValue, smoothSpeed * Time.deltaTime);
-            yield return null;
-        }
-    }
+    //public void StopSmoothBar()
+    //{
+    //    StopCoroutine(SmoothColorChange());
+    //    yellowSlider.value = mainSlider.value;
+    //}
 
     private IEnumerator SmoothColorChange()
-    {        
+    {
         float elapsed = 0f;
         startColor = fill.color;
-        targetColor = gradient.Evaluate(healthSlider.normalizedValue);
+        targetColor = gradient.Evaluate(mainSlider.normalizedValue);
 
         while (elapsed < colorChangeTime)
         {
@@ -85,6 +83,6 @@ public class PlayerHealthBar : MonoBehaviour
 
     public void UpdateHealthBarText()
     {
-        healthBarText.text = healthSlider.value.ToString()+ " / " + healthSlider.maxValue.ToString();
+        healthBarText.text = mainSlider.value.ToString()+ " / " + mainSlider.maxValue.ToString();
     }
 }

@@ -42,14 +42,14 @@ public class GetClick : MonoBehaviour, IPointerClickHandler
     public void ShowMenu(Slot slot, Vector2 position)
     {
         //Debug.Log("show menu");
-        GameObject bag = FindObjectOfType<Bag>().gameObject; // 取得 Bag 物件
+        GameObject bag = FindObjectOfType<UI_Manager>().gameObject; // 取得 Bag 物件
         
         // 產生選單
         spawnedMenu = Instantiate(menuPrefab, FindObjectOfType<Canvas>().transform);
         spawnedMenu.transform.position = position;
 
         // 設定目前的 Menu
-        bag.GetComponent<Bag>().SetMenu(spawnedMenu);               
+        bag.GetComponent<UI_Manager>().SetMenu(spawnedMenu);               
 
         // 讓選單知道是哪個物品被點擊
         spawnedMenu.GetComponent<RightClickMenu>().SetTargetItem(slot);

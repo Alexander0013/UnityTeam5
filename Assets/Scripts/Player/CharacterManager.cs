@@ -24,6 +24,7 @@ public class CharacterManager : MonoBehaviour
     // Duration (in seconds) over which to ramp up hair simulation.
     public float hairRampUpDuration = 0.5f;
 
+    public event System.Action SwitchPlayer;
     void Start()
     {
         // Initially deactivate all characters.
@@ -103,6 +104,7 @@ public class CharacterManager : MonoBehaviour
 
         // Gradually ramp up hair simulation for the new character.
         StartCoroutine(RampUpHairSimulation(newCharacter));
+        SwitchPlayer?.Invoke();
     }
 
     // Coroutine that gradually ramps up the hair simulation.
