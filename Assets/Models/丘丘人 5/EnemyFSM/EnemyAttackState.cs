@@ -4,33 +4,19 @@ using System.Collections;
 public class EnemyAttackState : EnemyBaseState
 {
     private bool isAttacking;
-    private float attackCooldown = 1f; 
-    private float cooldownTimer;
 
     public override void EnterState(EnemyFSM enemy)
     {
-        //Debug.Log("Enter Attack State");
-        enemy.animator.SetBool("isAttacking", true);
+        Debug.Log("Enter Attack State");
         enemy.animator.SetBool("isWalking", false);
         isAttacking = false;
-        cooldownTimer = 0f;
     }
 
     public override void UpdateState(EnemyFSM enemy)
     {
         if(enemy.playerTarget == null) return;
-        float distance = Vector3.Distance(enemy.transform.position, enemy.playerTarget.position);
-
-        // If out of attack range, do something else
-        if (distance > enemy.attackRadius)
-        {
-            enemy.TransitionToState(enemy.chaseState);
-            return;
-        }
-
-        // Attack logic
-        cooldownTimer += Time.deltaTime;
-        if (!isAttacking && cooldownTimer >= attackCooldown)
+        // Removed the distance check so the attack animation cannot be interrupted.
+        if (!isAttacking)
         {
             isAttacking = true;
             enemy.StartCoroutine(PerformAttack(enemy));
@@ -44,33 +30,17 @@ public class EnemyAttackState : EnemyBaseState
 
     private IEnumerator PerformAttack(EnemyFSM enemy)
     {
-        // Trigger animation
+        // Trigger the attack animation
         enemy.animator.SetTrigger("Attack");
-
-        // Delay to line up with the animation's impact frame
-        yield return new WaitForSeconds(0.5f);  
-
-        // OverlapSphere or direct check for your "old logic" of dealing damage
-        float damage = enemy.npcData.baseDamage * enemy.npcData.comboMultiplier;
-        float radius = enemy.npcData.hitRadius; // or enemy.attackRadius, whichever you used
-        // Use the attackHitPoint (weapon position) as the center for hit detection.
-        Vector3 attackCenter = enemy.attackHitPoint.position;
-        // Example OverlapSphere
-        Collider[] hits = Physics.OverlapSphere(attackCenter, radius, enemy.npcData.playerLayers);
-        foreach (Collider c in hits)
-        {
-            IDamageable dmg = c.GetComponent<IDamageable>();
-            if (dmg != null)
-            {
-                dmg.TakeDamage(damage);
-            }
-        }
-
         
-        isAttacking = false;
-        // Could go directly back to idle or do random logic again
+        // Wait for the remainder of the attack animation (total length 1.333 seconds)
+        yield return new WaitForSeconds(1f);
+        enemy.ApplyAttackDamage();
+
+        // Transition to chase state once the attack animation is complete
         enemy.TransitionToState(enemy.idleState);
     }
+
 
     /// <summary>
     /// Finds any GameObject(s) tagged "Player" that is activeInHierarchy and has PlayerHealth > 0.

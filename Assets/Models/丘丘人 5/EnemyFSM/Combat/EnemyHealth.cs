@@ -13,15 +13,17 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     private Animator animator;
     private bool isDead = false;
 
+    private float _currentHealth;
     public float currentHealth
     {
-        get { return currentHealth; }
+        get { return _currentHealth; }
         private set
         {
-            currentHealth = value;
+            _currentHealth = value;
             OnHealthChange?.Invoke();
         }
     }
+
     public event System.Action OnHealthChange;
 
     // Reference to your FSM if you want it:
@@ -41,10 +43,10 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         }
         else
         {
-            //Debug.LogWarning("NPCStateData not assigned. Defaulting health to 100.");
             currentHealth = 100f;
         }
     }
+
 
     public void TakeDamage(float amount)
     {

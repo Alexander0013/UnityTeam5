@@ -4,6 +4,9 @@ using System.Collections;
 
 public class EnemyFSM : MonoBehaviour
 {
+    // Make the enemy list public so other states can check for blocking
+    public static List<EnemyFSM> AllEnemies = new List<EnemyFSM>();
+
     // References to each state
     public EnemyIdleState idleState = new EnemyIdleState();
     public EnemyChaseState chaseState = new EnemyChaseState();
@@ -33,15 +36,6 @@ public class EnemyFSM : MonoBehaviour
         allEnemies.Add(this);
 
         animator = GetComponent<Animator>();
-        if (npcData != null)
-        {
-            // You mentioned currentHealth in code, but you're using EnemyHealth for actual HP in other examples
-            // If you're not using it anymore, you can remove this if/else entirely
-        }
-        else
-        {
-            // fallback
-        }
     }
 
     private void Start()
@@ -166,4 +160,20 @@ public class EnemyFSM : MonoBehaviour
         }
         waitingForReturn = false;
     }
+    public void ApplyAttackDamage()
+    {
+        float damage = npcData.baseDamage * npcData.comboMultiplier;
+        float radius = npcData.hitRadius;
+        Vector3 attackCenter = attackHitPoint.position;
+        Collider[] hits = Physics.OverlapSphere(attackCenter, radius, npcData.playerLayers);
+        foreach (Collider c in hits)
+        {
+            IDamageable dmg = c.GetComponent<IDamageable>();
+            if (dmg != null)
+            {
+                dmg.TakeDamage(damage);
+            }
+        }
+    }
+
 }
