@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 7660519812564374606}
   - component: {fileID: 6724006454246730897}
   m_Layer: 0
-  m_Name: EnemyHealthBar 1
+  m_Name: EnemyHealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -130,7 +130,7 @@ MonoBehaviour:
   mainSlider: {fileID: 1103474825152119618}
   yellowSlider: {fileID: 9096510948051260654}
   smoothSpeed: 5
-  pos: {x: 0, y: 2, z: 0}
+  pos: {x: 0, y: 1.5, z: 0}
 --- !u!225 &6724006454246730897
 CanvasGroup:
   m_ObjectHideFlags: 0

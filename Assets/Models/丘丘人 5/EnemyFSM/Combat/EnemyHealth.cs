@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using System;
+using TMPro;
+using System.Xml;
 
 public class EnemyHealth : MonoBehaviour, IDamageable
 {
@@ -31,6 +33,9 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     // Reference to your FSM if you want it:
     private EnemyFSM fsm;
+
+    //For floating damage text
+    public GameObject floatingTextPrefab;
 
     private void Awake()
     {
@@ -68,6 +73,13 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         {
             // HP is zero or below
             StartCoroutine(DieRoutine());
+        }
+        
+        
+        //For floating damage text
+        if (floatingTextPrefab)
+        {
+            ShowFloatingText(amount);
         }
     }
 
@@ -148,5 +160,24 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         // Finally, destroy the object
         Destroy(gameObject);
         OnDeath?.Invoke();
+    }
+
+    //For floating damage text
+    public void ShowFloatingText(float damage)
+    {
+        GameObject floatingText =Instantiate(floatingTextPrefab, transform.position, Quaternion.identity, transform);
+        floatingText.GetComponent<TextMeshPro>().text = damage.ToString();
+
+        // 讓浮動文字朝向攝影機
+        Camera mainCamera = Camera.main;
+        if (mainCamera != null)
+        {
+            floatingText.transform.LookAt(mainCamera.transform.position);  // 朝向攝影機
+            floatingText.transform.Rotate(0f, 180f, 0f); // 避免文字反向（有時候 LookAt 會導致文字反轉）
+        }
+
+        //// 可選：加上動畫或效果
+        //floatingText.transform.DOMoveY(floatingText.transform.position.y + 1f, 1f);
+        //tmpText.DOFade(0f, 1f).OnComplete(() => Destroy(floatingText));
     }
 }

@@ -19,7 +19,7 @@ TagManager:
   - Enemy
   - Ground
   - GroundTEST
-  - 
+  - PopUpText
   - 
   - 
   - 
@@ -46,4 +46,7 @@ TagManager:
     locked: 0
   - name: HealthBarLayer
     uniqueID: 955724293
+    locked: 0
+  - name: Player
+    uniqueID: 4052069783
     locked: 0
