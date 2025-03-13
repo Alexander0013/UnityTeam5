@@ -9,9 +9,11 @@ public class EnemyHealthBar : HealthBar
     private Transform enemyTransform;
 
     Canvas canvas;
-    public Vector3 pos;
-   
+    public Vector3 offset;
+    public int smoothMove;
 
+    //RectTransform canvasRect;
+    //RectTransform rectTransform;
     Vector3 worldPosition;
     Vector3 directionToCamera;
 
@@ -24,7 +26,8 @@ public class EnemyHealthBar : HealthBar
         enemyHealth.OnDeath += DestroyHealthBar;
 
         canvas = GetComponentInParent<Canvas>();
-        RectTransform canvasRect = canvas.GetComponent<RectTransform>();
+        //canvasRect = canvas.GetComponent<RectTransform>();
+        //rectTransform = GetComponent<RectTransform>();
 
         StartCoroutine(DelayedInitialization());
     }
@@ -39,7 +42,7 @@ public class EnemyHealthBar : HealthBar
 
     
 
-    void Update()
+    void LateUpdate()
     {
         UpdateTransform();
     }
@@ -49,19 +52,19 @@ public class EnemyHealthBar : HealthBar
     //{
     //    if (enemyTransform != null)
     //    {
-    //        // 計算怪物的世界座標
-    //        Vector3 worldPosition = enemyTransform.position + vector3;
+    //        //1.計算怪物的世界座標(加上偏移)
+    //    Vector3 worldPosition = enemyTransform.position + offset;
 
-    //        // 將世界座標轉換為螢幕座標
-    //        Vector3 screenPosition = Camera.main.WorldToScreenPoint(worldPosition);
+    //        //2.將世界座標轉換為螢幕座標
+    //    Vector3 screenPosition = Camera.main.WorldToScreenPoint(worldPosition);
 
-    //        // 將螢幕座標轉換為 Canvas 的本地座標
-    //        Vector2 localPoint;
-    //        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screenPosition, canvas.worldCamera, out localPoint);
-
-    //        // 使用插值來平滑血條的移動
-    //        RectTransform rectTransform = GetComponent<RectTransform>();
-    //        rectTransform.anchoredPosition = Vector2.Lerp(rectTransform.anchoredPosition, localPoint, smoothMove * Time.deltaTime);
+    //        //3.將螢幕座標轉換為 Canvas 的本地座標
+    //    Vector2 localPoint;
+    //        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screenPosition, canvas.worldCamera, out localPoint))
+    //        {
+    //            //4.平滑移動血條
+    //            rectTransform.anchoredPosition = Vector2.Lerp(rectTransform.anchoredPosition, localPoint, smoothSpeed * Time.deltaTime);
+    //        }
     //    }
     //}
 
@@ -78,7 +81,7 @@ public class EnemyHealthBar : HealthBar
             transform.rotation = Quaternion.LookRotation(directionToCamera);
 
             // 如果血條是 World Space Canvas，保持其位置不變
-            worldPosition = enemyTransform.position + pos;
+            worldPosition = enemyTransform.position + offset;
             RectTransform rectTransform = GetComponent<RectTransform>();
             rectTransform.position = worldPosition;
         }
