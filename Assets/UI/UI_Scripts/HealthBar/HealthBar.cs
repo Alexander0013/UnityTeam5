@@ -15,10 +15,13 @@ public class HealthBar : MonoBehaviour
 
     protected virtual void SetHealthBar(float value)
     {
-        mainSlider.maxValue = value;
-        yellowSlider.maxValue = value;
-        mainSlider.value = value;
-        yellowSlider.value = value;
+        mainSlider.maxValue = value;        
+        mainSlider.value = value;        
+        if (yellowSlider != null)
+        {
+            yellowSlider.maxValue = value;
+            yellowSlider.value = value;
+        }
     }
 
     protected virtual void UpdateHealthBar(float targetValue)
@@ -38,14 +41,17 @@ public class HealthBar : MonoBehaviour
     }
     protected virtual IEnumerator SmoothYellowBar()
     {
-        isRunning = true;
-        yield return new WaitForSeconds(0.2f);
-
-        while (Mathf.Abs(yellowSlider.value - yellowBarTarget) > 0.01f) // Á×§KµL½a°j°é
+        if (yellowSlider != null)
         {
-            yellowSlider.value = Mathf.MoveTowards(yellowSlider.value, yellowBarTarget, smoothSpeed * Time.deltaTime);
-            yield return null;
-        }
-        isRunning = false;
+            isRunning = true;
+            yield return new WaitForSeconds(0.2f);
+
+            while (Mathf.Abs(yellowSlider.value - yellowBarTarget) > 0.01f) // Á×§KµL½a°j°é
+            {
+                yellowSlider.value = Mathf.MoveTowards(yellowSlider.value, yellowBarTarget, smoothSpeed * Time.deltaTime);
+                yield return null;
+            }
+            isRunning = false;
+        }        
     }
 }
