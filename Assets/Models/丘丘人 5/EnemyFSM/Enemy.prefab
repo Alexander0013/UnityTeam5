@@ -686,7 +686,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcData: {fileID: 11400000, guid: 79815c692afd44bd5b0faa8a102169d0, type: 2}
-  detectionRadius: 8
+  detectionRadius: 10
   attackRadius: 1
   treasureTransform: {fileID: 0}
   treasureReturnRadius: 1
@@ -734,6 +734,8 @@ MonoBehaviour:
   deathEffectPrefab: {fileID: 0}
   fadeDuration: 1
   deathMaterial: {fileID: 2100000, guid: 141484ef1fe8c45f684fdc8e1080c72f, type: 2}
+  isInitialized: 0
+  floatingTextPrefab: {fileID: 0}
 --- !u!114 &5134335583699503607
 MonoBehaviour:
   m_ObjectHideFlags: 0
