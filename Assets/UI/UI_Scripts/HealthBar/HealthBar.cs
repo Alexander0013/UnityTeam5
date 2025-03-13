@@ -8,10 +8,26 @@ public class HealthBar : MonoBehaviour
     public Slider mainSlider;
     public Slider yellowSlider;
 
-    //Smooth color change
+    //Smooth yellow bar
     public float smoothSpeed;
     protected bool isRunning = false;
     protected float yellowBarTarget;
+
+    protected virtual void SetHealthBar(float value)
+    {
+        mainSlider.maxValue = value;
+        yellowSlider.maxValue = value;
+        mainSlider.value = value;
+        yellowSlider.value = value;
+    }
+
+    protected virtual void UpdateHealthBar(float targetValue)
+    {
+        mainSlider.value = targetValue;
+        yellowBarTarget = targetValue; // make sure slider's target value correct
+        StartSmoothYellowBar();
+    }
+
 
     protected virtual void StartSmoothYellowBar()
     {
@@ -32,6 +48,4 @@ public class HealthBar : MonoBehaviour
         }
         isRunning = false;
     }
-
-    
 }

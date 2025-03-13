@@ -7,16 +7,19 @@ public class UI_Manager : MonoBehaviour
     public GameObject myBag;
     public GameObject equipmentUI_A;
     public GameObject equipmentUI_B;
+
     public GameObject playerHealthBar_A;
     public CanvasGroup canvasGroup_A;
     public GameObject playerHealthBar_B;
     public CanvasGroup canvasGroup_B;
+
     public CharacterManager CharacterManager;
 
     public bool bagIsOpen;
     public bool equipAIsOpen_A;
     public bool equipBIsOpen_B;
     public bool playerAonUsed;
+
     private GameObject spawnedMenu;
 
     public void OnEnable()
@@ -34,12 +37,13 @@ public class UI_Manager : MonoBehaviour
         myBag.SetActive(bagIsOpen);
         equipmentUI_A.SetActive(equipAIsOpen_A);
         equipmentUI_B.SetActive(equipBIsOpen_B);
-
-        canvasGroup_A.alpha = 1.0f;
-        canvasGroup_B.alpha = 0.0f;
+        
 
         canvasGroup_A = playerHealthBar_A.GetComponent<CanvasGroup>();
         canvasGroup_B = playerHealthBar_B.GetComponent<CanvasGroup>();
+
+        canvasGroup_A.alpha = 1.0f;
+        canvasGroup_B.alpha = 0.0f;
     }
     void Update()
     {
@@ -61,15 +65,15 @@ public class UI_Manager : MonoBehaviour
     }
     public void OpenBag()
     {        
-        if (equipAIsOpen_A == true)
+        if (equipAIsOpen_A)
         {
-            equipAIsOpen_A = false;
+            equipAIsOpen_A = !equipAIsOpen_A;
             equipmentUI_A.SetActive(equipAIsOpen_A);
         }
 
-        if (equipBIsOpen_B == true)
+        if (equipBIsOpen_B)
         {
-            equipBIsOpen_B = false;
+            equipBIsOpen_B = !equipBIsOpen_B;
             equipmentUI_B.SetActive(equipBIsOpen_B);
         }
         bagIsOpen = !bagIsOpen;
@@ -85,7 +89,7 @@ public class UI_Manager : MonoBehaviour
             bagIsOpen = !bagIsOpen;
             myBag.SetActive(bagIsOpen);
         }
-        if (equipBIsOpen_B == true)
+        if (equipBIsOpen_B)
         {
             equipBIsOpen_B = !equipBIsOpen_B;
             equipmentUI_B.SetActive(equipBIsOpen_B);
@@ -98,12 +102,12 @@ public class UI_Manager : MonoBehaviour
 
     public void OpenEquipmentUI_B()
     {
-        if (bagIsOpen == true)
+        if (bagIsOpen)
         {
             bagIsOpen = !bagIsOpen;
             myBag.SetActive(bagIsOpen);
         }
-        if (equipAIsOpen_A == true)
+        if (equipAIsOpen_A)
         {
             equipAIsOpen_A = !equipAIsOpen_A;
             equipmentUI_A.SetActive(equipAIsOpen_A);
@@ -152,8 +156,5 @@ public class UI_Manager : MonoBehaviour
             canvasGroup_B.alpha = 1;
             canvasGroup_A.alpha = 0;
         }
-        //playerHealthBar_A.SetActive(playerAonUsed);
-        //playerHealthBar_B.SetActive(!playerAonUsed);
-    }
-    
+    }    
 }

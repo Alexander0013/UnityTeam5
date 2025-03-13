@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class PlayerHealthBar : HealthBar
 {
-
     //Change color
     public Gradient gradient;
     public Image fill;
@@ -15,55 +14,37 @@ public class PlayerHealthBar : HealthBar
 
 
     public PlayerHealth playerHealth;
-    //public CharacterManager characterManager;
     public TextMeshProUGUI healthBarText;
 
 
 
     public void OnEnable()
     {
-        playerHealth.OnHealthChanged += UpdateHealthBar;
-        //characterManager.SwitchPlayer += StopSmoothBar;
+        //playerHealth.OnHealthChanged += UpdateHealthBar();
     }
 
     public void OnDisable()
     {
-        playerHealth.OnHealthChanged -= UpdateHealthBar;
-        //characterManager.SwitchPlayer -= StopSmoothBar;
+        //playerHealth.OnHealthChanged -= UpdateHealthBar;
     }
 
     protected virtual void Start()
     {
         //Initialize the health bar
-        mainSlider.maxValue = playerHealth.playerAttackData.health;
-        yellowSlider.maxValue = playerHealth.playerAttackData.health;
-        mainSlider.value = mainSlider.maxValue;
-        yellowSlider.value = yellowSlider.maxValue;
+       SetHealthBar(playerHealth.playerAttackData.health);
 
         fill.color = gradient.Evaluate(1f);
         UpdateHealthBarText();
     }
-    
-    
-    private void UpdateHealthBar()
-    {        
-        if (playerHealth != null)
-        {
-            mainSlider.value = playerHealth.CurrentHealth;
-        }
 
-        yellowBarTarget = mainSlider.value; // make sure slider's target value correct
-        StartSmoothYellowBar(); 
+
+    protected override void UpdateHealthBar(float targetValue)
+    {
+        base.UpdateHealthBar(targetValue);
 
         UpdateHealthBarText();
-        StartCoroutine(SmoothColorChange()); 
+        StartCoroutine(SmoothColorChange());
     }
-
-    //public void StopSmoothBar()
-    //{
-    //    StopCoroutine(SmoothColorChange());
-    //    yellowSlider.value = mainSlider.value;
-    //}
 
     private IEnumerator SmoothColorChange()
     {
