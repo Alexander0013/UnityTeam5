@@ -38,7 +38,7 @@ public class EnemyFSM : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         // Attempt an initial player find
         playerTarget = FindActiveLivingPlayer();
@@ -127,7 +127,7 @@ public class EnemyFSM : MonoBehaviour
     /// Returns the first valid player transform that is activeInHierarchy and has HP > 0,
     /// or null if none found.
     /// </summary>
-    private Transform FindActiveLivingPlayer()
+    protected Transform FindActiveLivingPlayer()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject p in players)

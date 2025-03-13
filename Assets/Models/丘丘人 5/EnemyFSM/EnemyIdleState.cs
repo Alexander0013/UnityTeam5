@@ -7,12 +7,15 @@ public class EnemyIdleState : EnemyBaseState
     private float minIdle = 0.5f;  // random idle range
     private float maxIdle = 1f;
 
+    public Transform treasure;
+
     public override void EnterState(EnemyFSM enemy)
     {
         Debug.Log("Enter Idle State");
         enemy.animator.SetBool("isWalking", false);
         enemy.animator.SetBool("isAttacking", false);
 
+        treasure = enemy.transform.parent;
         // We pick a random idle time each time we enter Idle
         idleTime = Random.Range(minIdle, maxIdle);
         deciding = false;
