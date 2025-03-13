@@ -176,21 +176,5 @@ public class EnemyFSM : MonoBehaviour
             }
         }
     }
-    public void AttackHitEvent()
-    {
-        if(currentState is EnemyAttackState attackState)
-        {
-            attackState.OnAttackHit(this);
-        }
-    }
-
-    public void AttackAnimationEndEvent()
-    {
-        if(currentState is EnemyAttackState attackState)
-        {
-            attackState.OnAttackAnimationFinished(this);
-        }
-    }
-
 
 }

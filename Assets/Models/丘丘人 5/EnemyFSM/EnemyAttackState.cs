@@ -1,41 +1,55 @@
 using UnityEngine;
+using System.Collections;
 
 public class EnemyAttackState : EnemyBaseState
 {
+    private bool isAttacking;
+
     public override void EnterState(EnemyFSM enemy)
     {
-        Debug.Log("Enter EnemyAttack State");
+        Debug.Log("Enter Attack State");
         enemy.animator.SetBool("isWalking", false);
-        // Start the attack animation.
-        enemy.animator.SetTrigger("Attack");
+        //enemy.animator.SetTrigger("Attack");
+        isAttacking = false;
     }
 
     public override void UpdateState(EnemyFSM enemy)
     {
-        // No polling needed here—attack timing is controlled by animation events.
+        if (enemy.playerTarget == null) return;
+
+        // Start the attack coroutine only if not already attacking.
+        if (!isAttacking)
+        {
+            isAttacking = true;
+            enemy.StartCoroutine(PerformAttack(enemy));
+
+        }
     }
 
     public override void ExitState(EnemyFSM enemy)
     {
-        // Any cleanup if needed.
+        enemy.animator.SetBool("isAttacking", false);
     }
 
-    // Called by an Animation Event at the exact moment the attack should hit.
-    public void OnAttackHit(EnemyFSM enemy)
+    private IEnumerator PerformAttack(EnemyFSM enemy)
     {
-        // Apply damage only if still in attack state
-        enemy.ApplyAttackDamage();
-    }
+        // Trigger the attack animation.
+        enemy.animator.SetTrigger("Attack");
 
+        // Wait for the attack animation to reach its hit frame.
+        yield return new WaitForSeconds(0.4f);
 
-    // Called by an Animation Event at the end of the attack animation.
-    public void OnAttackAnimationFinished(EnemyFSM enemy)
-    {
-        enemy.TransitionToState(enemy.idleState);
-        // Only transition if still in attack state.
-        if (enemy.currentState is EnemyAttackState)
+        // Check if the enemy's current state is still AttackState.
+        // If the enemy was hit during its attack, it might have transitioned
+        // to a "GotHit" or "Idle" state. In that case, cancel the attack.
+        if (enemy.currentState != this)
         {
-            
+            // Attack was interrupted; do not apply damage.
+            yield break;
         }
+        enemy.ApplyAttackDamage();
+
+        // Transition back to idle after the attack.
+        enemy.TransitionToState(enemy.idleState);
     }
 }
