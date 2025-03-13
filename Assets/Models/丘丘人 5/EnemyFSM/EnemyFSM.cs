@@ -11,13 +11,14 @@ public class EnemyFSM : MonoBehaviour
     public EnemyIdleState idleState = new EnemyIdleState();
     public EnemyChaseState chaseState = new EnemyChaseState();
     public EnemyAttackState attackState = new EnemyAttackState();
+    public EnemyGotHitState gotHitState = new EnemyGotHitState();
     public EnemyReturnState returnState = new EnemyReturnState();
     public EnemyDeadState deadState = new EnemyDeadState();
 
     [Header("Enemy Settings")]
     public NPCStateData npcData;
-    public float detectionRadius = 6f;  
-    public float attackRadius = 2.5f;     
+    public float detectionRadius = 8f;  
+    public float attackRadius = 1.2f;     
     public Transform treasureTransform; 
     public float treasureReturnRadius = 1f; 
     public Transform attackHitPoint;

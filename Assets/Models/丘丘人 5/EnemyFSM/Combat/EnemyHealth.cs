@@ -68,23 +68,27 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     }
 
     IEnumerator GetHitRoutine()
+{
+    // Optionally spawn hit effect
+    if (hitEffectPrefab != null)
     {
-        // Optional: spawn a hit effect
-        if (hitEffectPrefab != null)
-        {
-            GameObject hitFx = Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
-            Destroy(hitFx, 0.5f);
-        }
-
-        // Trigger the GetHit animation
-        animator.SetTrigger("GotHit");
-
-        // Wait a fraction of a second to let the flinch play, if you like
-        yield return new WaitForSeconds(0.5f);
-
-        // If you want the FSM to do something special (like not chase for a moment),
-        // you can do so here, or rely on the AnyState->GotHit animator transitions
+        GameObject hitFx = Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
+        Destroy(hitFx, 0.5f);
     }
+
+    // Trigger the GotHit animation
+    animator.SetTrigger("GotHit");
+
+    // If the enemy is currently attacking, interrupt that attack
+    if (fsm != null && fsm.currentState is EnemyAttackState)
+    {
+        fsm.TransitionToState(fsm.gotHitState);
+    }
+
+    // Wait briefly for the hit reaction to play
+    yield return new WaitForSeconds(0.5f);
+}
+
 
     IEnumerator DieRoutine()
     {
