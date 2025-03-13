@@ -19,20 +19,19 @@ public class GetClick : MonoBehaviour, IPointerClickHandler
 
         if (eventData.pointerCurrentRaycast.gameObject.name == "Item Image")
         {
-            Debug.Log(this.gameObject.name);
+            //Debug.Log(this.gameObject.name);
             Slot slot = this.gameObject.GetComponentInParent<Slot>();
-            Debug.Log("slot = " + slot);
+            //Debug.Log("slot = " + slot);
             if (slot != null)
             {
                 if (eventData.button == PointerEventData.InputButton.Right) // ¥kÁä
                 {
-                    ShowMenu(slot, eventData.position);
-                    //Debug.Log(this.gameObject.GetComponent<Slot>());                
+                    ShowMenu(slot, eventData.position);            
                 }
-                else if (eventData.button == PointerEventData.InputButton.Left) // ¥ªÁä
-                {
-                    //Debug.Log("¥ªÁäÂIÀ» " );                
-                }
+                //else if (eventData.button == PointerEventData.InputButton.Left) // ¥ªÁä
+                //{
+                //    //Debug.Log("¥ªÁäÂIÀ» " );                
+                //}
                 InventoryManager.UpdateItemInfo(slot.slotImage, slot.slotInfo);
             }
         }

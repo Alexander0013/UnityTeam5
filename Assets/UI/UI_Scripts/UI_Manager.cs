@@ -9,9 +9,9 @@ public class UI_Manager : MonoBehaviour
     public GameObject equipmentUI_B;
 
     public GameObject playerHealthBar_A;
-    public CanvasGroup canvasGroup_A;
+    private CanvasGroup canvasGroup_A;
     public GameObject playerHealthBar_B;
-    public CanvasGroup canvasGroup_B;
+    private CanvasGroup canvasGroup_B;
 
     public CharacterManager CharacterManager;
 
@@ -51,20 +51,9 @@ public class UI_Manager : MonoBehaviour
         {
             OpenBag();
         }
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            if (equipAIsOpen_A == true)
-            {
-                OpenEquipmentUI_B();
-            }
-            else
-            {
-                OpenEquipmentUI_A();
-            }
-        }
     }
     public void OpenBag()
-    {        
+    {
         if (equipAIsOpen_A)
         {
             equipAIsOpen_A = !equipAIsOpen_A;
@@ -84,7 +73,7 @@ public class UI_Manager : MonoBehaviour
 
     public void OpenEquipmentUI_A()
     {
-        if (bagIsOpen == true)
+        if (bagIsOpen)
         {
             bagIsOpen = !bagIsOpen;
             myBag.SetActive(bagIsOpen);
@@ -120,7 +109,7 @@ public class UI_Manager : MonoBehaviour
 
     public void CloseUI()
     {
-        bagIsOpen=false;
+        bagIsOpen =false;
         equipAIsOpen_A = false;        
         equipBIsOpen_B = false;
 
