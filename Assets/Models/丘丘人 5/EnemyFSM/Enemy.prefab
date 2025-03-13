@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 3065171715006533480}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.009, y: 0.429, z: 0.007}
+  m_LocalPosition: {x: 0.009, y: 0.407, z: 0.007}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 7020684919572659100}
   serializedVersion: 2
   m_LocalRotation: {x: -0.15047053, y: 0.19257142, z: -0.76408327, w: 0.59703577}
-  m_LocalPosition: {x: -0.106, y: 0.14, z: -0.005}
+  m_LocalPosition: {x: -0.124, y: 0.144, z: 0.005}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -686,7 +686,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcData: {fileID: 11400000, guid: 79815c692afd44bd5b0faa8a102169d0, type: 2}
-  detectionRadius: 6
+  detectionRadius: 8
   attackRadius: 1
   treasureTransform: {fileID: 0}
   treasureReturnRadius: 1
@@ -713,10 +713,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.4
   m_Height: 1.820548
   m_Direction: 1
-  m_Center: {x: 0, y: 0.41027403, z: 0}
+  m_Center: {x: 0, y: 0.41027403, z: -0.06948757}
 --- !u!114 &6075071594025139486
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -11,13 +11,14 @@ public class EnemyFSM : MonoBehaviour
     public EnemyIdleState idleState = new EnemyIdleState();
     public EnemyChaseState chaseState = new EnemyChaseState();
     public EnemyAttackState attackState = new EnemyAttackState();
+    public EnemyGotHitState gotHitState = new EnemyGotHitState();
     public EnemyReturnState returnState = new EnemyReturnState();
     public EnemyDeadState deadState = new EnemyDeadState();
 
     [Header("Enemy Settings")]
     public NPCStateData npcData;
-    public float detectionRadius = 6f;  
-    public float attackRadius = 2.5f;     
+    public float detectionRadius = 8f;  
+    public float attackRadius = 1.2f;     
     public Transform treasureTransform; 
     public float treasureReturnRadius = 1f; 
     public Transform attackHitPoint;
@@ -38,7 +39,7 @@ public class EnemyFSM : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         // Attempt an initial player find
         playerTarget = FindActiveLivingPlayer();
@@ -127,7 +128,7 @@ public class EnemyFSM : MonoBehaviour
     /// Returns the first valid player transform that is activeInHierarchy and has HP > 0,
     /// or null if none found.
     /// </summary>
-    private Transform FindActiveLivingPlayer()
+    protected Transform FindActiveLivingPlayer()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject p in players)
