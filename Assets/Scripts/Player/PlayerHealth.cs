@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
-
-
+using System;
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
     // Reference to an AttackData asset that contains the player's health.
@@ -11,7 +10,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private Animator animator;
     private PlayerShield playerShield; // Reference to the shield component.
-    public event System.Action OnHealthChanged; 
+    public event Action<float> OnHealthChanged;
     public float CurrentHealth
     {
         get { return currentHealth; }
@@ -20,7 +19,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             if (currentHealth != value)
             {
                 currentHealth = value;
-                OnHealthChanged?.Invoke();
+                OnHealthChanged?.Invoke(currentHealth);
             }
         }
     }
@@ -33,7 +32,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         playerShield = GetComponent<PlayerShield>(); // Cache the shield component.
         Debug.Log("Player Health Initialized: " + currentHealth);
 
-        OnHealthChanged?.Invoke();
+        OnHealthChanged?.Invoke(currentHealth);
     }
 
     /// <summary>

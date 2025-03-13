@@ -83,6 +83,10 @@ public class PlayerHealthBar : HealthBar
 
     public void UpdateHealthBarText()
     {
-        healthBarText.text = mainSlider.value.ToString()+ " / " + mainSlider.maxValue.ToString();
+        if(healthBarText!=null)
+        {
+            healthBarText.text = mainSlider.value.ToString()+ " / " + mainSlider.maxValue.ToString();
+        }
+
     }
 }
