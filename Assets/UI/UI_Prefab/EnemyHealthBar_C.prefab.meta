@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/UI/UI_Prefab/EnemyHealthBar_C.prefab.meta
 guid: b0f30c75802e3fe4a8c6dfdbe40bbdef
+========
+guid: 6dfc183f676f4384a9502fad62927c43
+>>>>>>>> origin/main:Assets/UI/UI_Prefab/EnemyHealthBar.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 
