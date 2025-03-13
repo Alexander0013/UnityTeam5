@@ -13,7 +13,6 @@ public class EnemyIdleState : EnemyBaseState
     {
         Debug.Log("Enter Idle State");
         enemy.animator.SetBool("isWalking", false);
-        enemy.animator.SetBool("isAttacking", false);
 
         treasure = enemy.transform.parent;
         // We pick a random idle time each time we enter Idle

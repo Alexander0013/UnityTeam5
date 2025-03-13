@@ -15,9 +15,9 @@ MonoBehaviour:
   itemName: "\u8056\u907A\u72692"
   itemImage: {fileID: 21300000, guid: 0854163b09ace2b40a511eddf9fd70fe, type: 3}
   itemHeld: 1
-  itemInfo: Health+100
+  itemInfo: Health+10
   itemType: 1
   damageModifier: 0
-  healthModifier: 100
+  healthModifier: 10
   type: 1
   gender: 1

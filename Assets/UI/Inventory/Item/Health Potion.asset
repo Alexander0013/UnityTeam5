@@ -15,5 +15,6 @@ MonoBehaviour:
   itemName: Health Potion
   itemImage: {fileID: 21300000, guid: a29453c653731bb49b7203acf088de9e, type: 3}
   itemHeld: 5
-  itemInfo: Heal 50 health point
-  healAmount: 50
+  itemInfo: Heal 10 health point
+  itemType: 0
+  healAmount: 10

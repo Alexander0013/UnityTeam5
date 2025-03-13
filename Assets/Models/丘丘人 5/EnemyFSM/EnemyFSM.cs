@@ -1,12 +1,10 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
-
 public class EnemyFSM : MonoBehaviour
 {
     // Make the enemy list public so other states can check for blocking
     public static List<EnemyFSM> AllEnemies = new List<EnemyFSM>();
-
     // References to each state
     public EnemyIdleState idleState = new EnemyIdleState();
     public EnemyChaseState chaseState = new EnemyChaseState();
@@ -14,36 +12,29 @@ public class EnemyFSM : MonoBehaviour
     public EnemyGotHitState gotHitState = new EnemyGotHitState();
     public EnemyReturnState returnState = new EnemyReturnState();
     public EnemyDeadState deadState = new EnemyDeadState();
-
     [Header("Enemy Settings")]
     public NPCStateData npcData;
-    public float detectionRadius = 8f;  
-    public float attackRadius = 1.2f;     
-    public Transform treasureTransform; 
-    public float treasureReturnRadius = 1f; 
+    public float detectionRadius = 8f;
+    public float attackRadius = 1.2f;
+    public Transform treasureTransform;
+    public float treasureReturnRadius = 1f;
     public Transform attackHitPoint;
-    
 
     [HideInInspector] public Animator animator;
     [HideInInspector] public Transform playerTarget;
     [HideInInspector] public bool isDead;
     [HideInInspector] public EnemyBaseState currentState;
-
     private static List<EnemyFSM> allEnemies = new List<EnemyFSM>(); // For team collision avoidance
     private bool waitingForReturn = false;
-
     private void Awake()
     {
         allEnemies.Add(this);
-
         animator = GetComponent<Animator>();
     }
-
     protected virtual void Start()
     {
         // Attempt an initial player find
         playerTarget = FindActiveLivingPlayer();
-
         // Start in Idle (or ReturnState if no player found)
         if (playerTarget == null)
         {
@@ -54,12 +45,10 @@ public class EnemyFSM : MonoBehaviour
             TransitionToState(idleState);
         }
     }
-
     private void Update()
     {
         // Skip updates if we're flagged dead or have no current state
         if (isDead || currentState == null) return;
-
         // 1) Check if the currently assigned player is valid
         if (playerTarget != null)
         {
@@ -74,7 +63,7 @@ public class EnemyFSM : MonoBehaviour
         }
         else
         {
-        // 2) We have no current target. Try to find one.
+            // 2) We have no current target. Try to find one.
             Transform newTarget = FindActiveLivingPlayer();
             if (newTarget != null)
             {
@@ -84,12 +73,15 @@ public class EnemyFSM : MonoBehaviour
             }
             // Otherwise, remain in the current state (which might be Return or Idle).
         }
-
+        float distanceFromTreasure = Vector3.Distance(transform.position, transform.parent.position);
+        if (distanceFromTreasure > 20f)
+        {
+            TransitionToState(returnState);
+        }
         // Let our current state perform its update logic.
         currentState.UpdateState(this);
         PreventTeamCollision();
     }
-
     public void TransitionToState(EnemyBaseState newState)
     {
         if (currentState != null)
@@ -99,12 +91,10 @@ public class EnemyFSM : MonoBehaviour
         currentState = newState;
         currentState.EnterState(this);
     }
-
     private void OnDestroy()
     {
         allEnemies.Remove(this);
     }
-
     private void PreventTeamCollision()
     {
         // your existing separation logic
@@ -112,18 +102,16 @@ public class EnemyFSM : MonoBehaviour
         {
             if (otherEnemy == this) continue;
             if (otherEnemy == null) continue;
-
             float dist = Vector3.Distance(transform.position, otherEnemy.transform.position);
             if (dist < 1f && dist > 0f)  // you can use separationRadius
             {
                 Vector3 pushDir = (transform.position - otherEnemy.transform.position);
-                pushDir.y = 0f;                      
-                pushDir = pushDir.normalized;        
-                transform.position += pushDir * (2f * Time.deltaTime); 
+                pushDir.y = 0f;
+                pushDir = pushDir.normalized;
+                transform.position += pushDir * (2f * Time.deltaTime);
             }
         }
     }
-
     /// <summary>
     /// Returns the first valid player transform that is activeInHierarchy and has HP > 0,
     /// or null if none found.
@@ -140,7 +128,6 @@ public class EnemyFSM : MonoBehaviour
         }
         return null;
     }
-
     private bool IsPlayerAlive(Transform playerTransform)
     {
         // Check the player's HP
@@ -148,7 +135,6 @@ public class EnemyFSM : MonoBehaviour
         if (ph == null) return false;
         return (ph.CurrentHealth > 0);
     }
-
     private IEnumerator WaitAndReturnCoroutine()
     {
         waitingForReturn = true;
@@ -176,5 +162,25 @@ public class EnemyFSM : MonoBehaviour
             }
         }
     }
-
+    public void AttackHitEvent()
+    {
+        if (currentState is EnemyAttackState attackState)
+        {
+            attackState.OnAttackHit(this);
+        }
+    }
+    public void AttackAnimationEndEvent()
+    {
+        if (currentState is EnemyAttackState attackState)
+        {
+            Debug.Log("Leaving EnemyAttack State");
+            attackState.OnAttackAnimationFinished(this);
+        }
+        
+    }
+    public void TestEvent()
+    {
+        Debug.Log("TestEvent called!");
+    }
 }
+

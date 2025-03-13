@@ -25,6 +25,7 @@ public class CharacterManager : MonoBehaviour
     public float hairRampUpDuration = 0.5f;
 
     public event System.Action SwitchPlayer;
+
     void Start()
     {
         // Initially deactivate all characters.

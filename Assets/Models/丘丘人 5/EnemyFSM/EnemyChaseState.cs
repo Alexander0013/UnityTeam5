@@ -32,7 +32,7 @@ public class EnemyChaseState : EnemyBaseState
         }
 
         float distance = Vector3.Distance(enemy.transform.position, enemy.playerTarget.position);
-
+        
         // If within attack range, transition
         if (distance <= enemy.attackRadius)
         {
