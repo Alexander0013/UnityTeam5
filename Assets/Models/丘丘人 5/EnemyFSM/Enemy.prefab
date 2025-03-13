@@ -687,7 +687,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcData: {fileID: 11400000, guid: 79815c692afd44bd5b0faa8a102169d0, type: 2}
   detectionRadius: 10
-  attackRadius: 1
+  attackRadius: 1.2
   treasureTransform: {fileID: 0}
   treasureReturnRadius: 1
   attackHitPoint: {fileID: 5147312883367909770}

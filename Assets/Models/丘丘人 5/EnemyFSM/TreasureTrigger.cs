@@ -6,9 +6,6 @@ public class TreasureTrigger : MonoBehaviour
 {
     [Header("Treasure Trigger Settings")]
     public float triggerRadius = 6f;
-    
-    [Tooltip("Assign the invisible wall or barrier GameObject here.")]
-    public GameObject invisibleWall; 
 
     [Tooltip("Assign your magic shield (if any) here.")]
     public GameObject magicShield;
@@ -41,8 +38,7 @@ public class TreasureTrigger : MonoBehaviour
         {
             hasTriggered = true; 
             
-            // Enable the wall + shield
-            if (invisibleWall != null) invisibleWall.SetActive(true);
+            // Enable the shield
             if (magicShield != null) magicShield.SetActive(true);
 
             // Start checking if all enemies in sceneEnemies are dead
@@ -70,11 +66,7 @@ public class TreasureTrigger : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
 
-        // Once all enemies are dead, disable the invisible wall and shield
-        if (invisibleWall != null)
-        {
-            invisibleWall.SetActive(false);
-        }
+        // Once all enemies are dead, disable the shield
         if (magicShield != null)
         {
             magicShield.SetActive(false);

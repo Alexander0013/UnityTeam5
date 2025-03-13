@@ -73,6 +73,11 @@ public class EnemyFSM : MonoBehaviour
             }
             // Otherwise, remain in the current state (which might be Return or Idle).
         }
+        float distanceFromTreasure = Vector3.Distance(transform.position, transform.parent.position);
+        if (distanceFromTreasure > 20f)
+        {
+            TransitionToState(returnState);
+        }
         // Let our current state perform its update logic.
         currentState.UpdateState(this);
         PreventTeamCollision();
