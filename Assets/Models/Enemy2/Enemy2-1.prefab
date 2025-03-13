@@ -66,17 +66,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 4efd8dd4c7cc2334cb05b26abcf3a997,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -16.033344
+      value: 1.371
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4efd8dd4c7cc2334cb05b26abcf3a997,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.000311
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4efd8dd4c7cc2334cb05b26abcf3a997,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.43
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4efd8dd4c7cc2334cb05b26abcf3a997,
         type: 3}
@@ -1270,7 +1270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcData: {fileID: 11400000, guid: 92c912f55c8978b44b616659f8c04250, type: 2}
   detectionRadius: 6
-  attackRadius: 2.5
+  attackRadius: 1.5
   treasureTransform: {fileID: 0}
   treasureReturnRadius: 1
   attackHitPoint: {fileID: 0}

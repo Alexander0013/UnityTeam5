@@ -9,17 +9,20 @@ public class EnemyAttackState : EnemyBaseState
     {
         Debug.Log("Enter Attack State");
         enemy.animator.SetBool("isWalking", false);
+        //enemy.animator.SetTrigger("Attack");
         isAttacking = false;
     }
 
     public override void UpdateState(EnemyFSM enemy)
     {
-        if(enemy.playerTarget == null) return;
-        // Removed the distance check so the attack animation cannot be interrupted.
+        if (enemy.playerTarget == null) return;
+
+        // Start the attack coroutine only if not already attacking.
         if (!isAttacking)
         {
             isAttacking = true;
             enemy.StartCoroutine(PerformAttack(enemy));
+
         }
     }
 
@@ -30,36 +33,23 @@ public class EnemyAttackState : EnemyBaseState
 
     private IEnumerator PerformAttack(EnemyFSM enemy)
     {
-        // Trigger the attack animation
+        // Trigger the attack animation.
         enemy.animator.SetTrigger("Attack");
-        
-        // Wait for the remainder of the attack animation (total length 1.333 seconds)
-        yield return new WaitForSeconds(1f);
+
+        // Wait for the attack animation to reach its hit frame.
+        yield return new WaitForSeconds(0.4f);
+
+        // Check if the enemy's current state is still AttackState.
+        // If the enemy was hit during its attack, it might have transitioned
+        // to a "GotHit" or "Idle" state. In that case, cancel the attack.
+        if (enemy.currentState != this)
+        {
+            // Attack was interrupted; do not apply damage.
+            yield break;
+        }
         enemy.ApplyAttackDamage();
 
-        // Transition to chase state once the attack animation is complete
+        // Transition back to idle after the attack.
         enemy.TransitionToState(enemy.idleState);
-    }
-
-
-    /// <summary>
-    /// Finds any GameObject(s) tagged "Player" that is activeInHierarchy and has PlayerHealth > 0.
-    /// Returns the first valid player's transform, or null if none found.
-    /// </summary>
-    private Transform FindActiveLivingPlayer()
-    {
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject p in players)
-        {
-            if (p.activeInHierarchy)
-            {
-                PlayerHealth ph = p.GetComponent<PlayerHealth>();
-                if (ph != null && ph.CurrentHealth > 0)
-                {
-                    return p.transform;
-                }
-            }
-        }
-        return null;
     }
 }

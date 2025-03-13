@@ -5,6 +5,7 @@ public class EnemyChaseState : EnemyBaseState
     private float speed = 2.5f;
     private float lostPlayerTimer;
     private float lostPlayerThreshold = 1.5f;
+    public Transform treasure;
 
     public override void EnterState(EnemyFSM enemy)
     {
@@ -12,6 +13,7 @@ public class EnemyChaseState : EnemyBaseState
         enemy.animator.SetBool("isWalking", true);
         enemy.animator.SetBool("isAttacking", false);
         lostPlayerTimer = 0f;
+        treasure = enemy.transform.parent;
     }
 
     public override void UpdateState(EnemyFSM enemy)
