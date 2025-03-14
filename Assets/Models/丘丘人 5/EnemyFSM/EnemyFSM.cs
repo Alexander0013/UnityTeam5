@@ -25,7 +25,7 @@ public class EnemyFSM : MonoBehaviour
     [HideInInspector] public bool isDead;
     [HideInInspector] public EnemyBaseState currentState;
     private static List<EnemyFSM> allEnemies = new List<EnemyFSM>(); // For team collision avoidance
-    private bool waitingForReturn = false;
+    protected bool waitingForReturn = false;
     private void Awake()
     {
         allEnemies.Add(this);
@@ -128,14 +128,14 @@ public class EnemyFSM : MonoBehaviour
         }
         return null;
     }
-    private bool IsPlayerAlive(Transform playerTransform)
+    protected bool IsPlayerAlive(Transform playerTransform)
     {
         // Check the player's HP
         PlayerHealth ph = playerTransform.GetComponent<PlayerHealth>();
         if (ph == null) return false;
         return (ph.CurrentHealth > 0);
     }
-    private IEnumerator WaitAndReturnCoroutine()
+    protected IEnumerator WaitAndReturnCoroutine()
     {
         waitingForReturn = true;
         //Debug.Log("Player dead detected. Waiting 2 seconds before returning...");
