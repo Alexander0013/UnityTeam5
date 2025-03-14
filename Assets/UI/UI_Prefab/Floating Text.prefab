@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5979166586275547825}
   - component: {fileID: 1569449857330949007}
   - component: {fileID: 3290515639823737626}
+  - component: {fileID: 3991984618108718035}
   m_Layer: 11
   m_Name: Floating Text
   m_TagString: Untagged
@@ -193,3 +194,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3991984618108718035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8066511866630600987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21dbda714470f844e879acb238e26c33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyTime: 3
+  offset: {x: 0, y: 0, z: 0}
+  randomizeIntensity: {x: 0.5, y: 0, z: 0}
