@@ -286,7 +286,7 @@ TextureImporter:
         width: 60
         height: 62
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -294,6 +294,27 @@ TextureImporter:
       bones: []
       spriteID: 8e93f6019f2b52548ac7087ac3e18d7d
       internalID: -817990931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_9
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 6
+        width: 242
+        height: 243
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e72ee69dc1569e74c945fe9391d87f09
+      internalID: 2065627087
       vertices: []
       indices: 
       edges: []
@@ -318,6 +339,7 @@ TextureImporter:
       SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_6: 840059155
       SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_7: 269058909
       SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_8: -817990931
+      SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_9: 2065627087
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
