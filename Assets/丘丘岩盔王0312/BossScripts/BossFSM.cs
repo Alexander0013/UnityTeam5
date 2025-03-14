@@ -10,6 +10,7 @@ public class BossFSM : MonoBehaviour
     public BossAttackState attackState = new BossAttackState();
     public BossReturnState returnState = new BossReturnState();
     public BossDeadState deadState = new BossDeadState();
+    public BossRoalingState roalingState = new BossRoalingState();
 
     [Header("Boss Settings")]
     public NPCStateData npcData;
@@ -166,5 +167,36 @@ public class BossFSM : MonoBehaviour
             TransitionToState(returnState);
         }
         waitingForReturn = false;
+    }
+    public void ApplyAttackDamage()
+    {
+        float damage = npcData.baseDamage * npcData.comboMultiplier;
+        float radius = npcData.hitRadius;
+        Vector3 attackCenter = attackHitPoint.position;
+        Collider[] hits = Physics.OverlapSphere(attackCenter, radius, npcData.playerLayers);
+        foreach (Collider c in hits)
+        {
+            IDamageable dmg = c.GetComponent<IDamageable>();
+            if (dmg != null)
+            {
+                dmg.TakeDamage(damage);
+            }
+        }
+    }
+    public void AttackHitEvent()
+    {
+        if (currentState is BossAttackState attackState)
+        {
+            attackState.OnAttackHit(this);
+        }
+    }
+    public void AttackAnimationEndEvent()
+    {
+        if (currentState is BossAttackState attackState)
+        {
+            Debug.Log("Leaving EnemyAttack State");
+            attackState.OnAttackAnimationFinished(this);
+        }
+
     }
 }

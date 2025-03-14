@@ -8,8 +8,8 @@ public class BossRoalingState : BossBaseState
 
         if (boss.animator != null)
         {
-            boss.animator.applyRootMotion = false; // 禁止動畫期間的 Root Motion 位移
-            boss.animator.SetTrigger("Roaling");  // 改用 Trigger 觸發動畫
+            boss.animator.applyRootMotion = false; // 確保動畫不會影響移動
+            boss.animator.SetTrigger("Roaling");  // 觸發 Roaling 動畫
         }
     }
 
@@ -17,23 +17,25 @@ public class BossRoalingState : BossBaseState
     {
         if (boss.animator == null) return;
 
-        int layerIndex = boss.animator.GetLayerIndex("moveLayer");
+        int layerIndex = boss.animator.GetLayerIndex("Base Layer"); // 或 "moveLayer"
         AnimatorStateInfo stateInfo = boss.animator.GetCurrentAnimatorStateInfo(layerIndex);
 
-        // 檢查 Roaling 是否還在播放
+        // 等待 Roaling 播放完畢
         if (stateInfo.IsName("Roaling") && stateInfo.normalizedTime < 1f)
         {
-            return;  // 動畫未播完，等待
+            return;  // 動畫還沒播完，不切換狀態
         }
 
-        // 動畫播放完畢後，切換到 Idle 狀態
-        Debug.Log("Roaling 動畫播放完畢，轉換至 Idle 狀態");
-        boss.TransitionToState(boss.idleState);
+        // Roaling 播放完畢，轉換至 Chase
+        Debug.Log("Roaling 動畫播放完畢，轉換至 Chase 狀態");
+        boss.TransitionToState(boss.chaseState);
     }
+
 
     public override void ExitState(BossFSM boss)
     {
         Debug.Log("Boss 離開 Roaling 狀態");
-        boss.animator.ResetTrigger("Roaling");  // 確保不會影響下一次播放
+        boss.animator.ResetTrigger("Roaling");  // 重置 Trigger，避免影響下一次播放
     }
 }
+
