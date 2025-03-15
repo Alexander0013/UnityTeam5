@@ -2,47 +2,31 @@ using UnityEngine;
 
 public class ArcherIdleState : EnemyBaseState
 {
+    private float guardRange = 10f;
     public override void EnterState(EnemyFSM enemy)
     {
-        ArcherFSM archer = enemy as ArcherFSM;
-        if (archer == null) return;
-        Debug.Log("[ArcherIdleState] Entering Idle (Aiming) State");
-        // Set animator to idle/aiming loop.
-        archer.animator.SetBool("isIdle", true);
-        archer.animator.SetBool("isShooting", false);
-        // Reset shoot timer.
-        archer.shootTimer = 0f;
+        Debug.Log("[ArcherIdleState] Entering Idle");
+        enemy.animator.SetBool("isAttacking", false);
+        enemy.animator.SetBool("isWalking", false);
     }
 
     public override void UpdateState(EnemyFSM enemy)
     {
-        ArcherFSM archer = enemy as ArcherFSM;
-        if (archer == null || archer.isDead) return;
-        if (archer.playerTarget == null) return;
+        if (enemy.playerTarget == null) return;
         
-        float distance = Vector3.Distance(archer.transform.position, archer.playerTarget.position);
-        // Remain in idle if the target is in detection range.
-        if (distance <= archer.detectionRadius)
+        float distance = Vector3.Distance(enemy.transform.position, enemy.playerTarget.position);
+        if (distance < 2f)
         {
-            // Increment shoot timer.
-            archer.shootTimer += Time.deltaTime;
-            if (archer.shootTimer >= archer.shootCooldown)
-            {
-                // Time to shoot: transition to shoot state.
-                archer.TransitionToState(archer.shootState);
-            }
+            enemy.TransitionToState(((ArcherFSM)enemy).meleeState);
         }
-        else
+        else if (distance <= guardRange)
         {
-            // Optionally, if the player moves out of range, transition to Return state.
-            archer.TransitionToState(archer.returnState);
+            enemy.TransitionToState(((ArcherFSM)enemy).shootState);
         }
     }
 
     public override void ExitState(EnemyFSM enemy)
     {
-        ArcherFSM archer = enemy as ArcherFSM;
-        if (archer == null) return;
-        archer.animator.SetBool("isIdle", false);
+        
     }
 }
