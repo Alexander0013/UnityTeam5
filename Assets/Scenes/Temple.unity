@@ -466,6 +466,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 237476063556277931, guid: b77962cf27968b049b3c55e1f9bdba1a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1285355173518746441, guid: b77962cf27968b049b3c55e1f9bdba1a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -515,6 +520,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8384673294514560457, guid: b77962cf27968b049b3c55e1f9bdba1a,
+        type: 3}
+      propertyPath: cursorLocked
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8859030211229458744, guid: b77962cf27968b049b3c55e1f9bdba1a,
         type: 3}
@@ -868,6 +878,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4123048438186367806, guid: 3795fb12dcaef614284e7dbd8c9a3a8f,
+        type: 3}
+      propertyPath: cursorLocked
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7093380772008791394, guid: 3795fb12dcaef614284e7dbd8c9a3a8f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -922,6 +937,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player_2 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7455818752020803704, guid: 3795fb12dcaef614284e7dbd8c9a3a8f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -992,7 +1012,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scene1Name: Temple
   scene2Name: PureNature
-  scene3Name: Boss
 --- !u!1001 &1911435725
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1050,6 +1069,11 @@ PrefabInstance:
         type: 3}
       propertyPath: healthBarText
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6200055552112602879, guid: 77ea8a5eb8b0d4b4286963ed17ed9b49,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6412045352057257151, guid: 77ea8a5eb8b0d4b4286963ed17ed9b49,
         type: 3}

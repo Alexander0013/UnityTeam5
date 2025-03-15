@@ -107,32 +107,33 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
 
     IEnumerator DieRoutine()
+{
+    if (isDead) yield break;
+    isDead = true;
+
+    // Trigger death animation
+    animator.SetTrigger("Die");
+
+    // Notify FSM (if needed)
+    if (fsm != null)
     {
-        if (isDead) yield break;
-        isDead = true;
+        fsm.isDead = true;
+    }
 
-        //Debug.Log($"{gameObject.name} has died.");
-        animator.SetTrigger("Die");
+    // Spawn death effect if assigned
+    if (deathEffectPrefab != null)
+    {
+        Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
+    }
 
-        // (Optional) Let the FSM know we're dead so it can stop AI logic
-        if (fsm != null)
-        {
-            fsm.isDead = true; 
-            // or do fsm.TransitionToState(fsm.deadState), if you want
-        }
+    // Wait for the death animation to play out
+    yield return new WaitForSeconds(1f);
 
-        // Spawn a death effect, if any
-        if (deathEffectPrefab != null)
-        {
-            Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
-        }
-
-        // Wait a short moment for the death animation
-        yield return new WaitForSeconds(0.5f);
-
-        // Swap in dissolve material
-        Renderer[] renderers = GetComponentsInChildren<Renderer>();
-        foreach (Renderer r in renderers)
+    // Cache all renderers from children
+    Renderer[] renderers = GetComponentsInChildren<Renderer>();
+    foreach (Renderer r in renderers)
+    {
+        if(r != null)
         {
             Material[] mats = new Material[r.materials.Length];
             for (int i = 0; i < mats.Length; i++)
@@ -141,30 +142,37 @@ public class EnemyHealth : MonoBehaviour, IDamageable
             }
             r.materials = mats;
         }
+    }
 
-        float timer = 0f;
-        while (timer < fadeDuration)
+    float timer = 0f;
+    while (timer < fadeDuration)
+    {
+        timer += Time.deltaTime;
+        float dissolveValue = Mathf.Lerp(0f, 0.5f, timer / fadeDuration);
+    
+        foreach (Renderer r in renderers)
         {
-            timer += Time.deltaTime;
-            float dissolveValue = Mathf.Lerp(0f, 1f, timer / fadeDuration);
-
-            foreach (Renderer r in renderers)
+            // Only process if the renderer still exists
+            if (r == null) continue;
+            
+            // Get the materials each frame
+            Material[] mats = r.materials;
+            foreach (Material mat in mats)
             {
-                foreach (Material mat in r.materials)
+                if (mat != null && mat.HasProperty("_DissolveAmount"))
                 {
-                    if (mat.HasProperty("_DissolveAmount"))
-                    {
-                        mat.SetFloat("_DissolveAmount", dissolveValue);
-                    }
+                    mat.SetFloat("_DissolveAmount", dissolveValue);
                 }
             }
-            yield return null;
         }
-
-        // Finally, destroy the object
-        Destroy(gameObject);
-        OnDeath?.Invoke();
+        yield return null;
     }
+    
+    // Finally, destroy the object
+    Destroy(gameObject);
+    OnDeath?.Invoke();
+}
+
 
     //For floating damage text
     public void ShowFloatingText(float damage)
@@ -172,15 +180,15 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         GameObject floatingText =Instantiate(floatingTextPrefab, transform.position, Quaternion.identity, transform);
         floatingText.GetComponent<TextMeshPro>().text = damage.ToString();
 
-        // Åý¯B°Ê¤å¦r´Â¦VÄá¼v¾÷
+        // ï¿½ï¿½ï¿½Bï¿½Ê¤ï¿½rï¿½Â¦Vï¿½ï¿½vï¿½ï¿½
         Camera mainCamera = Camera.main;
         if (mainCamera != null)
         {
-            floatingText.transform.LookAt(mainCamera.transform.position);  // ´Â¦VÄá¼v¾÷
-            floatingText.transform.Rotate(0f, 180f, 0f); // Á×§K¤å¦r¤Ï¦V¡]¦³®É­Ô LookAt ·|¾É­P¤å¦r¤ÏÂà¡^
+            floatingText.transform.LookAt(mainCamera.transform.position);  // ï¿½Â¦Vï¿½ï¿½vï¿½ï¿½
+            floatingText.transform.Rotate(0f, 180f, 0f); // ï¿½×§Kï¿½ï¿½rï¿½Ï¦Vï¿½]ï¿½ï¿½ï¿½É­ï¿½ LookAt ï¿½|ï¿½É­Pï¿½ï¿½rï¿½ï¿½ï¿½ï¿½^
         }
 
-        //// ¥i¿ï¡G¥[¤W°Êµe©Î®ÄªG
+        //// ï¿½iï¿½ï¿½Gï¿½[ï¿½Wï¿½Êµeï¿½Î®ÄªG
         //floatingText.transform.DOMoveY(floatingText.transform.position.y + 1f, 1f);
         //tmpText.DOFade(0f, 1f).OnComplete(() => Destroy(floatingText));
     }
