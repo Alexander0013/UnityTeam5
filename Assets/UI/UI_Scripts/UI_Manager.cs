@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class UI_Manager : MonoBehaviour
 {
+    //123
     public static UI_Manager instance;
 
     public Camera mainCamera;
