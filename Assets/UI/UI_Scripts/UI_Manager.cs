@@ -1,31 +1,67 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using StarterAssets;
 using UnityEngine.InputSystem;
 
 public class UI_Manager : MonoBehaviour
 {
+    public static UI_Manager instance;
+
+    public Camera mainCamera;
+    public Canvas canvas;
+    public RectTransform rectTransform;
+
+
+    //Bag&Equipment
     public GameObject myBag;
     public GameObject equipmentUI_A;
     public GameObject equipmentUI_B;
 
-    public GameObject playerHealthBar_A;
-    private CanvasGroup canvasGroup_A;
-    public GameObject playerHealthBar_B;
-    private CanvasGroup canvasGroup_B;
-
-    public CharacterManager CharacterManager;
+    private GameObject spawnedMenu;
 
     public bool bagIsOpen;
     public bool equipAIsOpen_A;
     public bool equipBIsOpen_B;
     public bool playerAonUsed;
 
-    private GameObject spawnedMenu;
+    //PlayerHealthBar
+    public GameObject playerHealthBar_A;
+    private CanvasGroup canvasGroup_A;
+    public GameObject playerHealthBar_B;
+    private CanvasGroup canvasGroup_B;
+    public GameObject miniBar_A;
+    private CanvasGroup miniCanvasGroup_A;
+    public GameObject miniBar_B;
+    private CanvasGroup miniCanvasGroup_B;
+    public Button botton_A;
+    public Button botton_B;
 
+    public CharacterManager CharacterManager;
+
+    //EnemyHealthBar
+    public GameObject healthBarPrefab;    
+    private Dictionary<GameObject, EnemyHealthBar> healthBars = new Dictionary<GameObject, EnemyHealthBar>();
+
+
+    //Alex
     private StarterAssetsInputs inputController;
     private PlayerInput playerInputController;
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject); // Á×§K³õ´º¤Á´«®ÉºR·´ª«¥ó
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     public void OnEnable()
     {
         CharacterManager.SwitchPlayer += SwitchPlayerHealthBar;
@@ -35,7 +71,7 @@ public class UI_Manager : MonoBehaviour
     public void OnDisable()
     {
         CharacterManager.SwitchPlayer -= SwitchPlayerHealthBar;
-        CharacterManager.SwitchPlayer -= UpdatePlayerReference;
+        CharacterManager.SwitchPlayer += UpdatePlayerReference;
     }
 
     void Start()
@@ -43,23 +79,44 @@ public class UI_Manager : MonoBehaviour
         myBag.SetActive(bagIsOpen);
         equipmentUI_A.SetActive(equipAIsOpen_A);
         equipmentUI_B.SetActive(equipBIsOpen_B);
-        
+        botton_A.interactable = true;
+        botton_B.interactable = false;
 
         canvasGroup_A = playerHealthBar_A.GetComponent<CanvasGroup>();
         canvasGroup_B = playerHealthBar_B.GetComponent<CanvasGroup>();
+        miniCanvasGroup_A = miniBar_A.GetComponent<CanvasGroup>();
+        miniCanvasGroup_B = miniBar_B.GetComponent<CanvasGroup>();
 
         canvasGroup_A.alpha = 1.0f;
+        miniCanvasGroup_A.alpha = 0.0f;
         canvasGroup_B.alpha = 0.0f;
+        miniCanvasGroup_B.alpha = 1.0f;
+
+        mainCamera = Camera.main;
+        rectTransform = GetComponent<RectTransform>();
+        canvas = GetComponentInParent<Canvas>();
 
         UpdatePlayerReference();
+
+        StartCoroutine(GenerateHealthBarsForEnemies());
     }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
             OpenBag();
+        }        
+    }
+    
+    private void FixedUpdate()
+    {
+        foreach (var healthBar in healthBars.Values)
+        {
+            healthBar.UpdateHealthBarPos();
         }
     }
+
+
     public void OpenBag()
     {
         if (equipAIsOpen_A)
@@ -97,7 +154,6 @@ public class UI_Manager : MonoBehaviour
         equipmentUI_A.SetActive(equipAIsOpen_A);
 
         MenuOff();
-        UpdateGameStateForUI(equipAIsOpen_A);
     }
 
     public void OpenEquipmentUI_B()
@@ -116,7 +172,6 @@ public class UI_Manager : MonoBehaviour
         equipmentUI_B.SetActive(equipBIsOpen_B);
 
         MenuOff();
-        UpdateGameStateForUI(equipBIsOpen_B);
     }
 
     public void CloseUI()
@@ -128,17 +183,18 @@ public class UI_Manager : MonoBehaviour
         myBag.SetActive(bagIsOpen);
         equipmentUI_A.SetActive(equipAIsOpen_A);
         equipmentUI_B.SetActive(equipBIsOpen_B);
+
         UpdateGameStateForUI(false);
     }
 
     public void SetMenu(GameObject menu)
     {
-        spawnedMenu = menu; // ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½eï¿½Í¦ï¿½ï¿½ï¿½ Menu
+        spawnedMenu = menu; 
     }
 
     public void MenuOff()
     {
-        if (spawnedMenu != null)  //ï¿½Rï¿½ï¿½ï¿½kï¿½ï¿½ï¿½ï¿½
+        if (spawnedMenu != null) 
         {
             Destroy(spawnedMenu);
             spawnedMenu = null;
@@ -152,13 +208,92 @@ public class UI_Manager : MonoBehaviour
         {
             canvasGroup_B.alpha = 0;
             canvasGroup_A.alpha = 1;
+            miniCanvasGroup_A.alpha = 0;
+            miniCanvasGroup_B.alpha = 1;
+            botton_A.interactable = true;
+            botton_B.interactable = false;
         }
         else
         {
             canvasGroup_B.alpha = 1;
             canvasGroup_A.alpha = 0;
+            miniCanvasGroup_A.alpha = 1;
+            miniCanvasGroup_B.alpha = 0;
+            botton_B.interactable = true;
+            botton_A.interactable = false;
         }
     }
+
+    public void CreateHealthBar(GameObject enemy)
+    {
+        // ³Ð«Ø¦å±øª«¥ó
+        GameObject healthBarObject = Instantiate(healthBarPrefab, canvas.transform);
+        healthBarObject.transform.localScale = new Vector3(1, 1, 1);
+        healthBarObject.transform.localRotation = Quaternion.identity;
+
+        // ªì©l¤Æ¦å±ø±±¨î¾¹
+        EnemyHealthBar healthBarScript = healthBarObject.GetComponent<EnemyHealthBar>();
+        healthBarScript.InitializeHealthBar(enemy);
+
+        // µù¥U¨ì UIManager
+        healthBars.Add(enemy, healthBarScript);
+    }
+
+    IEnumerator GenerateHealthBarsForEnemies()
+     {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        foreach (GameObject enemy in enemies)
+        {
+            yield return StartCoroutine(WaitForHealthInitialization(enemy));
+            CreateHealthBar(enemy);  
+        }
+     }
+
+    public void UnregisterHealthBar(GameObject enemy)
+    {
+        if (healthBars.ContainsKey(enemy))
+        {
+            Destroy(healthBars[enemy].gameObject);  
+            healthBars.Remove(enemy); 
+        }
+    }
+    IEnumerator WaitForHealthInitialization(GameObject enemy)
+    {
+        EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
+
+        // make sure the enemyHealth is initialized
+        while (enemyHealth == null || enemyHealth.currentHealth == 0)
+        {
+            yield return null;  
+        }
+        yield break;
+    }
+
+    //public void SetAllHealthBarsTransparent()
+    //{
+    //    foreach (var healthBar in healthBars.Values)
+    //    {
+    //        CanvasGroup canvasGroup = healthBar.GetComponent<CanvasGroup>();
+    //        if (canvasGroup != null)
+    //        {
+    //            canvasGroup.alpha = 0; // ³]©w³z©ú
+    //        }
+    //    }
+    //}
+
+    //public void SetAllHealthBarsOpaque()
+    //{
+    //    foreach (var healthBar in healthBars.Values)
+    //    {
+    //        CanvasGroup canvasGroup = healthBar.GetComponent<CanvasGroup>();
+    //        if (canvasGroup != null)
+    //        {
+    //            canvasGroup.alpha = 1; // «ì´_¤£³z©ú
+    //        }
+    //    }
+    //}
+
     private void UpdatePlayerReference()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -205,6 +340,5 @@ public class UI_Manager : MonoBehaviour
             }
         }
     }
-
 
 }

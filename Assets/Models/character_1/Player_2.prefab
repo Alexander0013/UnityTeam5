@@ -976,14 +976,13 @@ GameObject:
   - component: {fileID: 313526313118975405}
   - component: {fileID: 2899333714217771446}
   - component: {fileID: 1415504592342303385}
-  - component: {fileID: 4879777248144184307}
   m_Layer: 7
   m_Name: Player_2
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3524717828094057988
 Transform:
   m_ObjectHideFlags: 0
@@ -1241,14 +1240,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d949a8908ab7744a9b7b03c4f5189c01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleWeaponTimer: 0
-  firstEntry: 1
-  idleWeaponHide: 1
   Input: {fileID: 0}
   Animator: {fileID: 0}
   Controller: {fileID: 0}
   isGrounded: 1
-  slashVFX: {fileID: 0}
   MoveSpeed: 2
   SprintSpeed: 5
   RotationSmoothTime: 0.12
@@ -1269,25 +1264,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8e5cb97fbd684f4eba6d65557f03d0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponPrefabs: []
-  playerAttackData: {fileID: 0}
-  currentWeapon: {fileID: 0}
-  idleAttach: {fileID: 0}
-  attackAttach: {fileID: 0}
-  slashSpawn: {fileID: 0}
---- !u!114 &4879777248144184307
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4191444789280722937}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9adcd06f5ff1548be85a8e5a665d29cf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerAttackData: {fileID: 11400000, guid: 2aeb211d0910a8d4fb7e2576561484ca, type: 2}
+  idleWeapon: {fileID: 0}
+  attackWeapon: {fileID: 0}
 --- !u!1 &4301597231932566451
 GameObject:
   m_ObjectHideFlags: 0

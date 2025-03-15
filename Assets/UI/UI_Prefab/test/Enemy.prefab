@@ -95,7 +95,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 72af73544f2ff5d4db970427fb0dfa1c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -1.52
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 72af73544f2ff5d4db970427fb0dfa1c,
         type: 3}
@@ -105,7 +105,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 72af73544f2ff5d4db970427fb0dfa1c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1.57
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 72af73544f2ff5d4db970427fb0dfa1c,
         type: 3}
@@ -460,7 +460,12 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 72af73544f2ff5d4db970427fb0dfa1c,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 72af73544f2ff5d4db970427fb0dfa1c,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 922728926880407743, guid: 72af73544f2ff5d4db970427fb0dfa1c,
         type: 3}
@@ -750,6 +755,8 @@ MonoBehaviour:
   fadeDuration: 1
   deathMaterial: {fileID: 2100000, guid: 141484ef1fe8c45f684fdc8e1080c72f, type: 2}
   isInitialized: 0
+  floatingTextPrefab: {fileID: 8066511866630600987, guid: 5e8e5fbfa28b0a847afb6a765632f6d1,
+    type: 3}
 --- !u!114 &2481572327988958983
 MonoBehaviour:
   m_ObjectHideFlags: 0
