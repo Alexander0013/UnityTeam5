@@ -307,7 +307,7 @@ TextureImporter:
         width: 242
         height: 243
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -315,6 +315,48 @@ TextureImporter:
       bones: []
       spriteID: e72ee69dc1569e74c945fe9391d87f09
       internalID: 2065627087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_10
+      rect:
+        serializedVersion: 2
+        x: 872
+        y: 125
+        width: 94
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 051bad1be0ac4ff40815441fbcaeee9c
+      internalID: 227600261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_11
+      rect:
+        serializedVersion: 2
+        x: 623
+        y: 211
+        width: 116
+        height: 116
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e164b0c2b24b804a8af8a66f261d763
+      internalID: 43818576
       vertices: []
       indices: 
       edges: []
@@ -332,6 +374,8 @@ TextureImporter:
     nameFileIdTable:
       SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_0: -1895559281
       SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_1: -1329930493
+      SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_10: 227600261
+      SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_11: 43818576
       SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_2: -571157359
       SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_3: 692407467
       SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_4: 926124668

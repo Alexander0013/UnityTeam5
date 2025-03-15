@@ -118,7 +118,7 @@ TextureImporter:
         width: 34
         height: 36
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -139,7 +139,7 @@ TextureImporter:
         width: 46
         height: 45
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -147,6 +147,48 @@ TextureImporter:
       bones: []
       spriteID: 8aac854e9356a5f40903c24322a0c972
       internalID: 256331435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteAtlasTexture-ui_atlas_map_mark_icons-1024x1024-fmt25_2
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 586
+        width: 45
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d93fe66b149b00742939f95fe99f7780
+      internalID: -1112186532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteAtlasTexture-ui_atlas_map_mark_icons-1024x1024-fmt25_3
+      rect:
+        serializedVersion: 2
+        x: 371
+        y: 5
+        width: 78
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: baea8fbdf733eae48b5509c69f60b398
+      internalID: -420492431
       vertices: []
       indices: 
       edges: []
@@ -164,6 +206,8 @@ TextureImporter:
     nameFileIdTable:
       SpriteAtlasTexture-ui_atlas_map_mark_icons-1024x1024-fmt25_0: -1709838680
       SpriteAtlasTexture-ui_atlas_map_mark_icons-1024x1024-fmt25_1: 256331435
+      SpriteAtlasTexture-ui_atlas_map_mark_icons-1024x1024-fmt25_2: -1112186532
+      SpriteAtlasTexture-ui_atlas_map_mark_icons-1024x1024-fmt25_3: -420492431
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
