@@ -8,7 +8,8 @@ public class EnemyHealthBar : HealthBar
     private EnemyHealth enemyHealth; // enemyHealth script
     private Transform enemyTransform;
 
-    Canvas canvas;
+    //Canvas canvas;
+    RectTransform rectTransform;
     public Vector3 offset;
     public int smoothMove;
 
@@ -16,6 +17,7 @@ public class EnemyHealthBar : HealthBar
     //RectTransform rectTransform;
     Vector3 worldPosition;
     Vector3 directionToCamera;
+    Vector3 currentScale;
 
     public void Initialize(GameObject enemy)
     {
@@ -25,14 +27,20 @@ public class EnemyHealthBar : HealthBar
         enemyHealth.OnHealthChanged += UpdateHealthBar;
         enemyHealth.OnDeath += DestroyHealthBar;
 
-        canvas = GetComponentInParent<Canvas>();
+        //canvas = GetComponentInParent<Canvas>();
         //canvasRect = canvas.GetComponent<RectTransform>();
-        //rectTransform = GetComponent<RectTransform>();
+        rectTransform = GetComponent<RectTransform>();
 
         StartCoroutine(DelayedInitialization());
     }
 
-   
+    private void OnDisable()
+    {
+        enemyHealth.OnHealthChanged -= UpdateHealthBar;
+        enemyHealth.OnDeath -= DestroyHealthBar;
+    }
+
+
 
     private IEnumerator DelayedInitialization()
     {
@@ -81,9 +89,23 @@ public class EnemyHealthBar : HealthBar
             transform.rotation = Quaternion.LookRotation(directionToCamera);
 
             // 如果血條是 World Space Canvas，保持其位置不變
-            worldPosition = enemyTransform.position + offset;
-            RectTransform rectTransform = GetComponent<RectTransform>();
+            worldPosition = enemyTransform.position + offset;            
             rectTransform.position = worldPosition;
+
+            // 固定血條縮放比例，防止它在不同角度下變形
+            currentScale = rectTransform.localScale;
+
+            if (rectTransform.localScale.x > 0)
+            {
+                rectTransform.localScale = new Vector3(-Mathf.Abs(rectTransform.localScale.x), rectTransform.localScale.y, rectTransform.localScale.z); // 從右至左顯示
+            }
+            //else
+            //{
+            //    rectTransform.localScale = new Vector3(Mathf.Abs(rectTransform.localScale.x), rectTransform.localScale.y, rectTransform.localScale.z); // 從左至右顯示
+            //}
+
+            // 確保血條不會縮放改變高度（固定 Y 軸比例）
+            rectTransform.localScale = new Vector3(rectTransform.localScale.x, 1, rectTransform.localScale.z); // 保持高度一致
         }
     }
 
