@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using StarterAssets;
+using UnityEngine.InputSystem;
 
 public class UI_Manager : MonoBehaviour
 {
-    //123
     public static UI_Manager instance;
 
     public Camera mainCamera;
@@ -44,6 +45,10 @@ public class UI_Manager : MonoBehaviour
     public GameObject healthBarPrefab;    
     private Dictionary<GameObject, EnemyHealthBar> healthBars = new Dictionary<GameObject, EnemyHealthBar>();
 
+
+    //Alex
+    private StarterAssetsInputs inputController;
+    private PlayerInput playerInputController;
     void Awake()
     {
         if (instance == null)
@@ -60,11 +65,13 @@ public class UI_Manager : MonoBehaviour
     public void OnEnable()
     {
         CharacterManager.SwitchPlayer += SwitchPlayerHealthBar;
+        CharacterManager.SwitchPlayer += UpdatePlayerReference;
     }
 
     public void OnDisable()
     {
         CharacterManager.SwitchPlayer -= SwitchPlayerHealthBar;
+        CharacterManager.SwitchPlayer += UpdatePlayerReference;
     }
 
     void Start()
@@ -88,6 +95,8 @@ public class UI_Manager : MonoBehaviour
         mainCamera = Camera.main;
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
+
+        UpdatePlayerReference();
 
         StartCoroutine(GenerateHealthBarsForEnemies());
     }
@@ -124,6 +133,8 @@ public class UI_Manager : MonoBehaviour
         bagIsOpen = !bagIsOpen;
         myBag.SetActive(bagIsOpen);
         MenuOff();
+
+        UpdateGameStateForUI(bagIsOpen);
     }
 
 
@@ -172,16 +183,18 @@ public class UI_Manager : MonoBehaviour
         myBag.SetActive(bagIsOpen);
         equipmentUI_A.SetActive(equipAIsOpen_A);
         equipmentUI_B.SetActive(equipBIsOpen_B);
+
+        UpdateGameStateForUI(false);
     }
 
     public void SetMenu(GameObject menu)
     {
-        spawnedMenu = menu; // 記錄當前生成的 Menu
+        spawnedMenu = menu; 
     }
 
     public void MenuOff()
     {
-        if (spawnedMenu != null)  //刪除右鍵選單
+        if (spawnedMenu != null) 
         {
             Destroy(spawnedMenu);
             spawnedMenu = null;
@@ -228,13 +241,12 @@ public class UI_Manager : MonoBehaviour
 
     IEnumerator GenerateHealthBarsForEnemies()
      {
-        // 查找所有帶有 "Enemy" 標籤的物件
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
         foreach (GameObject enemy in enemies)
         {
             yield return StartCoroutine(WaitForHealthInitialization(enemy));
-            CreateHealthBar(enemy);  // 為每個敵人創建血條
+            CreateHealthBar(enemy);  
         }
      }
 
@@ -242,24 +254,22 @@ public class UI_Manager : MonoBehaviour
     {
         if (healthBars.ContainsKey(enemy))
         {
-            Destroy(healthBars[enemy].gameObject);  // 銷毀血條物件
-            healthBars.Remove(enemy);  // 從字典中移除
+            Destroy(healthBars[enemy].gameObject);  
+            healthBars.Remove(enemy); 
         }
     }
     IEnumerator WaitForHealthInitialization(GameObject enemy)
     {
         EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
 
-        // 確保 EnemyHealth 初始化完成，這裡等待直到生命值不為 0
+        // make sure the enemyHealth is initialized
         while (enemyHealth == null || enemyHealth.currentHealth == 0)
         {
-            yield return null;  // 等待直到下一幀
+            yield return null;  
         }
-
-        // 此時敵人的 Health 已經初始化完成
         yield break;
     }
-         
+
     //public void SetAllHealthBarsTransparent()
     //{
     //    foreach (var healthBar in healthBars.Values)
@@ -284,4 +294,51 @@ public class UI_Manager : MonoBehaviour
     //    }
     //}
 
+    private void UpdatePlayerReference()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            inputController = player.GetComponent<StarterAssetsInputs>();
+            playerInputController = player.GetComponent<PlayerInput>();
+        }
+        else
+        {
+            Debug.LogWarning("Active player not found! Ensure the active player is tagged 'Player'.");
+        }
     }
+    private void UpdateGameStateForUI(bool uiOpen)
+    {
+        if (uiOpen)
+        {
+            Time.timeScale = 0.05f;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            if (inputController != null)
+            {
+                inputController.cursorLocked = false;
+                inputController.enabled = false;
+            }
+            if (playerInputController != null)
+            {
+                playerInputController.enabled = false;
+            }
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            if (inputController != null)
+            {
+                inputController.cursorLocked = true;
+                inputController.enabled = true;
+            }
+            if (playerInputController != null)
+            {
+                playerInputController.enabled = true;
+            }
+        }
+    }
+
+}
