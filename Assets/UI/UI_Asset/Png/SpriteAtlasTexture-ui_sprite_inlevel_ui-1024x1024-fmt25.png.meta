@@ -244,7 +244,7 @@ TextureImporter:
         width: 58
         height: 59
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -252,6 +252,69 @@ TextureImporter:
       bones: []
       spriteID: 4f402423f9ed369488cd86638d935037
       internalID: 840059155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_7
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 648
+        width: 77
+        height: 79
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19ef217238034aa43bc0e10fc2fdcde8
+      internalID: 269058909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_8
+      rect:
+        serializedVersion: 2
+        x: 650
+        y: 637
+        width: 60
+        height: 62
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e93f6019f2b52548ac7087ac3e18d7d
+      internalID: -817990931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_9
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 6
+        width: 242
+        height: 243
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e72ee69dc1569e74c945fe9391d87f09
+      internalID: 2065627087
       vertices: []
       indices: 
       edges: []
@@ -274,6 +337,9 @@ TextureImporter:
       SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_4: 926124668
       SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_5: 1834020743
       SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_6: 840059155
+      SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_7: 269058909
+      SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_8: -817990931
+      SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_9: 2065627087
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
