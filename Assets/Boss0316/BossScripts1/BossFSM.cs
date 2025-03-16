@@ -31,31 +31,28 @@ public class BossFSM : MonoBehaviour
     [HideInInspector] public BossBaseState currentState;
 
     private float jumpAttackCooldownTimer = 0f; // 獨立管理 JumpAttack 冷卻時間
+    private BossPhysicsHandler physicsHandler;
     private void Awake()
     {
-        animator = GetComponent<Animator>();
-        if (animator == null)
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
         {
-            Debug.LogError("BossFSM 找不到 Animator！請確保物件上有 Animator 元件。");
+            rb.isKinematic = false;
+            rb.useGravity = true;  // 確保重力啟用
         }
-        bossnpcData ??= GetComponent<BossNPCStateData>();
-        if (bossnpcData == null)
+        animator = GetComponent<Animator>();
+
+        physicsHandler = GetComponent<BossPhysicsHandler>();
+        if (physicsHandler == null)
         {
-            Debug.LogError("BossFSM 找不到 BossNPCStateData！請手動設定。");
+            Debug.LogError("BossFSM 找不到 BossPhysicsHandler，請確認有掛載該組件！");
         }
     }
 
     private void Start()
     {
-        if (bossnpcData == null)
-        {
-            Debug.LogError("bossnpcData 未設定！請在 Inspector 中指派。", this);
-        }
-        if (handHitPoint == null) Debug.LogError("handHitPoint 未設定！", this);
-        if (jumpHitPoint == null) Debug.LogError("jumpHitPoint 未設定！", this);
-        handHitPoint ??= transform.Find("HandHitPoint");
-        jumpHitPoint ??= transform.Find("JumpHitPoint");
-
+        SnapToGround();
+  
         TransitionToState(roalingState); // 進場時播放 Roaling
     }
 
@@ -75,7 +72,14 @@ public class BossFSM : MonoBehaviour
             jumpAttackCooldownTimer -= Time.deltaTime;
         }
     }
-
+    private void SnapToGround()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position + Vector3.up * 1f, Vector3.down, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+        {
+            transform.position = hit.point;
+        }
+    }
     private void DetectPlayer()
     {
         if (playerTarget != null)

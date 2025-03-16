@@ -15,7 +15,7 @@ MonoBehaviour:
   baseDamage: 5
   comboMultiplier: 1
   hitRadius: 1.5
-  maxHealth: 100
+  maxHealth: 10
   playerLayers:
     serializedVersion: 2
     m_Bits: 128

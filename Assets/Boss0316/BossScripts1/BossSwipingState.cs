@@ -40,8 +40,6 @@ public class BossSwipingState : BossBaseState
     // Called by an Animation Event at the end of the attack animation.
     public void OnAttackAnimationFinished(BossFSM boss)
     {
-
-        Debug.Log("Leaving EnemyAttack State via animation event");
         boss.TransitionToState(boss.walkState);
     }
 }

@@ -64,7 +64,7 @@ public class BossHealth : MonoBehaviour, IDamageable
         }
 
         // Trigger the GetHit animation
-        animator.SetTrigger("GotHit");
+        animator.SetTrigger("getHit");
 
         // Wait a fraction of a second to let the flinch play, if you like
         yield return new WaitForSeconds(0.5f);
