@@ -57,7 +57,7 @@ public class AttackState : PlayerBaseState
         var combatController = player.GetComponent<CombatController>();
         if (combatController != null && attackData != null)
         {
-            combatController.currentAttackData = attackData;
+            combatController.playerAttackData = attackData;
         }
         player.Animator.applyRootMotion = false;
         //dash to target

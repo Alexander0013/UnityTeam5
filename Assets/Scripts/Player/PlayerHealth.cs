@@ -24,6 +24,46 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             }
         }
     }
+    /*
+    void OnEnable() 
+    {
+        InventoryManager.ItemUsed += OnItemUsed;
+        InventoryManager.instance.onEquipmentChanged += OnEquipmentChanged;
+    }
+
+    void OnDisable() 
+    {
+        InventoryManager.ItemUsed -= OnItemUsed;
+        InventoryManager.instance.onEquipmentChanged -= OnEquipmentChanged;
+    }
+
+    private void OnItemUsed(Item item) {
+        // Check if it's a HealthPotion and then add its healAmount to current health.
+        HealthPotion potion = item as HealthPotion;
+        if(potion != null) {
+            CurrentHealth += potion.healAmount;
+            Debug.Log("Healed for " + potion.healAmount + ", new health: " + CurrentHealth);
+        }
+    }
+    private void OnEquipmentChanged(Equipment newItem, Equipment oldItem, int genderIndex) {
+    // If the equipment changes include a health modifier, update health.
+    float healthModifier = 0;
+    if(oldItem != null)
+        healthModifier -= oldItem.healthModifier;
+    if(newItem != null)
+        healthModifier += newItem.healthModifier;
+
+    // Update the current and maximum health.
+    // You might call a method like:
+    UpdateHealthWithModifier(healthModifier);
+    }
+
+    private void UpdateHealthWithModifier(float modifier) {
+        // Example: Increase max health and optionally current health by the modifier.
+        float newMaxHealth = (playerAttackData != null ? playerAttackData.health : 100f) + modifier;
+
+    }
+    */
 
     void Start()
     {

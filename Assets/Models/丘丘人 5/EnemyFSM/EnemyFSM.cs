@@ -38,14 +38,14 @@ public class EnemyFSM : MonoBehaviour
         // Start in Idle (or ReturnState if no player found)
         if (playerTarget == null)
         {
-            TransitionToState(returnState);
+            TransitionToState(idleState);
         }
         else
         {
             TransitionToState(idleState);
         }
     }
-    private void Update()
+    protected virtual void Update()
     {
         // Skip updates if we're flagged dead or have no current state
         if (isDead || currentState == null) return;

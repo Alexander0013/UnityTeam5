@@ -16,17 +16,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: cabbd40971b954cf493f5cb88801558b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -14.141865
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cabbd40971b954cf493f5cb88801558b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.000302
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cabbd40971b954cf493f5cb88801558b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -13.82819
+      value: 1.4899998
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cabbd40971b954cf493f5cb88801558b,
         type: 3}
@@ -36,17 +36,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: cabbd40971b954cf493f5cb88801558b,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cabbd40971b954cf493f5cb88801558b,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cabbd40971b954cf493f5cb88801558b,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cabbd40971b954cf493f5cb88801558b,
         type: 3}
@@ -320,15 +320,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cabbd40971b954cf493f5cb88801558b,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5792355302415808291}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cabbd40971b954cf493f5cb88801558b,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 4204376231631956600}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cabbd40971b954cf493f5cb88801558b,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 9010663767140320177}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cabbd40971b954cf493f5cb88801558b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2492616109492392339}
   m_SourcePrefab: {fileID: 100100000, guid: cabbd40971b954cf493f5cb88801558b, type: 3}
 --- !u!1 &1190103872971780605 stripped
 GameObject:
@@ -336,27 +336,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2037158630435949740}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5792355302415808291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1190103872971780605}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c908f5c00f6b4afcb63c2b3d4e8384b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  npcData: {fileID: 11400000, guid: 6ab7b439d05f245cba90372c3b5bb1f1, type: 2}
-  detectionRadius: 10
-  attackRadius: 5
-  treasureTransform: {fileID: 0}
-  treasureReturnRadius: 1
-  attackHitPoint: {fileID: 0}
-  animator: {fileID: 0}
-  playerTarget: {fileID: 0}
-  isDead: 0
 --- !u!114 &4204376231631956600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,7 +374,37 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.3
   m_Height: 2.3713884
   m_Direction: 1
   m_Center: {x: 0, y: 0.6856942, z: 0}
+--- !u!114 &2492616109492392339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1190103872971780605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b1d7bc85c1f49a6b1097d3086fe227, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcData: {fileID: 11400000, guid: 6ab7b439d05f245cba90372c3b5bb1f1, type: 2}
+  detectionRadius: 8
+  attackRadius: 1.5
+  treasureTransform: {fileID: 0}
+  treasureReturnRadius: 1
+  attackHitPoint: {fileID: 2004041938058931015}
+  animator: {fileID: 0}
+  playerTarget: {fileID: 0}
+  isDead: 0
+  arrowSpawnPoint: {fileID: 0}
+  arrowImpactEffect: {fileID: 0}
+  shootCooldown: 2
+--- !u!4 &2004041938058931015 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: cabbd40971b954cf493f5cb88801558b,
+    type: 3}
+  m_PrefabInstance: {fileID: 2037158630435949740}
+  m_PrefabAsset: {fileID: 0}

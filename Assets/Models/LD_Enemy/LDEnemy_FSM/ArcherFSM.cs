@@ -12,8 +12,7 @@ public class ArcherFSM : EnemyFSM
 
     [Header("Archer Specific Settings")]
     public Transform arrowSpawnPoint;      
-    public GameObject arrowImpactEffect;    
-    public float shootCooldown = 2f;        
+    public GameObject arrowImpactEffect;     
 
     protected override void Start()
     {
@@ -21,36 +20,65 @@ public class ArcherFSM : EnemyFSM
         TransitionToState(idleState);
     }
 
+    protected override void Update()
+    {
+        if (playerTarget != null)
+        {
+            if (!playerTarget.gameObject.activeInHierarchy || !IsPlayerAlive(playerTarget))
+            {
+                playerTarget = null;
+            }
+        }
+        else
+        {
+            Transform newTarget = FindActiveLivingPlayer();
+            if (newTarget != null)
+            {
+                playerTarget = newTarget;
+                TransitionToState(idleState);
+            }
+        }
+        currentState.UpdateState(this);
+    }
 
     public void OnShootHitEvent()
+{
+    if (currentState is ArcherShootState)
     {
-        if (currentState is ArcherShootState)
+        if (playerTarget != null && arrowSpawnPoint != null)
         {
-            // Use raycast for ranged damage.
-            if (playerTarget != null && arrowSpawnPoint != null)
+            Vector3 origin = arrowSpawnPoint.position;
+            Vector3 direction = (playerTarget.position - origin).normalized;
+            float sphereRadius = 0.5f; // Increase or decrease based on your needs
+            RaycastHit hit;
+            // SphereCast with a max distance of 20 units.
+            if (Physics.SphereCast(origin, sphereRadius, direction, out hit, 20f, npcData.playerLayers))
             {
-                Vector3 origin = arrowSpawnPoint.position;
-                Vector3 direction = (playerTarget.position - origin).normalized;
-                RaycastHit hit;
-                // For example, a maximum distance of 20 units.
-                if (Physics.Raycast(origin, direction, out hit, 20f, npcData.playerLayers))
+                // For debugging: visualize the spherecast.
+                Debug.DrawRay(origin, direction * 20f, Color.red, 1f);
+                
+                IDamageable dmg = hit.collider.GetComponent<IDamageable>();
+                if (dmg != null)
                 {
-                    // If we hit a damageable target, apply damage.
-                    IDamageable dmg = hit.collider.GetComponent<IDamageable>();
-                    if (dmg != null)
-                    {
-                        float damage = npcData.baseDamage * npcData.comboMultiplier;
-                        dmg.TakeDamage(damage);
-                    }
-                    // Instantiate special effect at hit point.
-                    if (arrowImpactEffect != null)
-                    {
-                        Instantiate(arrowImpactEffect, hit.point, Quaternion.identity);
-                    }
+                    float damage = npcData.baseDamage * npcData.comboMultiplier;
+                    dmg.TakeDamage(damage);
                 }
+                if (arrowImpactEffect != null)
+                {
+                    Instantiate(arrowImpactEffect, hit.point, Quaternion.identity);
+                }
+            }
+            else
+            {
+                // For debugging if the spherecast misses.
+                Debug.DrawRay(origin, direction * 20f, Color.blue, 1f);
             }
         }
     }
+}
+
+
+    // Called via Animation Event at the end of the Shoot animation.
     public void OnShootEndEvent()
     {
         if (currentState is ArcherShootState)
@@ -58,14 +86,15 @@ public class ArcherFSM : EnemyFSM
             TransitionToState(idleState);
         }
     }
+
+    // Called via Animation Event during the MeleeKick animation hit frame.
     public void OnMeleeHitEvent()
     {
         if (currentState is ArcherMeleeState)
         {
-            // Use a sphere check for melee damage.
             float damage = npcData.baseDamage * npcData.comboMultiplier;
-            float meleeRadius = npcData.hitRadius; // or set a custom value
-            Vector3 center = attackHitPoint.position; // reuse the same point
+            float meleeRadius = npcData.hitRadius;
+            Vector3 center = attackHitPoint.position;
             Collider[] hits = Physics.OverlapSphere(center, meleeRadius, npcData.playerLayers);
             foreach (Collider c in hits)
             {
@@ -77,6 +106,8 @@ public class ArcherFSM : EnemyFSM
             }
         }
     }
+
+    // Called via Animation Event at the end of the MeleeKick animation.
     public void OnMeleeEndEvent()
     {
         if (currentState is ArcherMeleeState)

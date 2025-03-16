@@ -7,11 +7,6 @@ public class WeaponController : MonoBehaviour
     [Header("Weapons References")]
     // List of weapon prefabs stored in the Inspector.
     public List<GameObject> weaponPrefabs = new List<GameObject>();
-
-    // The current weapon index is stored in the AttackData ScriptableObject.
-    // Make sure this same AttackData asset is assigned in all scenes.
-    public AttackData playerAttackData;
-
     // The currently active weapon instance.
     public GameObject currentWeapon;
 
@@ -21,6 +16,45 @@ public class WeaponController : MonoBehaviour
 
     [Header("Slash VFX Spawn Point")]
     public Transform slashSpawn;   // Should be set on your weapon prefab.
+
+    [HideInInspector]
+    public AttackData playerAttackData;
+    void Awake() 
+    {
+        PlayerHealth ph = GetComponentInParent<PlayerHealth>();
+        if(ph != null)
+            playerAttackData = ph.playerAttackData;
+    }
+    /*
+    void OnEnable() 
+    {
+        InventoryManager.instance.onEquipmentChanged += OnEquipmentChanged;
+    }
+
+    void OnDisable() 
+    {
+        InventoryManager.instance.onEquipmentChanged -= OnEquipmentChanged;
+    }
+    private void OnEquipmentChanged(Equipment newItem, Equipment oldItem, int genderIndex) 
+    {
+    // Check if the new equipment is a weapon (or influences weapon stats).
+        if(newItem != null && newItem.type == EquipmentType.Weapon) 
+        {
+            playerAttackData.baseDamage = CalculateNewBaseDamage(newItem.damageModifier, oldItem);
+            if(playerAttackData.currentWeaponIndex == 0)
+                playerAttackData.currentWeaponIndex = 1; 
+            if(playerAttackData.currentWeaponIndex == 1)
+                playerAttackData.currentWeaponIndex = 0; 
+            SwitchWeapon();
+        }
+    }
+    private float CalculateNewBaseDamage(int damageModifier, Equipment oldItem) 
+    {
+        playerAttackData.baseDamage -= oldItem.damageModifier;
+        playerAttackData.baseDamage += newItem.damageModifier;
+        return playerAttackData.baseDamage;
+    }
+    */
 
     // Show the current weapon.
     public void ShowWeapon()

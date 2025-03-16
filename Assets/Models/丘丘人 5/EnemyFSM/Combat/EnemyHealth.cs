@@ -89,7 +89,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     if (hitEffectPrefab != null)
     {
         GameObject hitFx = Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
-        Destroy(hitFx, 0.5f);
+        Destroy(hitFx, 0.4f);
     }
 
     // Trigger the GotHit animation
@@ -172,15 +172,15 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         GameObject floatingText =Instantiate(floatingTextPrefab, transform.position, Quaternion.identity, transform);
         floatingText.GetComponent<TextMeshPro>().text = damage.ToString();
 
-        // Åý¯B°Ê¤å¦r´Â¦VÄá¼v¾÷
+        // ï¿½ï¿½ï¿½Bï¿½Ê¤ï¿½rï¿½Â¦Vï¿½ï¿½vï¿½ï¿½
         Camera mainCamera = Camera.main;
         if (mainCamera != null)
         {
-            floatingText.transform.LookAt(mainCamera.transform.position);  // ´Â¦VÄá¼v¾÷
-            floatingText.transform.Rotate(0f, 180f, 0f); // Á×§K¤å¦r¤Ï¦V¡]¦³®É­Ô LookAt ·|¾É­P¤å¦r¤ÏÂà¡^
+            floatingText.transform.LookAt(mainCamera.transform.position);  // ï¿½Â¦Vï¿½ï¿½vï¿½ï¿½
+            floatingText.transform.Rotate(0f, 180f, 0f); // ï¿½×§Kï¿½ï¿½rï¿½Ï¦Vï¿½]ï¿½ï¿½ï¿½É­ï¿½ LookAt ï¿½|ï¿½É­Pï¿½ï¿½rï¿½ï¿½ï¿½ï¿½^
         }
 
-        //// ¥i¿ï¡G¥[¤W°Êµe©Î®ÄªG
+        //// ï¿½iï¿½ï¿½Gï¿½[ï¿½Wï¿½Êµeï¿½Î®ÄªG
         //floatingText.transform.DOMoveY(floatingText.transform.position.y + 1f, 1f);
         //tmpText.DOFade(0f, 1f).OnComplete(() => Destroy(floatingText));
     }
