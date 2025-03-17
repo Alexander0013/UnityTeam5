@@ -32634,7 +32634,7 @@ AnimationClip:
   - time: 1.2
     functionName: OnDieAnimationEndEvent
     data: 
-    objectReferenceParameter: {fileID: 3233126738226738724, guid: 8c4527ab57b784673a373b606048d6a1,
+    objectReferenceParameter: {fileID: 919132149155446097, guid: 0ac38660bcc7b428c8b17fa2b54753cb,
       type: 3}
     floatParameter: 0
     intParameter: 0

@@ -7,7 +7,7 @@ public class ArcherFSM : EnemyFSM
     public new ArcherIdleState idleState = new ArcherIdleState();
     public ArcherShootState shootState = new ArcherShootState();
     public ArcherMeleeState meleeState = new ArcherMeleeState();
-    public new EnemyDeadState deadState = new EnemyDeadState();
+    public new ArcherDeadState deadState = new ArcherDeadState();
     public new EnemyGotHitState gotHitState = new EnemyGotHitState();
 
     [Header("Archer Specific Settings")]

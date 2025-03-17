@@ -13,13 +13,11 @@ public class ArcherShootState : EnemyBaseState
             enemy.transform.rotation = Quaternion.LookRotation(direction);
         }
         enemy.animator.SetBool("isAttacking", true);
-        // Trigger the Shoot animation (ensure your Animator has a trigger named "Shoot").
         enemy.animator.SetTrigger("Shoot");
     }
 
     public override void UpdateState(EnemyFSM enemy)
     {
-        // Optionally, continuously update rotation to face the player.
         if(enemy.playerTarget != null)
         {
             Vector3 direction = (enemy.playerTarget.position - enemy.transform.position).normalized;

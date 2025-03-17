@@ -12,7 +12,6 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     public float fadeDuration = 1.0f;
     public Material deathMaterial;
 
-    //private float currentHealth;
     private Animator animator;
     private bool isDead = false;
 
@@ -29,21 +28,21 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     public event Action<float> OnHealthChanged;
     public event Action OnDeath;
-    public bool isInitialized=false;
+    public bool isInitialized = false;
 
-    // Reference to your FSM if you want it:
+    // Reference to Enemy FSM
     private EnemyFSM fsm;
 
-    //For floating damage text
+    // For floating damage text
     public GameObject floatingTextPrefab;
 
-    private void Awake()
+    void Awake()
     {
         animator = GetComponent<Animator>();
-        fsm = GetComponent<EnemyFSM>(); // If you want to notify the FSM of death
+        fsm = GetComponent<EnemyFSM>();
     }
 
-    private void Start()
+    void Start()
     {
         if (npcStateData != null)
         {
@@ -53,30 +52,25 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         {
             currentHealth = 100f;
         }
-        isInitialized= true;
+        isInitialized = true;
     }
-
 
     public void TakeDamage(float amount)
     {
         if (isDead) return;
 
         currentHealth -= amount;
-        //Debug.Log($"{gameObject.name} took {amount} damage. Remaining health: {currentHealth}");
-
-        // Trigger the get-hit reaction & animation if still alive
         if (currentHealth > 0)
         {
             StartCoroutine(GetHitRoutine());
         }
         else
         {
-            // HP is zero or below
-            StartCoroutine(DieRoutine());
+            // HP <= 0 => trigger "die" logic
+            StartDieRoutine();
         }
-        
-        
-        //For floating damage text
+
+        // Optional: Show floating damage text
         if (floatingTextPrefab)
         {
             ShowFloatingText(amount);
@@ -84,56 +78,63 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     }
 
     IEnumerator GetHitRoutine()
-{
-    // Optionally spawn hit effect
-    if (hitEffectPrefab != null)
     {
-        GameObject hitFx = Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
-        Destroy(hitFx, 0.4f);
-    }
-
-    // Trigger the GotHit animation
-    animator.SetTrigger("GotHit");
-
-    // If the enemy is currently attacking, interrupt that attack
-    if (fsm != null && fsm.currentState is EnemyAttackState)
-    {
-        fsm.TransitionToState(fsm.gotHitState);
-    }
-
-    // Wait briefly for the hit reaction to play
-    yield return new WaitForSeconds(0.5f);
-}
-
-
-    IEnumerator DieRoutine()
-    {
-        if (isDead) yield break;
-        isDead = true;
-
-        //Debug.Log($"{gameObject.name} has died.");
-        animator.SetTrigger("Die");
-
-        // (Optional) Let the FSM know we're dead so it can stop AI logic
-        if (fsm != null)
+        // Optional: spawn hit effect
+        if (hitEffectPrefab != null)
         {
-            fsm.isDead = true; 
-            // or do fsm.TransitionToState(fsm.deadState), if you want
+            GameObject hitFx = Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
+            Destroy(hitFx, 0.4f);
         }
+
+        // Trigger the GotHit animation
+        animator.SetTrigger("GotHit");
+
+        // If the enemy was attacking, interrupt
+        if (fsm != null && fsm.currentState is EnemyAttackState)
+        {
+            fsm.TransitionToState(fsm.gotHitState);
+        }
+
+        // Wait briefly for the hit reaction to play
+        yield return new WaitForSeconds(0.4f);
+    }
+
+    // Instead of doing all in one DieRoutine, we do:
+    private void StartDieRoutine()
+    {
+        if (isDead) return;
+        isDead = true;
+        // Notify FSM to stop AI
+        if (fsm != null) fsm.isDead = true;
+
+        // Trigger "Die" animation
+        animator.SetTrigger("Die");
 
         // Spawn a death effect, if any
         if (deathEffectPrefab != null)
         {
             Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
         }
+    }
 
-        // Wait a short moment for the death animation
-        yield return new WaitForSeconds(0.5f);
+    // --- ANIMATION EVENT TRIGGER ---
+    // Call this method near the end of the death animation via an Animation Event.
+    public void OnDieAnimationEndEvent()
+    {
+        // Now we do the dissolve logic. 
+        // Because the user won't do anything else to this object, we can be sure it's safe to do so.
+        StartCoroutine(DissolveAndDestroy());
+    }
+
+    private IEnumerator DissolveAndDestroy()
+    {
+        // Get all renderers (cache them once)
+        Renderer[] renderers = GetComponentsInChildren<Renderer>();
 
         // Swap in dissolve material
-        Renderer[] renderers = GetComponentsInChildren<Renderer>();
         foreach (Renderer r in renderers)
         {
+            if (r == null) continue; // null check
             Material[] mats = new Material[r.materials.Length];
             for (int i = 0; i < mats.Length; i++)
             {
@@ -142,17 +143,22 @@ public class EnemyHealth : MonoBehaviour, IDamageable
             r.materials = mats;
         }
 
+        // Dissolve effect over fadeDuration
         float timer = 0f;
         while (timer < fadeDuration)
         {
             timer += Time.deltaTime;
             float dissolveValue = Mathf.Lerp(0f, 1f, timer / fadeDuration);
 
+            // For each renderer, ensure it's still valid
             foreach (Renderer r in renderers)
             {
-                foreach (Material mat in r.materials)
+                if (r == null) continue; // null check
+                Material[] mats = r.materials; // re-fetch the materials each frame
+                for(int i = 0; i < mats.Length; i++)
                 {
-                    if (mat.HasProperty("_DissolveAmount"))
+                    Material mat = mats[i];
+                    if (mat != null && mat.HasProperty("_DissolveAmount"))
                     {
                         mat.SetFloat("_DissolveAmount", dissolveValue);
                     }
@@ -161,7 +167,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
             yield return null;
         }
 
-        // Finally, destroy the object
+        // After the dissolve completes, destroy the object
         Destroy(gameObject);
         OnDeath?.Invoke();
     }

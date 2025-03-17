@@ -2522,11 +2522,11 @@ MonoBehaviour:
   weaponPrefabs:
   - {fileID: 205364813153091496}
   - {fileID: 5477724673352139249, guid: c7c508f49e4e2bb499ac4755f4f0fcbb, type: 3}
-  playerAttackData: {fileID: 11400000, guid: 031d10717e65a48f49b0e197dd525f57, type: 2}
   currentWeapon: {fileID: 205364813153091496}
   idleAttach: {fileID: 1663115417718560776}
   attackAttach: {fileID: 113987684859345182}
   slashSpawn: {fileID: 113987684859345182}
+  playerAttackData: {fileID: 11400000, guid: 031d10717e65a48f49b0e197dd525f57, type: 2}
 --- !u!114 &4845758553230878177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2539,7 +2539,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dced2607b58f64e668433ebf3e1553ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentAttackData: {fileID: 11400000, guid: 031d10717e65a48f49b0e197dd525f57, type: 2}
   attackHitPoint: {fileID: 113987684859345182}
   autoTargetRadius: 10
   autoTargetAngle: 60
@@ -2549,6 +2548,7 @@ MonoBehaviour:
   electroSlashVFX: {fileID: 1171201465392465800, guid: 4aa9f30a28a77224ba84b2a2c334c71b,
     type: 3}
   currentTarget: {fileID: 0}
+  playerAttackData: {fileID: 0}
 --- !u!114 &7049669916395680236
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -756,7 +756,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentElement: 0
   effectDuration: 15
-  crystallizeShardPrefab: {fileID: 1040462336315258571, guid: 5d6865d914cbb4b1d9caefe4ecba5796,
+  crystallizeShardPrefab: {fileID: 8489262180593950382, guid: c4aa4de1dbcfc44bd9eaa17b202a47ee,
     type: 3}
 --- !u!4 &8618360019307675033 stripped
 Transform:
