@@ -17,7 +17,6 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI dialogueText;
 
     public Animator animator;
-    public Animator animator2;
 
 
     void Awake()
