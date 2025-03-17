@@ -1,31 +1,29 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class EnemyHealthBar : HealthBar
 {
-    public GameObject Enemy;
-    public Transform EnemyTransform;
-    public CanvasGroup canvasGroup;
-    //public Image barImage;
+    CanvasGroup canvasGroup;
     Canvas canvas;
     RectTransform rectTransform;
     Camera cam;
+
+    GameObject Enemy;
+    Transform EnemyTransform;
+    EnemyHealth enemyHealth;
+
     public Vector3 offset;
-    public EnemyHealth enemyHealth;
+
+    //HealthBar Fade in/out
+    public float visibleDistance;
+    public float fadeSpeed;
+    
+    bool isFading = false;
+    float targetAlpha;
 
 
-   
-    private void OnDisable()
-    {
-        enemyHealth.OnHealthChanged -= UpdateHealthBar;
-        enemyHealth.OnDeath -= DestroyHealthBar;
-    }
 
 
     public void InitializeHealthBar(GameObject enemy)
@@ -34,13 +32,21 @@ public class EnemyHealthBar : HealthBar
         this.enemyHealth = enemy.GetComponent<EnemyHealth>();
         this.EnemyTransform = enemy.transform;
         this.canvasGroup = GetComponent<CanvasGroup>();
+
         cam = UI_Manager.instance.mainCamera;
         canvas = UI_Manager.instance.canvas;
         rectTransform = UI_Manager.instance.rectTransform;
+
         enemyHealth.OnHealthChanged += UpdateHealthBar;
         enemyHealth.OnDeath += DestroyHealthBar;
-        // ³]¸mªì©l¦å±ø
+                
         SetHealthBar(Enemy.GetComponent<EnemyFSM>().npcData.maxHealth);
+    }
+
+    private void OnDisable()
+    {
+        enemyHealth.OnHealthChanged -= UpdateHealthBar;
+        enemyHealth.OnDeath -= DestroyHealthBar;
     }
 
     public void UpdateHealthBarPos()
@@ -48,14 +54,18 @@ public class EnemyHealthBar : HealthBar
         if (EnemyTransform != null)
         {
             Vector3 spos = UI_Manager.instance.mainCamera.WorldToScreenPoint(EnemyTransform.position + offset);
-            if (spos.z < 0)
+            float distance = Vector3.Distance(Enemy.transform.position, UI_Manager.instance.playerPosition);
+            
+            if (spos.z < 0 || distance > visibleDistance)
             {
-                canvasGroup.alpha = 0;
+                targetAlpha = 0;
+                StartCoroutine(FadeOutHealthBar(targetAlpha));
                 return;
             }
-            else if (spos.z > 0)
+            else if (spos.z > 0&& distance<visibleDistance)
             {
-                canvasGroup.alpha = 1;
+                targetAlpha = 1;
+                StartCoroutine(FadeOutHealthBar(targetAlpha));
             }
             if (canvas.renderMode == RenderMode.ScreenSpaceCamera && canvas.worldCamera != null)
             {
@@ -68,12 +78,29 @@ public class EnemyHealthBar : HealthBar
             {
                 transform.position = spos;
             }
-        }        
+        }
+    }
+   
+
+    IEnumerator FadeOutHealthBar(float targetAlpha)
+    {
+        if (!isFading)
+        {
+            isFading = true;
+
+            while (Mathf.Abs(canvasGroup.alpha - targetAlpha) > 0.01f)
+            {
+                canvasGroup.alpha = Mathf.MoveTowards(canvasGroup.alpha, targetAlpha, fadeSpeed * Time.deltaTime);
+                yield return null;
+            }
+            isFading = false;           
+        }
+        yield return null;
     }
 
     void DestroyHealthBar()
     {
-        this.canvasGroup.alpha = Mathf.Lerp(1f, 0f, 10f);
+        StartCoroutine(FadeOutHealthBar(0));
         UI_Manager.instance.UnregisterHealthBar(Enemy);
         Destroy(gameObject);
     }

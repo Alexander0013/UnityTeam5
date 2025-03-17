@@ -3,7 +3,7 @@ public class EnemyAttackState : EnemyBaseState
 {
     public override void EnterState(EnemyFSM enemy)
     {
-        Debug.Log("Enter EnemyAttack State");
+        //Debug.Log("Enter EnemyAttack State");
         enemy.animator.SetBool("isWalking", false);
         // Start the attack animation.
         enemy.animator.SetTrigger("Attack");
@@ -26,7 +26,7 @@ public class EnemyAttackState : EnemyBaseState
     public void OnAttackAnimationFinished(EnemyFSM enemy)
     {
 
-        Debug.Log("Leaving EnemyAttack State via animation event");
+        //Debug.Log("Leaving EnemyAttack State via animation event");
         enemy.TransitionToState(enemy.idleState);
     }
     

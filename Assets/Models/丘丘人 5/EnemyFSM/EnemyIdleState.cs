@@ -11,7 +11,7 @@ public class EnemyIdleState : EnemyBaseState
 
     public override void EnterState(EnemyFSM enemy)
     {
-        Debug.Log("Enter Idle State");
+        //Debug.Log("Enter Idle State");
         enemy.animator.SetBool("isWalking", false);
 
         treasure = enemy.transform.parent;

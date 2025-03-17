@@ -12,7 +12,6 @@ public class PlayerHealthBar : HealthBar
     Color startColor;
     Color targetColor;
 
-
     public PlayerHealth playerHealth;
     public TextMeshProUGUI healthBarText;
 
