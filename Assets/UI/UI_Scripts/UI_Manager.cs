@@ -13,7 +13,8 @@ public class UI_Manager : MonoBehaviour
     public Camera mainCamera;
     public Canvas canvas;
     public RectTransform rectTransform;
-
+    public GameObject player;
+    public Vector3 playerPosition;
 
     //Bag&Equipment
     public GameObject myBag;
@@ -26,6 +27,8 @@ public class UI_Manager : MonoBehaviour
     public bool equipAIsOpen_A;
     public bool equipBIsOpen_B;
     public bool playerAonUsed;
+
+    public bool IsReady = false;
 
     //PlayerHealthBar
     public GameObject playerHealthBar_A;
@@ -42,9 +45,10 @@ public class UI_Manager : MonoBehaviour
     public CharacterManager CharacterManager;
 
     //EnemyHealthBar
-    public GameObject healthBarPrefab;    
-    private Dictionary<GameObject, EnemyHealthBar> healthBars = new Dictionary<GameObject, EnemyHealthBar>();
+    public GameObject healthBarPrefab;
+    public Transform EnemyHealthBarSpqwn;
 
+    private Dictionary<GameObject, EnemyHealthBar> healthBars = new Dictionary<GameObject, EnemyHealthBar>();
 
     //Alex
     private StarterAssetsInputs inputController;
@@ -71,11 +75,12 @@ public class UI_Manager : MonoBehaviour
     public void OnDisable()
     {
         CharacterManager.SwitchPlayer -= SwitchPlayerHealthBar;
-        CharacterManager.SwitchPlayer += UpdatePlayerReference;
+        CharacterManager.SwitchPlayer -= UpdatePlayerReference;
     }
 
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
         myBag.SetActive(bagIsOpen);
         equipmentUI_A.SetActive(equipAIsOpen_A);
         equipmentUI_B.SetActive(equipBIsOpen_B);
@@ -96,16 +101,23 @@ public class UI_Manager : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
 
-        UpdatePlayerReference();
-
         StartCoroutine(GenerateHealthBarsForEnemies());
+        StartCoroutine(WaitForPlayerReady());
+        IsReady = true;
     }
     void Update()
     {
+        UpdatePlayerPosition();
         if (Input.GetKeyDown(KeyCode.I))
         {
             OpenBag();
-        }        
+        }
+        
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            DialogueManager.instance.DisplayNextSentence();
+        }
+        
     }
     
     private void FixedUpdate()
@@ -113,9 +125,16 @@ public class UI_Manager : MonoBehaviour
         foreach (var healthBar in healthBars.Values)
         {
             healthBar.UpdateHealthBarPos();
+            //healthBar.UpdateVisible();
         }
     }
-
+    public void UpdatePlayerPosition()
+    {
+        if (player != null)
+        {
+            playerPosition = player.transform.position;
+        }
+    }
 
     public void OpenBag()
     {
@@ -137,7 +156,6 @@ public class UI_Manager : MonoBehaviour
         UpdateGameStateForUI(bagIsOpen);
     }
 
-
     public void OpenEquipmentUI_A()
     {
         if (bagIsOpen)
@@ -154,6 +172,7 @@ public class UI_Manager : MonoBehaviour
         equipmentUI_A.SetActive(equipAIsOpen_A);
 
         MenuOff();
+
     }
 
     public void OpenEquipmentUI_B()
@@ -224,10 +243,10 @@ public class UI_Manager : MonoBehaviour
         }
     }
 
-    public void CreateHealthBar(GameObject enemy)
+    public void CreateEnemyHealthBar(GameObject enemy)
     {
         // 創建血條物件
-        GameObject healthBarObject = Instantiate(healthBarPrefab, canvas.transform);
+        GameObject healthBarObject = Instantiate(healthBarPrefab, EnemyHealthBarSpqwn);
         healthBarObject.transform.localScale = new Vector3(1, 1, 1);
         healthBarObject.transform.localRotation = Quaternion.identity;
 
@@ -240,15 +259,15 @@ public class UI_Manager : MonoBehaviour
     }
 
     IEnumerator GenerateHealthBarsForEnemies()
-     {
+    {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
         foreach (GameObject enemy in enemies)
         {
             yield return StartCoroutine(WaitForHealthInitialization(enemy));
-            CreateHealthBar(enemy);  
+            CreateEnemyHealthBar(enemy);  
         }
-     }
+    }
 
     public void UnregisterHealthBar(GameObject enemy)
     {
@@ -269,34 +288,22 @@ public class UI_Manager : MonoBehaviour
         }
         yield break;
     }
-
-    //public void SetAllHealthBarsTransparent()
-    //{
-    //    foreach (var healthBar in healthBars.Values)
-    //    {
-    //        CanvasGroup canvasGroup = healthBar.GetComponent<CanvasGroup>();
-    //        if (canvasGroup != null)
-    //        {
-    //            canvasGroup.alpha = 0; // 設定透明
-    //        }
-    //    }
-    //}
-
-    //public void SetAllHealthBarsOpaque()
-    //{
-    //    foreach (var healthBar in healthBars.Values)
-    //    {
-    //        CanvasGroup canvasGroup = healthBar.GetComponent<CanvasGroup>();
-    //        if (canvasGroup != null)
-    //        {
-    //            canvasGroup.alpha = 1; // 恢復不透明
-    //        }
-    //    }
-    //}
+    
+    IEnumerator WaitForPlayerReady()
+    {
+        yield return new WaitForSeconds(2f);
+        UpdatePlayerReference();
+        while (inputController == null || playerInputController == null)
+        {
+            yield return null;
+            UpdatePlayerReference();
+        }         
+        yield break;
+    }
 
     private void UpdatePlayerReference()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
             inputController = player.GetComponent<StarterAssetsInputs>();
@@ -311,7 +318,7 @@ public class UI_Manager : MonoBehaviour
     {
         if (uiOpen)
         {
-            Time.timeScale = 0.05f;
+            Time.timeScale = 0.0f;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             if (inputController != null)

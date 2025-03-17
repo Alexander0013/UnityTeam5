@@ -160,7 +160,7 @@ TextureImporter:
         width: 45
         height: 44
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -181,7 +181,7 @@ TextureImporter:
         width: 78
         height: 77
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -189,6 +189,90 @@ TextureImporter:
       bones: []
       spriteID: baea8fbdf733eae48b5509c69f60b398
       internalID: -420492431
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteAtlasTexture-ui_atlas_map_mark_icons-1024x1024-fmt25_4
+      rect:
+        serializedVersion: 2
+        x: 461
+        y: 72
+        width: 55
+        height: 55
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6561e354aae3124fad01d2b5928f4de
+      internalID: 1592449592
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteAtlasTexture-ui_atlas_map_mark_icons-1024x1024-fmt25_5
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 554
+        width: 46
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e66a0d97c2eb4c478d9cf5116bcd0fd
+      internalID: 2107558016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteAtlasTexture-ui_atlas_map_mark_icons-1024x1024-fmt25_6
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 96
+        width: 78
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1187dfefce3ee844b99bf796dc426ed3
+      internalID: 1406215779
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteAtlasTexture-ui_atlas_map_mark_icons-1024x1024-fmt25_7
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 197
+        width: 76
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ecce7b66ff93e5a47a94a04a2dc9b7c8
+      internalID: -981017480
       vertices: []
       indices: 
       edges: []
@@ -208,6 +292,10 @@ TextureImporter:
       SpriteAtlasTexture-ui_atlas_map_mark_icons-1024x1024-fmt25_1: 256331435
       SpriteAtlasTexture-ui_atlas_map_mark_icons-1024x1024-fmt25_2: -1112186532
       SpriteAtlasTexture-ui_atlas_map_mark_icons-1024x1024-fmt25_3: -420492431
+      SpriteAtlasTexture-ui_atlas_map_mark_icons-1024x1024-fmt25_4: 1592449592
+      SpriteAtlasTexture-ui_atlas_map_mark_icons-1024x1024-fmt25_5: 2107558016
+      SpriteAtlasTexture-ui_atlas_map_mark_icons-1024x1024-fmt25_6: 1406215779
+      SpriteAtlasTexture-ui_atlas_map_mark_icons-1024x1024-fmt25_7: -981017480
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

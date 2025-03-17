@@ -17,6 +17,11 @@ public class PlayerStats :MonoBehaviour
     private List<Stat> healthStats = new List<Stat>(); // 每個角色的血量
     private List<Stat> damageStats = new List<Stat>(); // 每個角色的攻擊力
 
+    //public delegate void OnEquipmentModifier(int genderIndex);
+    //public OnEquipmentModifier OnEquipmentModifier;
+    //public int healthModifier;
+    //public int damageModifier;
+
     void Start()
     {
         // 初始化兩位角色的數值，使用 AttackData 內的基礎數值
@@ -45,8 +50,16 @@ public class PlayerStats :MonoBehaviour
             damageStats[genderIndex].RemoveModifier(genderIndex, oldItem.damageModifier);
             //Debug.Log("oldItemChanged");
         }
+        //SetModifierValues(newItem.healthModifier, newItem.damageModifier, oldItem.healthModifier, oldItem.damageModifier);
         UpdateUIText();
     }
+    //void SetModifierValues(int newHealthValue, int newDamageValue,int oldHealthValue, int oldDamageValue)
+    //{
+    //    AttackData_A.baseDamage = AttackData_A.baseDamage -oldDamageValue+ newDamageValue;
+    //    AttackData_A.health = AttackData_A.health - oldHealthValue + newHealthValue;
+    //    AttackData_B.baseDamage = AttackData_B.baseDamage - oldDamageValue + newDamageValue;
+    //    AttackData_B.health = AttackData_B.health - oldHealthValue + newHealthValue;
+    //}
 
     public void UpdateUIText()
     {

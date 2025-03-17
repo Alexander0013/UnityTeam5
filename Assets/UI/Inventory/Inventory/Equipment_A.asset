@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Equipment_A
   m_EditorClassIdentifier: 
   equippedItems:
-  - {fileID: 11400000, guid: a69ac59d02f96f34c82529b481b75f05, type: 2}
-  - {fileID: 11400000, guid: c6bc2e86abf902b4082508769451a7d6, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}

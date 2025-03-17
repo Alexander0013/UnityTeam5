@@ -140,7 +140,7 @@ TextureImporter:
         height: 50
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 23, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -349,7 +349,7 @@ TextureImporter:
         width: 116
         height: 116
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -357,6 +357,48 @@ TextureImporter:
       bones: []
       spriteID: 3e164b0c2b24b804a8af8a66f261d763
       internalID: 43818576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_12
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 362
+        width: 344
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 112, y: 0, z: 6, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ce959ac16734ba42b02f10de4db158b
+      internalID: -469421987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_13
+      rect:
+        serializedVersion: 2
+        x: 877
+        y: 431
+        width: 95
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 33, y: 0, z: 36, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69e0b3a23c7f0604eb6c8bfa09e7d7f1
+      internalID: -1471879477
       vertices: []
       indices: 
       edges: []
@@ -376,6 +418,8 @@ TextureImporter:
       SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_1: -1329930493
       SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_10: 227600261
       SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_11: 43818576
+      SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_12: -469421987
+      SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_13: -1471879477
       SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_2: -571157359
       SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_3: 692407467
       SpriteAtlasTexture-ui_sprite_inlevel_ui-1024x1024-fmt25_4: 926124668

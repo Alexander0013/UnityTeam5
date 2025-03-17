@@ -9,7 +9,7 @@ public class EnemyChaseState : EnemyBaseState
 
     public override void EnterState(EnemyFSM enemy)
     {
-        Debug.Log("Enter enemy Chase State");
+        //Debug.Log("Enter enemy Chase State");
         enemy.animator.SetBool("isWalking", true);
         enemy.animator.SetBool("isAttacking", false);
         lostPlayerTimer = 0f;

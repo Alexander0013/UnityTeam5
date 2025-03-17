@@ -13,6 +13,7 @@ public class HealthBar : MonoBehaviour
     protected bool isRunning = false;
     protected float yellowBarTarget;
 
+
     protected virtual void SetHealthBar(float value)
     {
         mainSlider.maxValue = value;        
@@ -28,17 +29,13 @@ public class HealthBar : MonoBehaviour
     {
         mainSlider.value = targetValue;
         yellowBarTarget = targetValue; // make sure slider's target value correct
-        StartSmoothYellowBar();
-    }
-
-
-    protected virtual void StartSmoothYellowBar()
-    {
         if (!isRunning)
         {
             StartCoroutine(SmoothYellowBar());
         }
     }
+
+
     protected virtual IEnumerator SmoothYellowBar()
     {
         if (yellowSlider != null)
@@ -54,4 +51,5 @@ public class HealthBar : MonoBehaviour
             isRunning = false;
         }        
     }
+
 }

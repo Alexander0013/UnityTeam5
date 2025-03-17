@@ -32,7 +32,7 @@ public class InventoryManager : MonoBehaviour
 
     public delegate void OnEquipmentChanged(Equipment newItem,Equipment oldItem,int genderIndex);
     public OnEquipmentChanged onEquipmentChanged;
-
+   
     void Awake()
     {
         if (instance != null)
@@ -142,12 +142,10 @@ public class InventoryManager : MonoBehaviour
         if (genderIndex == 0)
         {
             UpdateEquipmentUI_A();
-            //Debug.Log("gender0");
         }
         else
         {
             UpdateEquipmentUI_B();
-            //Debug.Log("gender1");
         }
         //UpdateStatsText();
     }
