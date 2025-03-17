@@ -112,12 +112,12 @@ public class UI_Manager : MonoBehaviour
         {
             OpenBag();
         }
-        
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            DialogueManager.instance.DisplayNextSentence();
-        }
-        
+
+        //if (Input.GetKeyDown(KeyCode.E)&&)
+        //{
+        //    DialogueManager.instance.DisplayNextSentence();
+        //}
+
     }
     
     private void FixedUpdate()

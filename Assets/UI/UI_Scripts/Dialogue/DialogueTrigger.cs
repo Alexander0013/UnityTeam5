@@ -30,13 +30,10 @@ public class DialogueTrigger : MonoBehaviour
     public void Update()
     {
         DistenceWithPlayer();
-        if (button != null)
+        
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                TriggerDialogue();
-                Destroy(button);
-            }
+            TriggerDialogue();
         }
     }
 
@@ -53,7 +50,6 @@ public class DialogueTrigger : MonoBehaviour
         if (!isTriggered)
         {
             float distance = Vector3.Distance(UI_Manager.instance.playerPosition, transform.position);
-            //Debug.Log(distance);
             if (distance < distenceWithPlayer && button == null)
             {
                 button = Instantiate(ButtonPrefab, canvas.transform);
@@ -67,9 +63,17 @@ public class DialogueTrigger : MonoBehaviour
     }
 
     public void TriggerDialogue()
-    {        
-        DialogueManager.instance.StartDialogue(dialogue);
-        isTriggered = true;      
+    {
+        if (!isTriggered&& button != null)
+        {
+            DialogueManager.instance.StartDialogue(dialogue);
+            isTriggered = true;
+            Destroy(button);
+        }
+        else
+        {
+            DialogueManager.instance.DisplayNextSentence();
+        }
     }
 
 }
