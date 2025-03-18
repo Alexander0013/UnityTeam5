@@ -15,3 +15,4 @@ MonoBehaviour:
   equippedItems:
   - {fileID: 0}
   - {fileID: 0}
+  equipmentStats: []

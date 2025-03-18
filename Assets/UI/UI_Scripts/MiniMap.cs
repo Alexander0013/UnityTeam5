@@ -26,7 +26,7 @@ public class MiniMap : MonoBehaviour
     private void Start()
     {
         playerTransform = Player_A.transform;
-        mainCamera = UI_Manager.instance.mainCamera.transform;
+        mainCamera = Camera.main.transform;
     }
 
     private void switchFollower()
