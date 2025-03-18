@@ -3,8 +3,8 @@ using UnityEngine;
 public class ArcherIdleState : EnemyBaseState
 {
     private float guardRange = 10f;
-    private float minIdle = 0.5f;  // random idle range
-    private float maxIdle = 1f;
+    private float minIdle = 2f;  // random idle range
+    private float maxIdle = 4f;
     private float idleTime;
 
     public override void EnterState(EnemyFSM enemy)

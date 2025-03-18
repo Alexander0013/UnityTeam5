@@ -706,6 +706,8 @@ MonoBehaviour:
   treasureTransform: {fileID: 0}
   treasureReturnRadius: 1
   attackHitPoint: {fileID: 5147312883367909770}
+  ImpactEffect: {fileID: 8762405910555896786, guid: fcb74f28d107e284e80af037bfec14ca,
+    type: 3}
   animator: {fileID: 0}
   playerTarget: {fileID: 0}
   isDead: 0

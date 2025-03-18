@@ -40,6 +40,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7035006451509992367}
     m_Modifications:
+    - target: {fileID: 5703574447050699514, guid: 9647b154cef54487cb4413a4ee04d6ae,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6205737666926490461, guid: 9647b154cef54487cb4413a4ee04d6ae,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -94,6 +99,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Magic shield pink
+      objectReference: {fileID: 0}
+    - target: {fileID: 6287953604210959080, guid: 9647b154cef54487cb4413a4ee04d6ae,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6287953604210959080, guid: 9647b154cef54487cb4413a4ee04d6ae,
         type: 3}
@@ -274,6 +284,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: treasurebox_epic
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c3dec053a041e4134919f5304487a3c8,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7036213049465896255, guid: c3dec053a041e4134919f5304487a3c8,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -548,7 +568,7 @@ PrefabInstance:
         type: 3}
       propertyPath: crystallizeShardPrefab
       value: 
-      objectReference: {fileID: 1040462336315258571, guid: 5d6865d914cbb4b1d9caefe4ecba5796,
+      objectReference: {fileID: 8489262180593950382, guid: c4aa4de1dbcfc44bd9eaa17b202a47ee,
         type: 3}
     - target: {fileID: 7369522449068614611, guid: 69c3af4264244416ba3832dfb165b83d,
         type: 3}

@@ -378,10 +378,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4716992f554423fa048e6934a20352, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localRotationOffset: {x: 80, y: 0, z: 0}
---- !u!4 &6315205102305430954 stripped
+  localRotationOffset: {x: 85, y: 0, z: 0}
+--- !u!4 &3879487161668569835 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 3921343858316364178, guid: 0ac38660bcc7b428c8b17fa2b54753cb,
+  m_CorrespondingSourceObject: {fileID: -3163284066874388781, guid: 0ac38660bcc7b428c8b17fa2b54753cb,
     type: 3}
   m_PrefabInstance: {fileID: 7047980457006007352}
   m_PrefabAsset: {fileID: 0}
@@ -414,12 +414,15 @@ MonoBehaviour:
   attackRadius: 1.5
   treasureTransform: {fileID: 0}
   treasureReturnRadius: 1
-  attackHitPoint: {fileID: 6315205102305430954}
+  attackHitPoint: {fileID: 3879487161668569835}
+  ImpactEffect: {fileID: 0}
   animator: {fileID: 0}
   playerTarget: {fileID: 0}
   isDead: 0
   arrowSpawnPoint: {fileID: 7369522449068614611}
   arrowImpactEffect: {fileID: 358637981425055526, guid: 8eb503696b886e04faff8fc0f480d473,
+    type: 3}
+  meleeImpactEffect: {fileID: 7856939199014537196, guid: 212ef1a41838ce044a9ac54994866708,
     type: 3}
 --- !u!114 &396839789140874137
 MonoBehaviour:

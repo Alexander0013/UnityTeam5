@@ -19,6 +19,7 @@ public class EnemyFSM : MonoBehaviour
     public Transform treasureTransform;
     public float treasureReturnRadius = 1f;
     public Transform attackHitPoint;
+    public GameObject ImpactEffect;
 
     [HideInInspector] public Animator animator;
     [HideInInspector] public Transform playerTarget;
@@ -159,6 +160,10 @@ public class EnemyFSM : MonoBehaviour
             if (dmg != null)
             {
                 dmg.TakeDamage(damage);
+            }
+            if (ImpactEffect != null)
+            {
+                Instantiate(ImpactEffect, attackCenter, Quaternion.identity);
             }
         }
     }

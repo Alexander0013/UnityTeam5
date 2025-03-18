@@ -12,7 +12,8 @@ public class ArcherFSM : EnemyFSM
 
     [Header("Archer Specific Settings")]
     public Transform arrowSpawnPoint;      
-    public GameObject arrowImpactEffect;     
+    public GameObject arrowImpactEffect;
+    public GameObject meleeImpactEffect;
 
     protected override void Start()
     {
@@ -102,6 +103,10 @@ public class ArcherFSM : EnemyFSM
                 if (dmg != null)
                 {
                     dmg.TakeDamage(damage);
+                }
+                if (meleeImpactEffect != null)
+                {
+                    Instantiate(meleeImpactEffect, center, Quaternion.identity);
                 }
             }
         }

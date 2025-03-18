@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
+    public Gender playerGender;
+
     [Header("Weapons References")]
     // List of weapon prefabs stored in the Inspector.
     public List<GameObject> weaponPrefabs = new List<GameObject>();
@@ -17,6 +19,7 @@ public class WeaponController : MonoBehaviour
     [Header("Slash VFX Spawn Point")]
     public Transform slashSpawn;   // Should be set on your weapon prefab.
 
+    
     [HideInInspector]
     public AttackData playerAttackData;
     void Awake() 
@@ -25,37 +28,33 @@ public class WeaponController : MonoBehaviour
         if(ph != null)
             playerAttackData = ph.playerAttackData;
     }
-    /*
     void OnEnable() 
     {
         InventoryManager.instance.onEquipmentChanged += OnEquipmentChanged;
     }
-
     void OnDisable() 
     {
         InventoryManager.instance.onEquipmentChanged -= OnEquipmentChanged;
     }
-    private void OnEquipmentChanged(Equipment newItem, Equipment oldItem, int genderIndex) 
+    private void OnEquipmentChanged(Equipment newItem, Equipment oldItem, int genderIndex)
     {
-    // Check if the new equipment is a weapon (or influences weapon stats).
-        if(newItem != null && newItem.type == EquipmentType.Weapon) 
+        // Process only if this change is for a weapon and matches our player's gender.
+        if (playerGender == Gender.Female && genderIndex != 0)
+            return;
+        if (playerGender == Gender.Male && genderIndex != 1)
+            return;
+
+        if (newItem != null && newItem.type == EquipmentType.Weapon)
         {
-            playerAttackData.baseDamage = CalculateNewBaseDamage(newItem.damageModifier, oldItem);
-            if(playerAttackData.currentWeaponIndex == 0)
-                playerAttackData.currentWeaponIndex = 1; 
-            if(playerAttackData.currentWeaponIndex == 1)
-                playerAttackData.currentWeaponIndex = 0; 
-            SwitchWeapon();
+            if (oldItem != null)
+                playerAttackData.baseDamage -= oldItem.damageModifier;
+            playerAttackData.baseDamage += newItem.damageModifier;
+
+            int newWeaponIndex = (playerGender == Gender.Female) ? 0 : 1;
+            SwitchWeapon(newWeaponIndex);
         }
     }
-    private float CalculateNewBaseDamage(int damageModifier, Equipment oldItem) 
-    {
-        playerAttackData.baseDamage -= oldItem.damageModifier;
-        playerAttackData.baseDamage += newItem.damageModifier;
-        return playerAttackData.baseDamage;
-    }
-    */
-
+    
     // Show the current weapon.
     public void ShowWeapon()
     {
@@ -149,45 +148,37 @@ public class WeaponController : MonoBehaviour
     /// It fades out and destroys the old weapon, then instantiates the new weapon prefab
     /// as a child of the idle attachment point.
     /// </summary>
-    public void SwitchWeapon()
+    public void SwitchWeapon(int newWeaponIndex)
     {
         if (playerAttackData == null)
         {
-            //Debug.LogWarning("[WeaponController] PlayerAttackData is not assigned.");
             return;
         }
-        int index = playerAttackData.currentWeaponIndex;
-
-        if (weaponPrefabs == null || weaponPrefabs.Count <= index)
-        {
-            //Debug.LogWarning("[WeaponController] No weapon prefab found at index: " + index);
-            return;
-        }
-
-        // Fade out and destroy current weapon.
+        // destroy current weapon.
         if (currentWeapon != null)
         {
-            StartCoroutine(FadeOutWeapon(0.2f));
-            Destroy(currentWeapon, 0.25f);
+            Destroy(currentWeapon);
+            currentWeapon = null;
         }
+        playerAttackData.currentWeaponIndex = newWeaponIndex;
 
-        if (idleAttach != null)
+        if (weaponPrefabs != null || weaponPrefabs.Count > newWeaponIndex)
         {
-            // Instantiate the new weapon as a child of idleAttach.
-            GameObject newWeapon = Instantiate(weaponPrefabs[index], idleAttach);
-            newWeapon.transform.localPosition = Vector3.zero;
-            newWeapon.transform.localRotation = Quaternion.identity;
-            newWeapon.transform.localScale = Vector3.one;
-            currentWeapon = newWeapon;
-
-            //Debug.Log("[WeaponController] Switched to new weapon at index " + index);
-            StartCoroutine(FadeInWeapon(0.2f));
-
-            // Update the transparency controller so it caches the new weapon's renderer.
-            PlayerTransparencyController ptc = GetComponentInParent<PlayerTransparencyController>();
-            if (ptc != null)
+            if (idleAttach != null)
             {
-                ptc.UpdateRenderers();
+                // Instantiate the new weapon as a child of idleAttach.
+                GameObject newWeapon = Instantiate(weaponPrefabs[newWeaponIndex], idleAttach);
+                newWeapon.transform.localPosition = Vector3.zero;
+                newWeapon.transform.localRotation = Quaternion.identity;
+                newWeapon.transform.localScale = Vector3.one;
+                currentWeapon = newWeapon;
+
+                //Debug.Log("[WeaponController] Switched to new weapon at index " + index);
+                StartCoroutine(FadeInWeapon(0.2f));
+
+                // Update the transparency controller so it caches the new weapon's renderer.
+                PlayerTransparencyController ptc = GetComponentInParent<PlayerTransparencyController>();
+                ptc?.UpdateRenderers();
             }
         }
         else

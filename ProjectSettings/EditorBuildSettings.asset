@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/OpeningVideo.unity
+    guid: c3ea50862bb7ae6489df47fa3de7d8b2
+  - enabled: 1
+    path: Assets/Scenes/Temple.unity
+    guid: 08b5c30d3f04e427089f7c36b1dc8a89
+  - enabled: 1
     path: Assets/Scenes/PureNature.unity
     guid: d57973a1bebdd054cbe0a992d93ba9b1
   - enabled: 1
