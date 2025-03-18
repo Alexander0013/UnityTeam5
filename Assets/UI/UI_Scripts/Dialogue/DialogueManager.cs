@@ -8,7 +8,7 @@ public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager instance;
 
-    private Queue<string> sentences;
+    public Queue<string> sentences;
 
     public GameObject dialogueBox;
     CanvasGroup canvasGroup;
@@ -17,7 +17,6 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI dialogueText;
 
     public Animator animator;
-    public Animator animator2;
 
 
     void Awake()
@@ -67,6 +66,7 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator TypeSentence(string sentence)
     {
+        Debug.Log("sentence = " + sentence);
         dialogueText.text = "";
         foreach (char letter in sentence.ToCharArray())
         {
