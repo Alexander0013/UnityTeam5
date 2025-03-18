@@ -4,44 +4,120 @@ using System.Collections.Generic;
 
 public class ArcherFSM : EnemyFSM
 {
-    // Replace melee states with archer-specific ones.
     public new ArcherIdleState idleState = new ArcherIdleState();
     public ArcherShootState shootState = new ArcherShootState();
-    public new ArcherReturnState returnState = new ArcherReturnState();
+    public ArcherMeleeState meleeState = new ArcherMeleeState();
     public new ArcherDeadState deadState = new ArcherDeadState();
+    public new EnemyGotHitState gotHitState = new EnemyGotHitState();
 
     [Header("Archer Specific Settings")]
-    public Transform arrowSpawnPoint;      // Where arrows spawn
-    public GameObject arrowPrefab;         // The arrow projectile prefab
-    public float arrowSpeed = 25f;         // Projectile speed
+    public Transform arrowSpawnPoint;      
+    public GameObject arrowImpactEffect;
+    public GameObject meleeImpactEffect;
 
-    // For shooting timing (cooldown between shots)
-    [HideInInspector] public float shootCooldown = 2f;
-    [HideInInspector] public float shootTimer = 0f;
-
-    // Override Start so that we use archer states.
     protected override void Start()
     {
-        // Instead of using EnemyFSM’s Start, we re-implement it:
         playerTarget = FindActiveLivingPlayer();
-        if (playerTarget == null)
-            TransitionToState(returnState);
-        else
-            TransitionToState(idleState);
+        TransitionToState(idleState);
     }
 
-    /// <summary>
-    /// Called via Animation Event in the shoot animation.
-    /// </summary>
-    public void SpawnArrow()
+    protected override void Update()
     {
-        if (arrowPrefab == null || arrowSpawnPoint == null) return;
-        GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, arrowSpawnPoint.rotation);
-        Rigidbody rb = arrow.GetComponent<Rigidbody>();
-        if (rb != null)
+        if (playerTarget != null)
         {
-            rb.velocity = arrowSpawnPoint.forward * arrowSpeed;
+            if (!playerTarget.gameObject.activeInHierarchy || !IsPlayerAlive(playerTarget))
+            {
+                playerTarget = null;
+            }
         }
-        // You can also add damage or lifetime logic to the arrow here.
+        else
+        {
+            Transform newTarget = FindActiveLivingPlayer();
+            if (newTarget != null)
+            {
+                playerTarget = newTarget;
+                TransitionToState(idleState);
+            }
+        }
+        currentState.UpdateState(this);
+    }
+
+    public void OnShootHitEvent()
+{
+    if (currentState is ArcherShootState)
+    {
+        if (playerTarget != null && arrowSpawnPoint != null)
+        {
+            Vector3 origin = arrowSpawnPoint.position;
+            Vector3 direction = (playerTarget.position - origin).normalized;
+            float sphereRadius = 0.5f; // Increase or decrease based on your needs
+            RaycastHit hit;
+            // SphereCast with a max distance of 20 units.
+            if (Physics.SphereCast(origin, sphereRadius, direction, out hit, 20f, npcData.playerLayers))
+            {
+                // For debugging: visualize the spherecast.
+                Debug.DrawRay(origin, direction * 20f, Color.red, 1f);
+                
+                IDamageable dmg = hit.collider.GetComponent<IDamageable>();
+                if (dmg != null)
+                {
+                    float damage = npcData.baseDamage * npcData.comboMultiplier;
+                    dmg.TakeDamage(damage);
+                }
+                if (arrowImpactEffect != null)
+                {
+                    Instantiate(arrowImpactEffect, hit.point, Quaternion.identity);
+                }
+            }
+            else
+            {
+                // For debugging if the spherecast misses.
+                Debug.DrawRay(origin, direction * 20f, Color.blue, 1f);
+            }
+        }
+    }
+}
+
+
+    // Called via Animation Event at the end of the Shoot animation.
+    public void OnShootEndEvent()
+    {
+        if (currentState is ArcherShootState)
+        {
+            TransitionToState(idleState);
+        }
+    }
+
+    // Called via Animation Event during the MeleeKick animation hit frame.
+    public void OnMeleeHitEvent()
+    {
+        if (currentState is ArcherMeleeState)
+        {
+            float damage = npcData.baseDamage * npcData.comboMultiplier;
+            float meleeRadius = npcData.hitRadius;
+            Vector3 center = attackHitPoint.position;
+            Collider[] hits = Physics.OverlapSphere(center, meleeRadius, npcData.playerLayers);
+            foreach (Collider c in hits)
+            {
+                IDamageable dmg = c.GetComponent<IDamageable>();
+                if (dmg != null)
+                {
+                    dmg.TakeDamage(damage);
+                }
+                if (meleeImpactEffect != null)
+                {
+                    Instantiate(meleeImpactEffect, center, Quaternion.identity);
+                }
+            }
+        }
+    }
+
+    // Called via Animation Event at the end of the MeleeKick animation.
+    public void OnMeleeEndEvent()
+    {
+        if (currentState is ArcherMeleeState)
+        {
+            TransitionToState(idleState);
+        }
     }
 }

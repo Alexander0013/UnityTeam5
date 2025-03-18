@@ -22,7 +22,7 @@ public class CharacterManager : MonoBehaviour
     public float initialActivationDelay = 0.1f;
 
     // Duration (in seconds) over which to ramp up hair simulation.
-    public float hairRampUpDuration = 0.5f;
+    public float hairRampUpDuration = 0.1f;
 
     public event System.Action SwitchPlayer;
 
@@ -60,7 +60,7 @@ public class CharacterManager : MonoBehaviour
         }
 
         // Gradually ramp up hair simulation to hide abrupt movements.
-        StartCoroutine(RampUpHairSimulation(initialPlayer));
+        //StartCoroutine(RampUpHairSimulation(initialPlayer));
     }
 
     void Update()
@@ -104,35 +104,35 @@ public class CharacterManager : MonoBehaviour
         }
 
         // Gradually ramp up hair simulation for the new character.
-        StartCoroutine(RampUpHairSimulation(newCharacter));
+        //StartCoroutine(RampUpHairSimulation(newCharacter));
         SwitchPlayer?.Invoke();
     }
 
     // Coroutine that gradually ramps up the hair simulation.
-    IEnumerator RampUpHairSimulation(GameObject character)
-    {
-        // Try to get the SpringManager component from the character's children.
-        SpringManager springManager = character.GetComponentInChildren<SpringManager>();
-        if (springManager != null)
-        {
-            // Store the target dynamic ratio (assumed to be 1.0f, adjust if needed).
-            float targetRatio = 1.0f;
-            // Start with simulation disabled.
-            springManager.dynamicRatio = 0f;
-            float elapsed = 0f;
-            while (elapsed < hairRampUpDuration)
-            {
-                elapsed += Time.deltaTime;
-                springManager.dynamicRatio = Mathf.Lerp(0f, targetRatio, elapsed / hairRampUpDuration);
-                yield return null;
-            }
-            springManager.dynamicRatio = targetRatio;
-        }
-        else
-        {
-            yield break;
-        }
-    }
+    //IEnumerator RampUpHairSimulation(GameObject character)
+    //{
+    //    // Try to get the SpringManager component from the character's children.
+    //    SpringManager springManager = character.GetComponentInChildren<SpringManager>();
+    //    if (springManager != null)
+    //    {
+    //        // Store the target dynamic ratio (assumed to be 1.0f, adjust if needed).
+    //        float targetRatio = 1.0f;
+    //        // Start with simulation disabled.
+    //        springManager.dynamicRatio = 0f;
+    //        float elapsed = 0f;
+    //        while (elapsed < hairRampUpDuration)
+    //        {
+    //            elapsed += Time.deltaTime;
+    //            springManager.dynamicRatio = Mathf.Lerp(0f, targetRatio, elapsed / hairRampUpDuration);
+    //            yield return null;
+    //        }
+    //        springManager.dynamicRatio = targetRatio;
+    //    }
+    //    else
+    //    {
+    //        yield break;
+    //    }
+    //}
 
     // Helper function to find the PlayerCameraRoot transform in a character.
     Transform GetCameraRoot(GameObject character)

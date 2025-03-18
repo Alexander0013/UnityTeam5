@@ -2,47 +2,45 @@ using UnityEngine;
 
 public class ArcherIdleState : EnemyBaseState
 {
+    private float guardRange = 10f;
+    private float minIdle = 2f;  // random idle range
+    private float maxIdle = 4f;
+    private float idleTime;
+
     public override void EnterState(EnemyFSM enemy)
     {
-        ArcherFSM archer = enemy as ArcherFSM;
-        if (archer == null) return;
-        Debug.Log("[ArcherIdleState] Entering Idle (Aiming) State");
-        // Set animator to idle/aiming loop.
-        archer.animator.SetBool("isIdle", true);
-        archer.animator.SetBool("isShooting", false);
-        // Reset shoot timer.
-        archer.shootTimer = 0f;
+        Debug.Log("[ArcherIdleState] Entering Idle");
+        enemy.animator.SetBool("isAttacking", false);
+        idleTime = Random.Range(minIdle, maxIdle);
     }
 
     public override void UpdateState(EnemyFSM enemy)
     {
-        ArcherFSM archer = enemy as ArcherFSM;
-        if (archer == null || archer.isDead) return;
-        if (archer.playerTarget == null) return;
-        
-        float distance = Vector3.Distance(archer.transform.position, archer.playerTarget.position);
-        // Remain in idle if the target is in detection range.
-        if (distance <= archer.detectionRadius)
+        if (enemy.playerTarget == null) return;
+        idleTime -= Time.deltaTime;
+        float distance = Vector3.Distance(enemy.transform.position, enemy.playerTarget.position);
+        if (idleTime <= 0f)
         {
-            // Increment shoot timer.
-            archer.shootTimer += Time.deltaTime;
-            if (archer.shootTimer >= archer.shootCooldown)
+            // Use npcData.hitRadius for close-range melee.
+            if (distance <= enemy.npcData.hitRadius)
             {
-                // Time to shoot: transition to shoot state.
-                archer.TransitionToState(archer.shootState);
+                enemy.TransitionToState(((ArcherFSM)enemy).meleeState);
             }
-        }
-        else
-        {
-            // Optionally, if the player moves out of range, transition to Return state.
-            archer.TransitionToState(archer.returnState);
-        }
+            // If within guard range but not too close, shoot.
+            else if (distance <= guardRange)
+            {
+                enemy.TransitionToState(((ArcherFSM)enemy).shootState);
+            }
+            else
+            {
+                enemy.TransitionToState(((ArcherFSM)enemy).idleState);
+            }
+        }    
+        // Otherwise, remain idle.
     }
 
     public override void ExitState(EnemyFSM enemy)
     {
-        ArcherFSM archer = enemy as ArcherFSM;
-        if (archer == null) return;
-        archer.animator.SetBool("isIdle", false);
+        // Nothing to clean up.
     }
 }

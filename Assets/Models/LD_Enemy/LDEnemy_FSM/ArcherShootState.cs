@@ -4,41 +4,31 @@ public class ArcherShootState : EnemyBaseState
 {
     public override void EnterState(EnemyFSM enemy)
     {
-        ArcherFSM archer = enemy as ArcherFSM;
-        if (archer == null) return;
-        Debug.Log("[ArcherShootState] Entering Shoot State");
-        // Reset the shoot timer so that the cooldown restarts after shooting.
-        archer.shootTimer = 0f;
-        // Trigger the shooting animation.
-        if (archer.animator != null)
+        Debug.Log("[ArcherShootState] Entering Ranged Attack");
+        // Face the player immediately.
+        if(enemy.playerTarget != null)
         {
-            archer.animator.SetTrigger("ShootArrow");
-            // Also set a flag so the animator knows we're not in idle.
-            archer.animator.SetBool("isShooting", true);
+            Vector3 direction = (enemy.playerTarget.position - enemy.transform.position).normalized;
+            direction.y = 0f;
+            enemy.transform.rotation = Quaternion.LookRotation(direction);
         }
+        enemy.animator.SetBool("isAttacking", true);
+        enemy.animator.SetTrigger("Shoot");
     }
 
     public override void UpdateState(EnemyFSM enemy)
     {
-        ArcherFSM archer = enemy as ArcherFSM;
-        if (archer == null || archer.isDead) return;
-
-        // Assume that the shoot animation is non-looping.
-        // We check the normalized time of the shoot animation.
-        AnimatorStateInfo stateInfo = archer.animator.GetCurrentAnimatorStateInfo(0);
-        // "Shoot" should be the name of your shooting animation state.
-        if (stateInfo.IsName("Shoot") && stateInfo.normalizedTime >= 1f)
+        if(enemy.playerTarget != null)
         {
-            // Shooting animation finished, return to Idle (aiming) state.
-            archer.TransitionToState(archer.idleState);
+            Vector3 direction = (enemy.playerTarget.position - enemy.transform.position).normalized;
+            direction.y = 0f;
+            Quaternion targetRot = Quaternion.LookRotation(direction);
+            enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, targetRot, Time.deltaTime * 5f);
         }
     }
 
     public override void ExitState(EnemyFSM enemy)
     {
-        ArcherFSM archer = enemy as ArcherFSM;
-        if (archer == null) return;
-        // Clear the shooting flag.
-        archer.animator.SetBool("isShooting", false);
+        enemy.animator.SetBool("isAttacking", false);
     }
 }

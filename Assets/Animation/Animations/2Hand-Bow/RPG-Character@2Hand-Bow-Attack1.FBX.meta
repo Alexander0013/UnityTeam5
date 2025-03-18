@@ -757,9 +757,18 @@ ModelImporter:
       curves: []
       events:
       - time: 0.68811923
-        functionName: SpawnArrow()
+        functionName: OnShootHitEvent
         data: 
-        objectReferenceParameter: {instanceID: 0}
+        objectReferenceParameter: {fileID: 1190103872971780605, guid: b0f4f0770a82e41da849dad014093624,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 1
+        functionName: OnShootEndEvent
+        data: 
+        objectReferenceParameter: {fileID: 1190103872971780605, guid: b0f4f0770a82e41da849dad014093624,
+          type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0

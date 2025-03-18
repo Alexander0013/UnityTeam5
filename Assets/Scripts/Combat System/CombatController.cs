@@ -3,9 +3,7 @@ using UnityEngine;
 
 public class CombatController : MonoBehaviour
 {
-    [Header("Attack Data")]
-    public AttackData currentAttackData;
-    public Transform attackHitPoint; // Set this in the Inspector.
+    public Transform attackHitPoint;
 
     [Header("Auto-Target Settings")]
     public float autoTargetRadius = 6f;
@@ -20,19 +18,20 @@ public class CombatController : MonoBehaviour
 
     [HideInInspector]
     public Transform currentTarget;
-
+    [HideInInspector]
+    public AttackData playerAttackData;
+    void Awake() 
+    {
+        PlayerHealth ph = GetComponentInParent<PlayerHealth>();
+        if(ph != null)
+            playerAttackData = ph.playerAttackData;
+    }
     /// <summary>
     /// Called via an Animation Event at the hit frame of your attack animation.
     /// It performs hit detection and instantiates the slash VFX.
     /// </summary>
     public void PerformHitDetection()
     {
-        //Debug.Log("PerformHitDetection");
-        if (currentAttackData == null)
-        {
-            //Debug.LogWarning("AttackData is not assigned.");
-            return;
-        }
 
         // Get the WeaponController from the player (assume it's on the same object or parent).
         WeaponController wc = GetComponentInParent<WeaponController>();
@@ -66,11 +65,11 @@ public class CombatController : MonoBehaviour
         }
 
         // Damage calculation remains unchanged.
-        float damage = currentAttackData.baseDamage * currentAttackData.comboMultiplier;
+        float damage = playerAttackData.baseDamage * playerAttackData.comboMultiplier;
         Collider[] hitColliders = Physics.OverlapSphere(
             attackHitPoint.position,
-            currentAttackData.hitRadius,
-            currentAttackData.enemyLayers
+            playerAttackData.hitRadius,
+            playerAttackData.enemyLayers
         );
 
         foreach (Collider hit in hitColliders)
@@ -84,7 +83,7 @@ public class CombatController : MonoBehaviour
                 if (targetStatus != null)
                 {
                     // Apply the attack's element with a duration.
-                    targetStatus.ApplyElement(currentAttackData.element, 15f);
+                    targetStatus.ApplyElement(playerAttackData.element, 15f);
                 }
 
             }
@@ -156,7 +155,7 @@ public class CombatController : MonoBehaviour
     // Use this.transform because CombatController is on the player.
     Transform playerTransform = transform;
 
-    if (currentTarget != null && currentAttackData != null)
+    if (currentTarget != null && playerAttackData != null)
     {
         // Calculate the horizontal direction from player to target.
         Vector3 dashDirection = currentTarget.position - playerTransform.position;
@@ -177,7 +176,7 @@ public class CombatController : MonoBehaviour
         //Debug.Log($"[DashToTarget] Distance to target: {dist}, HitRadius: {currentAttackData.hitRadius}");
 
         // If the target is farther than the hit radius, dash toward it.
-        if (dist > currentAttackData.hitRadius )
+        if (dist > playerAttackData.hitRadius )
         {
             // Move using the computed dashDirection. Multiply by Time.deltaTime for frame-rate independent movement.
             CharacterController cc = GetComponent<CharacterController>();

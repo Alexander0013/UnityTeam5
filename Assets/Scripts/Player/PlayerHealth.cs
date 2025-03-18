@@ -24,11 +24,55 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             }
         }
     }
+    
+    void OnEnable() 
+    {
+        InventoryManager.ItemUsed += OnItemUsed;
+        InventoryManager.instance.onEquipmentChanged += OnEquipmentChanged;
+    }
+
+    void OnDisable() 
+    {
+        InventoryManager.ItemUsed -= OnItemUsed;
+        InventoryManager.instance.onEquipmentChanged -= OnEquipmentChanged;
+    }
+
+    private void OnItemUsed(Item item) {
+        // Check if it's a HealthPotion and then add its healAmount to current health.
+        HealthPotion potion = item as HealthPotion;
+        if(potion != null) {
+            CurrentHealth += potion.healAmount;
+            Debug.Log("Healed for " + potion.healAmount + ", new health: " + CurrentHealth);
+        }
+    }
+    private void OnEquipmentChanged(Equipment newItem, Equipment oldItem, int genderIndex) 
+    {
+        // If the equipment changes include a health modifier, update health.
+        float healthModifier = 0;
+        if(oldItem != null)
+            healthModifier -= oldItem.healthModifier;
+        if(newItem != null)
+            healthModifier += newItem.healthModifier;
+
+        // Update the current and maximum health.
+        UpdateHealthWithModifier(healthModifier);
+    }
+
+    private void UpdateHealthWithModifier(float modifier) {
+        float baseHealth = (playerAttackData != null ? playerAttackData.health : 100f);
+        maxHealth = baseHealth + modifier;
+        float healthRatio = CurrentHealth / baseHealth;
+        CurrentHealth = maxHealth * healthRatio;
+        OnHealthChanged?.Invoke(CurrentHealth);
+
+    }
+    
 
     void Start()
     {
-        // Initialize current health from AttackData, fallback to 100 if not assigned.
-        currentHealth = (playerAttackData != null) ? playerAttackData.health : 100f;
+        float baseHealth = (playerAttackData != null ? playerAttackData.health : 100f);
+        maxHealth = baseHealth;
+        currentHealth = baseHealth;
         animator = GetComponent<Animator>();
         playerShield = GetComponent<PlayerShield>(); // Cache the shield component.
         Debug.Log("Player Health Initialized: " + currentHealth);
@@ -77,9 +121,9 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     // Resets the getHit flag after a short duration.
     IEnumerator ResetGetHit()
     {
-        yield return new WaitForSeconds(0.5f);
-        if (animator != null)
-            animator.SetBool("getHit", false);
+        yield return new WaitForSeconds(0.1f);
+        //if (animator != null)
+        //    animator.SetBool("getHit", false);
     }
 
     // Wait for die animation to finish then disable the player.

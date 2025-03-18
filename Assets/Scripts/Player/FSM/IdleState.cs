@@ -29,9 +29,6 @@ public class IdleState : PlayerBaseState
             {
                 // Coming from jump or attack => show the idle weapon
                 weaponController.ShowWeapon();
-                // Or if you want a fade: 
-                // player.StartCoroutine(weaponController.FadeInWeapon(1f, 0.5f));
-                //Debug.Log("[IdleState] Showing weapon (came from Jump/Attack).");
             }
             else if (player.previousState is RunState || player.previousState is WalkState)
             {
@@ -55,20 +52,6 @@ public class IdleState : PlayerBaseState
 
     public override void UpdateState(PlayerStateManager player)
     {
-        WeaponController wc = player.GetComponent<WeaponController>(); // or GetComponentInChildren<WeaponController>()
-        if (wc != null)
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                wc.SwitchWeapon();
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                wc.SwitchWeapon();
-            }
-
-        }
-        
         // Then normal idle logic (movement transitions, jump, attack, etc.)
         if (player.Input.move != Vector2.zero)
         {

@@ -61,7 +61,7 @@ public class ElementalStatus : MonoBehaviour
         if (crystallizeShardPrefab != null)
         {
             // Generate a random horizontal direction (ignore y)
-            Vector3 randomDirection = new Vector3(Random.Range(-1f, 1f), 0.5f, Random.Range(-1f, 1f));
+            Vector3 randomDirection = new Vector3(Random.Range(0f, 2f), 0.5f, Random.Range(0f, 2f));
             // Normalize to ensure it's exactly 1 unit away
             randomDirection = randomDirection.normalized;
             // Compute the spawn position 1 unit away from the enemy's position.

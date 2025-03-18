@@ -19,6 +19,7 @@ public class EnemyFSM : MonoBehaviour
     public Transform treasureTransform;
     public float treasureReturnRadius = 1f;
     public Transform attackHitPoint;
+    public GameObject ImpactEffect;
 
     [HideInInspector] public Animator animator;
     [HideInInspector] public Transform playerTarget;
@@ -38,14 +39,14 @@ public class EnemyFSM : MonoBehaviour
         // Start in Idle (or ReturnState if no player found)
         if (playerTarget == null)
         {
-            TransitionToState(returnState);
+            TransitionToState(idleState);
         }
         else
         {
             TransitionToState(idleState);
         }
     }
-    private void Update()
+    protected virtual void Update()
     {
         // Skip updates if we're flagged dead or have no current state
         if (isDead || currentState == null) return;
@@ -159,6 +160,10 @@ public class EnemyFSM : MonoBehaviour
             if (dmg != null)
             {
                 dmg.TakeDamage(damage);
+            }
+            if (ImpactEffect != null)
+            {
+                Instantiate(ImpactEffect, attackCenter, Quaternion.identity);
             }
         }
     }

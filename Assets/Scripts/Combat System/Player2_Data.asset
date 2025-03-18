@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseDamage: 7
   comboMultiplier: 1
-  hitRadius: 4
+  hitRadius: 2.5
   enemyLayers:
     serializedVersion: 2
     m_Bits: 256
-  health: 50
+  health: 100
   currentWeaponIndex: 0
   element: 2
