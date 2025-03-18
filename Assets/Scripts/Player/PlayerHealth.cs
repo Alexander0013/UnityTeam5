@@ -121,7 +121,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     // Resets the getHit flag after a short duration.
     IEnumerator ResetGetHit()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
         //if (animator != null)
         //    animator.SetBool("getHit", false);
     }

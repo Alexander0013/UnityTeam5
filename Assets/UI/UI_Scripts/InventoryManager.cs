@@ -33,7 +33,13 @@ public class InventoryManager : MonoBehaviour
 
     public delegate void OnEquipmentChanged(Equipment newItem,Equipment oldItem,int genderIndex);
     public OnEquipmentChanged onEquipmentChanged;
-   
+    //Alex
+    public static event System.Action<Item> ItemUsed;
+    public static void RaiseItemUsed(Item item)
+    {
+        ItemUsed?.Invoke(item);
+    }
+    //Alex
     void Awake()
     {
         if (instance != null)
