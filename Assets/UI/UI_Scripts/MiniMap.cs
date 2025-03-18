@@ -5,6 +5,7 @@ using UnityEngine;
 public class MiniMap : MonoBehaviour
 {
     Transform playerTransform;
+    Transform mainCamera;
     public GameObject Player_A;
     public GameObject Player_B;
 
@@ -25,6 +26,7 @@ public class MiniMap : MonoBehaviour
     private void Start()
     {
         playerTransform = Player_A.transform;
+        mainCamera = UI_Manager.instance.mainCamera.transform;
     }
 
     private void switchFollower()
@@ -46,7 +48,6 @@ public class MiniMap : MonoBehaviour
         Vector3 newPosition = playerTransform.position;
         newPosition.y = base.transform.position.y;
         base.transform.position = newPosition;
-        
-        //base.transform.rotation = Quaternion.Euler(90f, playerTransform.eulerAngles.y, 0f);
+        base.transform.rotation = Quaternion.Euler(90f, mainCamera.eulerAngles.y, 0f);
     }
 }

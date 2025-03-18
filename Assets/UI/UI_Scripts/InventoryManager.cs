@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Timeline.Actions.MenuPriority;
 
 
 public class InventoryManager : MonoBehaviour
@@ -21,7 +22,7 @@ public class InventoryManager : MonoBehaviour
 
     //Equipment
     EquipmentList equipmentList;
-
+        
     public EquipmentList equipmentList_A; //save equipment is equipped
     public Image[] equipmentImage_A;
     public GameObject[] equipmentText_A;
@@ -48,6 +49,14 @@ public class InventoryManager : MonoBehaviour
         instance.itemInfo.text = "";
     }
 
+    public void Start()
+    {
+        UpdateEquipmentUI_A();
+        UpdateEquipmentUI_B();
+        onEquipmentChanged?.Invoke(null, null, 0);
+        onEquipmentChanged?.Invoke(null, null, 1);
+    }
+
 
     private void Update()
     {
@@ -70,7 +79,7 @@ public class InventoryManager : MonoBehaviour
 
         UpdateEquipmentUI(genderIndex);
 
-        onEquipmentChanged?.Invoke(newItem, oldItem, genderIndex);
+        onEquipmentChanged?.Invoke(newItem, null, genderIndex);
     }
 
     public Equipment UnEquip(int genderIndex,int slotIndex)
@@ -189,6 +198,9 @@ public class InventoryManager : MonoBehaviour
             }
         }
     }
+
+
+
     public EquipmentList GetEquipmentList(int genderIndex)
     {
         if (genderIndex == 0)

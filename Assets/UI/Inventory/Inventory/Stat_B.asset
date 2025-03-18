@@ -9,10 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e6759d0c37181a4ea91ea9103706e26, type: 3}
-  m_Name: Equipment_A
+  m_Script: {fileID: 11500000, guid: cae28597ea3165a429061b34210fc73a, type: 3}
+  m_Name: Stat_B
   m_EditorClassIdentifier: 
-  equippedItems:
-  - {fileID: 0}
-  - {fileID: 0}
-  equipmentStats: []
+  baseData: {fileID: 11400000, guid: 2aeb211d0910a8d4fb7e2576561484ca, type: 2}
