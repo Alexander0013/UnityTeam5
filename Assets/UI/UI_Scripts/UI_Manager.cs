@@ -81,21 +81,11 @@ public class UI_Manager : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        myBag.SetActive(bagIsOpen);
-        equipmentUI_A.SetActive(equipAIsOpen_A);
-        equipmentUI_B.SetActive(equipBIsOpen_B);
-        botton_A.interactable = true;
-        botton_B.interactable = false;
 
         canvasGroup_A = playerHealthBar_A.GetComponent<CanvasGroup>();
         canvasGroup_B = playerHealthBar_B.GetComponent<CanvasGroup>();
         miniCanvasGroup_A = miniBar_A.GetComponent<CanvasGroup>();
         miniCanvasGroup_B = miniBar_B.GetComponent<CanvasGroup>();
-
-        canvasGroup_A.alpha = 1.0f;
-        miniCanvasGroup_A.alpha = 0.0f;
-        canvasGroup_B.alpha = 0.0f;
-        miniCanvasGroup_B.alpha = 1.0f;
 
         mainCamera = Camera.main;
         rectTransform = GetComponent<RectTransform>();
@@ -112,12 +102,6 @@ public class UI_Manager : MonoBehaviour
         {
             OpenBag();
         }
-
-        //if (Input.GetKeyDown(KeyCode.E)&&)
-        //{
-        //    DialogueManager.instance.DisplayNextSentence();
-        //}
-
     }
     
     private void FixedUpdate()
@@ -125,7 +109,6 @@ public class UI_Manager : MonoBehaviour
         foreach (var healthBar in healthBars.Values)
         {
             healthBar.UpdateHealthBarPos();
-            //healthBar.UpdateVisible();
         }
     }
     public void UpdatePlayerPosition()
@@ -135,7 +118,7 @@ public class UI_Manager : MonoBehaviour
             playerPosition = player.transform.position;
         }
     }
-
+    //Switch Bag & Equipment
     public void OpenBag()
     {
         if (equipAIsOpen_A)
@@ -155,7 +138,6 @@ public class UI_Manager : MonoBehaviour
 
         UpdateGameStateForUI(bagIsOpen);
     }
-
     public void OpenEquipmentUI_A()
     {
         if (bagIsOpen)
@@ -174,7 +156,6 @@ public class UI_Manager : MonoBehaviour
         MenuOff();
 
     }
-
     public void OpenEquipmentUI_B()
     {
         if (bagIsOpen)
@@ -205,12 +186,11 @@ public class UI_Manager : MonoBehaviour
 
         UpdateGameStateForUI(false);
     }
-
+    //Right Click Menu
     public void SetMenu(GameObject menu)
     {
         spawnedMenu = menu; 
     }
-
     public void MenuOff()
     {
         if (spawnedMenu != null) 
@@ -219,7 +199,7 @@ public class UI_Manager : MonoBehaviour
             spawnedMenu = null;
         }
     }
-
+    //Switch Player HealthBar
     public void SwitchPlayerHealthBar()
     {
         playerAonUsed = !playerAonUsed;
@@ -242,7 +222,7 @@ public class UI_Manager : MonoBehaviour
             botton_A.interactable = false;
         }
     }
-
+    //Enemy HealthBar
     public void CreateEnemyHealthBar(GameObject enemy)
     {
         // 創建血條物件
@@ -257,7 +237,6 @@ public class UI_Manager : MonoBehaviour
         // 註冊到 UIManager
         healthBars.Add(enemy, healthBarScript);
     }
-
     IEnumerator GenerateHealthBarsForEnemies()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
@@ -268,7 +247,6 @@ public class UI_Manager : MonoBehaviour
             CreateEnemyHealthBar(enemy);  
         }
     }
-
     public void UnregisterHealthBar(GameObject enemy)
     {
         if (healthBars.ContainsKey(enemy))
@@ -289,6 +267,7 @@ public class UI_Manager : MonoBehaviour
         yield break;
     }
     
+    //Get mouse from player
     IEnumerator WaitForPlayerReady()
     {
         yield return new WaitForSeconds(2f);
@@ -300,7 +279,6 @@ public class UI_Manager : MonoBehaviour
         }         
         yield break;
     }
-
     private void UpdatePlayerReference()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -311,7 +289,7 @@ public class UI_Manager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Active player not found! Ensure the active player is tagged 'Player'.");
+            //Debug.LogWarning("Active player not found! Ensure the active player is tagged 'Player'.");
         }
     }
     private void UpdateGameStateForUI(bool uiOpen)
@@ -347,5 +325,7 @@ public class UI_Manager : MonoBehaviour
             }
         }
     }
+
+    //Boss HealthBar
 
 }

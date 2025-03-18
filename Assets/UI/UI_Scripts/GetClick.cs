@@ -8,48 +8,70 @@ public class GetClick : MonoBehaviour, IPointerClickHandler
     public GameObject menuPrefab; // 右鍵選單的 Prefab
     private static GameObject spawnedMenu; // 產生的選單
 
+    //Alex
+    private float lastClickTime; 
+    private float doubleClickThreshold = 0.3f;
+
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log(eventData.pointerCurrentRaycast.gameObject.name);
+        //Debug.Log(eventData.pointerCurrentRaycast.gameObject.name);
         if (spawnedMenu != null)
         {
-            Destroy(spawnedMenu); // 刪除舊選單
+            Destroy(spawnedMenu); 
             spawnedMenu = null;
         }
 
-        if (eventData.pointerCurrentRaycast.gameObject.name == "Item Image")
+        //if (eventData.pointerCurrentRaycast.gameObject.name == "Item Image")
+        //{
+
+        //    Slot slot = this.gameObject.GetComponentInParent<Slot>();
+        //    Debug.Log(slot);
+        //    if (slot != null)
+        //    {
+        //        if (eventData.button == PointerEventData.InputButton.Right) // 右鍵
+        //        {
+        //            ShowMenu(slot, eventData.position);
+        //        }
+        //        InventoryManager.UpdateItemInfo(slot.slotImage, slot.slotInfo);
+        //    }
+        //}
+
+        if (eventData.button == PointerEventData.InputButton.Left)
         {
-            //Debug.Log(this.gameObject.name);
-            Slot slot = this.gameObject.GetComponentInParent<Slot>();
-            //Debug.Log("slot = " + slot);
-            if (slot != null)
+            // If the time between clicks is less than the threshold, it's a double click.
+            if (Time.time - lastClickTime < doubleClickThreshold)
             {
-                if (eventData.button == PointerEventData.InputButton.Right) // 右鍵
+                Slot slot = this.gameObject.GetComponentInParent<Slot>();
+                if (slot != null)
                 {
-                    ShowMenu(slot, eventData.position);            
+                    ShowMenu(slot, eventData.position);
                 }
-                //else if (eventData.button == PointerEventData.InputButton.Left) // 左鍵
-                //{
-                //    //Debug.Log("左鍵點擊 " );                
-                //}
-                InventoryManager.UpdateItemInfo(slot.slotImage, slot.slotInfo);
+            }
+            lastClickTime = Time.time;
+
+            // Optionally, update item info on a single click:
+            Slot singleClickSlot = this.gameObject.GetComponentInParent<Slot>();
+            if (singleClickSlot != null)
+            {
+                InventoryManager.UpdateItemInfo(singleClickSlot.slotImage, singleClickSlot.slotInfo);
             }
         }
-        
+
     }
 
     public void ShowMenu(Slot slot, Vector2 position)
     {
-        //Debug.Log("show menu");
-        GameObject bag = FindObjectOfType<UI_Manager>().gameObject; // 取得 Bag 物件
+        //Debug.Log(slot);
+        GameObject bag = UI_Manager.instance.myBag;
+            //FindObjectOfType<UI_Manager>().gameObject; // 取得 Bag 物件
         
         // 產生選單
-        spawnedMenu = Instantiate(menuPrefab, FindObjectOfType<Canvas>().transform);
+        spawnedMenu = Instantiate(menuPrefab,UI_Manager.instance.canvas.transform);
         spawnedMenu.transform.position = position;
 
         // 設定目前的 Menu
-        bag.GetComponent<UI_Manager>().SetMenu(spawnedMenu);               
-
+        bag.GetComponentInParent<UI_Manager>().SetMenu(spawnedMenu);               
+        
         // 讓選單知道是哪個物品被點擊
         spawnedMenu.GetComponent<RightClickMenu>().SetTargetItem(slot);
         //不同類型的物件顯示不同字樣Equip/Use
