@@ -2520,8 +2520,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8e5cb97fbd684f4eba6d65557f03d0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerGender: 0
   weaponPrefabs:
-  - {fileID: 205364813153091496}
+  - {fileID: 5191645544457289276, guid: de0a347a1d82a4884994d99e0176ce7e, type: 3}
   - {fileID: 5477724673352139249, guid: c7c508f49e4e2bb499ac4755f4f0fcbb, type: 3}
   currentWeapon: {fileID: 205364813153091496}
   idleAttach: {fileID: 1663115417718560776}
