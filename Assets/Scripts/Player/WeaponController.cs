@@ -19,7 +19,6 @@ public class WeaponController : MonoBehaviour
     [Header("Slash VFX Spawn Point")]
     public Transform slashSpawn;   // Should be set on your weapon prefab.
 
-    
     [HideInInspector]
     public AttackData playerAttackData;
     void Awake() 
@@ -43,14 +42,14 @@ public class WeaponController : MonoBehaviour
             return;
         if (playerGender == Gender.Male && genderIndex != 1)
             return;
-
+        // Toggle weapon index: if currently 0, switch to 1; if currently 1, switch to 0.
+        int newWeaponIndex = (playerAttackData.currentWeaponIndex == 0) ? 1 : 0;
         if (newItem != null && newItem.type == EquipmentType.Weapon)
         {
             if (oldItem != null)
                 playerAttackData.baseDamage -= oldItem.damageModifier;
             playerAttackData.baseDamage += newItem.damageModifier;
 
-            int newWeaponIndex = (playerGender == Gender.Female) ? 0 : 1;
             SwitchWeapon(newWeaponIndex);
         }
     }
@@ -107,6 +106,9 @@ public class WeaponController : MonoBehaviour
             Renderer rend = currentWeapon.GetComponent<Renderer>();
             if (rend != null)
             {
+                // Check if currentWeapon is still valid in every iteration.
+                if (currentWeapon == null)
+                    yield break;
                 float timer = 0f;
                 while (timer < duration)
                 {
@@ -162,7 +164,7 @@ public class WeaponController : MonoBehaviour
         }
         playerAttackData.currentWeaponIndex = newWeaponIndex;
 
-        if (weaponPrefabs != null || weaponPrefabs.Count > newWeaponIndex)
+        if (weaponPrefabs != null && weaponPrefabs.Count > newWeaponIndex)
         {
             if (idleAttach != null)
             {
