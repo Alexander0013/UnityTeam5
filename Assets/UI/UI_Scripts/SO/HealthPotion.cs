@@ -7,7 +7,8 @@ public class HealthPotion : Item
 
     public override void Use()
     {
-        Debug.Log("Useed potion¡Gheal " + healAmount + "¡I");
+        Debug.Log("Useed potionï¿½Gheal " + healAmount + "ï¿½I");
         //PlayerStats.Instance.Heal(healAmount);  
+        InventoryManager.RaiseItemUsed(this);
     }
 }
