@@ -7,7 +7,7 @@ public class BossNPCStateData : ScriptableObject
     public float baseDamage = 10f;
     public float comboMultiplier = 1.0f;
     public float hitRadius = 1.5f;
-
+    public float chargeDamage = 50f; // 新增的 chargeDamage 欄位，用於 Charge 攻擊傷害
     // Health for the enemy
     public float maxHealth = 100f;
     public LayerMask playerLayers; // set to player layer

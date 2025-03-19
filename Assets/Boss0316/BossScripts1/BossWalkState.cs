@@ -1,66 +1,67 @@
 using UnityEngine;
+using System.Collections;
 
 public class BossWalkState : BossBaseState
 {
-    private float moveSpeed = 2.0f; // Boss 移動速度
+    private float moveSpeed = 2.0f; // 追逐速度
 
     public override void EnterState(BossFSM boss)
     {
-        Debug.Log("Boss 進入 Walk 狀態");
-        boss.animator.SetBool("Walk", true);  // 啟動 Walk 動畫
+        Debug.Log("進到 WalkState");
+        boss.animator.SetBool("Walk", true);
+        boss.StartCoroutine(WalkDetectPlayer(boss));
     }
 
     public override void UpdateState(BossFSM boss)
     {
         if (boss.playerTarget == null)
         {
-            Debug.Log("玩家已離開偵測範圍，回到 Idle");
+            Debug.Log("玩家離開偵測範圍，Boss 回到 Idle");
             boss.TransitionToState(boss.idleState);
             return;
         }
 
-        // 計算距離
         float distance = Vector3.Distance(boss.transform.position, boss.playerTarget.position);
 
-        // **新增 JumpAttack 條件**
-        if (distance > boss.attackRadius && distance < boss.detectionRadius && boss.IsJumpAttackReady())
+        // 若玩家距離小於 1.5f，進入 StandByState 來決定攻擊方式
+        if (distance <= 1.5f)
         {
-            Debug.Log("玩家在 JumpAttack 範圍內，進行跳躍攻擊");
-            boss.TransitionToState(boss.jumpAttackState);
+            Debug.Log("玩家進入 swiping 攻擊範圍，Boss 進入 StandBy 狀態");
+            boss.TransitionToState(boss.standByState);
             return;
         }
 
-        // 進入攻擊範圍時切換到戰鬥狀態
-        if (distance <= boss.attackRadius)
+        // 若 Charge 已解鎖 & 冷卻完成，並且玩家距離在 2f ~ 6f 內，進入 StandByState 來決定是否 Charge
+        if (boss.chargeUnlockTimer == 0f && boss.chargeCooldownTimer <= 0f && distance >= 2f && distance <= 6f)
         {
-            Debug.Log("Boss 進入攻擊範圍，切換至 Combat 狀態");
-            boss.TransitionToState(boss.combatState);
+            Debug.Log("玩家進入 charge 攻擊範圍，Boss 進入 StandBy 狀態");
+            boss.TransitionToState(boss.standByState);
             return;
         }
 
-        // 讓 Boss 面向玩家
+        // 追逐玩家
         Vector3 targetPosition = boss.playerTarget.position;
-        targetPosition.y = boss.transform.position.y; // 確保不會朝上或朝下
+        targetPosition.y = boss.transform.position.y; // 保持水平移動
         Vector3 direction = (targetPosition - boss.transform.position).normalized;
-
         if (direction != Vector3.zero)
         {
             boss.transform.forward = Vector3.Lerp(boss.transform.forward, direction, Time.deltaTime * 5f);
         }
-
-        // 移動 Boss
         boss.transform.position = Vector3.MoveTowards(boss.transform.position, targetPosition, moveSpeed * Time.deltaTime);
     }
 
+    private IEnumerator WalkDetectPlayer(BossFSM boss)
+    {
+        while (boss.currentState is BossWalkState)
+        {
+            boss.DetectPlayer();
+            yield return new WaitForSeconds(0.3f);
+        }
+    }
 
     public override void ExitState(BossFSM boss)
     {
         Debug.Log("Boss 離開 Walk 狀態");
-        boss.animator.SetBool("Walk", false);  // 停止 Walk 動畫
-
+        boss.animator.SetBool("Walk", false);
     }
 }
-
-
-
-

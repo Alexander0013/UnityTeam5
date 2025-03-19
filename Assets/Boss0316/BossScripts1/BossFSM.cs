@@ -1,145 +1,118 @@
 using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
+using System.Xml.Linq;
 
 public class BossFSM : MonoBehaviour
 {
+    // 狀態實例（請依需求取消註解或新增狀態）
     public BossIdleState idleState = new BossIdleState();
-    public BossWalkState walkState = new BossWalkState();
-    public BossCombatState combatState = new BossCombatState();
-    public BossSwipingState swipingState = new BossSwipingState();
     public BossRoalingState roalingState = new BossRoalingState();
-    public BossJumpAttackState jumpAttackState = new BossJumpAttackState(); 
-    public BossGetHitState getHitState = new BossGetHitState();
-    public BossDieState dieState = new BossDieState();
-
+    public BossWalkState walkState = new BossWalkState();
+    public BossStandByState standByState = new BossStandByState();
+    public BossSwipingState swipingState = new BossSwipingState();
+    public BossChargeState chargeState = new BossChargeState();
 
     [Header("Boss Settings")]
     public BossNPCStateData bossnpcData;
-    public float detectionRadius =20f;    // 偵測範圍
-    public float attackRadius = 2f;       // 攻擊範圍（也可當作 Swiping 攻擊範圍）
-    public float swipingRange = 2f;       // Swiping 攻擊範圍
-    public float jumpAttackCooldown = 5f;   // JumpAttack 冷卻時間
-    public LayerMask playerLayer;           // 玩家 Layer
+    public float detectionRadius = 10f;    // 偵測範圍
+    public float attackRadius = 2f;        // 近戰攻擊範圍（可供 swiping 判斷使用）
+    public LayerMask playerLayer;          // 玩家 Layer
 
     [Header("Boss Attack Points")]
-    public Transform handHitPoint;       // Swiping 攻擊範圍中心
-    public Transform jumpHitPoint;   // Jump Attack 命中判定範圍中心
+    public Transform handHitPoint;         // 攻擊時判定中心（swiping 用）
 
     [HideInInspector] public Animator animator;
     [HideInInspector] public Transform playerTarget;
     [HideInInspector] public BossBaseState currentState;
 
-    private float jumpAttackCooldownTimer = 0f; // 獨立管理 JumpAttack 冷卻時間
-    private BossPhysicsHandler physicsHandler;
+    // 計時器變數
+    [HideInInspector] public float chargeUnlockTimer = 30f; // 30 秒後解鎖 Charge
+    [HideInInspector] public float chargeCooldownTimer = 0f; // 15 秒冷卻
     private void Awake()
     {
+        animator = GetComponent<Animator>();
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
         {
             rb.isKinematic = false;
-            rb.useGravity = true;  // 確保重力啟用
-        }
-        animator = GetComponent<Animator>();
-
-        physicsHandler = GetComponent<BossPhysicsHandler>();
-        if (physicsHandler == null)
-        {
-            Debug.LogError("BossFSM 找不到 BossPhysicsHandler，請確認有掛載該組件！");
+            rb.useGravity = true;
         }
     }
 
     private void Start()
     {
+        Debug.Log("開始執行 BossFSM，SnapToGround 並設定初始狀態");
         SnapToGround();
-  
-        TransitionToState(roalingState); // 進場時播放 Roaling
+        StartCoroutine(ChargeUnlockCountdown()); // 開始 30 秒計時
+        TransitionToState(idleState);
     }
 
     private void Update()
     {
-        if (currentState == null) return;
-
-        if (!(currentState is BossRoalingState))
+        if (currentState != null)
         {
-            DetectPlayer();
+            currentState.UpdateState(this);
         }
-        currentState.UpdateState(this);
-
-        // 更新 JumpAttack 冷卻計時
-        if (jumpAttackCooldownTimer > 0f)
+        // Charge 技能冷卻倒數
+        if (chargeCooldownTimer > 0)
         {
-            jumpAttackCooldownTimer -= Time.deltaTime;
+            chargeCooldownTimer -= Time.deltaTime;
         }
     }
+
     private void SnapToGround()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position + Vector3.up * 1f, Vector3.down, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+        if (Physics.Raycast(transform.position + Vector3.up * 2f, Vector3.down, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
         {
             transform.position = hit.point;
-        }
-    }
-    private void DetectPlayer()
-    {
-        if (playerTarget != null)
-        {
-            float distance = Vector3.Distance(transform.position, playerTarget.position);
+            Rigidbody rb = GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.velocity = Vector3.zero;
+            }
         }
         else
         {
-            Debug.LogWarning("playerTarget 為 null，無法計算距離");
+            Debug.LogWarning("無法偵測到地面，請確認地板 Collider 設定正確並在 'Ground' Layer");
         }
-        Collider[] hits = Physics.OverlapSphere(transform.position, detectionRadius, playerLayer);
+    }
 
+    // 利用 OverlapSphere 偵測玩家
+    public void DetectPlayer()
+    {
+        Collider[] hits = Physics.OverlapSphere(transform.position, detectionRadius, playerLayer);
         if (hits.Length > 0)
         {
             Transform detectedPlayer = hits[0].transform;
             playerTarget = detectedPlayer;
-
             float distance = Vector3.Distance(transform.position, playerTarget.position);
 
-            if (distance > attackRadius && distance < detectionRadius && IsJumpAttackReady())
+            // Idle 狀態下偵測到玩家進入範圍，進入 Roaling
+            if (currentState is BossIdleState)
             {
-                Debug.Log("玩家在 JumpAttack 範圍內，進行跳躍攻擊");
-                TransitionToState(jumpAttackState);
+                Debug.Log("玩家進入偵測範圍，Boss 進入 Roaling 狀態");
+                TransitionToState(roalingState);
                 return;
-            }
-
-            if (distance > attackRadius)
-            {
-                if (!(currentState is BossWalkState))
-                {
-                    Debug.Log("玩家在偵測範圍內，Boss 開始追擊");
-                    TransitionToState(walkState);
-                }
-            }
-            else
-            {
-                Debug.Log("玩家進入攻擊範圍，Boss 進入戰鬥狀態");
-                TransitionToState(combatState);
             }
         }
         else
         {
+            // 玩家離開偵測範圍後回到 Idle
             if (playerTarget != null)
             {
                 float distance = Vector3.Distance(transform.position, playerTarget.position);
                 if (distance > detectionRadius * 1.5f)
                 {
-                    Debug.Log("玩家完全消失，Boss 回到 Idle");
+                    Debug.Log("玩家完全離開範圍，Boss 回到 Idle");
                     playerTarget = null;
                     TransitionToState(idleState);
-                }
-                else
-                {
-                    Debug.Log("玩家暫時超出偵測範圍，但 Boss 仍在追擊");
                 }
             }
         }
     }
 
-
+    // 狀態切換
     public void TransitionToState(BossBaseState newState)
     {
         if (newState == null)
@@ -155,47 +128,32 @@ public class BossFSM : MonoBehaviour
         Debug.Log("切換狀態：" + newState.GetType().Name);
         currentState.EnterState(this);
     }
-    public void TakeDamage(float damage)
-    {
-        Debug.Log("Boss 損失了 " + damage + " 點生命");
-        if (currentState is BossDieState)
-            return; // 死亡狀態時不受傷害
 
-        bossnpcData.maxHealth -= damage;
-
-        if (bossnpcData.maxHealth <= 0)
-        {
-            TransitionToState(dieState);
-        }
-        else
-        {
-            animator.SetTrigger("getHit"); // 讓 AnyState 直接播放受擊動畫
-            TransitionToState(getHitState);
-        }
-    }
-
-
+    // 由 Roaling 動畫事件呼叫（在動畫剪輯末端添加事件，呼叫此方法）
     public void OnRoalingAnimationEnd()
     {
-        if (currentState is BossRoalingState)
+        Debug.Log("Roaling 動畫事件觸發");
+        if (playerTarget != null)
+        {
+            TransitionToState(walkState);
+        }
+        else
         {
             TransitionToState(idleState);
         }
     }
-
-    public void OnIdleAnimationEnd()
+    // 用於 Swiping 攻擊事件（透過動畫事件呼叫）
+    public void AttackHitEvent()
     {
-        if (currentState is BossIdleState)
+        if (currentState is BossSwipingState swipingState)
         {
-            Debug.Log("Idle 動畫結束，切換到 Walk 狀態");
-            animator.SetBool("Walk", true);
-            TransitionToState(walkState);
+            swipingState.OnAttackHit(this);
         }
     }
-  
-
+    // 透過此方法計算 swiping 攻擊傷害（事件判定）
     public void ApplyAttackDamage()
     {
+        Debug.Log("Boss造成傷害");
         float damage = bossnpcData.baseDamage * bossnpcData.comboMultiplier;
         float radius = bossnpcData.hitRadius;
         Vector3 attackCenter = handHitPoint.position;
@@ -209,72 +167,43 @@ public class BossFSM : MonoBehaviour
             }
         }
     }
-
-
-
-    public void AttackHitEvent()
-    {
-        // 如果需要在動畫中某個時刻確認是否命中，可以用這個方法
-        if (currentState is BossSwipingState swipingState)
-        {
-            swipingState.OnAttackHit(this);
-        }
-    }
-   
+    // 用於 Swiping 動畫結束事件
     public void AttackAnimationEndEvent()
     {
-        // 在動畫結束時，先嘗試施加傷害
-        ApplyAttackDamage();
-
-        // 再通知攻擊狀態動畫已經結束
         if (currentState is BossSwipingState swipingState)
         {
-            Debug.Log("Leaving EnemyAttack State");
+            Debug.Log("Swiping 動畫結束");
             swipingState.OnAttackAnimationFinished(this);
         }
     }
-    public void ResetJumpAttackCooldown()
+
+    // Charge 攻擊用：此方法可由 Charge 動畫事件呼叫，表示動畫結束
+    public void OnChargeAnimationEnd()
     {
-        jumpAttackCooldownTimer = jumpAttackCooldown;
+        Debug.Log("Charge 動畫事件觸發");
+        TransitionToState(standByState);
+    }
+    // 在 Scene 視窗中劃出偵測範圍（方便調試）
+    private void OnDrawGizmosSelected()
+    {
+        if (detectionRadius > 0)
+        {
+            //Debug.Log("劃出範圍");
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, detectionRadius);
+        }
+    }
+    // 30 秒倒數，解鎖 Charge
+    public IEnumerator ChargeUnlockCountdown()
+    {
+        yield return new WaitForSeconds(30f);
+        chargeUnlockTimer = 0f;
+        Debug.Log("Charge 技能已解鎖！");
     }
 
-    public bool IsJumpAttackReady()
+    // 15 秒 Charge 技能冷卻
+    public void StartChargeCooldown()
     {
-        return jumpAttackCooldownTimer <= 0f;
-    }
-    public void ApplyJumpDamage()
-    {
-        float damage = bossnpcData.baseDamage * bossnpcData.comboMultiplier;
-        float radius = bossnpcData.hitRadius;
-        Vector3 attackCenter = jumpHitPoint.position;
-        Collider[] hits = Physics.OverlapSphere(attackCenter, radius, bossnpcData.playerLayers);
-        foreach (Collider c in hits)
-        {
-            IDamageable dmg = c.GetComponent<IDamageable>();
-            if (dmg != null)
-            {
-                dmg.TakeDamage(damage);
-            }
-        }
-    }
-    public void JumpHitEvent()
-    {
-        // 如果需要在動畫中某個時刻確認是否命中，可以用這個方法
-        if (currentState is BossJumpAttackState jumpAttackState)
-        {
-            jumpAttackState.OnJumpHit(this);
-        }
-    }
-    public void JumpAnimationEndEvent()
-    {
-        // 在動畫結束時，先嘗試施加傷害
-        ApplyJumpDamage();
-
-        // 再通知攻擊狀態動畫已經結束
-        if (currentState is BossJumpAttackState jumpAttackState)
-        {
-            Debug.Log("Leaving EnemyAttack State");
-            jumpAttackState.OnJumpAnimationFinished(this);
-        }
+        chargeCooldownTimer = 15f;
     }
 }

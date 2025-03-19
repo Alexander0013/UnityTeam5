@@ -14,19 +14,19 @@ public class BossGetHitState : BossBaseState
 
     public override void UpdateState(BossFSM boss)
     {
-        timer += Time.deltaTime;
-        if (timer >= gotHitDuration)
-        {
-            // 根據當前情境決定要回到哪個狀態
-            if (boss.playerTarget != null)
-            {
-                boss.TransitionToState(boss.combatState);
-            }
-            else
-            {
-                boss.TransitionToState(boss.idleState);
-            }
-        }
+        //timer += Time.deltaTime;
+        //if (timer >= gotHitDuration)
+        //{
+        //    // 根據當前情境決定要回到哪個狀態
+        //    if (boss.playerTarget != null)
+        //    {
+        //        boss.TransitionToState(boss.combatState);
+        //    }
+        //    else
+        //    {
+        //        boss.TransitionToState(boss.idleState);
+        //    }
+        //}
     }
 
     public override void ExitState(BossFSM boss)
