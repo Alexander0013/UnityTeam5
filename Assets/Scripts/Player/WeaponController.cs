@@ -46,10 +46,6 @@ public class WeaponController : MonoBehaviour
         int newWeaponIndex = (playerAttackData.currentWeaponIndex == 0) ? 1 : 0;
         if (newItem != null && newItem.type == EquipmentType.Weapon)
         {
-            if (oldItem != null)
-                playerAttackData.baseDamage -= oldItem.damageModifier;
-            playerAttackData.baseDamage += newItem.damageModifier;
-
             SwitchWeapon(newWeaponIndex);
         }
     }
