@@ -31,7 +31,6 @@ public class PlayerHealthBar : HealthBar
     {
         //Initialize the health bar
        SetHealthBar(playerHealth.playerAttackData.health);
-
         fill.color = gradient.Evaluate(1f);
         UpdateHealthBarText();
     }

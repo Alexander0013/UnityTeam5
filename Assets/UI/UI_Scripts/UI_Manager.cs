@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using StarterAssets;
 using UnityEngine.InputSystem;
 using TMPro;
+using static UnityEditor.Progress;
 
 public class UI_Manager : MonoBehaviour
 {
@@ -56,6 +57,7 @@ public class UI_Manager : MonoBehaviour
 
     //Task Tip
     public GameObject taskTip;
+    TextMeshProUGUI taskTipText;
     private List<ItemGiver> itemGivers = new List<ItemGiver>();
 
 
@@ -77,6 +79,7 @@ public class UI_Manager : MonoBehaviour
     {
         CharacterManager.SwitchPlayer += SwitchPlayerHealthBar;
         CharacterManager.SwitchPlayer += UpdatePlayerReference;
+        DialogueManager.instance.missonStart += GetMission;
 
     }
 
@@ -84,6 +87,7 @@ public class UI_Manager : MonoBehaviour
     {
         CharacterManager.SwitchPlayer -= SwitchPlayerHealthBar;
         CharacterManager.SwitchPlayer -= UpdatePlayerReference;
+        DialogueManager.instance.missonStart -= GetMission;
     }
 
     void Start()
@@ -98,6 +102,8 @@ public class UI_Manager : MonoBehaviour
         mainCamera = Camera.main;
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
+
+        taskTipText = taskTip.GetComponentInChildren<TextMeshProUGUI>();
 
         StartCoroutine(GenerateHealthBarsForEnemies());
         StartCoroutine(WaitForPlayerReady());
@@ -338,15 +344,11 @@ public class UI_Manager : MonoBehaviour
     void GetMission()
     {
         taskTip.SetActive(true);
+        taskTipText.text = "收集任務道具（0/5）";
 
     }
 
-    void SetTip()
-    {
-        TextMeshProUGUI taskTipText=taskTip.GetComponentInChildren<TextMeshProUGUI>();
-        taskTipText.text = "收集任務道具（" + "/5）";
-        //prop = InventoryManager.instance.myBag.
-    }
+   
 
     public void RegisterItemGiver(ItemGiver itemGiver)
     {
@@ -366,8 +368,8 @@ public class UI_Manager : MonoBehaviour
     {
         if (item.itemType == Item.ItemType.Other)
         {
-            Debug.Log("獲得任務道具");
-            //ShowTaskHint("You have received a special task item!");
+            
+            taskTipText.text = "收集任務道具（"+item.itemHeld+"/5）";
         }
     }
 }

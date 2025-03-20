@@ -61,33 +61,34 @@ public class GetClick : MonoBehaviour, IPointerClickHandler
 
     public void ShowMenu(Slot slot, Vector2 position)
     {
-        //Debug.Log(slot);
         GameObject bag = UI_Manager.instance.myBag;
-            //FindObjectOfType<UI_Manager>().gameObject; // 取得 Bag 物件
         
         // 產生選單
-        spawnedMenu = Instantiate(menuPrefab,UI_Manager.instance.canvas.transform);
-        spawnedMenu.transform.position = position;
-
-        // 設定目前的 Menu
-        bag.GetComponentInParent<UI_Manager>().SetMenu(spawnedMenu);               
-        
-        // 讓選單知道是哪個物品被點擊
-        spawnedMenu.GetComponent<RightClickMenu>().SetTargetItem(slot);
-        //不同類型的物件顯示不同字樣Equip/Use
-        RightClickMenu menuScript = spawnedMenu.GetComponent<RightClickMenu>();
-        if (menuScript != null)
+        if(slot.slotItem.itemType!= Item.ItemType.Other)
         {
-            menuScript.SetTargetItem(slot); // 設定當前物品
-            if (slot.slotItem is Equipment)
+            spawnedMenu = Instantiate(menuPrefab, UI_Manager.instance.canvas.transform);
+            spawnedMenu.transform.position = position;
+
+            // 設定目前的 Menu
+            bag.GetComponentInParent<UI_Manager>().SetMenu(spawnedMenu);
+
+            // 讓選單知道是哪個物品被點擊
+            spawnedMenu.GetComponent<RightClickMenu>().SetTargetItem(slot);
+            //不同類型的物件顯示不同字樣Equip/Use
+            RightClickMenu menuScript = spawnedMenu.GetComponent<RightClickMenu>();
+            if (menuScript != null)
             {
-                menuScript.SetUseButtonText("Equip");
-            }
-            else
-            {
-                menuScript.SetUseButtonText("Use");
+                menuScript.SetTargetItem(slot); // 設定當前物品
+                if (slot.slotItem is Equipment)
+                {
+                    menuScript.SetUseButtonText("Equip");
+                }
+                else
+                {
+                    menuScript.SetUseButtonText("Use");
+                }
             }
         }
-
+       
     }
 }

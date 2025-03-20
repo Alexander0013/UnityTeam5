@@ -10,9 +10,7 @@ public class ItemOnWorld : ItemGiver
         if (collision.CompareTag("Player"))
         {
             AddNewItem();
-            Debug.Log("GetItem");
             Destroy(gameObject);
         }
     }
-
 }

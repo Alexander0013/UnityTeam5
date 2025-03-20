@@ -18,6 +18,9 @@ public class DialogueManager : MonoBehaviour
 
     public Animator animator;
 
+    public delegate void MissonStart();
+    public MissonStart missonStart;
+
 
     void Awake()
     {
@@ -40,6 +43,7 @@ public class DialogueManager : MonoBehaviour
     {
         canvasGroup.alpha = 1;
         animator.SetBool("IsTalking", true);
+        animator.SetTrigger("StartTalking");
         nameText.text = dialogue.name;
 
         sentences.Clear();
@@ -78,5 +82,6 @@ public class DialogueManager : MonoBehaviour
     public void EndDialogue()
     {
         animator.SetBool("IsTalking", false);
+        missonStart?.Invoke();
     }
 }
