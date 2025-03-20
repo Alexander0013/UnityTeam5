@@ -13,9 +13,6 @@ public class DialogueTrigger : MonoBehaviour
     bool isTriggered = false;
 
 
-
-
-
     public void Update()
     {
         DistenceWithPlayer();

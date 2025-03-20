@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -26,13 +27,19 @@ public class InventoryManager : MonoBehaviour
     public EquipmentList equipmentList_A; //save equipment is equipped
     public Image[] equipmentImage_A;
     public GameObject[] equipmentText_A;
-
     public EquipmentList equipmentList_B;
     public Image[] equipmentImage_B;
     public GameObject[] equipmentText_B;
 
     public delegate void OnEquipmentChanged(Equipment newItem,Equipment oldItem,int genderIndex);
     public OnEquipmentChanged onEquipmentChanged;
+
+    //Add Item
+   
+
+    
+
+
     //Alex
     public static event System.Action<Item> ItemUsed;
     public static void RaiseItemUsed(Item item)
@@ -129,8 +136,7 @@ public class InventoryManager : MonoBehaviour
     {
         instance.itemInfo.text = itemDescription;
         instance.itemImage.sprite = itemImage.sprite;
-    }
-    
+    }    
     public static void RefreshItems() //Delete all slots and create new ones
     {
         for (int i = 0; i < instance.slotGrid.transform.childCount; i++)        
@@ -150,8 +156,6 @@ public class InventoryManager : MonoBehaviour
             instance.slots[i].GetComponent<Slot>().SetUpSlot(instance.myBag.itemList[i]);            
         }        
     }
-
-
     private void UpdateEquipmentUI(int genderIndex)
     {
         if (genderIndex == 0)
@@ -162,9 +166,7 @@ public class InventoryManager : MonoBehaviour
         {
             UpdateEquipmentUI_B();
         }
-        //UpdateStatsText();
     }
-
     public void UpdateEquipmentUI_A()
     {
         for (int i = 0; i < equipmentImage_A.Length; i++)
@@ -204,9 +206,6 @@ public class InventoryManager : MonoBehaviour
             }
         }
     }
-
-
-
     public EquipmentList GetEquipmentList(int genderIndex)
     {
         if (genderIndex == 0)
@@ -218,4 +217,6 @@ public class InventoryManager : MonoBehaviour
             return equipmentList_B;
         }
     }
+
+    
 }

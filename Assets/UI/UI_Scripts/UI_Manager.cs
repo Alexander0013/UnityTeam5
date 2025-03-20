@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using StarterAssets;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class UI_Manager : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class UI_Manager : MonoBehaviour
     public Canvas canvas;
     public RectTransform rectTransform;
     public GameObject player;
+    public CharacterManager CharacterManager;
     public Vector3 playerPosition;
 
     //Bag&Equipment
@@ -42,8 +44,6 @@ public class UI_Manager : MonoBehaviour
     public Button botton_A;
     public Button botton_B;
 
-    public CharacterManager CharacterManager;
-
     //EnemyHealthBar
     public GameObject healthBarPrefab;
     public Transform EnemyHealthBarSpqwn;
@@ -53,6 +53,13 @@ public class UI_Manager : MonoBehaviour
     //Alex
     private StarterAssetsInputs inputController;
     private PlayerInput playerInputController;
+
+    //Task Tip
+    public GameObject taskTip;
+    private List<ItemGiver> itemGivers = new List<ItemGiver>();
+
+
+
     void Awake()
     {
         if (instance == null)
@@ -70,6 +77,7 @@ public class UI_Manager : MonoBehaviour
     {
         CharacterManager.SwitchPlayer += SwitchPlayerHealthBar;
         CharacterManager.SwitchPlayer += UpdatePlayerReference;
+
     }
 
     public void OnDisable()
@@ -326,6 +334,40 @@ public class UI_Manager : MonoBehaviour
         }
     }
 
-    //Boss HealthBar
+    //Task Tip
+    void GetMission()
+    {
+        taskTip.SetActive(true);
 
+    }
+
+    void SetTip()
+    {
+        TextMeshProUGUI taskTipText=taskTip.GetComponentInChildren<TextMeshProUGUI>();
+        taskTipText.text = "收集任務道具（" + "/5）";
+        //prop = InventoryManager.instance.myBag.
+    }
+
+    public void RegisterItemGiver(ItemGiver itemGiver)
+    {
+        // 註冊物品事件
+        itemGivers.Add(itemGiver);
+        itemGiver.ItemAdded += OnItemAdded;
+    }
+
+    public void UnregisterItemGiver(ItemGiver itemGiver)
+    {
+        // 取消訂閱物品事件
+        itemGiver.ItemAdded -= OnItemAdded;
+        itemGivers.Remove(itemGiver);
+    }
+
+    private void OnItemAdded(Item item)
+    {
+        if (item.itemType == Item.ItemType.Other)
+        {
+            Debug.Log("獲得任務道具");
+            //ShowTaskHint("You have received a special task item!");
+        }
+    }
 }
