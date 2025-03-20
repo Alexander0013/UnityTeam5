@@ -31,67 +31,77 @@ public class CombatController : MonoBehaviour
     /// It performs hit detection and instantiates the slash VFX.
     /// </summary>
     public void PerformHitDetection()
+{
+    // Play the attack sound using the player's common audio component.
+    GetComponent<PlayerAudio>()?.PlayAttackSound();
+
+    // Get the WeaponController from the player.
+    WeaponController wc = GetComponentInParent<WeaponController>();
+
+    // Determine spawn position and rotation for the attack effects.
+    Quaternion spawnRotation = Quaternion.identity;
+    Vector3 spawnPosition = Vector3.zero;
+
+    // First try to use the attackHitPoint (if it hasn’t been destroyed).
+    if (attackHitPoint != null)
     {
-
-        // Get the WeaponController from the player (assume it's on the same object or parent).
-        WeaponController wc = GetComponentInParent<WeaponController>();
-        Quaternion spawnRotation = attackHitPoint.rotation;
-        if (wc != null && wc.attackAttach != null)
-        {
-            // Use the attackAttach rotation so the VFX follows the weapon's attack direction.
-            spawnRotation = wc.attackAttach.rotation;
-        }
-
-        // Instantiate the slash VFX at the attack hit point, using the desired rotation.
-        if (electroSlashVFX != null)
-        {
-            // Use the dedicated slash spawn transform
-            Quaternion SpawnRotation = wc.slashSpawn.rotation;
-            Vector3 spawnPosition = wc.slashSpawn.position;
-            GameObject vfxInstance = Instantiate(electroSlashVFX, spawnPosition, SpawnRotation);
-            // Optionally, parent the instance so it follows for a brief moment:
-            // vfxInstance.transform.SetParent(wc.slashSpawn);
-
-            ParticleSystem ps = vfxInstance.GetComponent<ParticleSystem>();
-            if (ps != null)
-            {
-                float destroyDelay = ps.main.duration + ps.main.startLifetime.constantMax;
-                Destroy(vfxInstance, destroyDelay);
-            }
-            else
-            {
-                Destroy(vfxInstance, 1.5f);
-            }
-        }
-
-        // Damage calculation remains unchanged.
-        float damage = playerAttackData.baseDamage * playerAttackData.comboMultiplier;
-        Collider[] hitColliders = Physics.OverlapSphere(
-            attackHitPoint.position,
-            playerAttackData.hitRadius,
-            playerAttackData.enemyLayers
-        );
-
-        foreach (Collider hit in hitColliders)
-        {
-            IDamageable damageable = hit.GetComponent<IDamageable>();
-            if (damageable != null)
-            {
-                damageable.TakeDamage(damage);
-                // Assume attacker’s AttackData includes an element field.
-                ElementalStatus targetStatus = hit.GetComponent<ElementalStatus>();
-                if (targetStatus != null)
-                {
-                    // Apply the attack's element with a duration.
-                    targetStatus.ApplyElement(playerAttackData.element, 15f);
-                }
-
-            }
-
-        }
-
-        //Debug.DrawRay(attackHitPoint.position, Vector3.one * currentAttackData.hitRadius, Color.red, 1f);
+        spawnRotation = attackHitPoint.rotation;
+        spawnPosition = attackHitPoint.position;
     }
+    // If attackHitPoint is missing, fall back to the attackAttach from the WeaponController.
+    else if (wc != null && wc.attackAttach != null)
+    {
+        spawnRotation = wc.attackAttach.rotation;
+        spawnPosition = wc.attackAttach.position;
+    }
+    else
+    {
+        Debug.LogWarning("No valid attack point found!");
+        return;
+    }
+
+    // For the VFX, prefer the dedicated slashSpawn from the WeaponController if available.
+    if (wc != null && wc.slashSpawn != null)
+    {
+        spawnRotation = wc.slashSpawn.rotation;
+        spawnPosition = wc.slashSpawn.position;
+    }
+
+    // Instantiate the slash VFX at the chosen spawn position and rotation.
+    if (electroSlashVFX != null)
+    {
+        GameObject vfxInstance = Instantiate(electroSlashVFX, spawnPosition, spawnRotation);
+        ParticleSystem ps = vfxInstance.GetComponent<ParticleSystem>();
+        if (ps != null)
+        {
+            float destroyDelay = ps.main.duration + ps.main.startLifetime.constantMax;
+            Destroy(vfxInstance, destroyDelay);
+        }
+        else
+        {
+            Destroy(vfxInstance, 1.5f);
+        }
+    }
+
+    // Damage calculation: use the spawnPosition as the origin.
+    float damage = playerAttackData.baseDamage * playerAttackData.comboMultiplier;
+    Collider[] hitColliders = Physics.OverlapSphere(spawnPosition, playerAttackData.hitRadius, playerAttackData.enemyLayers);
+    foreach (Collider hit in hitColliders)
+    {
+        IDamageable damageable = hit.GetComponent<IDamageable>();
+        if (damageable != null)
+        {
+            damageable.TakeDamage(damage);
+            // Apply element effect if applicable.
+            ElementalStatus targetStatus = hit.GetComponent<ElementalStatus>();
+            if (targetStatus != null)
+            {
+                targetStatus.ApplyElement(playerAttackData.element, 15f);
+            }
+        }
+    }
+}
+
 
 
     /// <summary>

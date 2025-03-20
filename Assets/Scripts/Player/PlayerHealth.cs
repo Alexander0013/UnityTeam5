@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
+    private float lastGetHitSoundTime = -100f; // Initialize to a very negative value.
+    public float getHitSoundCooldown = 5.0f; // Set your cooldown duration (in seconds).
     // Reference to an AttackData asset that contains the player's health.
     public AttackData playerAttackData;
     private float currentHealth;
@@ -51,7 +53,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private void OnEquipmentChanged(Equipment newItem, Equipment oldItem, int genderIndex) 
     {
-        // If the equipment changes include a health modifier, update health.
+        /* If the equipment changes include a health modifier, update health.
         float healthModifier = 0;
         if(oldItem != null)
             healthModifier -= oldItem.healthModifier;
@@ -60,6 +62,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
         // Update the current and maximum health.
         UpdateHealthWithModifier(healthModifier);
+        */
     }
 
     private void UpdateHealthWithModifier(float modifier) 
@@ -108,6 +111,11 @@ public class PlayerHealth : MonoBehaviour, IDamageable
                 {
                     animator.SetBool("getHit", true);
                     StartCoroutine(ResetGetHit());
+                }
+                if (Time.time - lastGetHitSoundTime >= getHitSoundCooldown)
+                {
+                    GetComponent<PlayerAudio>()?.PlayGetHitSound();
+                    lastGetHitSoundTime = Time.time;
                 }
             }
             else
