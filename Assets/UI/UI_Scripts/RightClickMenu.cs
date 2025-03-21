@@ -21,7 +21,6 @@ public class RightClickMenu : MonoBehaviour
 
     public void OnUseButtonClick()
     {
-        
         //Debug.Log("使用 " + targetItem.name);
         UseItem(targetItem);
         Destroy(gameObject); // 關閉選單
@@ -42,7 +41,7 @@ public class RightClickMenu : MonoBehaviour
             myBag.itemList[slot.slotID] = null;
         }
         else
-        {          
+        { 
             slot.slotItem.Use();
             slot.slotItem.itemHeld -= 1;
             if (slot.slotItem.itemHeld == 0)
@@ -53,10 +52,10 @@ public class RightClickMenu : MonoBehaviour
         InventoryManager.RefreshItems();
     }
 
-    public void DropItem(Slot targetItem)
-    {        
-        targetItem.slotItem.itemHeld = 0;
-        myBag.itemList[targetItem.slotID] = null;
+    public void DropItem(Slot slot)
+    {      
+        slot.slotItem.itemHeld = 0;
+        myBag.itemList[slot.slotID] = null;
         InventoryManager.RefreshItems();
     }
 
