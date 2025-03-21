@@ -331,6 +331,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5641496401352809344}
   - component: {fileID: 1474530291160375090}
+  - component: {fileID: 5307218266717996596}
   m_Layer: 0
   m_Name: NPC
   m_TagString: Untagged
@@ -375,9 +376,29 @@ MonoBehaviour:
     - "\u90A3\u4E8B\u4E0D\u5B9C\u9072\uFF0C\u9019\u4E9B\u88DC\u7D66\u54C1\u5C31\u7576\u4F5C\u662F\u7D66\u4F60\u7684\u8A02\u91D1\uFF0C\u8DEF\u4E0A\u5C0F\u5FC3\u3002"
   ButtonPrefab: {fileID: 7595613025379501571, guid: 16b571ba1f3f14543869641504eba688,
     type: 3}
-  canvas: {fileID: 0}
   distenceWithPlayer: 3
   buttonOffset: {x: 0, y: 1.8, z: 0}
+--- !u!95 &5307218266717996596
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 512282648567345047}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 8f0565f23a2b58541a475bd3c1393052, type: 3}
+  m_Controller: {fileID: 9100000, guid: 8996bca9af9d9f64084a9cfe3954cf2f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &513133823889722589
 GameObject:
   m_ObjectHideFlags: 0

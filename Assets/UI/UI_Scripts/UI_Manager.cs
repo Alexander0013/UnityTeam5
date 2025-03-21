@@ -79,8 +79,7 @@ public class UI_Manager : MonoBehaviour
     {
         CharacterManager.SwitchPlayer += SwitchPlayerHealthBar;
         CharacterManager.SwitchPlayer += UpdatePlayerReference;
-        DialogueManager.instance.missonStart += GetMission;
-
+        StartCoroutine(WaitForDM());
     }
 
     public void OnDisable()
@@ -116,8 +115,7 @@ public class UI_Manager : MonoBehaviour
         {
             OpenBag();
         }
-    }
-    
+    }    
     private void FixedUpdate()
     {
         foreach (var healthBar in healthBars.Values)
@@ -341,29 +339,33 @@ public class UI_Manager : MonoBehaviour
     }
 
     //Task Tip
+
+    IEnumerator WaitForDM()
+    {       
+        while (DialogueManager.instance == null)
+        {
+            yield return null;
+        }
+        DialogueManager.instance.missonStart += GetMission;        
+    }
     void GetMission()
     {
         taskTip.SetActive(true);
         taskTipText.text = "收集任務道具（0/5）";
 
     }
-
-   
-
     public void RegisterItemGiver(ItemGiver itemGiver)
     {
         // 註冊物品事件
         itemGivers.Add(itemGiver);
         itemGiver.ItemAdded += OnItemAdded;
     }
-
     public void UnregisterItemGiver(ItemGiver itemGiver)
     {
         // 取消訂閱物品事件
         itemGiver.ItemAdded -= OnItemAdded;
         itemGivers.Remove(itemGiver);
     }
-
     private void OnItemAdded(Item item)
     {
         if (item.itemType == Item.ItemType.Other)

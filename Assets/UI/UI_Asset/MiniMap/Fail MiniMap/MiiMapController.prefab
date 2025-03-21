@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &205690791127734864
+--- !u!1 &6722953090678511880
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,43 +8,48 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 9222553395431548813}
-  - component: {fileID: 7268339758564932625}
+  - component: {fileID: 4827129285029633167}
+  - component: {fileID: 6284226103345857583}
   m_Layer: 0
-  m_Name: DialogueManager
+  m_Name: MiiMapController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &9222553395431548813
+--- !u!4 &4827129285029633167
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 205690791127734864}
+  m_GameObject: {fileID: 6722953090678511880}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1108.9924, y: 351.1376, z: 2.7651567}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7268339758564932625
+--- !u!114 &6284226103345857583
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 205690791127734864}
+  m_GameObject: {fileID: 6722953090678511880}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad38bfcdcd968e64890acc49e5a9d9da, type: 3}
+  m_Script: {fileID: 11500000, guid: 337df762f31f20946b22db02fa0dc90e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueBox: {fileID: 0}
-  nameText: {fileID: 0}
-  dialogueText: {fileID: 0}
-  animator: {fileID: 0}
+  worldSize: {x: 45, y: 45}
+  fullScreenDimensions: {x: 1000, y: 1000}
+  zoomSpeed: 0.1
+  maxZoom: 10
+  minZoom: 1
+  scrollViewRectTransform: {fileID: 0}
+  contentRectTransform: {fileID: 0}
+  minimapIconPrefab: {fileID: 5844549433415927625, guid: d3b591b998bbc194cb39de389e9b6bb2,
+    type: 3}

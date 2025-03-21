@@ -1043,11 +1043,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: DialogueManager
       objectReference: {fileID: 0}
-    - target: {fileID: 205690791127734864, guid: c17d09dc217d924468eb89838becfbb4,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7268339758564932625, guid: c17d09dc217d924468eb89838becfbb4,
         type: 3}
       propertyPath: animator
@@ -1296,28 +1291,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4988731901100538204, guid: b21844bdc32ca244aa45bb93a277d910,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5399003343646289103, guid: b21844bdc32ca244aa45bb93a277d910,
-        type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: 33db907e539dce548ae3eabf756b9dd1,
-        type: 2}
-    - target: {fileID: 5399003343646289103, guid: b21844bdc32ca244aa45bb93a277d910,
-        type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: 3548078647534421014, guid: 33db907e539dce548ae3eabf756b9dd1,
-        type: 2}
-    - target: {fileID: 5399003343646289103, guid: b21844bdc32ca244aa45bb93a277d910,
-        type: 3}
-      propertyPath: m_hasFontAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5573019426680014205, guid: b21844bdc32ca244aa45bb93a277d910,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1348,22 +1321,6 @@ PrefabInstance:
       propertyPath: playerHealth
       value: 
       objectReference: {fileID: 293785731}
-    - target: {fileID: 8229564679566253753, guid: b21844bdc32ca244aa45bb93a277d910,
-        type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: da01d6094a4dc724da26557a2056dc85,
-        type: 2}
-    - target: {fileID: 8229564679566253753, guid: b21844bdc32ca244aa45bb93a277d910,
-        type: 3}
-      propertyPath: m_fontStyle
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8229564679566253753, guid: b21844bdc32ca244aa45bb93a277d910,
-        type: 3}
-      propertyPath: m_hasFontAssetChanged
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8341184447975867761, guid: b21844bdc32ca244aa45bb93a277d910,
         type: 3}
       propertyPath: playerHealth
