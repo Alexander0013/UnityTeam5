@@ -9,7 +9,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     // Reference to an AttackData asset that contains the player's health.
     public AttackData playerAttackData;
     private float currentHealth;
-    private float maxHealth; 
+    private float maxHealth;
+    private float lastGetHitAnimTime = -100f; // initialize to a very negative value
+    public float getHitAnimCooldown = 1f;     // adjust as needed (e.g., 0.5 seconds)
+
 
     private Animator animator;
     private PlayerShield playerShield; // Reference to the shield component.
@@ -106,17 +109,27 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             Debug.Log("Player takes " + damage + " damage. Current health: " + CurrentHealth);
             if (currentHealth > 0)
             {
-                // Trigger hit animation.
-                if (animator != null)
+                if (animator != null && Time.time - lastGetHitAnimTime >= getHitAnimCooldown)
                 {
                     animator.SetBool("getHit", true);
                     StartCoroutine(ResetGetHit());
+                    lastGetHitAnimTime = Time.time;
                 }
                 if (Time.time - lastGetHitSoundTime >= getHitSoundCooldown)
                 {
                     GetComponent<PlayerAudio>()?.PlayGetHitSound();
                     lastGetHitSoundTime = Time.time;
                 }
+                //if (animator != null)
+                //{
+                //    animator.SetBool("getHit", true);
+                //    StartCoroutine(ResetGetHit());
+                //}
+                //if (Time.time - lastGetHitSoundTime >= getHitSoundCooldown)
+                //{
+                //    GetComponent<PlayerAudio>()?.PlayGetHitSound();
+                //    lastGetHitSoundTime = Time.time;
+                //}
             }
             else
             {
