@@ -5,7 +5,6 @@ public class IdleState : PlayerBaseState
 {
     public override void EnterState(PlayerStateManager player)
     {
-        //Debug.Log("[IdleState] Entering Idle");
 
         // Reset movement/anim combos
         if (player.Animator != null)
@@ -52,6 +51,26 @@ public class IdleState : PlayerBaseState
 
     public override void UpdateState(PlayerStateManager player)
     {
+        // If no movement, jump, or attack input, consider the player idle.
+        if (player.Input.move == Vector2.zero && !player.Input.jump && !player.Input.attack)
+        {
+            // Get the common audio component (either Player1Audio or Player2Audio, both derive from PlayerAudio).
+            PlayerAudio audio = player.GetComponent<PlayerAudio>();
+            if (audio != null)
+            {
+                // Update the idle timer and play idle sound if enough time has passed.
+                audio.UpdateIdleTimer();
+            }
+        }
+        else
+        {
+            // When the player is active, reset the idle timer.
+            PlayerAudio audio = player.GetComponent<PlayerAudio>();
+            if (audio != null)
+            {
+                audio.ResetIdleTimer();
+            }
+        }
         // Then normal idle logic (movement transitions, jump, attack, etc.)
         if (player.Input.move != Vector2.zero)
         {

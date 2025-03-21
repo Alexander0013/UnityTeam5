@@ -147,41 +147,49 @@ public class WeaponController : MonoBehaviour
     /// as a child of the idle attachment point.
     /// </summary>
     public void SwitchWeapon(int newWeaponIndex)
+{
+    if (playerAttackData == null)
     {
-        if (playerAttackData == null)
-        {
-            return;
-        }
-        // destroy current weapon.
-        if (currentWeapon != null)
-        {
-            Destroy(currentWeapon);
-            currentWeapon = null;
-        }
-        playerAttackData.currentWeaponIndex = newWeaponIndex;
+        Debug.LogWarning("[WeaponController] PlayerAttackData is not assigned.");
+        return;
+    }
 
-        if (weaponPrefabs != null && weaponPrefabs.Count > newWeaponIndex)
+    // Destroy the current weapon if it exists.
+    if (currentWeapon != null)
+    {
+        Destroy(currentWeapon);
+        currentWeapon = null;
+    }
+    playerAttackData.currentWeaponIndex = newWeaponIndex;
+
+    // Use && (AND) to ensure the prefab list is valid and the index exists.
+    if (weaponPrefabs != null && weaponPrefabs.Count > newWeaponIndex)
+    {
+        if (idleAttach != null)
         {
-            if (idleAttach != null)
-            {
-                // Instantiate the new weapon as a child of idleAttach.
-                GameObject newWeapon = Instantiate(weaponPrefabs[newWeaponIndex], idleAttach);
-                newWeapon.transform.localPosition = Vector3.zero;
-                newWeapon.transform.localRotation = Quaternion.identity;
-                newWeapon.transform.localScale = Vector3.one;
-                currentWeapon = newWeapon;
+            // Instantiate the new weapon as a child of idleAttach.
+            GameObject newWeapon = Instantiate(weaponPrefabs[newWeaponIndex], idleAttach);
+            newWeapon.transform.localPosition = Vector3.zero;
+            newWeapon.transform.localRotation = Quaternion.identity;
+            newWeapon.transform.localScale = Vector3.one;
+            currentWeapon = newWeapon;
 
-                //Debug.Log("[WeaponController] Switched to new weapon at index " + index);
-                StartCoroutine(FadeInWeapon(0.2f));
+            // Optionally fade in the new weapon.
+            StartCoroutine(FadeInWeapon(0.2f));
 
-                // Update the transparency controller so it caches the new weapon's renderer.
-                PlayerTransparencyController ptc = GetComponentInParent<PlayerTransparencyController>();
-                ptc?.UpdateRenderers();
-            }
+            // Update any transparency controllers.
+            PlayerTransparencyController ptc = GetComponentInParent<PlayerTransparencyController>();
+            ptc?.UpdateRenderers();
         }
         else
         {
             Debug.LogWarning("[WeaponController] IdleAttach is not assigned!");
         }
     }
+    else
+    {
+        Debug.LogWarning("[WeaponController] No weapon prefab found at index: " + newWeaponIndex);
+    }
+}
+
 }
