@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using StarterAssets;
 using UnityEngine.InputSystem;
+using TMPro;
+using static UnityEditor.Progress;
 
 public class UI_Manager : MonoBehaviour
 {
@@ -14,6 +16,7 @@ public class UI_Manager : MonoBehaviour
     public Canvas canvas;
     public RectTransform rectTransform;
     public GameObject player;
+    public CharacterManager CharacterManager;
     public Vector3 playerPosition;
 
     //Bag&Equipment
@@ -42,8 +45,6 @@ public class UI_Manager : MonoBehaviour
     public Button botton_A;
     public Button botton_B;
 
-    public CharacterManager CharacterManager;
-
     //EnemyHealthBar
     public GameObject healthBarPrefab;
     public Transform EnemyHealthBarSpqwn;
@@ -53,6 +54,14 @@ public class UI_Manager : MonoBehaviour
     //Alex
     private StarterAssetsInputs inputController;
     private PlayerInput playerInputController;
+
+    //Task Tip
+    public GameObject taskTip;
+    TextMeshProUGUI taskTipText;
+    private List<ItemGiver> itemGivers = new List<ItemGiver>();
+
+
+
     void Awake()
     {
         if (instance == null)
@@ -70,12 +79,15 @@ public class UI_Manager : MonoBehaviour
     {
         CharacterManager.SwitchPlayer += SwitchPlayerHealthBar;
         CharacterManager.SwitchPlayer += UpdatePlayerReference;
+        DialogueManager.instance.missonStart += GetMission;
+
     }
 
     public void OnDisable()
     {
         CharacterManager.SwitchPlayer -= SwitchPlayerHealthBar;
         CharacterManager.SwitchPlayer -= UpdatePlayerReference;
+        DialogueManager.instance.missonStart -= GetMission;
     }
 
     void Start()
@@ -90,6 +102,8 @@ public class UI_Manager : MonoBehaviour
         mainCamera = Camera.main;
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
+
+        taskTipText = taskTip.GetComponentInChildren<TextMeshProUGUI>();
 
         StartCoroutine(GenerateHealthBarsForEnemies());
         StartCoroutine(WaitForPlayerReady());
@@ -326,6 +340,36 @@ public class UI_Manager : MonoBehaviour
         }
     }
 
-    //Boss HealthBar
+    //Task Tip
+    void GetMission()
+    {
+        taskTip.SetActive(true);
+        taskTipText.text = "收集任務道具（0/5）";
 
+    }
+
+   
+
+    public void RegisterItemGiver(ItemGiver itemGiver)
+    {
+        // 註冊物品事件
+        itemGivers.Add(itemGiver);
+        itemGiver.ItemAdded += OnItemAdded;
+    }
+
+    public void UnregisterItemGiver(ItemGiver itemGiver)
+    {
+        // 取消訂閱物品事件
+        itemGiver.ItemAdded -= OnItemAdded;
+        itemGivers.Remove(itemGiver);
+    }
+
+    private void OnItemAdded(Item item)
+    {
+        if (item.itemType == Item.ItemType.Other)
+        {
+            
+            taskTipText.text = "收集任務道具（"+item.itemHeld+"/5）";
+        }
+    }
 }
