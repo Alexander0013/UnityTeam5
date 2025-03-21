@@ -11,9 +11,11 @@ public class ArcherFSM : EnemyFSM
     public new EnemyGotHitState gotHitState = new EnemyGotHitState();
 
     [Header("Archer Specific Settings")]
-    public Transform arrowSpawnPoint;      
+    public Transform arrowSpawnPoint;
+    public GameObject muzzleFlashPrefab;
     public GameObject arrowImpactEffect;
     public GameObject meleeImpactEffect;
+    public GameObject tracerPrefab;
 
     protected override void Start()
     {
@@ -41,44 +43,48 @@ public class ArcherFSM : EnemyFSM
         }
         currentState.UpdateState(this);
     }
-
     public void OnShootHitEvent()
-{
-    if (currentState is ArcherShootState)
     {
-        if (playerTarget != null && arrowSpawnPoint != null)
+        if (currentState is ArcherShootState)
         {
-            Vector3 origin = arrowSpawnPoint.position;
-            Vector3 direction = (playerTarget.position - origin).normalized;
-            float sphereRadius = 0.5f; // Increase or decrease based on your needs
-            RaycastHit hit;
-            // SphereCast with a max distance of 20 units.
-            if (Physics.SphereCast(origin, sphereRadius, direction, out hit, 20f, npcData.playerLayers))
+            if (playerTarget != null && arrowSpawnPoint != null)
             {
-                // For debugging: visualize the spherecast.
-                Debug.DrawRay(origin, direction * 20f, Color.red, 1f);
-                
-                IDamageable dmg = hit.collider.GetComponent<IDamageable>();
-                if (dmg != null)
+                GetComponent<ShooterAudio>()?.PlayAttackSound();
+                Vector3 origin = arrowSpawnPoint.position;
+                Vector3 direction = (playerTarget.position - origin).normalized;
+                if (muzzleFlashPrefab != null)
                 {
-                    float damage = npcData.baseDamage * npcData.comboMultiplier;
-                    dmg.TakeDamage(damage);
+                    Quaternion correctRotation = arrowSpawnPoint.rotation * Quaternion.Euler(0, 180, 0);
+                    GameObject muzzleFlash = Instantiate(muzzleFlashPrefab, origin, correctRotation);
+                    Destroy(muzzleFlash, 2f); // Destroy after 0.5 seconds
                 }
-                if (arrowImpactEffect != null)
+                float sphereRadius = 0.5f; // Increase or decrease based on your needs
+                RaycastHit hit;
+                // SphereCast with a max distance of 20 units.
+                if (Physics.SphereCast(origin, sphereRadius, direction, out hit, 20f, npcData.playerLayers))
                 {
-                    Instantiate(arrowImpactEffect, hit.point, Quaternion.identity);
+                    // For debugging: visualize the spherecast.
+                    Debug.DrawRay(origin, direction * 20f, Color.red, 1f);
+
+                    IDamageable dmg = hit.collider.GetComponent<IDamageable>();
+                    if (dmg != null)
+                    {
+                        float damage = npcData.baseDamage * npcData.comboMultiplier;
+                        dmg.TakeDamage(damage);
+                    }
+                    if (arrowImpactEffect != null)
+                    {
+                        Instantiate(arrowImpactEffect, hit.point, Quaternion.identity);
+                    }
                 }
-            }
-            else
-            {
-                // For debugging if the spherecast misses.
-                Debug.DrawRay(origin, direction * 20f, Color.blue, 1f);
+                else
+                {
+                    // For debugging if the spherecast misses.
+                    Debug.DrawRay(origin, direction * 20f, Color.blue, 1f);
+                }
             }
         }
     }
-}
-
-
     // Called via Animation Event at the end of the Shoot animation.
     public void OnShootEndEvent()
     {
@@ -93,6 +99,7 @@ public class ArcherFSM : EnemyFSM
     {
         if (currentState is ArcherMeleeState)
         {
+            GetComponent<ShooterAudio>()?.PlayLegKickSound();
             float damage = npcData.baseDamage * npcData.comboMultiplier;
             float meleeRadius = npcData.hitRadius;
             Vector3 center = attackHitPoint.position;

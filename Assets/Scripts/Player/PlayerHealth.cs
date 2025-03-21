@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
+    private float lastGetHitSoundTime = -100f; // Initialize to a very negative value.
+    public float getHitSoundCooldown = 5.0f; // Set your cooldown duration (in seconds).
     // Reference to an AttackData asset that contains the player's health.
     public AttackData playerAttackData;
     private float currentHealth;
-    private float maxHealth; 
+    private float maxHealth;
+    private float lastGetHitAnimTime = -100f; // initialize to a very negative value
+    public float getHitAnimCooldown = 1f;     // adjust as needed (e.g., 0.5 seconds)
+
 
     private Animator animator;
     private PlayerShield playerShield; // Reference to the shield component.
@@ -51,7 +56,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private void OnEquipmentChanged(Equipment newItem, Equipment oldItem, int genderIndex) 
     {
-        // If the equipment changes include a health modifier, update health.
+        /* If the equipment changes include a health modifier, update health.
         float healthModifier = 0;
         if(oldItem != null)
             healthModifier -= oldItem.healthModifier;
@@ -60,6 +65,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
         // Update the current and maximum health.
         UpdateHealthWithModifier(healthModifier);
+        */
     }
 
     private void UpdateHealthWithModifier(float modifier) 
@@ -103,12 +109,27 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             Debug.Log("Player takes " + damage + " damage. Current health: " + CurrentHealth);
             if (currentHealth > 0)
             {
-                // Trigger hit animation.
-                if (animator != null)
+                if (animator != null && Time.time - lastGetHitAnimTime >= getHitAnimCooldown)
                 {
                     animator.SetBool("getHit", true);
                     StartCoroutine(ResetGetHit());
+                    lastGetHitAnimTime = Time.time;
                 }
+                if (Time.time - lastGetHitSoundTime >= getHitSoundCooldown)
+                {
+                    GetComponent<PlayerAudio>()?.PlayGetHitSound();
+                    lastGetHitSoundTime = Time.time;
+                }
+                //if (animator != null)
+                //{
+                //    animator.SetBool("getHit", true);
+                //    StartCoroutine(ResetGetHit());
+                //}
+                //if (Time.time - lastGetHitSoundTime >= getHitSoundCooldown)
+                //{
+                //    GetComponent<PlayerAudio>()?.PlayGetHitSound();
+                //    lastGetHitSoundTime = Time.time;
+                //}
             }
             else
             {

@@ -66,13 +66,12 @@ public class TreasureTrigger : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
 
-        // Once all enemies are dead, disable the shield
+        // Once all enemies are dead, disable the shield and switch BGM
         if (magicShield != null)
-        {
             magicShield.SetActive(false);
-        }
-
-        //Debug.Log("All enemies defeated! Invisible wall disabled.");
+        
+        if(AudioManager.instance != null)
+            AudioManager.instance.ResetBattleMusic();
     }
 
     private void OnDrawGizmosSelected()

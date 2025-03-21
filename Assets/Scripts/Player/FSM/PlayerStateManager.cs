@@ -49,6 +49,7 @@ public class PlayerStateManager : MonoBehaviour
         Animator = GetComponent<Animator>();
         Controller = GetComponent<CharacterController>();
         _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        
         //DontDestroyOnLoad(gameObject);
 
     }
