@@ -16,7 +16,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip battleMusic;
 
     [Header("Fade Settings")]
-    public float fadeDuration = 1.0f;
+    public float fadeDuration = 2.0f;
+    public bool isBattleMusicActive = false;
 
     private void Awake()
     {
@@ -30,6 +31,7 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        //PlayMusic(openingMusic);
     }
 
     private void OnEnable()
@@ -107,4 +109,20 @@ public class AudioManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "PureNature")
             PlayMusic(explorationMusic);
     }
+    public void TriggerBattleMusic()
+    {
+        if (!isBattleMusicActive)
+        {
+            PlayBattleMusic();
+            isBattleMusicActive = true;
+        }
+    }
+
+    public void ResetBattleMusic()
+    {
+        isBattleMusicActive = false;
+        // When you reset, switch back to exploration music.
+        PlayExplorationMusic();
+    }
+
 }

@@ -703,6 +703,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: shooter
       objectReference: {fileID: 0}
+    - target: {fileID: 7858250507501975913, guid: 69c3af4264244416ba3832dfb165b83d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3001105267590765797, guid: 69c3af4264244416ba3832dfb165b83d, type: 3}
     m_RemovedGameObjects: []

@@ -79,6 +79,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     IEnumerator GetHitRoutine()
     {
+        GetComponent<PlayerAudio>()?.PlayGetHitSound();
         // Optional: spawn hit effect
         if (hitEffectPrefab != null)
         {
@@ -106,7 +107,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         isDead = true;
         // Notify FSM to stop AI
         if (fsm != null) fsm.isDead = true;
-
+        GetComponent<PlayerAudio>()?.PlayDieSound();
         // Trigger "Die" animation
         animator.SetTrigger("Die");
 

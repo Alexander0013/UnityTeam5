@@ -91,6 +91,10 @@ public class EnemyFSM : MonoBehaviour
         }
         currentState = newState;
         currentState.EnterState(this);
+        if (currentState is EnemyAttackState || currentState is EnemyChaseState)
+        {
+            AudioManager.instance.TriggerBattleMusic();
+        }
     }
     private void OnDestroy()
     {
@@ -171,6 +175,7 @@ public class EnemyFSM : MonoBehaviour
     {
         if (currentState is EnemyAttackState attackState)
         {
+            GetComponent<PlayerAudio>()?.PlayAttackSound();
             attackState.OnAttackHit(this);
         }
     }

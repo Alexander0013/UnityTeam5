@@ -49,6 +49,7 @@ public class ArcherFSM : EnemyFSM
         {
             if (playerTarget != null && arrowSpawnPoint != null)
             {
+                GetComponent<ShooterAudio>()?.PlayAttackSound();
                 Vector3 origin = arrowSpawnPoint.position;
                 Vector3 direction = (playerTarget.position - origin).normalized;
                 if (muzzleFlashPrefab != null)
@@ -98,6 +99,7 @@ public class ArcherFSM : EnemyFSM
     {
         if (currentState is ArcherMeleeState)
         {
+            GetComponent<ShooterAudio>()?.PlayLegKickSound();
             float damage = npcData.baseDamage * npcData.comboMultiplier;
             float meleeRadius = npcData.hitRadius;
             Vector3 center = attackHitPoint.position;

@@ -583,12 +583,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60e2d5b79be8a4bdab5c0812ffbe296d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicSource: {fileID: 0}
+  musicSource: {fileID: 1798406695}
   openingMusic: {fileID: 8300000, guid: 175500ba2e97f9b4aacc57091559d1c1, type: 3}
   templeMusic: {fileID: 8300000, guid: ae9351e2089e7c4448a872914cf23330, type: 3}
   explorationMusic: {fileID: 8300000, guid: 63b6d6eb37dad7d42aeedd54c7d4f9f5, type: 3}
   battleMusic: {fileID: 8300000, guid: acec0388ed9fe8f4590fbdee9b6b026a, type: 3}
   fadeDuration: 2
+  isBattleMusicActive: 0
 --- !u!4 &1798406697
 Transform:
   m_ObjectHideFlags: 0
@@ -749,6 +750,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: VideoPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 7651885276390777007, guid: 8218d57c86fdab24e9ff1cc9be1b5461,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8284842856135578916, guid: 8218d57c86fdab24e9ff1cc9be1b5461,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8284842856135578916, guid: 8218d57c86fdab24e9ff1cc9be1b5461,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8772495213809937166, guid: 8218d57c86fdab24e9ff1cc9be1b5461,
         type: 3}
