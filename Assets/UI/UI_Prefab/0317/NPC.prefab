@@ -331,7 +331,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5641496401352809344}
   - component: {fileID: 1474530291160375090}
-  - component: {fileID: 3672324651736255065}
+  - component: {fileID: 5307218266717996596}
   m_Layer: 0
   m_Name: NPC
   m_TagString: Untagged
@@ -371,15 +371,14 @@ MonoBehaviour:
   dialogue:
     name: "\u6751\u6C11"
     sentences:
-    - "\u8DEF\u904E\u7684\u65C5\u4EBA\uFF0C\u8ACB\u5E6B\u5E6B\u6211\u5011\uFF01\n(\u6587\u672C\u66AB\u5B9A
-      Built\u524D\u8981\u6539)"
+    - "\u8DEF\u904E\u7684\u65C5\u4EBA\uFF0C\u8ACB\u5E6B\u5E6B\u6211\u5011\uFF01"
     - "\u6700\u8FD1\u68EE\u6797\u4E2D\u7684\u4E18\u4E18\u4EBA\u6700\u8FD1\u5341\u5206\u6D3B\u8E8D\uFF0C\u60F3\u9EBB\u7169\u4F60\u8ABF\u67E5\u6E05\u695A\u7DE3\u7531\u3002"
     - "\u90A3\u4E8B\u4E0D\u5B9C\u9072\uFF0C\u9019\u4E9B\u88DC\u7D66\u54C1\u5C31\u7576\u4F5C\u662F\u7D66\u4F60\u7684\u8A02\u91D1\uFF0C\u8DEF\u4E0A\u5C0F\u5FC3\u3002"
   ButtonPrefab: {fileID: 7595613025379501571, guid: 16b571ba1f3f14543869641504eba688,
     type: 3}
   distenceWithPlayer: 3
   buttonOffset: {x: 0, y: 1.8, z: 0}
---- !u!95 &3672324651736255065
+--- !u!95 &5307218266717996596
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -388,7 +387,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 512282648567345047}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: decf649fd321314408021467ddd4dde7, type: 3}
+  m_Avatar: {fileID: 9000000, guid: 8f0565f23a2b58541a475bd3c1393052, type: 3}
   m_Controller: {fileID: 9100000, guid: 8996bca9af9d9f64084a9cfe3954cf2f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -689,13 +688,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1060452807904288636}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.6830127, y: 0.18301274, z: -0.18301274, w: 0.6830127}
+  m_LocalRotation: {x: -0.12278774, y: 0.6963643, z: -0.6963643, w: -0.12278774}
   m_LocalPosition: {x: 0, y: 0.1, z: 0}
-  m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 5641496401352809344}
-  m_LocalEulerAnglesHint: {x: 90, y: 30, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 200, z: 0}
 --- !u!33 &3104067916297256947
 MeshFilter:
   m_ObjectHideFlags: 0
