@@ -19,7 +19,7 @@ public class PlayerHealthBar : HealthBar
 
     public void OnEnable()
     {
-        playerHealth.OnHealthChanged += UpdateHealthBar;
+       
     }
 
     public void OnDisable()
@@ -29,12 +29,22 @@ public class PlayerHealthBar : HealthBar
 
     protected virtual void Start()
     {
-        //Initialize the health bar
-       SetHealthBar(playerHealth.playerAttackData.health);
+        StartCoroutine(WaitUntilUIIsReady());
         fill.color = gradient.Evaluate(1f);
-        UpdateHealthBarText();
     }
 
+     IEnumerator WaitUntilUIIsReady()
+    {
+        while (UI_Manager.instance.IsReady !=true)
+        {
+            yield return null;
+        }
+        yield return new WaitForSeconds(0.01f);
+        playerHealth.OnHealthChanged += UpdateHealthBar;
+        SetHealthBar(playerHealth.playerAttackData.health);
+        UpdateHealthBarText();
+        yield return null;
+    }
 
     protected override void UpdateHealthBar(float targetValue)
     {

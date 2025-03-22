@@ -9,22 +9,24 @@ public class MiniMap : MonoBehaviour
     public GameObject Player_A;
     public GameObject Player_B;
 
-    public CharacterManager CharacterManager;
+    public CharacterManager characterManager;
 
     bool switchPlayer = true;
 
     public void OnEnable()
     {
-        CharacterManager.SwitchPlayer += switchFollower;
+        characterManager.SwitchPlayer += switchFollower;
     }
 
     public void OnDisable()
     {
-        CharacterManager.SwitchPlayer -= switchFollower;
+        characterManager.SwitchPlayer -= switchFollower;
     }
 
     private void Start()
     {
+        Player_A = characterManager.characters[0];
+        Player_B = characterManager.characters[1];
         playerTransform = Player_A.transform;
         mainCamera = Camera.main.transform;
     }
