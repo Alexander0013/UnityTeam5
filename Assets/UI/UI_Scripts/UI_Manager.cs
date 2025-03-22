@@ -7,6 +7,8 @@ using StarterAssets;
 using UnityEngine.InputSystem;
 using TMPro;
 using static UnityEditor.Progress;
+using UnityEngine.SceneManagement;
+using System;
 
 public class UI_Manager : MonoBehaviour
 {
@@ -16,7 +18,7 @@ public class UI_Manager : MonoBehaviour
     public Canvas canvas;
     public RectTransform rectTransform;
     public GameObject player;
-    public CharacterManager CharacterManager;
+    public CharacterManager characterManager;
     public Vector3 playerPosition;
 
     //Bag&Equipment
@@ -48,6 +50,7 @@ public class UI_Manager : MonoBehaviour
     //EnemyHealthBar
     public GameObject healthBarPrefab;
     public Transform EnemyHealthBarSpqwn;
+    public GameObject bossHealthBar;
 
     private Dictionary<GameObject, EnemyHealthBar> healthBars = new Dictionary<GameObject, EnemyHealthBar>();
 
@@ -67,6 +70,7 @@ public class UI_Manager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            SceneManager.sceneLoaded += OnSceneLoaded;
             DontDestroyOnLoad(gameObject); // 避免場景切換時摧毀物件
         }
         else
@@ -77,36 +81,59 @@ public class UI_Manager : MonoBehaviour
 
     public void OnEnable()
     {
-        CharacterManager.SwitchPlayer += SwitchPlayerHealthBar;
-        CharacterManager.SwitchPlayer += UpdatePlayerReference;
+        characterManager.SwitchPlayer += SwitchPlayerHealthBar;
+        characterManager.SwitchPlayer += UpdatePlayerReference;
         StartCoroutine(WaitForDM());
     }
 
     public void OnDisable()
     {
-        CharacterManager.SwitchPlayer -= SwitchPlayerHealthBar;
-        CharacterManager.SwitchPlayer -= UpdatePlayerReference;
+        characterManager.SwitchPlayer -= SwitchPlayerHealthBar;
+        characterManager.SwitchPlayer -= UpdatePlayerReference;
         DialogueManager.instance.missonStart -= GetMission;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        IsReady = false;
 
         canvasGroup_A = playerHealthBar_A.GetComponent<CanvasGroup>();
         canvasGroup_B = playerHealthBar_B.GetComponent<CanvasGroup>();
         miniCanvasGroup_A = miniBar_A.GetComponent<CanvasGroup>();
         miniCanvasGroup_B = miniBar_B.GetComponent<CanvasGroup>();
 
-        mainCamera = Camera.main;
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
 
-        taskTipText = taskTip.GetComponentInChildren<TextMeshProUGUI>();
+        InitializeSceneObjects();
 
-        StartCoroutine(GenerateHealthBarsForEnemies());
-        StartCoroutine(WaitForPlayerReady());
         IsReady = true;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        IsReady = false;
+        
+        //InitializeSceneObjects();
+        if (scene.name == "Temple")
+        {
+            taskTipText = taskTip.GetComponentInChildren<TextMeshProUGUI>();
+        }
+        if (scene.name =="PureNature")
+        {
+            StartCoroutine(GenerateHealthBarsForEnemies());
+            bossHealthBar.SetActive(true);
+        }
+
+        IsReady = true;
+    }
+
+    void InitializeSceneObjects()
+    {
+        mainCamera = Camera.main;
+        characterManager = FindAnyObjectByType<CharacterManager>();
+        StartCoroutine(WaitForPlayerReady());
     }
     void Update()
     {

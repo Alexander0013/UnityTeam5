@@ -1358,12 +1358,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!223 &1258837731727462643 stripped
-Canvas:
-  m_CorrespondingSourceObject: {fileID: 9076750926797574614, guid: b21844bdc32ca244aa45bb93a277d910,
-    type: 3}
-  m_PrefabInstance: {fileID: 610293210529668042}
-  m_PrefabAsset: {fileID: 0}
 --- !u!95 &1335615610545833001 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 2259282627740128938, guid: b21844bdc32ca244aa45bb93a277d910,
@@ -1484,16 +1478,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPC
       objectReference: {fileID: 0}
-    - target: {fileID: 512282648567345047, guid: ad2b13f291381c0438151a0aaa400126,
+    - target: {fileID: 2994644277389184125, guid: ad2b13f291381c0438151a0aaa400126,
         type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      propertyPath: m_LocalScale.x
+      value: 0.1
       objectReference: {fileID: 0}
-    - target: {fileID: 1474530291160375090, guid: ad2b13f291381c0438151a0aaa400126,
+    - target: {fileID: 2994644277389184125, guid: ad2b13f291381c0438151a0aaa400126,
         type: 3}
-      propertyPath: canvas
-      value: 
-      objectReference: {fileID: 1258837731727462643}
+      propertyPath: m_LocalScale.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2994644277389184125, guid: ad2b13f291381c0438151a0aaa400126,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 5641496401352809344, guid: ad2b13f291381c0438151a0aaa400126,
         type: 3}
       propertyPath: m_LocalPosition.x
