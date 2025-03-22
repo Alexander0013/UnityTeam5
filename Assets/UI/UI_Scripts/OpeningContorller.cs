@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class OpeningContorller : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
-    public AudioSource audioSource;
+    //public AudioSource audioSource;
     public float pauseTime;
 
     public CanvasGroup firstCanvasGroup; 
@@ -19,11 +19,16 @@ public class OpeningContorller : MonoBehaviour
 
     public string nextSceneName = "Temple";
 
+    private void Start()
+    {
+        firstCanvasGroup.alpha = 0;
+        secondCanvasGroup.alpha = 0;
+    }
 
     private void Update()
     {
         PauseWhenTimesUp();
-        Debug.Log(audioSource.volume);
+        //Debug.Log(audioSource.volume);
     }
 
     void PauseWhenTimesUp()
@@ -59,16 +64,16 @@ public class OpeningContorller : MonoBehaviour
     IEnumerator FadeOut()
     {
         float startAlpha = secondCanvasGroup.alpha;
-        float startVolume = audioSource.volume;
+        //float startVolume = audioSource.volume;
         for (float t = 0; t < secondFadeDuration; t += Time.deltaTime)
         {
             secondCanvasGroup.alpha = Mathf.Lerp(startAlpha, 0, t / 2);
             firstCanvasGroup.alpha = Mathf.Lerp(startAlpha, 0, t / 2);
-            audioSource.volume = Mathf.Lerp(startVolume, 0, t / 2);
+            //audioSource.volume = Mathf.Lerp(startVolume, 0, t / 2);
             yield return null;
         }
-        audioSource.volume = 0;
-        audioSource.Stop();
+        //audioSource.volume = 0;
+        //audioSource.Stop();
     }
     public void OnStartButtonClicked()
     {
