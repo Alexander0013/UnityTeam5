@@ -81,8 +81,6 @@ public class UI_Manager : MonoBehaviour
 
     public void OnEnable()
     {
-        characterManager.SwitchPlayer += SwitchPlayerHealthBar;
-        characterManager.SwitchPlayer += UpdatePlayerReference;
         StartCoroutine(WaitForDM());
     }
 
@@ -107,6 +105,7 @@ public class UI_Manager : MonoBehaviour
         canvas = GetComponentInParent<Canvas>();
 
         InitializeSceneObjects();
+        SetPlayerHealthBar();
 
         IsReady = true;
     }
@@ -133,6 +132,9 @@ public class UI_Manager : MonoBehaviour
     {
         mainCamera = Camera.main;
         characterManager = FindAnyObjectByType<CharacterManager>();
+        characterManager.SwitchPlayer += SwitchPlayerHealthBar;
+        characterManager.SwitchPlayer += UpdatePlayerReference;
+
         StartCoroutine(WaitForPlayerReady());
     }
     void Update()
@@ -239,6 +241,15 @@ public class UI_Manager : MonoBehaviour
         }
     }
     //Switch Player HealthBar
+    public void SetPlayerHealthBar()
+    {
+        PlayerHealth playerHealth_A = characterManager.characters[0].GetComponent<PlayerHealth>();
+        PlayerHealth playerHealth_B = characterManager.characters[1].GetComponent<PlayerHealth>();
+        playerHealthBar_A.GetComponent<PlayerHealthBar>().playerHealth = playerHealth_A;
+        miniBar_A.GetComponent<PlayerHealthBar>().playerHealth = playerHealth_A;
+        playerHealthBar_B.GetComponent<PlayerHealthBar>().playerHealth = playerHealth_B;
+        miniBar_B.GetComponent<PlayerHealthBar>().playerHealth = playerHealth_B;
+    }
     public void SwitchPlayerHealthBar()
     {
         playerAonUsed = !playerAonUsed;

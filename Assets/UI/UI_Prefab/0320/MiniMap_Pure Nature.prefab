@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 810104568819550897}
   - component: {fileID: 8419715800767553368}
   m_Layer: 11
-  m_Name: MiniMap_Pure Nature 1
+  m_Name: MiniMap_Pure Nature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
