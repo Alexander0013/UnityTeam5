@@ -78,7 +78,7 @@ public class OpeningContorller : MonoBehaviour
     }
     void OnVideoEnd(VideoPlayer vp)
     {
-        SceneTransitionManager.instance.NextScene();
+        SceneTransitionManager.instance.TransitionToScene("Temple");
     }
    
     public void OnQuitButtonClick()

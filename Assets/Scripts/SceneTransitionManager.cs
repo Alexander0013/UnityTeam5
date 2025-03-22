@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class SceneTransitionManager : MonoBehaviour
 {
     public static SceneTransitionManager instance;
-    [SerializeField] Animator TransitionAnimator;
+    [SerializeField] Animator transitionAnimator;
 
     // Reference to the CanvasGroup component on the fade canvas.
     public CanvasGroup fadeCanvasGroup;
@@ -23,18 +23,35 @@ public class SceneTransitionManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    public void NextScene()
+    public void TransitionToScene(string sceneName)
     {
-        StartCoroutine(LoadScene());
+        StartCoroutine(LoadSceneWithTransition(sceneName));
     }
-
-    IEnumerator LoadScene()
+    private IEnumerator LoadSceneWithTransition(string sceneName)
     {
-        TransitionAnimator.SetTrigger("End");
+        // Trigger fade-out animation.
+        if (transitionAnimator != null)
+        {
+            transitionAnimator.SetTrigger("End");
+        }
+        // Wait for fade out to complete.
         yield return new WaitForSeconds(1f);
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex +1);
-        TransitionAnimator.SetTrigger("End");
 
+        // Load the scene asynchronously.
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
+        // Optionally, wait a frame or a short duration before fading in.
+        yield return null;
+
+        // Trigger fade-in animation.
+        if (transitionAnimator != null)
+        {
+            transitionAnimator.SetTrigger("Start");
+        }
     }
     
 }
