@@ -6,7 +6,6 @@ public class OpeningVideoController : MonoBehaviour
 {
     public VideoPlayer videoPlayer; // Assign in Inspector.
     public string nextSceneName = "Temple"; // Replace with your main scene name.
-    private bool hasTransitioned = false;
 
     void Start()
     {
@@ -18,20 +17,8 @@ public class OpeningVideoController : MonoBehaviour
 
     void OnVideoFinished(VideoPlayer vp)
     {
-        if (!hasTransitioned)
-        {
-            hasTransitioned = true;
-            videoPlayer.loopPointReached -= OnVideoFinished;
-            videoPlayer.Stop();
-            
-            if (SceneTransitionManager.instance != null)
-            {
-                SceneTransitionManager.instance.TransitionToScene(nextSceneName);
-            }
-            else
-            {
-                SceneManager.LoadScene(nextSceneName);
-            }
-        }
+        videoPlayer.loopPointReached -= OnVideoFinished;
+        videoPlayer.Stop();
+        SceneManager.LoadScene(nextSceneName);
     }
 }

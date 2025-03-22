@@ -68,6 +68,15 @@ public class CharacterManager : MonoBehaviour
                 virtualCamera.LookAt = cameraRoot;
             }
         }
+        float newQuadSize = 1f; // default value, if needed.
+        if (scene.name == "Temple")
+        {
+            newQuadSize = 4f;
+        }
+        else if (scene.name == "PureNature")
+        {
+            newQuadSize = 15f;
+        }
         // Update startPosition:
         GameObject startPosObj = GameObject.FindGameObjectWithTag("StartPosition");
         if (startPosObj != null)
@@ -76,12 +85,23 @@ public class CharacterManager : MonoBehaviour
             foreach (GameObject player in characters)
             {
                 player.transform.position = startPosition.position;
+                // Assumes each player has a child named "Player_Quad".
+                Transform playerQuad = player.transform.Find("Player_Quad");
+                if (playerQuad != null)
+                {
+                    playerQuad.localScale = new Vector3(newQuadSize, newQuadSize, newQuadSize);
+                }
+                else
+                {
+                    Debug.LogWarning("Player_Quad not found on " + player.name);
+                }
             }
         }
         else
         {
             Debug.LogWarning("No object with tag 'StartPosition' found in the scene!");
         }
+
     }
 
     void Start()
@@ -92,8 +112,8 @@ public class CharacterManager : MonoBehaviour
             character.SetActive(false);
         }
 
-        // Delay activation of the initial player.
-        StartCoroutine(ActivateInitialCharacter());
+        // activative  the initial player.
+        ActivateInitialCharacter();
         // Start checking if all players are dead.
         StartCoroutine(CheckAllPlayersDead());
     }
@@ -108,9 +128,8 @@ public class CharacterManager : MonoBehaviour
             SwitchCharacter();
         }
     }
-    IEnumerator ActivateInitialCharacter()
+    public void ActivateInitialCharacter()
     {
-        yield return new WaitForSeconds(initialActivationDelay);
 
         // Activate the first character.
         currentCharacterIndex = 0;
@@ -191,32 +210,6 @@ public class CharacterManager : MonoBehaviour
         SwitchPlayer?.Invoke();
     }
 
-
-    // Coroutine that gradually ramps up the hair simulation.
-    //IEnumerator RampUpHairSimulation(GameObject character)
-    //{
-    //    // Try to get the SpringManager component from the character's children.
-    //    SpringManager springManager = character.GetComponentInChildren<SpringManager>();
-    //    if (springManager != null)
-    //    {
-    //        // Store the target dynamic ratio (assumed to be 1.0f, adjust if needed).
-    //        float targetRatio = 1.0f;
-    //        // Start with simulation disabled.
-    //        springManager.dynamicRatio = 0f;
-    //        float elapsed = 0f;
-    //        while (elapsed < hairRampUpDuration)
-    //        {
-    //            elapsed += Time.deltaTime;
-    //            springManager.dynamicRatio = Mathf.Lerp(0f, targetRatio, elapsed / hairRampUpDuration);
-    //            yield return null;
-    //        }
-    //        springManager.dynamicRatio = targetRatio;
-    //    }
-    //    else
-    //    {
-    //        yield break;
-    //    }
-    //}
 
     // Helper function to find the PlayerCameraRoot transform in a character.
     Transform GetCameraRoot(GameObject character)

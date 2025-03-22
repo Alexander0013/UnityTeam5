@@ -31,7 +31,10 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        //PlayMusic(openingMusic);
+        musicSource.clip = openingMusic;
+        musicSource.volume = 1.0f;
+        musicSource.Play();
+
     }
 
     private void OnEnable()
