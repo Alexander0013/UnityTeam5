@@ -17,11 +17,7 @@ public class PlayerHealthBar : HealthBar
 
 
 
-    public void OnEnable()
-    {
-       
-    }
-
+    
     public void OnDisable()
     {
         playerHealth.OnHealthChanged -= UpdateHealthBar;

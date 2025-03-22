@@ -114,7 +114,6 @@ public class UI_Manager : MonoBehaviour
     {
         IsReady = false;
         
-        //InitializeSceneObjects();
         if (scene.name == "Temple")
         {
             taskTipText = taskTip.GetComponentInChildren<TextMeshProUGUI>();
@@ -131,7 +130,7 @@ public class UI_Manager : MonoBehaviour
     void InitializeSceneObjects()
     {
         mainCamera = Camera.main;
-        characterManager = FindAnyObjectByType<CharacterManager>();
+        characterManager = CharacterManager.instance;
         characterManager.SwitchPlayer += SwitchPlayerHealthBar;
         characterManager.SwitchPlayer += UpdatePlayerReference;
 
@@ -214,7 +213,6 @@ public class UI_Manager : MonoBehaviour
 
         MenuOff();
     }
-
     public void CloseUI()
     {
         bagIsOpen =false;
@@ -339,7 +337,7 @@ public class UI_Manager : MonoBehaviour
         }
         else
         {
-            //Debug.LogWarning("Active player not found! Ensure the active player is tagged 'Player'.");
+            Debug.LogWarning("Active player not found! Ensure the active player is tagged 'Player'.");
         }
     }
     private void UpdateGameStateForUI(bool uiOpen)
