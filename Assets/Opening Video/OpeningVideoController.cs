@@ -19,6 +19,6 @@ public class OpeningVideoController : MonoBehaviour
     {
         videoPlayer.loopPointReached -= OnVideoFinished;
         videoPlayer.Stop();
-        SceneManager.LoadScene(nextSceneName);
+        //SceneManager.LoadScene(nextSceneName);
     }
 }

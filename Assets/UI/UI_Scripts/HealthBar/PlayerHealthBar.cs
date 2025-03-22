@@ -16,12 +16,6 @@ public class PlayerHealthBar : HealthBar
     public TextMeshProUGUI healthBarText;
 
 
-
-    public void OnEnable()
-    {
-       
-    }
-
     public void OnDisable()
     {
         playerHealth.OnHealthChanged -= UpdateHealthBar;

@@ -6,18 +6,14 @@ public class MiniMap : MonoBehaviour
 {
     Transform playerTransform;
     Transform mainCamera;
-    public GameObject Player_A;
-    public GameObject Player_B;
+    GameObject Player_A;
+    GameObject Player_B;
 
-    public CharacterManager characterManager;
+    CharacterManager characterManager;
 
     bool switchPlayer = true;
 
-    public void OnEnable()
-    {
-        characterManager.SwitchPlayer += switchFollower;
-    }
-
+   
     public void OnDisable()
     {
         characterManager.SwitchPlayer -= switchFollower;
@@ -25,6 +21,9 @@ public class MiniMap : MonoBehaviour
 
     private void Start()
     {
+        characterManager = CharacterManager.instance;
+        characterManager.SwitchPlayer += switchFollower;
+
         Player_A = characterManager.characters[0];
         Player_B = characterManager.characters[1];
         playerTransform = Player_A.transform;

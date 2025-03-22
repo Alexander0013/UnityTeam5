@@ -63,7 +63,8 @@ public class UI_Manager : MonoBehaviour
     TextMeshProUGUI taskTipText;
     private List<ItemGiver> itemGivers = new List<ItemGiver>();
 
-
+    //Protal
+    public GameObject interactionText; 
 
     void Awake()
     {
@@ -114,7 +115,6 @@ public class UI_Manager : MonoBehaviour
     {
         IsReady = false;
         
-        //InitializeSceneObjects();
         if (scene.name == "Temple")
         {
             taskTipText = taskTip.GetComponentInChildren<TextMeshProUGUI>();
@@ -130,8 +130,9 @@ public class UI_Manager : MonoBehaviour
 
     void InitializeSceneObjects()
     {
+        //mainCamera = FindObjectOfType<Camera>();
         mainCamera = Camera.main;
-        characterManager = FindAnyObjectByType<CharacterManager>();
+        characterManager = CharacterManager.instance;
         characterManager.SwitchPlayer += SwitchPlayerHealthBar;
         characterManager.SwitchPlayer += UpdatePlayerReference;
 
@@ -214,7 +215,6 @@ public class UI_Manager : MonoBehaviour
 
         MenuOff();
     }
-
     public void CloseUI()
     {
         bagIsOpen =false;
@@ -320,12 +320,13 @@ public class UI_Manager : MonoBehaviour
     //Get mouse from player
     IEnumerator WaitForPlayerReady()
     {
-        yield return new WaitForSeconds(2f);
+        yield return null;
         UpdatePlayerReference();
         while (inputController == null || playerInputController == null)
         {
             yield return null;
             UpdatePlayerReference();
+            Debug.Log("Waiting for player to be ready...");
         }         
         yield break;
     }
@@ -339,7 +340,7 @@ public class UI_Manager : MonoBehaviour
         }
         else
         {
-            //Debug.LogWarning("Active player not found! Ensure the active player is tagged 'Player'.");
+            Debug.LogWarning("Active player not found! Ensure the active player is tagged 'Player'.");
         }
     }
     private void UpdateGameStateForUI(bool uiOpen)
@@ -411,5 +412,18 @@ public class UI_Manager : MonoBehaviour
             
             taskTipText.text = "收集任務道具（"+item.itemHeld+"/5）";
         }
+    }
+
+    //For Protal & Pick up hint
+    
+    public void ShowInteractionText(string text)
+    {
+        interactionText.SetActive(true);
+        interactionText.GetComponentInChildren<TextMeshProUGUI>().text = text;        
+    }
+
+    public void HideInteractionText()
+    {
+        interactionText.SetActive(false);  
     }
 }
