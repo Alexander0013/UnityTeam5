@@ -1817,7 +1817,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "ItemDescription\u7269\u54C1\u63CF\u8FF0"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d78120234e5ce63408ba00fc56a65ba4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: da01d6094a4dc724da26557a2056dc85, type: 2}
   m_sharedMaterial: {fileID: -5455228480212922921, guid: d78120234e5ce63408ba00fc56a65ba4,
     type: 2}
   m_fontSharedMaterials: []
@@ -1849,7 +1849,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -1882,7 +1882,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1982031483293213279
@@ -10957,6 +10957,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TaskTip
+      objectReference: {fileID: 0}
+    - target: {fileID: 1601213483545753128, guid: 291484b47c0f3a643acef1aea1c3d795,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6009709326073707228, guid: 291484b47c0f3a643acef1aea1c3d795,
         type: 3}
