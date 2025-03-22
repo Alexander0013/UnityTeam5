@@ -2417,6 +2417,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   getHitSoundCooldown: 5
   playerAttackData: {fileID: 11400000, guid: 2aeb211d0910a8d4fb7e2576561484ca, type: 2}
+  getHitAnimCooldown: 1
 --- !u!114 &1027554283554086547
 MonoBehaviour:
   m_ObjectHideFlags: 0
