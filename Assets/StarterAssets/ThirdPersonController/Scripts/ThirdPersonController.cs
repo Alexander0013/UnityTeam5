@@ -154,6 +154,10 @@ namespace StarterAssets
 
         private void Update()
         {
+            if (_mainCamera == null)
+            {
+                _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+            }
             _hasAnimator = TryGetComponent(out _animator);
 
             JumpAndGravity();

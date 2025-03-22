@@ -18,6 +18,8 @@ public class PlayerTransparencyController : MonoBehaviour
 
     void Update()
     {
+        if (mainCamera == null)
+            mainCamera = Camera.main;
         // Use the cached renderers.
         float distance = Vector3.Distance(mainCamera.transform.position, transform.position);
         float targetAlpha = distance < transparencyDistance ? 0f : 1f;
