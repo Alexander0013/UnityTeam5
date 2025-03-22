@@ -9,15 +9,13 @@ public class OpeningContorller : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
     //public AudioSource audioSource;
-    public float pauseTime;
+    float pauseTime= 8.0f;
 
-    public CanvasGroup firstCanvasGroup; 
-    public CanvasGroup secondCanvasGroup; 
-    public float firstFadeDuration = 1f; 
-    public float secondFadeDuration = 3f;
+    public CanvasGroup firstCanvasGroup;
+    public CanvasGroup secondCanvasGroup;
+    float firstFadeDuration = 1f;
+    float secondFadeDuration = 3f;
     bool isPlaying = true;
-
-    public string nextSceneName = "Temple";
 
     private void Start()
     {
@@ -39,9 +37,9 @@ public class OpeningContorller : MonoBehaviour
             isPlaying = false;
             //Debug.Log("Pause videoPlayer");
             StartCoroutine(FadeIn());
-        }        
+        }
     }
-    
+
     IEnumerator FadeIn()
     {
         float firstStartAlpha = firstCanvasGroup.alpha;
@@ -58,7 +56,7 @@ public class OpeningContorller : MonoBehaviour
             secondCanvasGroup.alpha = Mathf.Lerp(secondStartAlpha, 1, t / secondFadeDuration);
             yield return null;
         }
-        secondCanvasGroup.alpha =1;
+        secondCanvasGroup.alpha = 1;
     }
 
     IEnumerator FadeOut()
@@ -83,9 +81,9 @@ public class OpeningContorller : MonoBehaviour
     }
     void OnVideoEnd(VideoPlayer vp)
     {
-        SceneTransitionManager.instance.NextScene();
+        StartCoroutine(SceneController.instance.FadeOutAndLoad(1));
     }
-   
+
     public void OnQuitButtonClick()
     {
         Debug.Log("Quit");

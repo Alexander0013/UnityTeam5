@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8772495213809937166}
   - component: {fileID: 258214823156786036}
   - component: {fileID: 8284842856135578916}
-  - component: {fileID: 7651885276390777007}
   m_Layer: 0
   m_Name: VideoPlayer
   m_TagString: Untagged
@@ -80,7 +79,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 10f6d395ccc07794d808fa3308bee7aa, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -164,17 +163,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &7651885276390777007
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2820953287823993495}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0318646171c1776458d6c4bf986750e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  videoPlayer: {fileID: 258214823156786036}
-  nextSceneName: Temple
