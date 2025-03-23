@@ -2567,6 +2567,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   getHitSoundCooldown: 5
   playerAttackData: {fileID: 11400000, guid: 031d10717e65a48f49b0e197dd525f57, type: 2}
+  getHitAnimCooldown: 1
 --- !u!114 &213745076309753795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2695,8 +2696,8 @@ MonoBehaviour:
   attackClip: {fileID: 8300000, guid: 3eefa7b750f9846deb663dd3221a5c1a, type: 3}
   getHitClip: {fileID: 8300000, guid: 2ddad422991594becbe9c65b826630f4, type: 3}
   dieClip: {fileID: 8300000, guid: bcfe9633b375c4dc9ab216a59f38f050, type: 3}
-  idleSoundDelayMin: 10
-  idleSoundDelayMax: 20
+  idleSoundDelayMin: 30
+  idleSoundDelayMax: 40
 --- !u!1 &8943502449524735383
 GameObject:
   m_ObjectHideFlags: 0

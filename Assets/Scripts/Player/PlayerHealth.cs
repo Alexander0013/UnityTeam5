@@ -12,6 +12,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private float maxHealth;
     private float lastGetHitAnimTime = -100f; // initialize to a very negative value
     public float getHitAnimCooldown = 1f;     // adjust as needed (e.g., 0.5 seconds)
+    public float currentDamage { get; private set; }
 
 
     private Animator animator;
@@ -32,6 +33,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     
     void OnEnable() 
     {
+        Debug.Log("playerhealth Awake");
         InventoryManager.ItemUsed += OnItemUsed;
         InventoryManager.instance.onEquipmentChanged += OnEquipmentChanged;
     }
@@ -56,16 +58,22 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private void OnEquipmentChanged(Equipment newItem, Equipment oldItem, int genderIndex) 
     {
-        /* If the equipment changes include a health modifier, update health.
+        // If the equipment changes include a health modifier, update health.
         float healthModifier = 0;
         if(oldItem != null)
             healthModifier -= oldItem.healthModifier;
         if(newItem != null)
             healthModifier += newItem.healthModifier;
 
+        // Update Damage
+        float damageModifier = 0;
+        if (oldItem != null) damageModifier -= oldItem.damageModifier;
+        if (newItem != null) damageModifier += newItem.damageModifier;
+        UpdateDamageWithModifier(damageModifier);
+
         // Update the current and maximum health.
         UpdateHealthWithModifier(healthModifier);
-        */
+        
     }
 
     private void UpdateHealthWithModifier(float modifier) 
@@ -77,10 +85,20 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             CurrentHealth = maxHealth;
         OnHealthChanged?.Invoke(CurrentHealth);
     }
+    private void UpdateDamageWithModifier(float modifier)
+    {
+        currentDamage += modifier;  
+        // Optionally clamp if you never want negative or beyond some max
+        // currentDamage = Mathf.Max(0, currentDamage);
+
+        Debug.Log("[PlayerHealth] currentDamage updated to: " + currentDamage);
+    }
     
 
     void Start()
     {
+        // Initialize currentDamage to the base value from AttackData
+        currentDamage = (playerAttackData != null) ? playerAttackData.baseDamage : 10f;
         float baseHealth = (playerAttackData != null ? playerAttackData.health : 100f);
         maxHealth = baseHealth;
         currentHealth = baseHealth;

@@ -11,7 +11,9 @@ public class CharacterManager : MonoBehaviour
     [Header("Characters & Camera")]
     public List<GameObject> characters;              // All possible characters
     public CinemachineVirtualCamera virtualCamera;   // The vcam in the *current* scene
-    private int currentCharacterIndex = 0;           // Which character is currently “active”
+    private int currentCharacterIndex = 0;
+    public Vector3 fallbackPosition = new Vector3(-14f, 5f, 6f);
+    public Quaternion fallbackRotation = Quaternion.identity;         
     private string cameraRootName = "PlayerCameraRoot";
 
     [Header("Scene Spawn")]
@@ -32,22 +34,15 @@ public class CharacterManager : MonoBehaviour
         // Keep this CharacterManager alive across scene loads
         DontDestroyOnLoad(gameObject);
     }
-
-    private void OnEnable()
+    void OnEnable()
     {
-        // Subscribe to Unity’s sceneLoaded event
         SceneManager.sceneLoaded += OnSceneLoaded;
-        
-        // Optional debug: confirm we subscribed
-        Debug.Log("[CharacterManager] OnEnable: Subscribed to sceneLoaded event.");
     }
-
     private void OnDisable()
     {
         // Unsubscribe when disabled/destroyed
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
-
     private void Start()
     {
         // Deactivate all characters initially
@@ -97,11 +92,8 @@ public class CharacterManager : MonoBehaviour
 
             // Example: Place *all* characters at startPosition
             // (If you only want to move the currently active character, remove the foreach.)
-            foreach (GameObject player in characters)
-            {
-                player.transform.position = startPosition.position;
-                player.transform.rotation = startPosition.rotation;
-            }
+                characters[currentCharacterIndex].transform.position = startPosition.position;
+                characters[currentCharacterIndex].transform.rotation = startPosition.rotation;
         }
         else
         {
@@ -144,10 +136,18 @@ public class CharacterManager : MonoBehaviour
     GameObject spawnObj = GameObject.FindWithTag("StartPosition");
     if (spawnObj != null)
     {
-        foreach (GameObject character in characters)
+        startPosition = spawnObj.transform;
+        foreach (GameObject player in characters)
         {
-            character.transform.position = spawnObj.transform.position;
-            character.transform.rotation = spawnObj.transform.rotation;
+            player.transform.position = startPosition.position;
+            player.transform.rotation = startPosition.rotation;
+        }
+    }
+    else{
+        foreach (GameObject player in characters)
+        {
+            player.transform.position = fallbackPosition;
+            player.transform.rotation = fallbackRotation;
         }
     }
     
