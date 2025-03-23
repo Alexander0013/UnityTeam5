@@ -45,7 +45,6 @@ public class SceneController : MonoBehaviour
         }
     }
 
-    // ����z���ת��H�J�H�X�L�{
     private IEnumerator Fade(float targetAlpha)
     {
         float startAlpha = fadeCanvasGroup.alpha;

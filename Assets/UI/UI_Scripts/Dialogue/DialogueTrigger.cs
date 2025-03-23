@@ -6,20 +6,28 @@ public class DialogueTrigger : MonoBehaviour
 {
     public Dialogue dialogue;
     public GameObject ButtonPrefab;
-    public float distenceWithPlayer;
-    public Vector3 buttonOffset;
+    public Transform buttonTransform;
     GameObject button;
 
-    bool isTriggered = false;
 
-
-    public void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        DistenceWithPlayer();
-        
-        if (Input.GetKeyDown(KeyCode.E))
+        if (other.CompareTag("Player")&&UI_Manager.instance.isTriggered==false)
         {
-            TriggerDialogue();
+            GetDialogueButton();
+            UI_Manager.instance.inDialogueRange = true;
+            UI_Manager.instance.ShowInteractionText("«öE¹ï¸Ü");
+            UI_Manager.instance.dialogue = dialogue;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Destroy(button);
+            UI_Manager.instance.inDialogueRange = false;
+            UI_Manager.instance.HideInteractionText();
         }
     }
 
@@ -27,39 +35,15 @@ public class DialogueTrigger : MonoBehaviour
     {
         if (button != null)
         {
-            button.transform.position = Camera.main.WorldToScreenPoint(transform.position + buttonOffset);
+            button.transform.position = Camera.main.WorldToScreenPoint(buttonTransform.position /*+ buttonOffset*/);
         }
     }
 
-    public void DistenceWithPlayer()
-    {
-        if (!isTriggered)
-        {
-            float distance = Vector3.Distance(UI_Manager.instance.playerPosition, transform.position);
-            if (distance < distenceWithPlayer && button == null)
-            {
-                button = Instantiate(ButtonPrefab, UI_Manager.instance.canvas.transform);
-                button.transform.position = Camera.main.WorldToScreenPoint(transform.position + buttonOffset);
-            }
-            else if (distance > distenceWithPlayer && button != null)
-            {
-                Destroy(button);
-            }
-        }        
-    }
 
-    public void TriggerDialogue()
+    void GetDialogueButton()
     {
-        if (!isTriggered&& button != null)
-        {
-            DialogueManager.instance.StartDialogue(dialogue);
-            isTriggered = true;
-            Destroy(button);
-        }
-        else
-        {
-            DialogueManager.instance.DisplayNextSentence();
-        }
+        button = Instantiate(ButtonPrefab, UI_Manager.instance.canvas.transform);
+        button.transform.position = Camera.main.WorldToScreenPoint(buttonTransform.position /*+ buttonOffset*/);
     }
 
 }
