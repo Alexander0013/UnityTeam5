@@ -18,7 +18,11 @@ public class PlayerHealthBar : HealthBar
 
     public void OnDisable()
     {
-        playerHealth.OnHealthChanged -= UpdateHealthBar;
+        if (playerHealth != null)
+        {
+            playerHealth.OnHealthChanged -= UpdateHealthBar;
+        }
+        //playerHealth.OnHealthChanged -= UpdateHealthBar;
     }
 
     protected virtual void Start()

@@ -1,21 +1,20 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
-{   
-    public CanvasGroup fadeCanvasGroup;  
-    public float fadeDuration = 1f;      // �H�J�H�X�ʵe����ɶ�
-
-
+{
     public static SceneController instance;
+
+    public CanvasGroup fadeCanvasGroup;
+    public float fadeDuration = 1f;
+
     void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject); // �קK���������ɺR������
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -25,27 +24,35 @@ public class SceneController : MonoBehaviour
 
     void Start()
     {
-        fadeCanvasGroup.alpha = 0;        
+        fadeCanvasGroup.alpha = 0;
     }
 
-    public IEnumerator FadeOutAndLoad(int buildIndex)
+    // Single-scene load version (no additive).
+    /*
+    public IEnumerator FadeOutAndLoadSingle(int buildIndex)
     {
-        yield return StartCoroutine(Fade(1));
+        // 1) Fade the screen to black
+        yield return StartCoroutine(Fade(1f));
 
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        // 2) Load the new scene in single mode
+        SceneManager.LoadScene(buildIndex, LoadSceneMode.Single);
 
-        AsyncOperation loadOperation = SceneManager.LoadSceneAsync(buildIndex, LoadSceneMode.Additive);
-        yield return new WaitUntil(() => loadOperation.isDone);
+        // The old scene is automatically unloaded, the new scene is active.
 
-        SceneManager.UnloadSceneAsync(currentSceneIndex);
-        yield return StartCoroutine(Fade(0));
-        if (CharacterManager.instance != null)
-        {
-            CharacterManager.instance.OnSceneSwitchComplete(buildIndex);
-        }
+        // 3) Fade back in
+        yield return StartCoroutine(Fade(0f));
+    }
+    */
+    public IEnumerator FadeOutAndLoadSingle(int buildIndex)
+    {
+        yield return StartCoroutine(Fade(1f));
+        SceneManager.LoadScene(buildIndex, LoadSceneMode.Single);
+        yield return StartCoroutine(Fade(0f));
+        // NOW the scene is loaded, so call:
+        CharacterManager.instance?.OnSceneSwitchComplete(buildIndex);
     }
 
-    // ����z���ת��H�J�H�X�L�{
+
     private IEnumerator Fade(float targetAlpha)
     {
         float startAlpha = fadeCanvasGroup.alpha;
@@ -53,13 +60,14 @@ public class SceneController : MonoBehaviour
 
         while (timeElapsed < fadeDuration)
         {
-            fadeCanvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, timeElapsed / fadeDuration);
+            fadeCanvasGroup.alpha = Mathf.Lerp(
+                startAlpha, targetAlpha,
+                timeElapsed / fadeDuration
+            );
             timeElapsed += Time.deltaTime;
             yield return null;
         }
 
         fadeCanvasGroup.alpha = targetAlpha;
     }
-
-    
 }

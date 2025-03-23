@@ -1,43 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Protal : MonoBehaviour
 {
-    public int targetSceneIndex; 
-    private bool isPlayerInRange = false;  // ¥Î¨ÓÀË´úª±®a¬O§_¶i¤J¶Ç°eªù½d³ò
+    public int targetSceneIndex;
+    private bool isPlayerInRange = false;
 
     void Update()
     {
-        // ·íª±®a¶i¤J½d³ò¨Ã«ö¤U "E" Áä
+        // When player is in range and presses "E", we load the new scene (single).
         if (isPlayerInRange && Input.GetKeyDown(KeyCode.E))
         {
-            SceneController.instance.StartCoroutine(SceneController.instance.FadeOutAndLoad(targetSceneIndex));
+            SceneController.instance.StartCoroutine(
+                SceneController.instance.FadeOutAndLoadSingle(targetSceneIndex)
+            );
         }
     }
 
-    // ·íª±®a¶i¤J¶Ç°eªù½d³ò®ÉÄ²µo
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))  
         {
             isPlayerInRange = true;
+            UI_Manager.instance.ShowInteractionText("æŒ‰Eå‚³é€"); 
         }
-
-        UI_Manager.instance.ShowInteractionText("«öE¶Ç°e");
     }
 
-    // ·íª±®aÂ÷¶}¶Ç°eªù½d³ò®ÉÄ²µo
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             isPlayerInRange = false;
+            UI_Manager.instance.HideInteractionText();
         }
-
-        UI_Manager.instance.HideInteractionText();
     }
-
-   
 }

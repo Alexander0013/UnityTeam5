@@ -30,8 +30,6 @@ public class CharacterManager : MonoBehaviour
             return;
         }
         instance = this;
-        
-        // Keep this CharacterManager alive across scene loads
         DontDestroyOnLoad(gameObject);
     }
     void OnEnable()
@@ -89,7 +87,6 @@ public class CharacterManager : MonoBehaviour
         if (startPosObj != null)
         {
             startPosition = startPosObj.transform;
-
             // Example: Place *all* characters at startPosition
             // (If you only want to move the currently active character, remove the foreach.)
                 characters[currentCharacterIndex].transform.position = startPosition.position;
@@ -115,8 +112,10 @@ public class CharacterManager : MonoBehaviour
             }
         }
     }
+    
     public void OnSceneSwitchComplete(int sceneIndex)
 {
+    Debug.Log("OnSceneSwitchComplete");
     // 1) Find or create the Virtual Camera in the new scene:
     CinemachineVirtualCamera newVcam = FindObjectOfType<CinemachineVirtualCamera>();
     if (newVcam != null)
@@ -162,6 +161,7 @@ public class CharacterManager : MonoBehaviour
         // ...
     }
 }
+
 
 
     /// <summary>
