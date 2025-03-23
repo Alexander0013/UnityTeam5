@@ -36,15 +36,8 @@ public class EnemyFSM : MonoBehaviour
     {
         // Attempt an initial player find
         playerTarget = FindActiveLivingPlayer();
-        // Start in Idle (or ReturnState if no player found)
-        if (playerTarget == null)
-        {
-            TransitionToState(idleState);
-        }
-        else
-        {
-            TransitionToState(idleState);
-        }
+        // Start in Idle
+        TransitionToState(idleState);
     }
     protected virtual void Update()
     {

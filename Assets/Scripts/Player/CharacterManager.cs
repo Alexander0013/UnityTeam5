@@ -3,63 +3,83 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.SceneManagement;
-using UnityChan; // For SpringManager
 
 public class CharacterManager : MonoBehaviour
 {
     public static CharacterManager instance;
-    // List of all character GameObjects.
-    public List<GameObject> characters;
 
-    // Reference to the Cinemachine Virtual Camera.
-    public CinemachineVirtualCamera virtualCamera;
-
-    // Index to track the currently active character.
-    private int currentCharacterIndex = 0;
-
-    // Name of the child object used for the camera target.
+    [Header("Characters & Camera")]
+    public List<GameObject> characters;              // All possible characters
+    public CinemachineVirtualCamera virtualCamera;   // The vcam in the *current* scene
+    private int currentCharacterIndex = 0;           // Which character is currently “active”
     private string cameraRootName = "PlayerCameraRoot";
 
-    // Delay before activating the initial character.
-    public float initialActivationDelay = 0.1f;
-
-    // Duration (in seconds) over which to ramp up hair simulation.
-    public float hairRampUpDuration = 0.1f;
-    public Transform startPosition;
+    [Header("Scene Spawn")]
+    public Transform startPosition;     // Will be assigned in OnSceneLoaded if the new scene has a "StartPosition"
 
     public event System.Action SwitchPlayer;
-    void Awake()
+
+    private void Awake()
     {
+        // Singleton check
         if (instance != null && instance != this)
         {
             Destroy(gameObject);
             return;
         }
         instance = this;
+        
+        // Keep this CharacterManager alive across scene loads
         DontDestroyOnLoad(gameObject);
     }
-    void OnEnable()
+
+    private void OnEnable()
     {
+        // Subscribe to Unity’s sceneLoaded event
         SceneManager.sceneLoaded += OnSceneLoaded;
+        
+        // Optional debug: confirm we subscribed
+        Debug.Log("[CharacterManager] OnEnable: Subscribed to sceneLoaded event.");
     }
-    
-    void OnDisable()
+
+    private void OnDisable()
     {
+        // Unsubscribe when disabled/destroyed
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
-    
-    // Called every time a new scene is loaded.
+
+    private void Start()
+    {
+        // Deactivate all characters initially
+        foreach (GameObject character in characters)
+        {
+            character.SetActive(false);
+        }
+
+        // Activate the first character
+        ActivateInitialCharacter();
+        
+        // If you have a coroutine to check for all players dead, start it
+        StartCoroutine(CheckAllPlayersDead());
+    }
+
+    /// <summary>
+    /// This is called automatically by Unity after a scene finishes loading,
+    /// because we subscribed in OnEnable().
+    /// </summary>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Find the new Cinemachine Virtual Camera in the scene.
+        Debug.Log("[CharacterManager] OnSceneLoaded called for scene: " + scene.name);
+
+        // 1) Find the Cinemachine virtual camera in the new scene
         virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
         if (virtualCamera == null)
         {
-            Debug.LogWarning("No Cinemachine Virtual Camera found in the scene!");
+            Debug.LogWarning("No Cinemachine Virtual Camera found in the new scene!");
         }
         else
         {
-            // Reconnect the camera to the currently active character.
+            // Reconnect the camera to the currently active character
             GameObject activeCharacter = characters[currentCharacterIndex];
             Transform cameraRoot = GetCameraRoot(activeCharacter);
             if (cameraRoot != null)
@@ -68,154 +88,148 @@ public class CharacterManager : MonoBehaviour
                 virtualCamera.LookAt = cameraRoot;
             }
         }
-        float newQuadSize = 1f; // default value, if needed.
-        if (scene.name == "Temple")
-        {
-            newQuadSize = 4f;
-        }
-        else if (scene.name == "PureNature")
-        {
-            newQuadSize = 15f;
-        }
-        // Update startPosition:
+
+        // 2) Find the StartPosition object in the new scene (tagged “StartPosition”)
         GameObject startPosObj = GameObject.FindGameObjectWithTag("StartPosition");
         if (startPosObj != null)
         {
             startPosition = startPosObj.transform;
+
+            // Example: Place *all* characters at startPosition
+            // (If you only want to move the currently active character, remove the foreach.)
             foreach (GameObject player in characters)
             {
                 player.transform.position = startPosition.position;
-                // Assumes each player has a child named "Player_Quad".
-                Transform playerQuad = player.transform.Find("Player_Quad");
-                if (playerQuad != null)
-                {
-                    playerQuad.localScale = new Vector3(newQuadSize, newQuadSize, newQuadSize);
-                }
-                else
-                {
-                    Debug.LogWarning("Player_Quad not found on " + player.name);
-                }
+                player.transform.rotation = startPosition.rotation;
             }
         }
         else
         {
-            Debug.LogWarning("No object with tag 'StartPosition' found in the scene!");
+            Debug.LogWarning("No 'StartPosition' tag found in the new scene!");
         }
 
+        // 3) (Optional) Scene-specific scaling example
+        float newQuadSize = 1f;
+        if (scene.name == "Temple")       newQuadSize = 4f;
+        else if (scene.name == "PureNature") newQuadSize = 15f;
+
+        // If you have a child named "Player_Quad" on each character that needs scaling:
+        foreach (GameObject player in characters)
+        {
+            Transform quad = player.transform.Find("Player_Quad");
+            if (quad != null)
+            {
+                quad.localScale = new Vector3(newQuadSize, newQuadSize, newQuadSize);
+            }
+        }
+    }
+    public void OnSceneSwitchComplete(int sceneIndex)
+{
+    // 1) Find or create the Virtual Camera in the new scene:
+    CinemachineVirtualCamera newVcam = FindObjectOfType<CinemachineVirtualCamera>();
+    if (newVcam != null)
+    {
+        virtualCamera = newVcam; 
+        // reassign Follow/LookAt
+        GameObject activeCharacter = characters[currentCharacterIndex];
+        Transform cameraRoot = GetCameraRoot(activeCharacter);
+        if (cameraRoot != null)
+        {
+            virtualCamera.Follow = cameraRoot;
+            virtualCamera.LookAt = cameraRoot;
+        }
     }
 
-    void Start()
+    // 2) Move the player(s) to the new scene’s StartPosition
+    GameObject spawnObj = GameObject.FindWithTag("StartPosition");
+    if (spawnObj != null)
     {
-        // Initially deactivate all characters.
         foreach (GameObject character in characters)
         {
-            character.SetActive(false);
+            character.transform.position = spawnObj.transform.position;
+            character.transform.rotation = spawnObj.transform.rotation;
         }
-
-        // activative  the initial player.
-        ActivateInitialCharacter();
-        // Start checking if all players are dead.
-        StartCoroutine(CheckAllPlayersDead());
     }
-
     
-
-    void Update()
+    // 3) Scene-specific logic (e.g., scaling, UI, etc.)
+    Scene scene = SceneManager.GetSceneByBuildIndex(sceneIndex);
+    if (scene.name == "Temple")
     {
-        // Check for the key press to switch characters (e.g., using the C key).
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            SwitchCharacter();
-        }
+        // scale quads, etc.
     }
+    else if (scene.name == "PureNature")
+    {
+        // ...
+    }
+}
+
+
+    /// <summary>
+    /// Activates the first character in the list.
+    /// </summary>
     public void ActivateInitialCharacter()
     {
-
-        // Activate the first character.
         currentCharacterIndex = 0;
         GameObject initialPlayer = characters[currentCharacterIndex];
         initialPlayer.SetActive(true);
 
-        // Set the camera's follow and look-at targets.
+        // If we already have a virtual camera (e.g. in the start scene),
+        // attach it to the initial player's camera root
         Transform cameraRoot = GetCameraRoot(initialPlayer);
-        if (cameraRoot != null)
+        if (cameraRoot != null && virtualCamera != null)
         {
             virtualCamera.Follow = cameraRoot;
             virtualCamera.LookAt = cameraRoot;
         }
-        else
-        {
-            Debug.LogWarning("Camera root not found on " + initialPlayer.name);
-        }
-
-        // Gradually ramp up hair simulation to hide abrupt movements.
-        //StartCoroutine(RampUpHairSimulation(initialPlayer));
     }
 
-    void SwitchCharacter()
+    /// <summary>
+    /// Switches between the first and second character (or cycles through).
+    /// </summary>
+    private void SwitchCharacter()
     {
-        // Store current character's position and rotation.
-        GameObject currentCharacter = characters[currentCharacterIndex];
-        Vector3 currentPos = currentCharacter.transform.position;
-        Quaternion currentRot = currentCharacter.transform.rotation;
+        // Store current char’s position/rotation
+        GameObject currentChar = characters[currentCharacterIndex];
+        Vector3 oldPos = currentChar.transform.position;
+        Quaternion oldRot = currentChar.transform.rotation;
 
-        // Deactivate the current character.
-        currentCharacter.SetActive(false);
+        // Deactivate old
+        currentChar.SetActive(false);
 
+        // Next index
         currentCharacterIndex = (currentCharacterIndex + 1) % characters.Count;
-        /*
-        // We'll try to find a valid (alive) character.
-        int startingIndex = currentCharacterIndex;
-        bool foundValid = false;
+        GameObject newChar = characters[currentCharacterIndex];
+        newChar.transform.position = oldPos;
+        newChar.transform.rotation = oldRot;
+        newChar.SetActive(true);
 
-        //find one with health > 0.
-        currentCharacterIndex = (currentCharacterIndex + 1) % characters.Count;
-        GameObject potentialCharacter = characters[currentCharacterIndex];
-        PlayerHealth ph = potentialCharacter.GetComponent<PlayerHealth>();
-
-        // If there is no health component, or health is above zero, consider it valid.
-        if (ph.CurrentHealth > 0)
+        // Update the camera’s Follow / LookAt
+        if (virtualCamera != null)
         {
-            foundValid = true;
+            Transform newCameraRoot = GetCameraRoot(newChar);
+            if (newCameraRoot != null)
+            {
+                virtualCamera.Follow = newCameraRoot;
+                virtualCamera.LookAt = newCameraRoot;
+            }
         }
 
-        // If no valid character is found (all dead), re-activate the original character.
-        if (!foundValid)
-        {
-            characters[startingIndex].SetActive(true);
-            Debug.LogWarning("No valid (alive) character found for switching!");
-            return;
-        }
-        */
-
-        // Activate the new valid character.
-        GameObject newCharacter = characters[currentCharacterIndex];
-        newCharacter.transform.position = currentPos;
-        newCharacter.transform.rotation = currentRot;
-        newCharacter.SetActive(true);
-
-        // Update the camera's follow and look-at targets.
-        Transform cameraRoot = GetCameraRoot(newCharacter);
-        if (cameraRoot != null)
-        {
-            virtualCamera.Follow = cameraRoot;
-            virtualCamera.LookAt = cameraRoot;
-        }
-        else
-        {
-            Debug.LogWarning("Camera root not found on " + newCharacter.name);
-        }
-
-        // Trigger any events (if you have subscribers).
+        // Fire event so UI or others can respond
         SwitchPlayer?.Invoke();
     }
 
-
-    // Helper function to find the PlayerCameraRoot transform in a character.
+    /// <summary>
+    /// Returns the "PlayerCameraRoot" child from a character, used for Cinemachine Follow/LookAt.
+    /// </summary>
     Transform GetCameraRoot(GameObject character)
     {
         return character.transform.Find(cameraRootName);
     }
+
+    /// <summary>
+    /// Example: checks if all players are dead, then resets them.
+    /// (Your existing code can remain the same.)
+    /// </summary>
     private IEnumerator CheckAllPlayersDead()
     {
         while (true)
@@ -224,41 +238,56 @@ public class CharacterManager : MonoBehaviour
             foreach (GameObject character in characters)
             {
                 PlayerHealth ph = character.GetComponent<PlayerHealth>();
-                // If any character has health above 0, they're alive.
                 if (ph != null && ph.CurrentHealth > 0)
                 {
                     allDead = false;
                     break;
                 }
             }
+
             if (allDead)
             {
-                // All players are dead.
-                Debug.Log("All players are dead. Resetting health and moving to start position.");
-                // Move all characters to start position and reset health.
+                Debug.Log("All players dead. Resetting health and moving to startPosition.");
                 foreach (GameObject character in characters)
                 {
-                    character.transform.position = startPosition.position;
+                    if (startPosition)
+                    {
+                        character.transform.position = startPosition.position;
+                        character.transform.rotation = startPosition.rotation;
+                    }
                     PlayerHealth ph = character.GetComponent<PlayerHealth>();
                     if (ph != null)
                     {
                         ph.ResetHealth();
                     }
-                    // Optionally, you might want to activate all characters if they were deactivated.
                     character.SetActive(true);
                 }
-                // Optionally, switch the active character to the first in the list.
+
+                // Make sure the camera is following the first character now
                 currentCharacterIndex = 0;
-                Transform cameraRoot = GetCameraRoot(characters[currentCharacterIndex]);
-                if (cameraRoot != null)
+                GameObject newChar = characters[currentCharacterIndex];
+                if (virtualCamera != null)
                 {
-                    virtualCamera.Follow = cameraRoot;
-                    virtualCamera.LookAt = cameraRoot;
+                    Transform newCameraRoot = GetCameraRoot(newChar);
+                    if (newCameraRoot != null)
+                    {
+                        virtualCamera.Follow = newCameraRoot;
+                        virtualCamera.LookAt = newCameraRoot;
+                    }
                 }
-                // Once reset, break out or continue checking as needed.
                 break;
             }
+
             yield return new WaitForSeconds(1f);
+        }
+    }
+
+    private void Update()
+    {
+        // Switch character with “C” key, for testing
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            SwitchCharacter();
         }
     }
 }

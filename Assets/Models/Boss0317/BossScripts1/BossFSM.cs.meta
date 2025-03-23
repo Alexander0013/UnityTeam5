@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 6a6d8625a6650684ab525a3226086f6a
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - bossnpcData: {fileID: 11400000, guid: 4ff9992460b5e214d9c6949131080965, type: 2}
+  - handHitPoint: {instanceID: 0}
+  - jumpHitPoint: {instanceID: 0}
+  - animator: {instanceID: 0}
+  - playerTarget: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
