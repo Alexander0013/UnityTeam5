@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class SceneController : MonoBehaviour
 {   
     public CanvasGroup fadeCanvasGroup;  
-    public float fadeDuration = 1f;      // ²H¤J²H¥X°Êµe«ùÄò®É¶¡
+    public float fadeDuration = 1f;      // ï¿½Hï¿½Jï¿½Hï¿½Xï¿½Êµeï¿½ï¿½ï¿½ï¿½É¶ï¿½
 
 
     public static SceneController instance;
@@ -15,7 +15,7 @@ public class SceneController : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject); // Á×§K³õ´º¤Á´«®ÉºR·´ª«¥ó
+            DontDestroyOnLoad(gameObject); // ï¿½×§Kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÉºRï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         }
         else
         {
@@ -41,7 +41,7 @@ public class SceneController : MonoBehaviour
         //Camera currentCamera = Camera.main;
         //if (currentCamera != null)
         //{
-        //    currentCamera.gameObject.SetActive(false);  // ¸T¥ÎÂÂ³õ´ºªº¬Û¾÷
+        //    currentCamera.gameObject.SetActive(false);  // ï¿½Tï¿½ï¿½ï¿½Â³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¾ï¿½
         //}
 
         //if (currentSceneIndex != 1)
@@ -49,11 +49,16 @@ public class SceneController : MonoBehaviour
         //    SceneManager.UnloadSceneAsync(currentSceneIndex);
         //}
         SceneManager.UnloadSceneAsync(currentSceneIndex);
-        // °õ¦æ²H¤J°Êµe
+        // ï¿½ï¿½ï¿½ï¿½Hï¿½Jï¿½Êµe
         yield return StartCoroutine(Fade(0));
+        // 5) **Notify CharacterManager** that the new scene is ready
+        if (CharacterManager.instance != null)
+        {
+            CharacterManager.instance.OnSceneSwitchComplete(buildIndex);
+        }
     }
 
-    // ±±¨î³z©ú«×ªº²H¤J²H¥X¹Lµ{
+    // ï¿½ï¿½ï¿½ï¿½zï¿½ï¿½ï¿½×ªï¿½ï¿½Hï¿½Jï¿½Hï¿½Xï¿½Lï¿½{
     private IEnumerator Fade(float targetAlpha)
     {
         float startAlpha = fadeCanvasGroup.alpha;
