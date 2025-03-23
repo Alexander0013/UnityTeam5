@@ -2546,8 +2546,8 @@ MonoBehaviour:
   attackClip: {fileID: 0}
   getHitClip: {fileID: 8300000, guid: 0da850e751e7548e0a6e265604a42e70, type: 3}
   dieClip: {fileID: 8300000, guid: 17fdbba640fa54bf7a446f45c4fb1f25, type: 3}
-  idleSoundDelayMin: 10
-  idleSoundDelayMax: 20
+  idleSoundDelayMin: 30
+  idleSoundDelayMax: 40
 --- !u!1 &7538192910552991007
 GameObject:
   m_ObjectHideFlags: 0

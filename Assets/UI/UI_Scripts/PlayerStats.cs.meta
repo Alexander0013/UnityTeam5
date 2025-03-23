@@ -3,7 +3,15 @@ guid: 86865c3e87b6e6146bf9dcd962a4cdcb
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - AttackData_A: {fileID: 11400000, guid: 031d10717e65a48f49b0e197dd525f57, type: 2}
+  - AttackData_B: {fileID: 11400000, guid: 2aeb211d0910a8d4fb7e2576561484ca, type: 2}
+  - damageText_A: {instanceID: 0}
+  - healthText_A: {instanceID: 0}
+  - damageText_B: {instanceID: 0}
+  - healthText_B: {instanceID: 0}
+  - stat_A: {instanceID: 0}
+  - stat_B: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

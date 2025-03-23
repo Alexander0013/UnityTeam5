@@ -84,14 +84,15 @@ public class CombatController : MonoBehaviour
     }
 
     // Damage calculation: use the spawnPosition as the origin.
-    float damage = playerAttackData.baseDamage * playerAttackData.comboMultiplier;
+    PlayerHealth ph = GetComponentInParent<PlayerHealth>();
+    float finalDamage = ph.currentDamage * ph.playerAttackData.comboMultiplier;
     Collider[] hitColliders = Physics.OverlapSphere(spawnPosition, playerAttackData.hitRadius, playerAttackData.enemyLayers);
     foreach (Collider hit in hitColliders)
     {
         IDamageable damageable = hit.GetComponent<IDamageable>();
         if (damageable != null)
         {
-            damageable.TakeDamage(damage);
+            damageable.TakeDamage(finalDamage);
             // Apply element effect if applicable.
             ElementalStatus targetStatus = hit.GetComponent<ElementalStatus>();
             if (targetStatus != null)

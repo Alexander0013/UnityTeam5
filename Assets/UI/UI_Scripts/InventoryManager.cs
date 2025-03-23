@@ -47,6 +47,7 @@ public class InventoryManager : MonoBehaviour
     //Alex
     void Awake()
     {
+        Debug.Log("InventoryManager Awake");
         if (instance != null)
         {
             Destroy(this);

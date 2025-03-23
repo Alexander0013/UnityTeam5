@@ -202,24 +202,6 @@ CanvasGroup:
     type: 3}
   m_PrefabInstance: {fileID: 3347057393591357416}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &858068366 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4295093001741949955, guid: 3cf78b430d9a34d56bdf0411be6fb3db,
-    type: 3}
-  m_PrefabInstance: {fileID: 1239573505}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &858068367
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 858068366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93644358062bad540a5913faf70acab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!20 &858068373 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 1089887977959367412, guid: 3cf78b430d9a34d56bdf0411be6fb3db,
@@ -491,11 +473,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1089887977959367412, guid: 3cf78b430d9a34d56bdf0411be6fb3db,
-        type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 2039
-      objectReference: {fileID: 0}
     - target: {fileID: 4295093001741949955, guid: 3cf78b430d9a34d56bdf0411be6fb3db,
         type: 3}
       propertyPath: m_Name
@@ -504,11 +481,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4295093001741949955, guid: 3cf78b430d9a34d56bdf0411be6fb3db,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 858068367}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3cf78b430d9a34d56bdf0411be6fb3db, type: 3}
 --- !u!328 &1412739462 stripped
 VideoPlayer:

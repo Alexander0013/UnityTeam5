@@ -29,6 +29,7 @@ public class WeaponController : MonoBehaviour
     }
     void OnEnable() 
     {
+        Debug.Log("weapon Awake");
         InventoryManager.instance.onEquipmentChanged += OnEquipmentChanged;
     }
     void OnDisable() 
