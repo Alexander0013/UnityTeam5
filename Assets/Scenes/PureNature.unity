@@ -1142,26 +1142,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2254989138775942802, guid: a22076e59faa7854d97901b8c06d7771,
-        type: 3}
-      propertyPath: Player_A
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2254989138775942802, guid: a22076e59faa7854d97901b8c06d7771,
-        type: 3}
-      propertyPath: Player_B
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2254989138775942802, guid: a22076e59faa7854d97901b8c06d7771,
-        type: 3}
-      propertyPath: CharacterManager
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4615433496150969077, guid: a22076e59faa7854d97901b8c06d7771,
-        type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 2049
-      objectReference: {fileID: 0}
     - target: {fileID: 4878194177456623458, guid: a22076e59faa7854d97901b8c06d7771,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1622,6 +1602,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 4295093001741949955, guid: 3cf78b430d9a34d56bdf0411be6fb3db,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -35,23 +35,10 @@ public class SceneController : MonoBehaviour
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
         AsyncOperation loadOperation = SceneManager.LoadSceneAsync(buildIndex, LoadSceneMode.Additive);
-
         yield return new WaitUntil(() => loadOperation.isDone);
 
-        //Camera currentCamera = Camera.main;
-        //if (currentCamera != null)
-        //{
-        //    currentCamera.gameObject.SetActive(false);  // �T���³������۾�
-        //}
-
-        //if (currentSceneIndex != 1)
-        //{
-        //    SceneManager.UnloadSceneAsync(currentSceneIndex);
-        //}
         SceneManager.UnloadSceneAsync(currentSceneIndex);
-        // ����H�J�ʵe
         yield return StartCoroutine(Fade(0));
-        // 5) **Notify CharacterManager** that the new scene is ready
         if (CharacterManager.instance != null)
         {
             CharacterManager.instance.OnSceneSwitchComplete(buildIndex);

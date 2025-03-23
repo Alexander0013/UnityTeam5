@@ -71,7 +71,7 @@ public class UI_Manager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            SceneManager.sceneLoaded += OnSceneLoaded;
+            
             DontDestroyOnLoad(gameObject); // 避免場景切換時摧毀物件
         }
         else
@@ -83,6 +83,7 @@ public class UI_Manager : MonoBehaviour
     public void OnEnable()
     {
         StartCoroutine(WaitForDM());
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     public void OnDisable()
