@@ -68,7 +68,7 @@ public class UI_Manager : MonoBehaviour
     public Dialogue dialogue;
     public bool isTriggered = false;
 
-    //Protal
+    //Protal&Tip
     public GameObject interactionText; 
     public bool inProtalRange = false;
     public int targetSceneIndex;
@@ -95,24 +95,26 @@ public class UI_Manager : MonoBehaviour
 
     public void OnDisable()
     {
-        if (characterManager != null)
-        {
-            characterManager.SwitchPlayer -= SwitchPlayerHealthBar;
-            characterManager.SwitchPlayer -= UpdatePlayerReference;
-        }
-        if (DialogueManager.instance != null)
-        {
-            DialogueManager.instance.missonStart -= GetMission;
-        }
-        //characterManager.SwitchPlayer -= SwitchPlayerHealthBar;
-        //characterManager.SwitchPlayer -= UpdatePlayerReference;
-        //DialogueManager.instance.missonStart -= GetMission;
+        //if (characterManager != null)
+        //{
+        //    characterManager.SwitchPlayer -= SwitchPlayerHealthBar;
+        //    characterManager.SwitchPlayer -= UpdatePlayerReference;
+        //}
+        //if (DialogueManager.instance != null)
+        //{
+        //    DialogueManager.instance.missonStart -= GetMission;
+        //}
+        characterManager.SwitchPlayer -= SwitchPlayerHealthBar;
+        characterManager.SwitchPlayer -= UpdatePlayerReference;
+        DialogueManager.instance.missonStart -= GetMission;
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     void Start()
     {
         IsReady = false;
+        interactionText.SetActive(false);
+        bossHealthBar.SetActive(false);
 
         canvasGroup_A = playerHealthBar_A.GetComponent<CanvasGroup>();
         canvasGroup_B = playerHealthBar_B.GetComponent<CanvasGroup>();
@@ -132,7 +134,7 @@ public class UI_Manager : MonoBehaviour
     {
         IsReady = false;
         
-        if (scene.name == "Temple")
+        if (scene.name == "Temple" )
         {
             taskTipText = taskTip.GetComponentInChildren<TextMeshProUGUI>();
         }
@@ -140,6 +142,7 @@ public class UI_Manager : MonoBehaviour
         {
             StartCoroutine(GenerateHealthBarsForEnemies());
             bossHealthBar.SetActive(true);
+            bossHealthBar.GetComponent<CanvasGroup>().alpha = 0;
         }
 
         IsReady = true;
@@ -161,14 +164,14 @@ public class UI_Manager : MonoBehaviour
         {
             OpenBag();
         }
-
+        //Protal
         if (inProtalRange && Input.GetKeyDown(KeyCode.E))
         {
             SceneController.instance.StartCoroutine(SceneController.instance.FadeOutAndLoadSingle(targetSceneIndex));
             inProtalRange = false;
             UI_Manager.instance.HideInteractionText();
         }
-
+        //Dialogue
         if (inDialogueRange && Input.GetKeyDown(KeyCode.E))
         {
             TriggerDialogue(dialogue,isTriggered);
@@ -178,6 +181,7 @@ public class UI_Manager : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        //Enemy HealthBar
         foreach (var healthBar in healthBars.Values)
         {
             healthBar.UpdateHealthBarPos();
@@ -305,16 +309,13 @@ public class UI_Manager : MonoBehaviour
     //Enemy HealthBar
     public void CreateEnemyHealthBar(GameObject enemy)
     {
-        // �Ыئ������
         GameObject healthBarObject = Instantiate(healthBarPrefab, EnemyHealthBarSpqwn);
         healthBarObject.transform.localScale = new Vector3(1, 1, 1);
         healthBarObject.transform.localRotation = Quaternion.identity;
 
-        // ��l�Ʀ�����
         EnemyHealthBar healthBarScript = healthBarObject.GetComponent<EnemyHealthBar>();
         healthBarScript.InitializeHealthBar(enemy);
 
-        // ���U�� UIManager
         healthBars.Add(enemy, healthBarScript);
     }
     IEnumerator GenerateHealthBarsForEnemies()

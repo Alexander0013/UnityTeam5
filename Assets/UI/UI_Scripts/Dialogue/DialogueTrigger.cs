@@ -35,7 +35,7 @@ public class DialogueTrigger : MonoBehaviour
     {
         if (button != null)
         {
-            button.transform.position = Camera.main.WorldToScreenPoint(buttonTransform.position /*+ buttonOffset*/);
+            button.transform.position = Camera.main.WorldToScreenPoint(buttonTransform.position);
         }
     }
 
@@ -43,7 +43,7 @@ public class DialogueTrigger : MonoBehaviour
     void GetDialogueButton()
     {
         button = Instantiate(ButtonPrefab, UI_Manager.instance.canvas.transform);
-        button.transform.position = Camera.main.WorldToScreenPoint(buttonTransform.position /*+ buttonOffset*/);
+        button.transform.position = Camera.main.WorldToScreenPoint(buttonTransform.position);
     }
 
 }
