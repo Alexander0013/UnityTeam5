@@ -164,7 +164,7 @@ public class UI_Manager : MonoBehaviour
 
         if (inProtalRange && Input.GetKeyDown(KeyCode.E))
         {
-            SceneController.instance.StartCoroutine(SceneController.instance.FadeOutAndLoad(targetSceneIndex));
+            SceneController.instance.StartCoroutine(SceneController.instance.FadeOutAndLoadSingle(targetSceneIndex));
             inProtalRange = false;
             UI_Manager.instance.HideInteractionText();
         }
