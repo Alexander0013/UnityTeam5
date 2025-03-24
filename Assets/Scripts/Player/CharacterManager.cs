@@ -54,13 +54,13 @@ public class CharacterManager : MonoBehaviour
         // Activate the first character
         ActivateInitialCharacter();
     }
-    
-    /// <summary>
-    /// This is called automatically by Unity after a scene finishes loading,
-    /// because we subscribed in OnEnable().
-    /// </summary>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        StartCoroutine(WaitThenPlacePlayer(scene));
+    }
+    private IEnumerator WaitThenPlacePlayer(Scene scene)
+    {
+        yield return null;
         Debug.Log("[CharacterManager] OnSceneLoaded called for scene: " + scene.name);
 
         // 1) Find the Cinemachine virtual camera in the new scene
@@ -111,6 +111,11 @@ public class CharacterManager : MonoBehaviour
             }
         }
     }
+    /// <summary>
+    /// This is called automatically by Unity after a scene finishes loading,
+    /// because we subscribed in OnEnable().
+    /// </summary>
+    
     
     
     public void OnSceneSwitchComplete(int sceneIndex)
