@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using StarterAssets;
 using UnityEngine.InputSystem;
 using TMPro;
-using static UnityEditor.Progress;
+//using static UnityEditor.Progress;
 using UnityEngine.SceneManagement;
 using System;
 
@@ -79,7 +79,7 @@ public class UI_Manager : MonoBehaviour
         {
             instance = this;
             
-            DontDestroyOnLoad(gameObject); // Á×§K³õ´º¤Á´«®ÉºR·´ª«¥ó
+            DontDestroyOnLoad(gameObject); // ï¿½×§Kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÉºRï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         }
         else
         {
@@ -95,9 +95,18 @@ public class UI_Manager : MonoBehaviour
 
     public void OnDisable()
     {
-        characterManager.SwitchPlayer -= SwitchPlayerHealthBar;
-        characterManager.SwitchPlayer -= UpdatePlayerReference;
-        DialogueManager.instance.missonStart -= GetMission;
+        if (characterManager != null)
+        {
+            characterManager.SwitchPlayer -= SwitchPlayerHealthBar;
+            characterManager.SwitchPlayer -= UpdatePlayerReference;
+        }
+        if (DialogueManager.instance != null)
+        {
+            DialogueManager.instance.missonStart -= GetMission;
+        }
+        //characterManager.SwitchPlayer -= SwitchPlayerHealthBar;
+        //characterManager.SwitchPlayer -= UpdatePlayerReference;
+        //DialogueManager.instance.missonStart -= GetMission;
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
@@ -155,7 +164,7 @@ public class UI_Manager : MonoBehaviour
 
         if (inProtalRange && Input.GetKeyDown(KeyCode.E))
         {
-            SceneController.instance.StartCoroutine(SceneController.instance.FadeOutAndLoad(targetSceneIndex));
+            SceneController.instance.StartCoroutine(SceneController.instance.FadeOutAndLoadSingle(targetSceneIndex));
             inProtalRange = false;
             UI_Manager.instance.HideInteractionText();
         }
@@ -296,16 +305,16 @@ public class UI_Manager : MonoBehaviour
     //Enemy HealthBar
     public void CreateEnemyHealthBar(GameObject enemy)
     {
-        // ³Ð«Ø¦å±øª«¥ó
+        // ï¿½Ð«Ø¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         GameObject healthBarObject = Instantiate(healthBarPrefab, EnemyHealthBarSpqwn);
         healthBarObject.transform.localScale = new Vector3(1, 1, 1);
         healthBarObject.transform.localRotation = Quaternion.identity;
 
-        // ªì©l¤Æ¦å±ø±±¨î¾¹
+        // ï¿½ï¿½lï¿½Æ¦ï¿½ï¿½ï¿½ï¿½ï¿½î¾¹
         EnemyHealthBar healthBarScript = healthBarObject.GetComponent<EnemyHealthBar>();
         healthBarScript.InitializeHealthBar(enemy);
 
-        // µù¥U¨ì UIManager
+        // ï¿½ï¿½ï¿½Uï¿½ï¿½ UIManager
         healthBars.Add(enemy, healthBarScript);
     }
     IEnumerator GenerateHealthBarsForEnemies()
@@ -411,18 +420,18 @@ public class UI_Manager : MonoBehaviour
     void GetMission()
     {
         taskTip.SetActive(true);
-        taskTipText.text = "¦¬¶°¥ô°È¹D¨ã¡]0/5¡^";
+        taskTipText.text = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¹Dï¿½ï¿½]0/5ï¿½^";
 
     }
     public void RegisterItemGiver(ItemGiver itemGiver)
     {
-        // µù¥Uª««~¨Æ¥ó
+        // ï¿½ï¿½ï¿½Uï¿½ï¿½ï¿½~ï¿½Æ¥ï¿½
         itemGivers.Add(itemGiver);
         itemGiver.ItemAdded += OnItemAdded;
     }
     public void UnregisterItemGiver(ItemGiver itemGiver)
     {
-        // ¨ú®ø­q¾\ª««~¨Æ¥ó
+        // ï¿½ï¿½ï¿½ï¿½ï¿½qï¿½\ï¿½ï¿½ï¿½~ï¿½Æ¥ï¿½
         itemGiver.ItemAdded -= OnItemAdded;
         itemGivers.Remove(itemGiver);
     }
@@ -431,7 +440,7 @@ public class UI_Manager : MonoBehaviour
         if (item.itemType == Item.ItemType.Other)
         {
             
-            taskTipText.text = "¦¬¶°¥ô°È¹D¨ã¡]"+item.itemHeld+"/5¡^";
+            taskTipText.text = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¹Dï¿½ï¿½]"+item.itemHeld+"/5ï¿½^";
         }
     }
 

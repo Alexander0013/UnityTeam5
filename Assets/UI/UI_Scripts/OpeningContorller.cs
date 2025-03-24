@@ -81,7 +81,8 @@ public class OpeningContorller : MonoBehaviour
     }
     void OnVideoEnd(VideoPlayer vp)
     {
-        StartCoroutine(SceneController.instance.FadeOutAndLoad(1));
+        StartCoroutine(SceneController.instance.FadeOutAndLoadSingle(1));
+
     }
 
     public void OnQuitButtonClick()

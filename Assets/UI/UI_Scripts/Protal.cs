@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,7 +9,7 @@ public class Protal : MonoBehaviour
     {
         if (other.CompareTag("Player"))  
         {
-            UI_Manager.instance.ShowInteractionText("«öE¶Ç°e");
+            UI_Manager.instance.ShowInteractionText("ï¿½ï¿½Eï¿½Ç°e");
             UI_Manager.instance.inProtalRange = true;
             UI_Manager.instance.targetSceneIndex = targetSceneIndex;
         }

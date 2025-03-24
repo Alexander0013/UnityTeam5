@@ -33,9 +33,9 @@ public class ArcherIdleState : EnemyBaseState
             }
             else
             {
-                enemy.TransitionToState(((ArcherFSM)enemy).idleState);
+                idleTime = Random.Range(minIdle, maxIdle);
             }
-        }    
+        }
         // Otherwise, remain idle.
     }
 
