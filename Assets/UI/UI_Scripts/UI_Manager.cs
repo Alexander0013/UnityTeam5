@@ -6,9 +6,7 @@ using UnityEngine.UI;
 using StarterAssets;
 using UnityEngine.InputSystem;
 using TMPro;
-//using static UnityEditor.Progress;
 using UnityEngine.SceneManagement;
-using System;
 
 public class UI_Manager : MonoBehaviour
 {
@@ -68,6 +66,9 @@ public class UI_Manager : MonoBehaviour
     public Dialogue dialogue;
     public bool isTriggered = false;
 
+    public delegate void StartDialogue();
+    public StartDialogue startDialogue;
+
     //Protal&Tip
     public GameObject interactionText; 
     public bool inProtalRange = false;
@@ -85,12 +86,14 @@ public class UI_Manager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        Debug.Log("UI_Manager.instance"+UI_Manager.instance);
     }
 
     public void OnEnable()
     {
         StartCoroutine(WaitForDM());
         SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
     public void OnDisable()
@@ -108,6 +111,7 @@ public class UI_Manager : MonoBehaviour
         characterManager.SwitchPlayer -= UpdatePlayerReference;
         DialogueManager.instance.missonStart -= GetMission;
         SceneManager.sceneLoaded -= OnSceneLoaded;
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
     void Start()
@@ -134,18 +138,29 @@ public class UI_Manager : MonoBehaviour
     {
         IsReady = false;
         
-        if (scene.name == "Temple" )
+        if (scene.buildIndex == 1 )
         {
             taskTipText = taskTip.GetComponentInChildren<TextMeshProUGUI>();
         }
-        if (scene.name =="PureNature")
+        if (scene.buildIndex == 2)
         {
             StartCoroutine(GenerateHealthBarsForEnemies());
             bossHealthBar.SetActive(true);
             bossHealthBar.GetComponent<CanvasGroup>().alpha = 0;
-        }
+        }       
 
         IsReady = true;
+    }
+
+    void OnSceneUnloaded(Scene scene)
+    {
+        if (scene.buildIndex == 2)
+        {
+            foreach (var enemy in healthBars.Keys)
+            {
+                UnregisterHealthBar(enemy);
+            }
+        }        
     }
     void InitializeSceneObjects()
     {
@@ -462,7 +477,7 @@ public class UI_Manager : MonoBehaviour
         if (!isTriggered)
         {
             DialogueManager.instance.StartDialogue(dialogue);
-            isTriggered = true;
+            startDialogue?.Invoke();
         }
         else
         {

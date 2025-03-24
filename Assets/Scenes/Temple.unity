@@ -1020,18 +1020,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c17d09dc217d924468eb89838becfbb4, type: 3}
---- !u!114 &2103920916 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4133753217095070466, guid: 1a936bf5f8eff4aaa831c16eb332f15d,
-    type: 3}
-  m_PrefabInstance: {fileID: 1333696957}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b1ed31b960304975b0de348188c97b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &81911339447138089
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1040,36 +1028,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2254989138775942802, guid: a22076e59faa7854d97901b8c06d7771,
-        type: 3}
-      propertyPath: Player_A
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2254989138775942802, guid: a22076e59faa7854d97901b8c06d7771,
-        type: 3}
-      propertyPath: Player_B
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2254989138775942802, guid: a22076e59faa7854d97901b8c06d7771,
-        type: 3}
-      propertyPath: CharacterManager
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2254989138775942802, guid: a22076e59faa7854d97901b8c06d7771,
-        type: 3}
-      propertyPath: characterManager
-      value: 
-      objectReference: {fileID: 2103920916}
-    - target: {fileID: 4615433496150969077, guid: a22076e59faa7854d97901b8c06d7771,
-        type: 3}
-      propertyPath: orthographic size
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4615433496150969077, guid: a22076e59faa7854d97901b8c06d7771,
-        type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 2048
-      objectReference: {fileID: 0}
     - target: {fileID: 4878194177456623458, guid: a22076e59faa7854d97901b8c06d7771,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1124,11 +1082,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MiniMapCamera
-      objectReference: {fileID: 0}
-    - target: {fileID: 6279282829390482694, guid: a22076e59faa7854d97901b8c06d7771,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1316,7 +1269,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: MiniMap_Temple
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 214966424952064998, guid: 5d803e93781ad474181a10c5b557f8bf, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

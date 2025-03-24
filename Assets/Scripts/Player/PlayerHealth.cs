@@ -17,7 +17,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private Animator animator;
     private PlayerShield playerShield; // Reference to the shield component.
-    public event System.Action<float> OnHealthChanged; 
+    public event System.Action<float,float> OnHealthChanged; 
     public float CurrentHealth
     {
         get { return currentHealth; }
@@ -26,7 +26,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             if (currentHealth != value)
             {
                 currentHealth = value;
-                OnHealthChanged?.Invoke(currentHealth);
+                OnHealthChanged?.Invoke(currentHealth,maxHealth);
             }
         }
     }
@@ -83,7 +83,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         CurrentHealth += modifier;
         if (CurrentHealth > maxHealth)
             CurrentHealth = maxHealth;
-        OnHealthChanged?.Invoke(CurrentHealth);
+        OnHealthChanged?.Invoke(CurrentHealth, maxHealth);
     }
     private void UpdateDamageWithModifier(float modifier)
     {
@@ -106,7 +106,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         playerShield = GetComponent<PlayerShield>(); // Cache the shield component.
         Debug.Log("Player Health Initialized: " + currentHealth);
 
-        OnHealthChanged?.Invoke(currentHealth);
+        OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
 
     /// <summary>

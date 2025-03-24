@@ -20,9 +20,8 @@ public class PlayerHealthBar : HealthBar
     {
         if (playerHealth != null)
         {
-            playerHealth.OnHealthChanged -= UpdateHealthBar;
+            playerHealth.OnHealthChanged -= UpdatePlayerHealthBar;
         }
-        //playerHealth.OnHealthChanged -= UpdateHealthBar;
     }
 
     protected virtual void Start()
@@ -32,22 +31,27 @@ public class PlayerHealthBar : HealthBar
     }
 
      IEnumerator WaitUntilUIIsReady()
-    {
+     {
         while (UI_Manager.instance.IsReady !=true)
         {
             yield return null;
         }
         yield return new WaitForSeconds(0.01f);
-        playerHealth.OnHealthChanged += UpdateHealthBar;
+        playerHealth.OnHealthChanged += UpdatePlayerHealthBar;
+        
         SetHealthBar(playerHealth.playerAttackData.health);
         UpdateHealthBarText();
         yield return null;
-    }
+     }
 
-    protected override void UpdateHealthBar(float targetValue)
+    public void UpdatePlayerHealthBar(float currentHealth,float maxHealth)
     {
-        base.UpdateHealthBar(targetValue);
-
+        base.UpdateHealthBar(currentHealth);
+        mainSlider.maxValue = maxHealth;
+        if (yellowSlider != null)
+        {
+            yellowSlider.maxValue = maxHealth;
+        }        
         UpdateHealthBarText();
         StartCoroutine(SmoothColorChange());
     }
@@ -73,7 +77,8 @@ public class PlayerHealthBar : HealthBar
         if (healthBarText != null)
         {
             healthBarText.text = mainSlider.value.ToString() + " / " + mainSlider.maxValue.ToString();
-        }
-        
+        }        
     }
+
+    
 }

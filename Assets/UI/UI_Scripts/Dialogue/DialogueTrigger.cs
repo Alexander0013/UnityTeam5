@@ -9,6 +9,14 @@ public class DialogueTrigger : MonoBehaviour
     public Transform buttonTransform;
     GameObject button;
 
+    void Start()
+    {
+        UI_Manager.instance.startDialogue+= StartDialogue;
+    }
+    void OnDisable()
+    {
+        UI_Manager.instance.startDialogue -= StartDialogue;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -44,6 +52,11 @@ public class DialogueTrigger : MonoBehaviour
     {
         button = Instantiate(ButtonPrefab, UI_Manager.instance.canvas.transform);
         button.transform.position = Camera.main.WorldToScreenPoint(buttonTransform.position);
+    }
+
+    void StartDialogue()
+    {
+        Destroy(button);
     }
 
 }

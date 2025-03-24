@@ -80,8 +80,7 @@ public class EnemyHealthBar : HealthBar
             }
         }
     }
-   
-
+    
     IEnumerator FadeOutHealthBar(float targetAlpha)
     {
         if (!isFading)
