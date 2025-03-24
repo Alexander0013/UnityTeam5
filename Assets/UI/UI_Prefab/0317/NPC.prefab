@@ -2268,7 +2268,6 @@ MonoBehaviour:
     - "\u90A3\u4E8B\u4E0D\u5B9C\u9072\uFF0C\u9019\u4E9B\u88DC\u7D66\u54C1\u5C31\u7576\u4F5C\u662F\u7D66\u4F60\u7684\u8A02\u91D1\uFF0C\u8DEF\u4E0A\u5C0F\u5FC3\u3002"
   ButtonPrefab: {fileID: 7595613025379501571, guid: 16b571ba1f3f14543869641504eba688,
     type: 3}
-  distenceWithPlayer: 3
   buttonTransform: {fileID: 6158265282270998478}
 --- !u!1 &3454948034517600922
 GameObject:
@@ -3301,7 +3300,7 @@ Transform:
   m_GameObject: {fileID: 4889811061194368248}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.08, z: -1.33}
+  m_LocalPosition: {x: 0, y: 1.8, z: -1.33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
