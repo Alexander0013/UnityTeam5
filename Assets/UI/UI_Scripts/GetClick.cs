@@ -81,11 +81,11 @@ public class GetClick : MonoBehaviour, IPointerClickHandler
                 menuScript.SetTargetItem(slot); // 設定當前物品
                 if (slot.slotItem is Equipment)
                 {
-                    menuScript.SetUseButtonText("Equip");
+                    menuScript.SetUseButtonText("裝備");
                 }
                 else
                 {
-                    menuScript.SetUseButtonText("Use");
+                    menuScript.SetUseButtonText("使用");
                 }
             }
         }

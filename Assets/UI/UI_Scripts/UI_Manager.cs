@@ -79,7 +79,7 @@ public class UI_Manager : MonoBehaviour
         {
             instance = this;
             
-            DontDestroyOnLoad(gameObject); // �קK���������ɺR������
+            DontDestroyOnLoad(gameObject); 
         }
         else
         {
@@ -420,18 +420,16 @@ public class UI_Manager : MonoBehaviour
     void GetMission()
     {
         taskTip.SetActive(true);
-        taskTipText.text = "�������ȹD��]0/5�^";
+        taskTipText.text = "任務道具(0/5)";
 
     }
     public void RegisterItemGiver(ItemGiver itemGiver)
     {
-        // ���U���~�ƥ�
         itemGivers.Add(itemGiver);
         itemGiver.ItemAdded += OnItemAdded;
     }
     public void UnregisterItemGiver(ItemGiver itemGiver)
     {
-        // �����q�\���~�ƥ�
         itemGiver.ItemAdded -= OnItemAdded;
         itemGivers.Remove(itemGiver);
     }
@@ -440,7 +438,7 @@ public class UI_Manager : MonoBehaviour
         if (item.itemType == Item.ItemType.Other)
         {
             
-            taskTipText.text = "�������ȹD��]"+item.itemHeld+"/5�^";
+            taskTipText.text = "任務道具(" + item.itemHeld+ "/5)";
         }
     }
 

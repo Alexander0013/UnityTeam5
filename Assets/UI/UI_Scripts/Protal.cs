@@ -9,7 +9,7 @@ public class Protal : MonoBehaviour
     {
         if (other.CompareTag("Player"))  
         {
-            UI_Manager.instance.ShowInteractionText("��E�ǰe");
+            UI_Manager.instance.ShowInteractionText("按E傳送");
             UI_Manager.instance.inProtalRange = true;
             UI_Manager.instance.targetSceneIndex = targetSceneIndex;
         }
