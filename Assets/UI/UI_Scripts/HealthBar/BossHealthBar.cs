@@ -11,7 +11,7 @@ public class BossHealthBar : HealthBar
     bool isFading=false;
     public float fadeSpeed;
 
-
+    //If fight with player-> canvasGroup.alpha = 1
 
     public void OnEnable()
     {
