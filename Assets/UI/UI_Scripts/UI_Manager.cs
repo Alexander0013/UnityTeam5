@@ -63,8 +63,15 @@ public class UI_Manager : MonoBehaviour
     TextMeshProUGUI taskTipText;
     private List<ItemGiver> itemGivers = new List<ItemGiver>();
 
+    //Dialogue
+    public bool inDialogueRange = false;
+    public Dialogue dialogue;
+    public bool isTriggered = false;
+
     //Protal
     public GameObject interactionText; 
+    public bool inProtalRange = false;
+    public int targetSceneIndex;
 
     void Awake()
     {
@@ -137,7 +144,6 @@ public class UI_Manager : MonoBehaviour
 
         IsReady = true;
     }
-
     void InitializeSceneObjects()
     {
         //mainCamera = FindObjectOfType<Camera>();
@@ -155,7 +161,21 @@ public class UI_Manager : MonoBehaviour
         {
             OpenBag();
         }
-    }    
+
+        if (inProtalRange && Input.GetKeyDown(KeyCode.E))
+        {
+            SceneController.instance.StartCoroutine(SceneController.instance.FadeOutAndLoad(targetSceneIndex));
+            inProtalRange = false;
+            UI_Manager.instance.HideInteractionText();
+        }
+
+        if (inDialogueRange && Input.GetKeyDown(KeyCode.E))
+        {
+            TriggerDialogue(dialogue,isTriggered);
+            isTriggered = true;
+            UI_Manager.instance.HideInteractionText();
+        }
+    }
     private void FixedUpdate()
     {
         foreach (var healthBar in healthBars.Values)
@@ -435,5 +455,19 @@ public class UI_Manager : MonoBehaviour
     public void HideInteractionText()
     {
         interactionText.SetActive(false);  
+    }
+
+    //Dialogue
+    public void TriggerDialogue(Dialogue dialogue,bool isTriggered)
+    {
+        if (!isTriggered)
+        {
+            DialogueManager.instance.StartDialogue(dialogue);
+            isTriggered = true;
+        }
+        else
+        {
+            DialogueManager.instance.DisplayNextSentence();
+        }
     }
 }
