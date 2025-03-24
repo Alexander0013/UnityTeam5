@@ -41,7 +41,7 @@ public class HealthBar : MonoBehaviour
         if (yellowSlider != null)
         {
             isRunning = true;
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
 
             while (Mathf.Abs(yellowSlider.value - yellowBarTarget) > 0.01f) // Á×§KµL½a°j°é
             {
@@ -51,6 +51,4 @@ public class HealthBar : MonoBehaviour
             isRunning = false;
         }        
     }
-
-   
 }
