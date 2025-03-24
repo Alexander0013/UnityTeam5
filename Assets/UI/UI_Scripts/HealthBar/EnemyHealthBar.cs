@@ -23,9 +23,6 @@ public class EnemyHealthBar : HealthBar
     bool isFading = false;
     float targetAlpha;
 
-
-
-
     public void InitializeHealthBar(GameObject enemy)
     {
         this.Enemy = enemy;

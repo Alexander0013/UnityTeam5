@@ -30,19 +30,21 @@ public class PlayerHealthBar : HealthBar
         fill.color = gradient.Evaluate(1f);
     }
 
-     IEnumerator WaitUntilUIIsReady()
-     {
-        while (UI_Manager.instance.IsReady !=true)
+    IEnumerator WaitUntilUIIsReady()
+    {
+        while (UI_Manager.instance.player == null)
         {
             yield return null;
         }
         yield return new WaitForSeconds(0.01f);
+
         playerHealth.OnHealthChanged += UpdatePlayerHealthBar;
-        
+
         SetHealthBar(playerHealth.playerAttackData.health);
         UpdateHealthBarText();
         yield return null;
-     }
+    }
+
 
     public void UpdatePlayerHealthBar(float currentHealth,float maxHealth)
     {

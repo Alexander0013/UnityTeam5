@@ -74,7 +74,7 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator TypeSentence(string sentence)
     {
-        Debug.Log("sentence = " + sentence);
+        //Debug.Log("sentence = " + sentence);
         dialogueText.text = "";
         foreach (char letter in sentence.ToCharArray())
         {
@@ -88,4 +88,6 @@ public class DialogueManager : MonoBehaviour
         animator.SetBool("IsTalking", false);
         missonStart?.Invoke();
     }
+
+    
 }

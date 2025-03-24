@@ -86,27 +86,16 @@ public class UI_Manager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        Debug.Log("UI_Manager.instance"+UI_Manager.instance);
     }
 
     public void OnEnable()
-    {
-        StartCoroutine(WaitForDM());
+    {        
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
     public void OnDisable()
     {
-        //if (characterManager != null)
-        //{
-        //    characterManager.SwitchPlayer -= SwitchPlayerHealthBar;
-        //    characterManager.SwitchPlayer -= UpdatePlayerReference;
-        //}
-        //if (DialogueManager.instance != null)
-        //{
-        //    DialogueManager.instance.missonStart -= GetMission;
-        //}
         characterManager.SwitchPlayer -= SwitchPlayerHealthBar;
         characterManager.SwitchPlayer -= UpdatePlayerReference;
         DialogueManager.instance.missonStart -= GetMission;
@@ -117,6 +106,8 @@ public class UI_Manager : MonoBehaviour
     void Start()
     {
         IsReady = false;
+        this.GetComponent<CanvasGroup>().alpha = 0;
+
         interactionText.SetActive(false);
         bossHealthBar.SetActive(false);
 
@@ -128,20 +119,37 @@ public class UI_Manager : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
 
-        InitializeSceneObjects();
-        SetPlayerHealthBar();
-
         IsReady = true;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (scene.buildIndex == 0)
+            return;
+
         IsReady = false;
-        
+
+        if(this.GetComponent<CanvasGroup>().alpha == 0)
+        {
+            this.GetComponent<CanvasGroup>().alpha = 1;
+        }
+
+        InitializeSceneObjects();
+        //SetPlayerHealthBar();
+        if (!playerHealthBar_A.activeSelf)
+        {
+            playerHealthBar_A.SetActive(true);
+            playerHealthBar_B.SetActive(true);
+            miniBar_A.SetActive(true);
+            miniBar_B.SetActive(true);
+        }
+
         if (scene.buildIndex == 1 )
         {
+            StartCoroutine(WaitForDM());
             taskTipText = taskTip.GetComponentInChildren<TextMeshProUGUI>();
         }
+
         if (scene.buildIndex == 2)
         {
             StartCoroutine(GenerateHealthBarsForEnemies());
@@ -156,8 +164,11 @@ public class UI_Manager : MonoBehaviour
     {
         if (scene.buildIndex == 2)
         {
-            foreach (var enemy in healthBars.Keys)
+            var keys = new List<GameObject>(healthBars.Keys);
+
+            for (int i = 0; i < keys.Count; i++)
             {
+                var enemy = keys[i];
                 UnregisterHealthBar(enemy);
             }
         }        
@@ -165,12 +176,20 @@ public class UI_Manager : MonoBehaviour
     void InitializeSceneObjects()
     {
         //mainCamera = FindObjectOfType<Camera>();
-        mainCamera = Camera.main;
-        characterManager = CharacterManager.instance;
-        characterManager.SwitchPlayer += SwitchPlayerHealthBar;
-        characterManager.SwitchPlayer += UpdatePlayerReference;
-
-        StartCoroutine(WaitForPlayerReady());
+        if (mainCamera == null)
+        {
+            mainCamera = Camera.main;
+        }
+        if (characterManager == null)
+        {
+            characterManager = CharacterManager.instance;
+            characterManager.SwitchPlayer += SwitchPlayerHealthBar;
+            characterManager.SwitchPlayer += UpdatePlayerReference;
+        }
+        if(player == null)
+        {
+            StartCoroutine(WaitForPlayerReady());
+        }
     }
     void Update()
     {
@@ -202,6 +221,16 @@ public class UI_Manager : MonoBehaviour
             healthBar.UpdateHealthBarPos();
         }
     }
+
+    IEnumerator WaitUntilUIIsReady()
+    {
+        while (UI_Manager.instance.IsReady!=true)
+        {
+            yield return null;
+        }
+        yield return null;
+    }
+
     public void UpdatePlayerPosition()
     {
         if (player != null)
@@ -290,15 +319,7 @@ public class UI_Manager : MonoBehaviour
         }
     }
     //Switch Player HealthBar
-    public void SetPlayerHealthBar()
-    {
-        PlayerHealth playerHealth_A = characterManager.characters[0].GetComponent<PlayerHealth>();
-        PlayerHealth playerHealth_B = characterManager.characters[1].GetComponent<PlayerHealth>();
-        playerHealthBar_A.GetComponent<PlayerHealthBar>().playerHealth = playerHealth_A;
-        miniBar_A.GetComponent<PlayerHealthBar>().playerHealth = playerHealth_A;
-        playerHealthBar_B.GetComponent<PlayerHealthBar>().playerHealth = playerHealth_B;
-        miniBar_B.GetComponent<PlayerHealthBar>().playerHealth = playerHealth_B;
-    }
+    
     public void SwitchPlayerHealthBar()
     {
         playerAonUsed = !playerAonUsed;
@@ -366,15 +387,19 @@ public class UI_Manager : MonoBehaviour
     //Get mouse from player
     IEnumerator WaitForPlayerReady()
     {
-        yield return null;
-        UpdatePlayerReference();
-        while (inputController == null || playerInputController == null)
+        if (player == null)
         {
             yield return null;
             UpdatePlayerReference();
-            Debug.Log("Waiting for player to be ready...");
-        }         
-        yield break;
+            while (inputController == null || playerInputController == null)
+            {
+                yield return null;
+                UpdatePlayerReference();
+                Debug.Log("Waiting for player to be ready...");
+            }
+            SetPlayerHealthBar();
+            yield break;
+        }
     }
     private void UpdatePlayerReference()
     {
@@ -421,6 +446,16 @@ public class UI_Manager : MonoBehaviour
                 playerInputController.enabled = true;
             }
         }
+    }
+
+    public void SetPlayerHealthBar()
+    {
+        PlayerHealth playerHealth_A = characterManager.characters[0].GetComponent<PlayerHealth>();
+        PlayerHealth playerHealth_B = characterManager.characters[1].GetComponent<PlayerHealth>();
+        playerHealthBar_A.GetComponent<PlayerHealthBar>().playerHealth = playerHealth_A;
+        miniBar_A.GetComponent<PlayerHealthBar>().playerHealth = playerHealth_A;
+        playerHealthBar_B.GetComponent<PlayerHealthBar>().playerHealth = playerHealth_B;
+        miniBar_B.GetComponent<PlayerHealthBar>().playerHealth = playerHealth_B;
     }
 
     //Task Tip
