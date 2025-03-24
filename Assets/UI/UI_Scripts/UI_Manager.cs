@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using StarterAssets;
 using UnityEngine.InputSystem;
 using TMPro;
-using static UnityEditor.Progress;
+//using static UnityEditor.Progress;
 using UnityEngine.SceneManagement;
 using System;
 

@@ -49,7 +49,7 @@ public class SceneController : MonoBehaviour
         SceneManager.LoadScene(buildIndex, LoadSceneMode.Single);
         yield return StartCoroutine(Fade(0f));
         // NOW the scene is loaded, so call:
-        CharacterManager.instance?.OnSceneSwitchComplete(buildIndex);
+        //CharacterManager.instance?.OnSceneSwitchComplete(buildIndex);
     }
 
 

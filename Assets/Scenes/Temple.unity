@@ -1161,7 +1161,7 @@ PrefabInstance:
     - target: {fileID: 6244816013499378444, guid: 1a936bf5f8eff4aaa831c16eb332f15d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6244816013499378444, guid: 1a936bf5f8eff4aaa831c16eb332f15d,
         type: 3}
@@ -1276,52 +1276,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a402642a244039b4f8a34ac02fd1f0f5, type: 3}
---- !u!1 &1593658866
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1593658867}
-  - component: {fileID: 1593658868}
-  m_Layer: 7
-  m_Name: SceneManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1593658867
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1593658866}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.11033592, y: 0.72439986, z: 0.119254105, w: -0.66996217}
-  m_LocalPosition: {x: 5.2325153, y: 5.1542873, z: 0.038486958}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1593658868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1593658866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91ab685bf014944b79bb28b82581ff22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scene1Name: Temple
-  scene2Name: PureNature
 --- !u!1 &1903125993 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6147834271113190839, guid: b21844bdc32ca244aa45bb93a277d910,
@@ -1812,7 +1766,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 585877342}
   - {fileID: 363337853}
-  - {fileID: 1593658867}
   - {fileID: 2586388543053017504}
   - {fileID: 5898511885388413921}
   - {fileID: 81911339447138089}

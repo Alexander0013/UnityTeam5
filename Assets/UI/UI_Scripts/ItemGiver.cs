@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditorInternal.Profiling.Memory.Experimental;
+//using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public class ItemGiver : MonoBehaviour
@@ -14,7 +14,7 @@ public class ItemGiver : MonoBehaviour
     private void Start()
     {
         playerBag = InventoryManager.instance.myBag;
-        // µù¥UUIManager¨ÓºÊÅ¥³o­Óª««~
+        // ï¿½ï¿½ï¿½UUIManagerï¿½Óºï¿½Å¥ï¿½oï¿½Óªï¿½ï¿½~
         UI_Manager uiManager = FindObjectOfType<UI_Manager>();
         if (uiManager != null)
         {
@@ -24,7 +24,7 @@ public class ItemGiver : MonoBehaviour
 
     private void OnDestroy()
     {
-        // ¨ú®øµù¥U
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½U
         UI_Manager uiManager = FindObjectOfType<UI_Manager>();
         if (uiManager != null)
         {
@@ -48,7 +48,7 @@ public class ItemGiver : MonoBehaviour
         {
             itemToGive.itemHeld += 1;
         }
-        InventoryManager.RefreshItems(); //§ó·s­I¥]¤¶­±
+        InventoryManager.RefreshItems(); //ï¿½ï¿½sï¿½Iï¿½]ï¿½ï¿½ï¿½ï¿½
         ItemAdded?.Invoke(itemToGive);
     }
 }
