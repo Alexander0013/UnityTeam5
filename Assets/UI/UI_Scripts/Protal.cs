@@ -20,7 +20,8 @@ public class Protal : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             UI_Manager.instance.HideInteractionText();
-            UI_Manager.instance.inProtalRange = true;
+            UI_Manager.instance.inProtalRange = false;
+            UI_Manager.instance.targetSceneIndex = SceneManager.sceneCount;
         }
     }
 

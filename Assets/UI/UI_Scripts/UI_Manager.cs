@@ -26,10 +26,10 @@ public class UI_Manager : MonoBehaviour
 
     private GameObject spawnedMenu;
 
-    public bool bagIsOpen;
-    public bool equipAIsOpen_A;
-    public bool equipBIsOpen_B;
-    public bool playerAonUsed;
+    bool bagIsOpen;
+    bool equipAIsOpen_A;
+    bool equipBIsOpen_B;
+    bool playerAonUsed;
 
     public bool IsReady = false;
 
@@ -62,9 +62,11 @@ public class UI_Manager : MonoBehaviour
     private List<ItemGiver> itemGivers = new List<ItemGiver>();
 
     //Dialogue
+    public GameObject dialogueBox;
     public bool inDialogueRange = false;
     public Dialogue dialogue;
-    public bool isTriggered = false;
+    public bool getMission = false;
+    public bool missionDone = false;
 
     public delegate void StartDialogue();
     public StartDialogue startDialogue;
@@ -73,6 +75,10 @@ public class UI_Manager : MonoBehaviour
     public GameObject interactionText; 
     public bool inProtalRange = false;
     public int targetSceneIndex;
+
+    //Treasure
+    public bool treasureCanOpen = false;
+    public TreasureTrigger currentTreasure;
 
     void Awake()
     {
@@ -135,8 +141,7 @@ public class UI_Manager : MonoBehaviour
         }
 
         InitializeSceneObjects();
-        //SetPlayerHealthBar();
-        if (!playerHealthBar_A.activeSelf)
+        if (!playerHealthBar_A.activeSelf&&player!=null)
         {
             playerHealthBar_A.SetActive(true);
             playerHealthBar_B.SetActive(true);
@@ -208,9 +213,25 @@ public class UI_Manager : MonoBehaviour
         //Dialogue
         if (inDialogueRange && Input.GetKeyDown(KeyCode.E))
         {
-            TriggerDialogue(dialogue,isTriggered);
-            isTriggered = true;
+            TriggerDialogue(dialogue,getMission);
+            getMission = true;
             UI_Manager.instance.HideInteractionText();
+
+            if (missionDone)
+            {
+                MissionDone();
+            }
+        }
+        //Treasure
+        if (treasureCanOpen && Input.GetKeyDown(KeyCode.E) && currentTreasure != null)
+        {
+            currentTreasure.AddItemsToInventory();  
+            UI_Manager.instance.HideInteractionText();
+            Destroy(currentTreasure.gameObject);
+        }
+        if(Input.GetKeyDown(KeyCode.Delete))
+        {
+            InventoryManager.instance.DropAll();
         }
     }
     private void FixedUpdate()
@@ -221,7 +242,6 @@ public class UI_Manager : MonoBehaviour
             healthBar.UpdateHealthBarPos();
         }
     }
-
     IEnumerator WaitUntilUIIsReady()
     {
         while (UI_Manager.instance.IsReady!=true)
@@ -230,7 +250,6 @@ public class UI_Manager : MonoBehaviour
         }
         yield return null;
     }
-
     public void UpdatePlayerPosition()
     {
         if (player != null)
@@ -318,8 +337,7 @@ public class UI_Manager : MonoBehaviour
             spawnedMenu = null;
         }
     }
-    //Switch Player HealthBar
-    
+    //Switch Player HealthBar    
     public void SwitchPlayerHealthBar()
     {
         playerAonUsed = !playerAonUsed;
@@ -341,6 +359,15 @@ public class UI_Manager : MonoBehaviour
             botton_B.interactable = true;
             botton_A.interactable = false;
         }
+    }
+    public void SetPlayerHealthBar()
+    {
+        PlayerHealth playerHealth_A = characterManager.characters[0].GetComponent<PlayerHealth>();
+        PlayerHealth playerHealth_B = characterManager.characters[1].GetComponent<PlayerHealth>();
+        playerHealthBar_A.GetComponent<PlayerHealthBar>().playerHealth = playerHealth_A;
+        miniBar_A.GetComponent<PlayerHealthBar>().playerHealth = playerHealth_A;
+        playerHealthBar_B.GetComponent<PlayerHealthBar>().playerHealth = playerHealth_B;
+        miniBar_B.GetComponent<PlayerHealthBar>().playerHealth = playerHealth_B;
     }
     //Enemy HealthBar
     public void CreateEnemyHealthBar(GameObject enemy)
@@ -382,8 +409,7 @@ public class UI_Manager : MonoBehaviour
             yield return null;  
         }
         yield break;
-    }
-    
+    }    
     //Get mouse from player
     IEnumerator WaitForPlayerReady()
     {
@@ -446,20 +472,8 @@ public class UI_Manager : MonoBehaviour
                 playerInputController.enabled = true;
             }
         }
-    }
-
-    public void SetPlayerHealthBar()
-    {
-        PlayerHealth playerHealth_A = characterManager.characters[0].GetComponent<PlayerHealth>();
-        PlayerHealth playerHealth_B = characterManager.characters[1].GetComponent<PlayerHealth>();
-        playerHealthBar_A.GetComponent<PlayerHealthBar>().playerHealth = playerHealth_A;
-        miniBar_A.GetComponent<PlayerHealthBar>().playerHealth = playerHealth_A;
-        playerHealthBar_B.GetComponent<PlayerHealthBar>().playerHealth = playerHealth_B;
-        miniBar_B.GetComponent<PlayerHealthBar>().playerHealth = playerHealth_B;
-    }
-
+    }    
     //Task Tip
-
     IEnumerator WaitForDM()
     {       
         while (DialogueManager.instance == null)
@@ -472,7 +486,11 @@ public class UI_Manager : MonoBehaviour
     {
         taskTip.SetActive(true);
         taskTipText.text = "任務道具(0/5)";
-
+    }
+    public void MissionDone()
+    {
+        taskTip.SetActive(false);
+        //完成音效
     }
     public void RegisterItemGiver(ItemGiver itemGiver)
     {
@@ -492,26 +510,29 @@ public class UI_Manager : MonoBehaviour
             taskTipText.text = "任務道具(" + item.itemHeld+ "/5)";
         }
     }
-
-    //For Protal & Pick up hint
-    
+    //hint    
     public void ShowInteractionText(string text)
     {
         interactionText.SetActive(true);
         interactionText.GetComponentInChildren<TextMeshProUGUI>().text = text;        
     }
-
     public void HideInteractionText()
     {
         interactionText.SetActive(false);  
     }
-
     //Dialogue
     public void TriggerDialogue(Dialogue dialogue,bool isTriggered)
     {
+        //Animator animator = dialogueBox.GetComponent<Animator>();
         if (!isTriggered)
         {
             DialogueManager.instance.StartDialogue(dialogue);
+            startDialogue?.Invoke();
+        }
+        else if(isTriggered&& missionDone)
+        {
+            DialogueManager.instance.StartDialogue(dialogue);
+            missionDone = false;
             startDialogue?.Invoke();
         }
         else

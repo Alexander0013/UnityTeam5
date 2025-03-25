@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemGiver : MonoBehaviour
 {
-    public Item itemToGive;
+    //public List<ItemQuantity> itemsToGive;
+    public List<Item> itemsToGive;
+
     public Inventory playerBag;
     UI_Manager uiManager;
 
@@ -21,30 +24,51 @@ public class ItemGiver : MonoBehaviour
 
     private void OnDestroy()
     {
-        uiManager = UI_Manager.instance;
         if (uiManager != null)
         {
             uiManager.UnregisterItemGiver(this);
         }
     }
-    public void AddNewItem()
+
+
+    //public void AddNewItems()
+    //{
+    //    foreach (ItemQuantity itemQuantity in itemsToGive) 
+    //    {
+    //        Item item = itemQuantity.item;
+    //        int quantity = itemQuantity.quantity;
+
+    //        if (!playerBag.itemList.Contains(item))
+    //        {
+    //            playerBag.itemList[playerBag.FindEmpty()] = item;
+    //            item.itemHeld = quantity;  
+    //        }
+    //        else
+    //        {
+    //            item.itemHeld += quantity;
+    //        }
+
+    //        InventoryManager.RefreshItems(); 
+    //        ItemAdded?.Invoke(item);        
+    //    }
+    //}
+
+    public void AddNewItems()
     {
-        if (!playerBag.itemList.Contains(itemToGive))
+        foreach (Item item in itemsToGive)
         {
-            for (int i = 0; i < playerBag.itemList.Count; i++)
+            if (!playerBag.itemList.Contains(item))
             {
-                if (playerBag.itemList[i] == null)
-                {
-                    playerBag.itemList[i] = itemToGive;
-                    break;
-                }
+                playerBag.itemList[playerBag.FindEmpty()] = item;
             }
+            else
+            {
+                item.itemHeld += 1;
+            }
+            InventoryManager.RefreshItems();
+            ItemAdded?.Invoke(item);
+            Debug.Log("Item added: " + item.itemName);
         }
-        else
-        {
-            itemToGive.itemHeld += 1;
-        }
-        InventoryManager.RefreshItems(); 
-        ItemAdded?.Invoke(itemToGive);
     }
+
 }

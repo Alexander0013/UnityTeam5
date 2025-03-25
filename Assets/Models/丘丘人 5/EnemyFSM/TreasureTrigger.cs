@@ -18,6 +18,8 @@ public class TreasureTrigger : MonoBehaviour
 
     private bool hasTriggered = false;
 
+    public string UI_text;
+
     private void Start()
     {
         player = GameObject.FindWithTag("Player");
@@ -69,10 +71,42 @@ public class TreasureTrigger : MonoBehaviour
         // Once all enemies are dead, disable the shield and switch BGM
         if (magicShield != null)
             magicShield.SetActive(false);
-        
-        if(AudioManager.instance != null)
+
+        if (AudioManager.instance != null)
             AudioManager.instance.ResetBattleMusic();
     }
+    
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player")&& !magicShield.activeSelf)
+        {
+            UI_Manager.instance.ShowInteractionText(UI_text);
+            UI_Manager.instance.treasureCanOpen = true;
+            UI_Manager.instance.currentTreasure = this;
+            Debug.Log("treasureCanOpen");
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player") && !magicShield.activeSelf)
+        {
+            UI_Manager.instance.HideInteractionText();
+            UI_Manager.instance.treasureCanOpen = false;
+            UI_Manager.instance.currentTreasure = null;
+            Debug.Log("out of treasure range");
+        }
+    }
+
+    public void AddItemsToInventory()
+    {
+        ItemGiver itemGivers = GetComponent<ItemGiver>();
+
+        itemGivers.AddNewItems();
+        
+    }
+
+
 
     private void OnDrawGizmosSelected()
     {
