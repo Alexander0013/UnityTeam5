@@ -17,6 +17,7 @@ public class ArcherFSM : EnemyFSM
     public GameObject meleeImpactEffect;
     public GameObject tracerPrefab;
 
+
     protected override void Start()
     {
         playerTarget = FindActiveLivingPlayer();
@@ -74,7 +75,8 @@ public class ArcherFSM : EnemyFSM
                     }
                     if (arrowImpactEffect != null)
                     {
-                        Instantiate(arrowImpactEffect, hit.point, Quaternion.identity);
+                        GameObject effect =Instantiate(arrowImpactEffect, hit.point, Quaternion.identity);
+                        Destroy(effect,1f);
                     }
                 }
                 else

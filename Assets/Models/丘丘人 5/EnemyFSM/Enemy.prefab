@@ -724,6 +724,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   playerTarget: {fileID: 0}
   isDead: 0
+  healthBarHeightOffset: 0
 --- !u!136 &1761875579524435256
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -759,6 +760,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cc8309c997af4742a03557b7bf69bd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gender: 1
   npcStateData: {fileID: 11400000, guid: 79815c692afd44bd5b0faa8a102169d0, type: 2}
   hitEffectPrefab: {fileID: 0}
   deathEffectPrefab: {fileID: 0}
@@ -891,7 +893,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ead354e25000b4b528b1d52fe8441a44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackSoundCooldown: 3
   attackClip: {fileID: 8300000, guid: 294a22fe295e24f848a5e7159451ce9f, type: 3}
   getHitClip: {fileID: 8300000, guid: af0d188c30f434fe19286b7f55787ef6, type: 3}
   dieClip: {fileID: 8300000, guid: 10f2b3f1bbc924df39b043372830945d, type: 3}

@@ -6,6 +6,7 @@ using System.Xml;
 
 public class EnemyHealth : MonoBehaviour, IDamageable
 {
+    public Gender gender;
     public NPCStateData npcStateData;
     public GameObject hitEffectPrefab;
     public GameObject deathEffectPrefab;

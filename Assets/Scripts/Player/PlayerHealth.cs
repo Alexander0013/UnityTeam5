@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
+    public Gender playerGender;
     private float lastGetHitSoundTime = -100f; // Initialize to a very negative value.
     public float getHitSoundCooldown = 5.0f; // Set your cooldown duration (in seconds).
     // Reference to an AttackData asset that contains the player's health.
@@ -58,6 +59,11 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private void OnEquipmentChanged(Equipment newItem, Equipment oldItem, int genderIndex) 
     {
+        // Process only if this change is for a weapon and matches our player's gender.
+        if (playerGender == Gender.Female && genderIndex != 0)
+            return;
+        if (playerGender == Gender.Male && genderIndex != 1)
+            return;
         // If the equipment changes include a health modifier, update health.
         float healthModifier = 0;
         if(oldItem != null)

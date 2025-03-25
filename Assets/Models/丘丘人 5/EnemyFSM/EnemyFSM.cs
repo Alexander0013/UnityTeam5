@@ -25,6 +25,7 @@ public class EnemyFSM : MonoBehaviour
     [HideInInspector] public Transform playerTarget;
     [HideInInspector] public bool isDead;
     [HideInInspector] public EnemyBaseState currentState;
+    [HideInInspector] public float healthBarHeightOffset = 0f;
     private static List<EnemyFSM> allEnemies = new List<EnemyFSM>(); // For team collision avoidance
     protected bool waitingForReturn = false;
     private void Awake()
@@ -160,7 +161,8 @@ public class EnemyFSM : MonoBehaviour
             }
             if (ImpactEffect != null)
             {
-                Instantiate(ImpactEffect, attackCenter, Quaternion.identity);
+                GameObject effect = Instantiate(ImpactEffect, attackCenter, Quaternion.identity);
+                Destroy(effect,1f);
             }
         }
     }
