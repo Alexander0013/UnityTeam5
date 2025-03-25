@@ -52,7 +52,7 @@ PrefabInstance:
     - target: {fileID: 6514094000786986246, guid: 084ca3b6a42059b4db53ecc9985524d9,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6514094000786986246, guid: 084ca3b6a42059b4db53ecc9985524d9,
         type: 3}
@@ -336,7 +336,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 0ac38660bcc7b428c8b17fa2b54753cb,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 0ac38660bcc7b428c8b17fa2b54753cb,
         type: 3}
@@ -533,6 +533,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   playerTarget: {fileID: 0}
   isDead: 0
+  healthBarHeightOffset: 0
   arrowSpawnPoint: {fileID: 5584362030297853351}
   muzzleFlashPrefab: {fileID: 1878987882032996, guid: 90b685dd555e0c848806f1fb6209e1e9,
     type: 3}
@@ -554,6 +555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cc8309c997af4742a03557b7bf69bd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gender: 0
   npcStateData: {fileID: 11400000, guid: 57af2ba91f1754e1588babb8d642ad86, type: 2}
   hitEffectPrefab: {fileID: 2329833927339695096, guid: 94fcabdf29671b04d9957fc3d2d90fcf,
     type: 3}

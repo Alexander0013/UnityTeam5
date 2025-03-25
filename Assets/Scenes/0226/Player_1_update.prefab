@@ -2565,6 +2565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9adcd06f5ff1548be85a8e5a665d29cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerGender: 0
   getHitSoundCooldown: 5
   playerAttackData: {fileID: 11400000, guid: 031d10717e65a48f49b0e197dd525f57, type: 2}
   getHitAnimCooldown: 1
@@ -7055,7 +7056,7 @@ PrefabInstance:
     - target: {fileID: 5428343133534393341, guid: c03b01243e5bda54cadcefc930133384,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5428343133534393341, guid: c03b01243e5bda54cadcefc930133384,
         type: 3}
