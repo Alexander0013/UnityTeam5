@@ -13,10 +13,14 @@ public class MiniMap : MonoBehaviour
 
     bool switchPlayer = true;
 
-   
+
     public void OnDisable()
     {
-        characterManager.SwitchPlayer -= switchFollower;
+        if (characterManager != null)
+        {
+            characterManager.SwitchPlayer -= switchFollower;
+        }
+        else { Debug.Log("characterManager is null"); }
     }
 
     private void Start()
