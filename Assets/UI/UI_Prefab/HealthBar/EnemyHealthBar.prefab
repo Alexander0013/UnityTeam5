@@ -56,7 +56,8 @@ MonoBehaviour:
   yellowSlider: {fileID: 518617961930520706}
   smoothSpeed: 20
   offset: {x: 0, y: 1.5, z: 0}
-  visibleDistance: 6
+  shooterOffset: {x: 0, y: 2, z: 0}
+  visibleDistance: 8
   fadeSpeed: 4
 --- !u!225 &1815374527188416855
 CanvasGroup:

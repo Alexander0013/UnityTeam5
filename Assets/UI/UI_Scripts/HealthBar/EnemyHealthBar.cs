@@ -15,6 +15,7 @@ public class EnemyHealthBar : HealthBar
     EnemyHealth enemyHealth;
 
     public Vector3 offset;
+    public Vector3 shooterOffset;
 
     //HealthBar Fade in/out
     public float visibleDistance;
@@ -33,7 +34,7 @@ public class EnemyHealthBar : HealthBar
         cam = UI_Manager.instance.mainCamera;
         canvas = UI_Manager.instance.canvas;
         rectTransform = UI_Manager.instance.rectTransform;
-
+        canvasGroup.alpha = 0f;
         enemyHealth.OnHealthChanged += UpdateHealthBar;
         enemyHealth.OnDeath += DestroyHealthBar;
                 
@@ -50,7 +51,15 @@ public class EnemyHealthBar : HealthBar
     {
         if (EnemyTransform != null)
         {
-            Vector3 spos = UI_Manager.instance.mainCamera.WorldToScreenPoint(EnemyTransform.position + offset);
+            Vector3 eOffset;
+            if (enemyHealth.gender == Gender.Female)
+            {
+                eOffset = shooterOffset;
+            }
+            else { eOffset = offset; }
+
+            Vector3 spos = UI_Manager.instance.mainCamera.WorldToScreenPoint(EnemyTransform.position + eOffset);
+            
             float distance = Vector3.Distance(Enemy.transform.position, UI_Manager.instance.playerPosition);
             
             if (spos.z < 0 || distance > visibleDistance)
