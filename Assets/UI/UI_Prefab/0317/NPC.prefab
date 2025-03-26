@@ -650,7 +650,6 @@ GameObject:
   - component: {fileID: 2994644277389184125}
   - component: {fileID: 3104067916297256947}
   - component: {fileID: 3756857054680889547}
-  - component: {fileID: 2152731416574707641}
   m_Layer: 11
   m_Name: Quad
   m_TagString: Untagged
@@ -667,7 +666,7 @@ Transform:
   m_GameObject: {fileID: 1060452807904288636}
   serializedVersion: 2
   m_LocalRotation: {x: -0.12278774, y: 0.6963643, z: -0.6963643, w: -0.12278774}
-  m_LocalPosition: {x: 0, y: 0.1, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 0.03, y: 0.03, z: 0.03}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -723,28 +722,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2152731416574707641
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1060452807904288636}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1065473481741128728
 GameObject:
   m_ObjectHideFlags: 0
@@ -2264,8 +2241,16 @@ MonoBehaviour:
     name: "\u6751\u6C11"
     sentences:
     - "\u8DEF\u904E\u7684\u65C5\u4EBA\uFF0C\u8ACB\u5E6B\u5E6B\u6211\u5011\uFF01"
-    - "\u6700\u8FD1\u68EE\u6797\u4E2D\u7684\u4E18\u4E18\u4EBA\u6700\u8FD1\u5341\u5206\u6D3B\u8E8D\uFF0C\u60F3\u9EBB\u7169\u4F60\u8ABF\u67E5\u6E05\u695A\u7DE3\u7531\u3002"
+    - "\u6700\u8FD1\u68EE\u6797\u4E2D\u7684\u4E18\u4E18\u4EBA\u5341\u5206\u6D3B\u8E8D\uFF0C\u60F3\u9EBB\u7169\u4F60\u8ABF\u67E5\u7DE3\u7531\u3002"
     - "\u90A3\u4E8B\u4E0D\u5B9C\u9072\uFF0C\u9019\u4E9B\u88DC\u7D66\u54C1\u5C31\u7576\u4F5C\u662F\u7D66\u4F60\u7684\u8A02\u91D1\uFF0C\u8DEF\u4E0A\u5C0F\u5FC3\u3002"
+  dialogue2:
+    name: "\u6751\u6C11"
+    sentences:
+    - "\u4EFB\u52D9\u5B8C\u6210\u6587\u672C\u5F85\u4FEE"
+  dialogue3:
+    name: "\u6751\u6C11"
+    sentences:
+    - "\u4EFB\u52D9\u672A\u5B8C\u6210\u6587\u672C\u5F85\u4FEE"
   ButtonPrefab: {fileID: 7595613025379501571, guid: 16b571ba1f3f14543869641504eba688,
     type: 3}
   buttonTransform: {fileID: 6158265282270998478}

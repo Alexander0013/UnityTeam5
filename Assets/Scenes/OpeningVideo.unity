@@ -255,16 +255,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainCanvas0320
       objectReference: {fileID: 0}
-    - target: {fileID: 6147834271113190839, guid: b21844bdc32ca244aa45bb93a277d910,
-        type: 3}
-      propertyPath: m_Name
-      value: DialogueBox
-      objectReference: {fileID: 0}
-    - target: {fileID: 7420278006339995175, guid: b21844bdc32ca244aa45bb93a277d910,
-        type: 3}
-      propertyPath: m_fontStyle
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

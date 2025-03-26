@@ -8,13 +8,6 @@ public class EquipmentList : ScriptableObject
 
     public List<Stat> equipmentStats = new List<Stat>();
 
-    //void Awake()
-    //{        
-    //    while (equippedItems.Count < 4)
-    //    {
-    //        equippedItems.Add(null);
-    //    }
-    //}
 
     public void EquipItem(int typeIndex, Equipment newItem)
     {

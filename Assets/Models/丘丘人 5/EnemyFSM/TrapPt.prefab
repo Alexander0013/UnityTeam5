@@ -405,6 +405,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6390550614441014176}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c3dec053a041e4134919f5304487a3c8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 537034258034402906}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c3dec053a041e4134919f5304487a3c8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 662810321912545171}
   m_SourcePrefab: {fileID: 100100000, guid: c3dec053a041e4134919f5304487a3c8, type: 3}
 --- !u!4 &7035006451509992367 stripped
 Transform:
@@ -438,6 +446,7 @@ MonoBehaviour:
   - {fileID: 6845386274481183924}
   - {fileID: 1586573646748470680}
   player: {fileID: 0}
+  UI_text: "\u6309E\u958B\u555F"
 --- !u!65 &6390550614441014176
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -459,6 +468,44 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.5042801, y: 1.7471857, z: 1.3892393}
   m_Center: {x: -0.25214005, y: 0.37359285, z: -0.19461966}
+--- !u!135 &537034258034402906
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7704125919696634133}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 2
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &662810321912545171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7704125919696634133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2267b669cd328439fe144895f4a406, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemsToGive:
+  - {fileID: 11400000, guid: dee7cf13a49b061428fe87bf26d75152, type: 2}
+  - {fileID: 11400000, guid: c6bc2e86abf902b4082508769451a7d6, type: 2}
+  - {fileID: 11400000, guid: 17fe72a23fb524448a970258301d1c7e, type: 2}
+  playerBag: {fileID: 11400000, guid: a30253c32cc4039489511d2a42d1a9b3, type: 2}
 --- !u!1001 &7950751600550639410
 PrefabInstance:
   m_ObjectHideFlags: 0

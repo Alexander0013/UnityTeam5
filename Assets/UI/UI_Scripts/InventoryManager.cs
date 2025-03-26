@@ -22,7 +22,7 @@ public class InventoryManager : MonoBehaviour
     //Equipment
     EquipmentList equipmentList;
         
-    public EquipmentList equipmentList_A; //save equipment is equipped
+    public EquipmentList equipmentList_A; 
     public Image[] equipmentImage_A;
     public GameObject[] equipmentText_A;
     public EquipmentList equipmentList_B;
@@ -31,11 +31,6 @@ public class InventoryManager : MonoBehaviour
 
     public delegate void OnEquipmentChanged(Equipment newItem,Equipment oldItem,int genderIndex);
     public OnEquipmentChanged onEquipmentChanged;
-
-    //Add Item
-   
-
-    
 
 
     //Alex
@@ -89,11 +84,10 @@ public class InventoryManager : MonoBehaviour
 
         equipmentList.EquipItem(typeIndex, newItem);    
 
-        UpdateEquipmentUI(genderIndex);
+        UpdateEquipmentImage(genderIndex);
 
         onEquipmentChanged?.Invoke(newItem, null, genderIndex);
     }
-
     public Equipment UnEquip(int genderIndex,int slotIndex)
     {
         equipmentList = GetEquipmentList(genderIndex);
@@ -110,14 +104,13 @@ public class InventoryManager : MonoBehaviour
             onEquipmentChanged?.Invoke(null, oldItem, genderIndex);
 
             equipmentList.UnEquipItem(slotIndex);
-            UpdateEquipmentUI(genderIndex);
+            UpdateEquipmentImage(genderIndex);
             RefreshItems();
             return oldItem;
         }
 
         return null;
     }
-
     public void UnEquipAll()
     {
         for(int i = 0;i< equipmentList_A.equippedItems.Count;i++)
@@ -129,6 +122,17 @@ public class InventoryManager : MonoBehaviour
             equipmentImage_B[i].sprite = null;
             equipmentImage_B[i].enabled = false; 
         }
+    }
+    public void DropAll()
+    {
+        for (int i = 0; i < myBag.itemList.Count; i++)
+        {
+            if (myBag.itemList[i] != null)
+            {
+                myBag.itemList[i] = null;
+            }
+        }
+        RefreshItems();
     }
 
     public static void UpdateItemInfo(Image itemImage,string itemDescription)
@@ -155,7 +159,7 @@ public class InventoryManager : MonoBehaviour
             instance.slots[i].GetComponent<Slot>().SetUpSlot(instance.myBag.itemList[i]);            
         }        
     }
-    private void UpdateEquipmentUI(int genderIndex)
+    private void UpdateEquipmentImage(int genderIndex)
     {
         if (genderIndex == 0)
         {
@@ -185,7 +189,6 @@ public class InventoryManager : MonoBehaviour
             }
         }
     }
-
     public void UpdateEquipmentUI_B()
     {
         for (int i = 0; i < equipmentImage_A.Length; i++)
@@ -217,5 +220,17 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    
+    public int GetItemAmount(Item.ItemType itemType)
+    {
+        int amount = 0;
+        foreach (Item item in myBag.itemList)
+        {
+            if (item != null && item.itemType == itemType)
+            {
+                amount=item.itemHeld;
+            }
+        }
+        return amount;
+    }
+
 }
