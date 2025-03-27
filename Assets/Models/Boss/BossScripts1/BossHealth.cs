@@ -68,6 +68,7 @@ public class BossHealth : MonoBehaviour, IDamageable
             GameObject hitFx = Instantiate(hitEffectPrefab, hitEffectPoint.position, Quaternion.identity);
             Destroy(hitFx, 0.5f);
         }
+        
         // Wait a fraction of a second to let the flinch play, if you like
         yield return new WaitForSeconds(0.5f);
 

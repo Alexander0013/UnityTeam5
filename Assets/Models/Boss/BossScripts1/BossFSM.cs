@@ -149,6 +149,10 @@ public class BossFSM : MonoBehaviour
         currentState = newState;
         Debug.Log("切換狀態：" + newState.GetType().Name);
         currentState.EnterState(this);
+        if (currentState is BossRoalingState)
+        {
+            AudioManager.instance.TriggerBattleMusic();
+        }
     }
 
     // 由 Roaling 動畫事件呼叫（在動畫剪輯末端添加事件，呼叫此方法）
@@ -234,5 +238,12 @@ public class BossFSM : MonoBehaviour
         if (ph == null) return false;
         return (ph.CurrentHealth > 0);
     }
-    
+    public void PLayRoalingSound()
+    {
+        GetComponent<PlayerAudio>()?.PlayAttackSound();
+    }
+    public void PLayDieSound()
+    {
+        GetComponent<PlayerAudio>()?.PlayDieSound();
+    }
 }
