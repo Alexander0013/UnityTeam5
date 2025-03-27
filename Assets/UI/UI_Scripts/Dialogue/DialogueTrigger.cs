@@ -26,29 +26,28 @@ public class DialogueTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player")&&UI_Manager.instance.getMission==false)
+        if (other.CompareTag("Player"))
         {
             GetDialogueButton();
-            UI_Manager.instance.inDialogueRange = true;
             UI_Manager.instance.ShowInteractionText("按E對話");
-            UI_Manager.instance.dialogue = dialogue;
-        }
-        if (other.CompareTag("Player") && UI_Manager.instance.getMission == true&& currentItemCount==5)
-        {
-            GetDialogueButton();
             UI_Manager.instance.inDialogueRange = true;
-            UI_Manager.instance.ShowInteractionText("按E對話");
-            UI_Manager.instance.dialogue = dialogue2;
-            UI_Manager.instance.missionDone = true;
+            if (!UI_Manager.instance.getMission)
+            {
+                UI_Manager.instance.dialogue = dialogue;
+            }
+            else
+            {
+                if (currentItemCount == 5)
+                {
+                    UI_Manager.instance.dialogue = dialogue2;
+                    UI_Manager.instance.missionDone = true;
+                }
+                else
+                {
+                    UI_Manager.instance.dialogue = dialogue3;
+                }
+            }
         }
-        else if (other.CompareTag("Player") && UI_Manager.instance.getMission == true && currentItemCount < 5)
-        {
-            GetDialogueButton();
-            UI_Manager.instance.inDialogueRange = true;
-            UI_Manager.instance.ShowInteractionText("按E對話");
-            UI_Manager.instance.dialogue = dialogue3;
-        }
-
     }
 
     private void OnTriggerExit(Collider other)
@@ -79,7 +78,8 @@ public class DialogueTrigger : MonoBehaviour
 
     void StartDialogue()
     {
-        Destroy(button);
+        if(button != null)
+            Destroy(button);
     }
 
 }

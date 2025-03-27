@@ -29,7 +29,7 @@ public class UI_Manager : MonoBehaviour
     bool bagIsOpen;
     bool equipAIsOpen_A;
     bool equipBIsOpen_B;
-    bool playerAonUsed;
+    bool playerAonUsed = true;
 
     public bool IsReady = false;
 
@@ -67,6 +67,7 @@ public class UI_Manager : MonoBehaviour
     public Dialogue dialogue;
     public bool getMission = false;
     public bool missionDone = false;
+    public bool startTalking = false; //control if talking or not
 
     public delegate void StartDialogue();
     public StartDialogue startDialogue;
@@ -213,14 +214,14 @@ public class UI_Manager : MonoBehaviour
         //Dialogue
         if (inDialogueRange && Input.GetKeyDown(KeyCode.E))
         {
-            TriggerDialogue(dialogue,getMission);
-            getMission = true;
+            TriggerDialogue(dialogue,startTalking);
             UI_Manager.instance.HideInteractionText();
 
             if (missionDone)
             {
                 MissionDone();
             }
+            
         }
         //Treasure
         if (treasureCanOpen && Input.GetKeyDown(KeyCode.E) && currentTreasure != null)
@@ -440,7 +441,7 @@ public class UI_Manager : MonoBehaviour
             Debug.LogWarning("Active player not found! Ensure the active player is tagged 'Player'.");
         }
     }
-    private void UpdateGameStateForUI(bool uiOpen)
+    public void UpdateGameStateForUI(bool uiOpen)
     {
         if (uiOpen)
         {
@@ -521,19 +522,14 @@ public class UI_Manager : MonoBehaviour
         interactionText.SetActive(false);  
     }
     //Dialogue
-    public void TriggerDialogue(Dialogue dialogue,bool isTriggered)
+    public void TriggerDialogue(Dialogue dialogue,bool starttalking)
     {
         //Animator animator = dialogueBox.GetComponent<Animator>();
-        if (!isTriggered)
+        if (!starttalking)
         {
             DialogueManager.instance.StartDialogue(dialogue);
             startDialogue?.Invoke();
-        }
-        else if(isTriggered&& missionDone)
-        {
-            DialogueManager.instance.StartDialogue(dialogue);
-            missionDone = false;
-            startDialogue?.Invoke();
+            startTalking = true;
         }
         else
         {
