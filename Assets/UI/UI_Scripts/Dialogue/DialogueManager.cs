@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using static DialogueManager;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -20,7 +21,6 @@ public class DialogueManager : MonoBehaviour
 
     public delegate void MissonStart();
     public MissonStart missonStart;
-
 
     void Awake()
     {
@@ -74,7 +74,6 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator TypeSentence(string sentence)
     {
-        //Debug.Log("sentence = " + sentence);
         dialogueText.text = "";
         foreach (char letter in sentence.ToCharArray())
         {
@@ -98,17 +97,16 @@ public class DialogueManager : MonoBehaviour
             UI_Manager.instance.missionDone = true;
         }        
     }
+    //public void OnDialogueStartComplete()
+    //{
+    //    Debug.Log("OnDialogueStartComplete");
+    //    UI_Manager.instance.UpdateGameStateForUI(true);
 
-    public void OnDialogueStartComplete()
-    {
-        Debug.Log("OnDialogueStartComplete");
-        UI_Manager.instance.UpdateGameStateForUI(true);
+    //}
 
-    }
-
-    public void OnDialogueEndComplete()
-    {
-        Debug.Log("OnDialogueEndComplete");
-        UI_Manager.instance.UpdateGameStateForUI(false);
-    }
+    //public void OnDialogueEndComplete()
+    //{
+    //    Debug.Log("OnDialogueEndComplete");
+    //    UI_Manager.instance.UpdateGameStateForUI(false);
+    //}
 }

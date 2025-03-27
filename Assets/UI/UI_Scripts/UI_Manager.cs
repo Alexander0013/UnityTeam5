@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using StarterAssets;
@@ -66,6 +65,7 @@ public class UI_Manager : MonoBehaviour
 
     //Dialogue
     public GameObject dialogueBox;
+    public DialogueTrigger npcDT;
     public bool inDialogueRange = false;
     public Dialogue dialogue;
     public bool getMission = false;
@@ -83,6 +83,11 @@ public class UI_Manager : MonoBehaviour
     //Treasure
     public bool treasureCanOpen = false;
     public TreasureTrigger currentTreasure;
+
+    //Item Add
+    public GameObject itemDisplayPrefab;
+    public Transform itemDisplayContainer;
+    private List<Item> displayedItems = new List<Item>();
 
     void Awake()
     {
@@ -119,7 +124,6 @@ public class UI_Manager : MonoBehaviour
         this.GetComponent<CanvasGroup>().alpha = 0;
 
         interactionText.SetActive(false);
-        //bossHealthBar.SetActive(false);
 
         canvasGroup_A = playerHealthBar_A.GetComponent<CanvasGroup>();
         canvasGroup_B = playerHealthBar_B.GetComponent<CanvasGroup>();
@@ -169,7 +173,6 @@ public class UI_Manager : MonoBehaviour
 
         IsReady = true;
     }
-
     void OnSceneUnloaded(Scene scene)
     {
         if (scene.buildIndex == 2)
@@ -184,8 +187,7 @@ public class UI_Manager : MonoBehaviour
         }        
     }
     void InitializeSceneObjects()
-    {
-        //mainCamera = FindObjectOfType<Camera>();
+    {       
         if (mainCamera == null)
         {
             mainCamera = Camera.main;
@@ -224,8 +226,7 @@ public class UI_Manager : MonoBehaviour
             if (missionDone)
             {
                 MissionDone();
-            }
-            
+            }            
         }
         //Treasure
         if (treasureCanOpen && Input.GetKeyDown(KeyCode.E) && currentTreasure != null)
@@ -417,7 +418,6 @@ public class UI_Manager : MonoBehaviour
     }
 
     //Boss Health Bar
-
     public void CreateBossHealthBar()
     {
         GameObject boss = GameObject.FindGameObjectWithTag("Boss");
@@ -432,7 +432,6 @@ public class UI_Manager : MonoBehaviour
         BossHealthBar bossBarScript = healthBarObject.GetComponent<BossHealthBar>();
         bossBarScript.InitializeHealthBar(boss);
     }
-
     //Get mouse from player
     IEnumerator WaitForPlayerReady()
     {
@@ -503,12 +502,17 @@ public class UI_Manager : MonoBehaviour
         {
             yield return null;
         }
-        DialogueManager.instance.missonStart += GetMission;        
+        DialogueManager.instance.missonStart += GetMission;
+        DialogueManager.instance.missonStart += GetItemFromNPC;
     }
     void GetMission()
     {
         taskTip.SetActive(true);
         taskTipText.text = "《幻界之鑰》(0/5)";
+    }
+    void GetItemFromNPC()
+    {
+        npcDT.GetItemFromNPC();
     }
     public void MissionDone()
     {
@@ -525,14 +529,7 @@ public class UI_Manager : MonoBehaviour
         itemGiver.ItemAdded -= OnItemAdded;
         itemGivers.Remove(itemGiver);
     }
-    private void OnItemAdded(Item item)
-    {
-        if (item.itemType == Item.ItemType.Other)
-        {
-            
-            taskTipText.text = "《幻界之鑰》(" + item.itemHeld+ "/5)";
-        }
-    }
+   
     //hint    
     public void ShowInteractionText(string text)
     {
@@ -558,4 +555,66 @@ public class UI_Manager : MonoBehaviour
             DialogueManager.instance.DisplayNextSentence();
         }
     }
+    //Item Add
+    public void OnItemAdded(Item item)
+    {
+       displayedItems.Add(item);
+       StartCoroutine(DisplayItemWithDelay(item));
+    }
+
+    private IEnumerator AnimateItemDisplay(GameObject itemDisplay, RectTransform rectTransform)
+    {
+        float elapsedTime = 0f;
+        float duration = 1.5f;
+        Vector2 startPos = rectTransform.anchoredPosition;
+        Vector2 targetPos = new Vector2(startPos.x, startPos.y + 300f);  // 垂直上浮100單位
+        CanvasGroup canvasGroup = itemDisplay.GetComponent<CanvasGroup>();
+        float startAlpha = canvasGroup.alpha;
+        float targetAlpha = 0f;
+
+        // 使用 Lerp 來平滑地上浮
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            rectTransform.anchoredPosition = Vector2.Lerp(startPos, targetPos, elapsedTime / duration);
+            canvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsedTime-3 / duration);
+            yield return null;
+        }
+        canvasGroup.alpha = targetAlpha;  // 確保最終透明度
+        rectTransform.anchoredPosition = targetPos;  // 確保最終位置
+
+        // 等待一段時間後刪除物品
+        yield return new WaitForSeconds(1f);
+       
+        Destroy(itemDisplay);
+    }
+    IEnumerator DisplayItemWithDelay(Item item)
+    {
+        if (displayedItems.Count > 0)
+        {
+            yield return new WaitForSeconds(0.6f* displayedItems.Count); // 設定顯示物品之間的間隔，這裡是0.5秒
+        }
+        GameObject itemDisplay = Instantiate(itemDisplayPrefab, itemDisplayContainer);
+        itemDisplay.GetComponentInChildren<TextMeshProUGUI>().text = item.itemName;
+        Image itemImage = itemDisplay.transform.Find("Mask/Item Image").GetComponent<Image>();
+        if (itemImage != null)
+        {
+            itemImage.sprite = item.itemImage;  // 設置物品圖片
+        }
+        RectTransform rectTransform = itemDisplay.GetComponent<RectTransform>();        
+        rectTransform.anchoredPosition = new Vector2(0, 0);
+
+        StartCoroutine(AnimateItemDisplay(itemDisplay, rectTransform));
+        
+        if (item.itemType == Item.ItemType.Other)
+        {
+
+            taskTipText.text = "《幻界之鑰》(" + item.itemHeld + "/5)";
+        }
+        displayedItems.Remove(item);
+    }
+   
+
+
 }
+

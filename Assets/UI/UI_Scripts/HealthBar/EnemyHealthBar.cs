@@ -105,8 +105,9 @@ public class EnemyHealthBar : HealthBar
 
     void DestroyHealthBar()
     {
-        StartCoroutine(FadeOutHealthBar(0));
         UI_Manager.instance.UnregisterHealthBar(Enemy);
+        StopAllCoroutines();
+        StartCoroutine(FadeOutHealthBar(0));        
         Destroy(gameObject);
     }
 }
