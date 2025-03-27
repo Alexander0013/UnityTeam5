@@ -86,8 +86,29 @@ public class DialogueManager : MonoBehaviour
     public void EndDialogue()
     {
         animator.SetBool("IsTalking", false);
-        missonStart?.Invoke();
+        UI_Manager.instance.startTalking = false;
+        if (!UI_Manager.instance.getMission)
+        {
+            missonStart?.Invoke();
+            UI_Manager.instance.getMission = true;
+        }            
+        else if (UI_Manager.instance.getMission&& InventoryManager.instance.GetItemAmount(Item.ItemType.Other)==5)
+        {
+            UI_Manager.instance.getMission = false;
+            UI_Manager.instance.missionDone = true;
+        }        
     }
 
-    
+    public void OnDialogueStartComplete()
+    {
+        Debug.Log("OnDialogueStartComplete");
+        UI_Manager.instance.UpdateGameStateForUI(true);
+
+    }
+
+    public void OnDialogueEndComplete()
+    {
+        Debug.Log("OnDialogueEndComplete");
+        UI_Manager.instance.UpdateGameStateForUI(false);
+    }
 }

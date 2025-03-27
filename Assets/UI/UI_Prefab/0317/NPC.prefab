@@ -2247,10 +2247,12 @@ MonoBehaviour:
     name: "\u6751\u6C11"
     sentences:
     - "\u4EFB\u52D9\u5B8C\u6210\u6587\u672C\u5F85\u4FEE"
+    - "\u4EFB\u52D9\u5B8C\u6210\u6587\u672C\u5F85\u4FEE2"
   dialogue3:
     name: "\u6751\u6C11"
     sentences:
     - "\u4EFB\u52D9\u672A\u5B8C\u6210\u6587\u672C\u5F85\u4FEE"
+    - "\u4EFB\u52D9\u672A\u5B8C\u6210\u6587\u672C\u5F85\u4FEE2"
   ButtonPrefab: {fileID: 7595613025379501571, guid: 16b571ba1f3f14543869641504eba688,
     type: 3}
   buttonTransform: {fileID: 6158265282270998478}

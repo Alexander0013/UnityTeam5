@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: TaskItem
   itemImage: {fileID: 21300000, guid: d24e596ed9e56f54a8766aa74ba703d5, type: 3}
-  itemHeld: 1
+  itemHeld: 5
   itemInfo: "\u4E0D\u80FD\u4F7F\u7528\u6216\u4E1F\u68C4"
   itemType: 2
