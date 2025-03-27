@@ -58,7 +58,7 @@ MonoBehaviour:
   offset: {x: 0, y: 1.5, z: 0}
   shooterOffset: {x: 0, y: 2, z: 0}
   visibleDistance: 8
-  fadeSpeed: 4
+  fadeSpeed: 1
 --- !u!225 &1815374527188416855
 CanvasGroup:
   m_ObjectHideFlags: 0

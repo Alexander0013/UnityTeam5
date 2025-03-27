@@ -412,9 +412,9 @@ RectTransform:
   - {fileID: 7409283757102733888}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 890}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 700, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1047674012019928410
@@ -494,8 +494,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainSlider: {fileID: 1047674012019928410}
   yellowSlider: {fileID: 8099305428322496530}
-  smoothSpeed: 5
-  Boss: {fileID: 0}
+  smoothSpeed: 10
+  boss: {fileID: 0}
+  bossHealth: {fileID: 0}
   fadeSpeed: 10
 --- !u!1 &7261043340601117258
 GameObject:

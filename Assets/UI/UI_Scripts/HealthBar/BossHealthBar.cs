@@ -4,38 +4,59 @@ using UnityEngine;
 
 public class BossHealthBar : HealthBar
 {
-    public GameObject Boss;
+    public GameObject boss;
+    public BossHealth bossHealth;
     CanvasGroup canvasGroup;
-    //boss health script
 
     bool isFading=false;
     public float fadeSpeed;
 
     //If fight with player-> canvasGroup.alpha = 1
 
-    public void OnEnable()
-    {
-        //.OnHealthChanged += UpdateHealthBar;
-        //.OnDeath += BossDie();
-    }
 
     public void OnDisable()
     {
-        //.OnHealthChanged -= UpdateHealthBar;
-        //.OnDeath -= BossDie();
+        if (boss != null)
+        {
+            bossHealth.OnHealthChanged -= UpdateHealthBar;
+            bossHealth.OnDeath -= BossDie;
+        }        
     }
 
     protected virtual void Start()
     {
-        //SetHealthBar();
         canvasGroup = GetComponent<CanvasGroup>();
+        StartCoroutine(FadeOutHealthBar(0));
+        StartCoroutine(WairForBoss());
+    }
+    public void ShowHealthBar()
+    {
         StartCoroutine(FadeOutHealthBar(1));
+    }
+
+    IEnumerator WairForBoss()
+    {
+        while (bossHealth.currentHealth==0)
+        {
+            yield return null;
+        }
+        bossHealth.OnHealthChanged += UpdateHealthBar;
+        bossHealth.OnDeath += BossDie;
+        SetHealthBar(bossHealth.currentHealth);
+        yield break;
+    }
+
+    public void InitializeHealthBar(GameObject boss)
+    {
+        this.boss = boss;
+        this.bossHealth = boss.GetComponent<BossHealth>();
+        
     }
 
     public void BossDie()
     {
+        yellowSlider.value =0;
         StartCoroutine(FadeOutHealthBar(0));
-        //Destroy(this);
     }
 
     IEnumerator FadeOutHealthBar(float targetAlpha)

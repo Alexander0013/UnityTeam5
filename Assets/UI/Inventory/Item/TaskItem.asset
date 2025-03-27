@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TaskItem
   m_EditorClassIdentifier: 
   itemName: TaskItem
-  itemImage: {fileID: 21300000, guid: d24e596ed9e56f54a8766aa74ba703d5, type: 3}
-  itemHeld: 5
-  itemInfo: "\u4E0D\u80FD\u4F7F\u7528\u6216\u4E1F\u68C4"
+  itemImage: {fileID: 21300000, guid: 8d0ca3569bd5f4e48a9fc1ea1c4416f6, type: 3}
+  itemHeld: 1
+  itemInfo: "\u300A\u5E7B\u754C\u4E4B\u9470\u300B\n\u4E0D\u80FD\u4F7F\u7528\u6216\u4E1F\u68C4"
   itemType: 2

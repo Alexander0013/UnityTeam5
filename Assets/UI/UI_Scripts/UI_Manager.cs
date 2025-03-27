@@ -48,7 +48,10 @@ public class UI_Manager : MonoBehaviour
     //EnemyHealthBar
     public GameObject healthBarPrefab;
     public Transform EnemyHealthBarSpqwn;
-    public GameObject bossHealthBar;
+
+    public GameObject bossHealthBarPrefab;
+    public Transform bossHealthBarSpqwn;
+    //public GameObject bossHealthBar;
 
     private Dictionary<GameObject, EnemyHealthBar> healthBars = new Dictionary<GameObject, EnemyHealthBar>();
 
@@ -116,7 +119,7 @@ public class UI_Manager : MonoBehaviour
         this.GetComponent<CanvasGroup>().alpha = 0;
 
         interactionText.SetActive(false);
-        bossHealthBar.SetActive(false);
+        //bossHealthBar.SetActive(false);
 
         canvasGroup_A = playerHealthBar_A.GetComponent<CanvasGroup>();
         canvasGroup_B = playerHealthBar_B.GetComponent<CanvasGroup>();
@@ -159,8 +162,9 @@ public class UI_Manager : MonoBehaviour
         if (scene.buildIndex == 2)
         {
             StartCoroutine(GenerateHealthBarsForEnemies());
-            bossHealthBar.SetActive(true);
-            bossHealthBar.GetComponent<CanvasGroup>().alpha = 0;
+            CreateBossHealthBar();
+            //bossHealthBar.SetActive(true);
+            //bossHealthBar.GetComponent<CanvasGroup>().alpha = 0;
         }       
 
         IsReady = true;
@@ -410,7 +414,25 @@ public class UI_Manager : MonoBehaviour
             yield return null;  
         }
         yield break;
-    }    
+    }
+
+    //Boss Health Bar
+
+    public void CreateBossHealthBar()
+    {
+        GameObject boss = GameObject.FindGameObjectWithTag("Boss");
+        if (bossHealthBarSpqwn == null)
+        {
+            Debug.Log("bossHealthBarSpqwn is null");
+        }
+        GameObject healthBarObject = Instantiate(bossHealthBarPrefab, bossHealthBarSpqwn);
+        RectTransform rectTransform = healthBarObject.GetComponent<RectTransform>();
+        rectTransform.localPosition = new Vector3 (0,0,0);
+        
+        BossHealthBar bossBarScript = healthBarObject.GetComponent<BossHealthBar>();
+        bossBarScript.InitializeHealthBar(boss);
+    }
+
     //Get mouse from player
     IEnumerator WaitForPlayerReady()
     {
@@ -486,7 +508,7 @@ public class UI_Manager : MonoBehaviour
     void GetMission()
     {
         taskTip.SetActive(true);
-        taskTipText.text = "任務道具(0/5)";
+        taskTipText.text = "《幻界之鑰》(0/5)";
     }
     public void MissionDone()
     {
@@ -508,7 +530,7 @@ public class UI_Manager : MonoBehaviour
         if (item.itemType == Item.ItemType.Other)
         {
             
-            taskTipText.text = "任務道具(" + item.itemHeld+ "/5)";
+            taskTipText.text = "《幻界之鑰》(" + item.itemHeld+ "/5)";
         }
     }
     //hint    

@@ -15,12 +15,15 @@ public class BossHealth : MonoBehaviour, IDamageable
     // 新增：指定特效生成點的 Transform（例如放在 Boss 子物件中）
     public Transform hitEffectPoint;
 
-    private float currentHealth;
+    public float currentHealth;
     private Animator animator;
     private bool isDead = false;
 
     // Reference to your FSM if you want it:
     private EnemyFSM fsm;
+
+    public event Action<float> OnHealthChanged;
+    public event Action OnDeath;
 
     private void Awake()
     {
@@ -46,6 +49,7 @@ public class BossHealth : MonoBehaviour, IDamageable
         if (isDead) return;
 
         currentHealth -= amount;
+        OnHealthChanged.Invoke(currentHealth);
         //Debug.Log($"{gameObject.name} took {amount} damage. Remaining health: {currentHealth}");
 
         // Trigger the get-hit reaction & animation if still alive
@@ -76,8 +80,11 @@ public class BossHealth : MonoBehaviour, IDamageable
 
     IEnumerator DieRoutine()
     {
+        OnDeath.Invoke();
         if (isDead) yield break;
         isDead = true;
+
+       
 
         //Debug.Log($"{gameObject.name} has died.");
         animator.SetTrigger("Die");
@@ -137,7 +144,6 @@ public class BossHealth : MonoBehaviour, IDamageable
             }
             yield return null;
         }
-
         // Finally, destroy the object
         Destroy(gameObject);
     }
