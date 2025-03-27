@@ -14,13 +14,13 @@ public class BossFSM : MonoBehaviour
 
     [Header("Boss Settings")]
     public BossNPCStateData bossnpcData;
-    public float detectionRadius = 10f;    // 偵測範圍
-    public float attackRadius = 2f;        // 近戰攻擊範圍（可供 swiping 判斷使用）
+    public float detectionRadius = 15f;    // 偵測範圍
+    public float attackRadius = 2.5f;        // 近戰攻擊範圍（可供 swiping 判斷使用）
     public LayerMask playerLayer;          // 玩家 Layer
     public Vector3 chargeDestination;      // 衝刺目的地（在 Idle/ChargeIdle 時決定）
     // 召喚敵人技能的冷卻時間（秒）
-    public float summonEnemyCooldown = 30f;
-    private float currentSummonCooldown = 0f;
+    //public float summonEnemyCooldown = 30f;
+    //private float currentSummonCooldown = 0f;
     [Header("Boss Attack Points")]
     public Transform handHitPoint;         // 攻擊時判定中心（swiping 用）
     public GameObject hitEffectPrefab;
@@ -118,20 +118,20 @@ public class BossFSM : MonoBehaviour
                 return;
             }
         }
-        else
-        {
-            // 玩家離開偵測範圍後回到 Idle
-            if (playerTarget != null)
-            {
-                float distance = Vector3.Distance(transform.position, playerTarget.position);
-                if (distance > detectionRadius * 1.5f)
-                {
-                    Debug.Log("玩家完全離開範圍，Boss 回到 Idle");
-                    playerTarget = null;
-                    TransitionToState(idleState);
-                }
-            }
-        }
+        //else
+        //{
+        //    // 玩家離開偵測範圍後回到 Idle
+        //    if (playerTarget != null)
+        //    {
+        //        float distance = Vector3.Distance(transform.position, playerTarget.position);
+        //        if (distance > detectionRadius * 1.5f)
+        //        {
+        //            Debug.Log("玩家完全離開範圍，Boss 回到 Idle");
+        //            playerTarget = null;
+        //            TransitionToState(idleState);
+        //        }
+        //    }
+        //}
     }
 
     // 狀態切換

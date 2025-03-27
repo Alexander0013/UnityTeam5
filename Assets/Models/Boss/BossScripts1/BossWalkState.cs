@@ -9,6 +9,7 @@ public class BossWalkState : BossBaseState
     {
         Debug.Log("進到 WalkState");
         boss.animator.SetBool("Walk", true);
+        boss.animator.ResetTrigger("Dance");
         boss.StartCoroutine(WalkDetectPlayer(boss));
     }
 
@@ -24,7 +25,7 @@ public class BossWalkState : BossBaseState
         float distance = Vector3.Distance(boss.transform.position, boss.playerTarget.position);
 
         // 如果玩家進入 swiping 範圍（≤1.5f），切換到 SwipingState
-        if (distance <= 1.5f)
+        if (distance <= 2.5f)
         {
             Debug.Log("玩家進入 swiping 攻擊範圍，Boss 進入 SwipingState");
             boss.TransitionToState(boss.swipingState);

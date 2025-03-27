@@ -98,17 +98,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 8bb030d8eed0e7049abe12b8bcd6b469,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -222.34
+      value: -186.13863
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8bb030d8eed0e7049abe12b8bcd6b469,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.0003195
+      value: 5.000306
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8bb030d8eed0e7049abe12b8bcd6b469,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -132.48
+      value: -141.15924
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8bb030d8eed0e7049abe12b8bcd6b469,
         type: 3}
@@ -849,12 +849,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bossnpcData: {fileID: 11400000, guid: 4ff9992460b5e214d9c6949131080965, type: 2}
-  detectionRadius: 10
+  detectionRadius: 15
   attackRadius: 1.5
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
   chargeDestination: {x: 0, y: 0, z: 0}
+  summonEnemyCooldown: 30
   handHitPoint: {fileID: 4658906792232366603}
   hitEffectPrefab: {fileID: 4383557137612439351, guid: d06ae0bb7de11684daf5c79283c880d5,
     type: 3}
@@ -896,6 +897,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bossnpcStateData: {fileID: 11400000, guid: 4ff9992460b5e214d9c6949131080965, type: 2}
+  bossDeathMaterials:
+  - {fileID: 2100000, guid: 74408d79cd348b84d9c6065822bfbe97, type: 2}
+  - {fileID: 2100000, guid: ff077fce61a1fff43b8bf2ee64a970e5, type: 2}
+  - {fileID: 2100000, guid: 59a831bdbab9ff9408e7cc68a38b239a, type: 2}
   deathEffectPrefab: {fileID: 4071002679172386926, guid: bae578dc687aa934e86bf29054f4129e,
     type: 3}
   fadeDuration: 1

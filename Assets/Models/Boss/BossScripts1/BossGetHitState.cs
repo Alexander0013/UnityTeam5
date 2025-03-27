@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class BossGetHitState : BossBaseState
 {
-    private float gotHitDuration = 0.8f; // 受擊動畫時間
-    private float timer;
+    //private float gotHitDuration = 0.8f; // 受擊動畫時間
+    //private float timer;
 
     public override void EnterState(BossFSM boss)
     {

@@ -1,9 +1,11 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class BossHealth : MonoBehaviour, IDamageable
 {
     public BossNPCStateData bossnpcStateData;
+    public Material[] bossDeathMaterials;
     public GameObject deathEffectPrefab;
     public float fadeDuration = 1.0f;
 
@@ -99,12 +101,21 @@ public class BossHealth : MonoBehaviour, IDamageable
         Renderer[] renderers = GetComponentsInChildren<Renderer>();
         foreach (Renderer r in renderers)
         {
-            Material[] mats = new Material[r.materials.Length];
-            for (int i = 0; i < mats.Length; i++)
+            Material[] newMats;
+            if (bossDeathMaterials != null && bossDeathMaterials.Length == r.materials.Length)
             {
-                //mats[i] = deathob;
+                newMats = new Material[r.materials.Length];
+                for (int i = 0; i < r.materials.Length; i++)
+                {
+                    newMats[i] = bossDeathMaterials[i];
+                }
             }
-            r.materials = mats;
+            else
+            {
+                // Otherwise, use the current materials
+                newMats = r.materials;
+            }
+            r.materials = newMats;
         }
 
         float timer = 0f;

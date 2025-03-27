@@ -11,7 +11,12 @@ public class BossDanceState : BossBaseState
 
     public override void UpdateState(BossFSM boss)
     {
-        
+        if (boss.playerTarget != null)
+        {
+            Debug.Log("玩家離開偵測範圍，Boss 回到 Idle");
+            boss.TransitionToState(boss.walkState);
+
+        }
     }
 
     public override void ExitState(BossFSM boss)

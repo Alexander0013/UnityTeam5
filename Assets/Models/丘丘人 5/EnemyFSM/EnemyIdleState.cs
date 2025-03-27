@@ -6,14 +6,31 @@ public class EnemyIdleState : EnemyBaseState
     private bool deciding;
     private float minIdle = 0.5f;  // random idle range
     private float maxIdle = 1f;
-
+    private Vector3 targetPos;
     public Transform treasure;
 
     public override void EnterState(EnemyFSM enemy)
     {
         //Debug.Log("Enter Idle State");
         enemy.animator.SetBool("isWalking", false);
+        // Get the player's position, but keep the enemy's y position
+        if (enemy.playerTarget != null)
+        {
+            targetPos = enemy.playerTarget.position;
+            targetPos.y = enemy.transform.position.y;
+        }
 
+        // Calculate direction ignoring vertical difference
+        Vector3 direction = (targetPos - enemy.transform.position).normalized;
+        if (direction != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            enemy.transform.rotation = Quaternion.Slerp(
+                enemy.transform.rotation,
+                targetRotation,
+                Time.deltaTime * 5f
+            );
+        }
         treasure = enemy.transform.parent;
         // We pick a random idle time each time we enter Idle
         idleTime = Random.Range(minIdle, maxIdle);
