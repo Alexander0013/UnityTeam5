@@ -508,7 +508,7 @@ public class UI_Manager : MonoBehaviour
     void GetMission()
     {
         taskTip.SetActive(true);
-        taskTipText.text = "任務道具(0/5)";
+        taskTipText.text = "《幻界之鑰》(0/5)";
     }
     public void MissionDone()
     {
@@ -530,7 +530,7 @@ public class UI_Manager : MonoBehaviour
         if (item.itemType == Item.ItemType.Other)
         {
             
-            taskTipText.text = "任務道具(" + item.itemHeld+ "/5)";
+            taskTipText.text = "《幻界之鑰》(" + item.itemHeld+ "/5)";
         }
     }
     //hint    

@@ -13,21 +13,20 @@ public class BossHealthBar : HealthBar
 
     //If fight with player-> canvasGroup.alpha = 1
 
-    public void OnEnable()
-    {
-        
-    }
 
     public void OnDisable()
     {
-        bossHealth.OnHealthChanged -= UpdateHealthBar;
-        bossHealth.OnDeath -= BossDie;
+        if (boss != null)
+        {
+            bossHealth.OnHealthChanged -= UpdateHealthBar;
+            bossHealth.OnDeath -= BossDie;
+        }        
     }
 
     protected virtual void Start()
     {
         canvasGroup = GetComponent<CanvasGroup>();
-        //StartCoroutine(FadeOutHealthBar(0));
+        StartCoroutine(FadeOutHealthBar(0));
         StartCoroutine(WairForBoss());
     }
     public void ShowHealthBar()
