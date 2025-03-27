@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ItemGiver : MonoBehaviour
 {
-    //public List<ItemQuantity> itemsToGive;
     public List<Item> itemsToGive;
 
     public Inventory playerBag;
@@ -30,33 +29,10 @@ public class ItemGiver : MonoBehaviour
         }
     }
 
-
-    //public void AddNewItems()
-    //{
-    //    foreach (ItemQuantity itemQuantity in itemsToGive) 
-    //    {
-    //        Item item = itemQuantity.item;
-    //        int quantity = itemQuantity.quantity;
-
-    //        if (!playerBag.itemList.Contains(item))
-    //        {
-    //            playerBag.itemList[playerBag.FindEmpty()] = item;
-    //            item.itemHeld = quantity;  
-    //        }
-    //        else
-    //        {
-    //            item.itemHeld += quantity;
-    //        }
-
-    //        InventoryManager.RefreshItems(); 
-    //        ItemAdded?.Invoke(item);        
-    //    }
-    //}
-
     public void AddNewItems()
     {
         foreach (Item item in itemsToGive)
-        {
+        {            
             if (!playerBag.itemList.Contains(item))
             {
                 playerBag.itemList[playerBag.FindEmpty()] = item;
@@ -65,10 +41,11 @@ public class ItemGiver : MonoBehaviour
             {
                 item.itemHeld += 1;
             }
-            InventoryManager.RefreshItems();
+          
             ItemAdded?.Invoke(item);
             Debug.Log("Item added: " + item.itemName);
         }
+        InventoryManager.RefreshItems();
     }
 
 }

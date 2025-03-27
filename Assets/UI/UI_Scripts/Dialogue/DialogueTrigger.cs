@@ -9,6 +9,7 @@ public class DialogueTrigger : MonoBehaviour
     public Dialogue dialogue3;
     public GameObject ButtonPrefab;
     public Transform buttonTransform;
+    public ItemGiver itemGivers;
     GameObject button;
 
     //Misson
@@ -31,6 +32,7 @@ public class DialogueTrigger : MonoBehaviour
             GetDialogueButton();
             UI_Manager.instance.ShowInteractionText("«öE¹ï¸Ü");
             UI_Manager.instance.inDialogueRange = true;
+            UI_Manager.instance.npcDT = this;
             if (!UI_Manager.instance.getMission)
             {
                 UI_Manager.instance.dialogue = dialogue;
@@ -82,4 +84,8 @@ public class DialogueTrigger : MonoBehaviour
             Destroy(button);
     }
 
+    public void GetItemFromNPC()
+    {
+        itemGivers.AddNewItems();
+    }
 }

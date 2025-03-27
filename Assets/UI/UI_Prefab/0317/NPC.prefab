@@ -2181,6 +2181,7 @@ GameObject:
   - component: {fileID: 1004877808747512171}
   - component: {fileID: 1691369740247126151}
   - component: {fileID: 6517167394851813835}
+  - component: {fileID: 1237976558743144849}
   m_Layer: 0
   m_Name: DT
   m_TagString: Untagged
@@ -2255,6 +2256,24 @@ MonoBehaviour:
   ButtonPrefab: {fileID: 7595613025379501571, guid: 16b571ba1f3f14543869641504eba688,
     type: 3}
   buttonTransform: {fileID: 6158265282270998478}
+  itemGivers: {fileID: 1237976558743144849}
+--- !u!114 &1237976558743144849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3447264813436202982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2267b669cd328439fe144895f4a406, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemsToGive:
+  - {fileID: 11400000, guid: 0068fb11b42867d41af9bba6b29faaa0, type: 2}
+  - {fileID: 11400000, guid: a0b1980a46f345a479d17f1656c8ff12, type: 2}
+  - {fileID: 11400000, guid: dee7cf13a49b061428fe87bf26d75152, type: 2}
+  playerBag: {fileID: 11400000, guid: a30253c32cc4039489511d2a42d1a9b3, type: 2}
 --- !u!1 &3454948034517600922
 GameObject:
   m_ObjectHideFlags: 0
