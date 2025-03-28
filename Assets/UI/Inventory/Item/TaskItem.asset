@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ea4f7d0f493d6c459654e215c82ea99, type: 3}
   m_Name: TaskItem
   m_EditorClassIdentifier: 
-  itemName: TaskItem
+  itemName: "\u5E7B\u754C\u4E4B\u9470"
   itemImage: {fileID: 21300000, guid: 8d0ca3569bd5f4e48a9fc1ea1c4416f6, type: 3}
-  itemHeld: 1
+  itemHeld: 4
   itemInfo: "\u300A\u5E7B\u754C\u4E4B\u9470\u300B\n\u4E0D\u80FD\u4F7F\u7528\u6216\u4E1F\u68C4"
   itemType: 2

@@ -12,13 +12,10 @@ public class DialogueTrigger : MonoBehaviour
     public ItemGiver itemGivers;
     GameObject button;
 
-    //Misson
-    int currentItemCount;
 
     void Start()
     {
         UI_Manager.instance.startDialogue+= StartDialogue;
-        currentItemCount = InventoryManager.instance.GetItemAmount(Item.ItemType.Other);
     }
     void OnDisable()
     {
@@ -39,10 +36,9 @@ public class DialogueTrigger : MonoBehaviour
             }
             else
             {
-                if (currentItemCount == 5)
+                if (UI_Manager.instance.missionDone)
                 {
                     UI_Manager.instance.dialogue = dialogue2;
-                    UI_Manager.instance.missionDone = true;
                 }
                 else
                 {
@@ -74,8 +70,11 @@ public class DialogueTrigger : MonoBehaviour
 
     void GetDialogueButton()
     {
-        button = Instantiate(ButtonPrefab, UI_Manager.instance.canvas.transform);
-        button.transform.position = Camera.main.WorldToScreenPoint(buttonTransform.position);
+        if (button == null)
+        {
+            button = Instantiate(ButtonPrefab, UI_Manager.instance.canvas.transform);
+            button.transform.position = Camera.main.WorldToScreenPoint(buttonTransform.position);
+        }       
     }
 
     void StartDialogue()

@@ -11,9 +11,6 @@ public class MiniMap : MonoBehaviour
 
     CharacterManager characterManager;
 
-    bool switchPlayer = true;
-
-
     public void OnDisable()
     {
         if (characterManager != null)
@@ -30,7 +27,15 @@ public class MiniMap : MonoBehaviour
 
         Player_A = characterManager.characters[0];
         Player_B = characterManager.characters[1];
-        playerTransform = Player_A.transform;
+        if(UI_Manager.instance.playerAonUsed)
+        {
+            playerTransform = Player_A.transform;
+        }
+        else
+        {
+            playerTransform = Player_B.transform;
+        }
+
         mainCamera = Camera.main;
 
         if (characterManager == null) { Debug.Log("characterManager == null"); }
@@ -41,16 +46,14 @@ public class MiniMap : MonoBehaviour
 
     private void switchFollower()
     {
-        Debug.Log("switch player to"+playerTransform);
-        if (switchPlayer)
-        {
-            playerTransform = Player_B.transform;            
-        }
-        else 
+        if (UI_Manager.instance.playerAonUsed)
         {
             playerTransform = Player_A.transform;
         }
-        switchPlayer = !switchPlayer;
+        else
+        {
+            playerTransform = Player_B.transform;
+        }
     }
 
     private void LateUpdate()
