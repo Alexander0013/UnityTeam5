@@ -1227,30 +1227,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 858068373}
-    - target: {fileID: 2578370318272141989, guid: 5bb5cda1376d5724dbfdc2ad8761025c,
-        type: 3}
-      propertyPath: m_RenderMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5509833775708305935, guid: 5bb5cda1376d5724dbfdc2ad8761025c,
-        type: 3}
-      propertyPath: m_Alpha
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5779974297054424806, guid: 5bb5cda1376d5724dbfdc2ad8761025c,
         type: 3}
       propertyPath: m_Name
       value: SceneController
-      objectReference: {fileID: 0}
-    - target: {fileID: 6163445348876251460, guid: 5bb5cda1376d5724dbfdc2ad8761025c,
-        type: 3}
-      propertyPath: m_Alpha
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6640913602394251155, guid: 5bb5cda1376d5724dbfdc2ad8761025c,
-        type: 3}
-      propertyPath: fadeDuration
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

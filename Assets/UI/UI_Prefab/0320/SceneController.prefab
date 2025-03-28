@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 4667527916292438009}
   - component: {fileID: 8899349995189384177}
   - component: {fileID: 579220900935895824}
+  - component: {fileID: 3784831757819083266}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Quit Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -120,7 +121,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8899349995189384177}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6640913602394251155}
+        m_TargetAssemblyTypeName: SceneController, Assembly-CSharp
+        m_MethodName: OnQuitButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!225 &3784831757819083266
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 475305238283764691}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2179775199510300165
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,9 +231,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2179775199510300165}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
-  m_BlocksRaycasts: 0
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!1 &4099251602622532679
 GameObject:
@@ -418,8 +443,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   switchSceneCG: {fileID: 5509833775708305935}
   EndindCG: {fileID: 6163445348876251460}
+  QuitButtomCG: {fileID: 3784831757819083266}
   fadeDuration: 1
-  endingStory: "\u7D93\u904E\u4E86\u85CD\u986F\u4E00\u884C\u4EBA\u7684\u52AA\u529B\uFF0C\u7D42\u65BC\u6253\u5012\u4E86\u6417\u4E82\u7684\u5927\u4E18\u4E18\u4EBA\uFF0C\u4E5F\u66FF\u6751\u838A\u627E\u56DE\u907A\u5931\u7684\u5BF6\u7269\uFF0C\u800C\u85CD\u986F\u4E00\u884C\u4EBA\u7684\u5192\u96AA\u9084\u6703\u7E7C\u7E8C\u4E0B\u53BB\uFF0E\uFF0E\uFF0E\uFF0E\uFF0E\uFF0E\u3002"
+  endingStory: "\u7D93\u904E\u4E86\u85CD\u786F\u4E00\u884C\u4EBA\u7684\u52AA\u529B\uFF0C\u7D42\u65BC\u6253\u5012\u4E86\u6417\u4E82\u7684\u4E18\u4E18\u4EBA\uFF0C\u4E5F\u66FF\u6751\u838A\u627E\u56DE\u907A\u5931\u7684\u5BF6\u7269\uFF0C\u800C\u85CD\u786F\u4E00\u884C\u4EBA\u7684\u5192\u96AA\u9084\u6703\u7E7C\u7E8C\u4E0B\u53BB\uFF0E\uFF0E\uFF0E\uFF0E\uFF0E\uFF0E\u3002"
   endingText: {fileID: 3115941705714635003}
 --- !u!1 &6194610260045319199
 GameObject:

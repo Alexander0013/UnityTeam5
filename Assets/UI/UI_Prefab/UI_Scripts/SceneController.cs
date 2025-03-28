@@ -9,6 +9,7 @@ public class SceneController : MonoBehaviour
 
     public CanvasGroup switchSceneCG;
     public CanvasGroup EndindCG;
+    public CanvasGroup QuitButtomCG;
     public float fadeDuration = 1f;
     [TextArea(3, 10)]
     public string endingStory;
@@ -32,6 +33,7 @@ public class SceneController : MonoBehaviour
     {
         switchSceneCG.alpha = 0;
         EndindCG.alpha = 0;
+        EndindCG.gameObject.SetActive(false);
     }
 
     public IEnumerator FadeOutAndLoadSingle(int buildIndex)
@@ -59,9 +61,10 @@ public class SceneController : MonoBehaviour
 
     public void EndGame()
     {
-        StartCoroutine(Fade(1f, EndindCG));
-        
+        EndindCG.gameObject.SetActive(true);
+        StartCoroutine(Fade(1f, EndindCG));        
         StartCoroutine(DisplaySectence(endingStory));
+        
         //Time.timeScale = 0;
     }
 
@@ -73,5 +76,12 @@ public class SceneController : MonoBehaviour
             endingText.text += letter;
             yield return new WaitForSeconds(0.05f);
         }
+        StartCoroutine(Fade(1f, QuitButtomCG));
+    }
+
+    public void OnQuitButtonClick()
+    {
+        Debug.Log("Quit");
+        Application.Quit();
     }
 }
