@@ -316,4 +316,8 @@ public class CharacterManager : MonoBehaviour
             SwitchCharacter();
         }
     }
+    public GameObject GetCurrentPlayer()
+    {
+        return characters[currentCharacterIndex];
+    }
 }
