@@ -5,6 +5,7 @@ public class BossSwipingState : BossBaseState
 {
     public override void EnterState(BossFSM boss)
     {
+        boss.PLayAttackSound();
         Debug.Log("Boss ¶i¤J Swiping ª¬ºA");
         if (boss.playerTarget != null)
         {

@@ -240,10 +240,18 @@ public class BossFSM : MonoBehaviour
     }
     public void PLayRoalingSound()
     {
-        GetComponent<PlayerAudio>()?.PlayAttackSound();
+        GetComponent<BossAudio>()?.PlayRoalingSound();
     }
     public void PLayDieSound()
     {
         GetComponent<PlayerAudio>()?.PlayDieSound();
+    }
+    public void PLayAttackSound()
+    {
+        GetComponent<PlayerAudio>()?.PlayAttackSound();
+    }
+    public void PLayGetHitSound()
+    {
+        GetComponent<PlayerAudio>()?.PlayGetHitSound();
     }
 }
