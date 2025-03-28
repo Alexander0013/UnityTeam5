@@ -5,6 +5,7 @@ using System;
 
 public class BossRoalingState : BossBaseState
 {
+
     public override void EnterState(BossFSM boss)
     {
         boss.PLayRoalingSound();
@@ -12,6 +13,7 @@ public class BossRoalingState : BossBaseState
         boss.animator.SetTrigger("Roaling");
         // 此狀態下不需額外 Update 行為，由動畫事件控制結束時機
     }
+
 
     public override void UpdateState(BossFSM boss)
     {
