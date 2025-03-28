@@ -136,8 +136,11 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             {
                 if (animator != null && Time.time - lastGetHitAnimTime >= getHitAnimCooldown)
                 {
-                    animator.SetBool("getHit", true);
-                    StartCoroutine(ResetGetHit());
+                    PlayerStateManager stateManager = GetComponent<PlayerStateManager>();
+                    if (stateManager != null)
+                    {
+                        stateManager.SwitchState(new GetHitState());
+                    }
                     lastGetHitAnimTime = Time.time;
                 }
                 if (Time.time - lastGetHitSoundTime >= getHitSoundCooldown)

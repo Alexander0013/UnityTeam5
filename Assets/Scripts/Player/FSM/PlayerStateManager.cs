@@ -70,8 +70,8 @@ public class PlayerStateManager : MonoBehaviour
         // Let the current state handle high-level behavior
         currentState.UpdateState(this);
 
-        // If not in Attack state, handle movement/jump
-        if (!(currentState is AttackState))
+        // If not in Attack or GetHit state, handle movement/jump
+        if (!(currentState is AttackState) && !(currentState is GetHitState))
         {
             UpdateMovement();
             UpdateJumpAndGravity();
