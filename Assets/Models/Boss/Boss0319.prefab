@@ -1171,6 +1171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90592f4b4f7be8d49a8507d9e6bc7218, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackClip: {fileID: 8300000, guid: bb4888898b8adc34a92f53bbde5e1111, type: 3}
-  getHitClip: {fileID: 8300000, guid: 1dcbbe986096e2441846c413b3451cc1, type: 3}
-  dieClip: {fileID: 0}
+  attackClip: {fileID: 8300000, guid: 3717b3ae3bfa88f43969bae7630edbd1, type: 3}
+  getHitClip: {fileID: 8300000, guid: 0c8725911e1b1c54d909303c8ded27ca, type: 3}
+  dieClip: {fileID: 8300000, guid: 1dcbbe986096e2441846c413b3451cc1, type: 3}
+  roalingClip: {fileID: 8300000, guid: bb4888898b8adc34a92f53bbde5e1111, type: 3}

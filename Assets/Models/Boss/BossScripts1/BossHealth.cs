@@ -20,7 +20,7 @@ public class BossHealth : MonoBehaviour, IDamageable
     private bool isDead = false;
 
     // Reference to your FSM if you want it:
-    private EnemyFSM fsm;
+    private BossFSM fsm;
 
     public event Action<float> OnHealthChanged;
     public event Action OnDeath;
@@ -28,7 +28,7 @@ public class BossHealth : MonoBehaviour, IDamageable
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        fsm = GetComponent<EnemyFSM>(); // If you want to notify the FSM of death
+        fsm = GetComponent<BossFSM>(); // If you want to notify the FSM of death
     }
 
     private void Start()
@@ -72,7 +72,7 @@ public class BossHealth : MonoBehaviour, IDamageable
             GameObject hitFx = Instantiate(hitEffectPrefab, hitEffectPoint.position, Quaternion.identity);
             Destroy(hitFx, 0.5f);
         }
-        
+        fsm.PLayGetHitSound();
         // Wait a fraction of a second to let the flinch play, if you like
         yield return new WaitForSeconds(0.5f);
 
@@ -89,12 +89,12 @@ public class BossHealth : MonoBehaviour, IDamageable
         //Debug.Log($"{gameObject.name} has died.");
         animator.SetTrigger("Die");
 
-        // (Optional) Let the FSM know we're dead so it can stop AI logic
-        if (fsm != null)
-        {
-            fsm.isDead = true;
-            // or do fsm.TransitionToState(fsm.deadState), if you want
-        }
+        //// (Optional) Let the FSM know we're dead so it can stop AI logic
+        //if (fsm != null)
+        //{
+        //    fsm.isDead = true;
+        //    // or do fsm.TransitionToState(fsm.deadState), if you want
+        //}
 
         // Spawn a death effect, if any
         if (deathEffectPrefab != null)

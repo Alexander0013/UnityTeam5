@@ -64,22 +64,15 @@ public class BossFSM : MonoBehaviour
             Debug.Log("玩家死亡，Boss 進入 Dance 狀態");
             TransitionToState(danceState);
         }
-
-        //// 更新召喚技能冷卻
-        //if (currentSummonCooldown > 0f)
-        //{
-        //    currentSummonCooldown -= Time.deltaTime;
-        //}
-        //else
-        //{
-        //    // 當冷卻結束且 Boss 處於 Idle 狀態時，優先使用召喚技能
-        //    if (currentState is BossIdleState)
-        //    {
-        //        Debug.Log("召喚技能冷卻完畢，切換到 SummonEnemy 狀態");
-        //        TransitionToState(summonEnemyState);
-        //        currentSummonCooldown = summonEnemyCooldown; // 重置冷卻
-        //    }
-        //}
+        if (currentState is BossRoalingState)
+        {
+            BossHealthBar bossBar = FindObjectOfType<BossHealthBar>();
+            if (bossBar != null)
+            {
+                // Start the fade-in coroutine to set alpha = 1
+                bossBar.StartCoroutine(bossBar.FadeOutHealthBar(1f));
+            }
+        }
     }
 
     private void SnapToGround()
@@ -240,10 +233,18 @@ public class BossFSM : MonoBehaviour
     }
     public void PLayRoalingSound()
     {
-        GetComponent<PlayerAudio>()?.PlayAttackSound();
+        GetComponent<BossAudio>()?.PlayRoalingSound();
     }
     public void PLayDieSound()
     {
         GetComponent<PlayerAudio>()?.PlayDieSound();
+    }
+    public void PLayAttackSound()
+    {
+        GetComponent<PlayerAudio>()?.PlayAttackSound();
+    }
+    public void PLayGetHitSound()
+    {
+        GetComponent<PlayerAudio>()?.PlayGetHitSound();
     }
 }

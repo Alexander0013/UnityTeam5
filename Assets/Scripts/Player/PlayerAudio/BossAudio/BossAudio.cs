@@ -8,6 +8,7 @@ public class BossAudio : PlayerAudio
     public AudioClip attackClip;
     public AudioClip getHitClip;
     public AudioClip dieClip;
+    public AudioClip roalingClip;
 
     // We remove the local AudioSource playback since we use SFXManager now.
 
@@ -17,16 +18,6 @@ public class BossAudio : PlayerAudio
         {
             SFXManager.instance.PlaySFX(attackClip, transform.position);
         }
-        /*
-        if (Time.time - lastAttackSoundTime >= attackSoundCooldown)
-        {
-            if (attackClip != null)
-            {
-                SFXManager.instance.PlaySFX(attackClip, transform.position);
-                lastAttackSoundTime = Time.time;
-            }
-        }
-        */
     }
 
     public override void PlayGetHitSound()
@@ -40,7 +31,11 @@ public class BossAudio : PlayerAudio
         if (dieClip != null)
             SFXManager.instance.PlaySFX(dieClip, transform.position);
     }
-
+    public void PlayRoalingSound()
+    {
+        if (attackClip != null)
+            SFXManager.instance.PlaySFX(roalingClip, transform.position);
+    }
     // For idle sounds, if enemies have them, you could implement empty methods or similar.
     public override void UpdateIdleTimer() { }
     public override void ResetIdleTimer() { }
