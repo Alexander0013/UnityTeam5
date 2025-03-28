@@ -15,6 +15,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public float getHitAnimCooldown = 1f;     // adjust as needed (e.g., 0.5 seconds)
     public float currentDamage { get; private set; }
 
+    public bool isDead { get; private set; } = false;
 
     private Animator animator;
     private PlayerShield playerShield; // Reference to the shield component.
@@ -182,6 +183,11 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         // Adjust the wait time to match your die animation length.
         yield return new WaitForSeconds(1.5f);
         gameObject.SetActive(false);
+        isDead = true;
+        if (CharacterManager.instance != null)
+        {
+            CharacterManager.instance.SwitchToOtherPlayer();
+        }
     }
     // Optional: a method to reset health, called by a GameManager upon respawn.
     public void ResetHealth()

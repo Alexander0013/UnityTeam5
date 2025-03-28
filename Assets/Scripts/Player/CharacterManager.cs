@@ -201,24 +201,72 @@ public class CharacterManager : MonoBehaviour
     /// <summary>
     /// Switches between the first and second character (or cycles through).
     /// </summary>
-    private void SwitchCharacter()
+    //private void SwitchCharacter()
+    //{
+    //    // Store current char’s position/rotation
+    //    GameObject currentChar = characters[currentCharacterIndex];
+    //    Vector3 oldPos = currentChar.transform.position;
+    //    Quaternion oldRot = currentChar.transform.rotation;
+
+    //    // Deactivate old
+    //    currentChar.SetActive(false);
+
+    //    // Next index
+    //    currentCharacterIndex = (currentCharacterIndex + 1) % characters.Count;
+    //    GameObject newChar = characters[currentCharacterIndex];
+    //    newChar.transform.position = oldPos;
+    //    newChar.transform.rotation = oldRot;
+    //    newChar.SetActive(true);
+
+    //    // Update the camera’s Follow / LookAt
+    //    if (virtualCamera != null)
+    //    {
+    //        Transform newCameraRoot = GetCameraRoot(newChar);
+    //        if (newCameraRoot != null)
+    //        {
+    //            virtualCamera.Follow = newCameraRoot;
+    //            virtualCamera.LookAt = newCameraRoot;
+    //        }
+    //    }
+
+    //    // Fire event so UI or others can respond
+    //    SwitchPlayer?.Invoke();
+    //}
+    public void SwitchToOtherPlayer()
     {
-        // Store current char’s position/rotation
+        int otherIndex = (currentCharacterIndex == 0) ? 1 : 0;
+        PlayerHealth otherPH = characters[otherIndex].GetComponent<PlayerHealth>();
+
+        if (otherPH != null && !otherPH.isDead)
+        {
+            SwitchToCharacter(otherIndex);
+        }
+        else
+        {
+            Debug.Log("The other player is dead. Cannot switch.");
+        }
+    }
+
+    private void SwitchToCharacter(int newIndex)
+    {
+        //Store current char’s position/ rotation
         GameObject currentChar = characters[currentCharacterIndex];
         Vector3 oldPos = currentChar.transform.position;
         Quaternion oldRot = currentChar.transform.rotation;
 
-        // Deactivate old
-        currentChar.SetActive(false);
+        // Deactivate the current player.
+        characters[currentCharacterIndex].SetActive(false);
 
-        // Next index
-        currentCharacterIndex = (currentCharacterIndex + 1) % characters.Count;
+
+        // Update index.
+        currentCharacterIndex = newIndex;
         GameObject newChar = characters[currentCharacterIndex];
         newChar.transform.position = oldPos;
         newChar.transform.rotation = oldRot;
+        // Activate the new player.
         newChar.SetActive(true);
 
-        // Update the camera’s Follow / LookAt
+        // Update the camera's Follow/LookAt.
         if (virtualCamera != null)
         {
             Transform newCameraRoot = GetCameraRoot(newChar);
@@ -229,9 +277,27 @@ public class CharacterManager : MonoBehaviour
             }
         }
 
-        // Fire event so UI or others can respond
+        // Optionally, notify other systems.
         SwitchPlayer?.Invoke();
     }
+
+    private void SwitchCharacter()
+    {
+        // For manual switching using the "C" key.
+        int otherIndex = (currentCharacterIndex == 0) ? 1 : 0;
+        PlayerHealth otherPH = characters[otherIndex].GetComponent<PlayerHealth>();
+
+        if (otherPH != null && !otherPH.isDead)
+        {
+            SwitchToCharacter(otherIndex);
+        }
+        else
+        {
+            Debug.Log("The other player is dead. Cannot switch.");
+        }
+    }
+
+
 
     /// <summary>
     /// Returns the "PlayerCameraRoot" child from a character, used for Cinemachine Follow/LookAt.
