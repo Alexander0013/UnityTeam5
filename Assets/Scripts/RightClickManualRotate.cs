@@ -2,23 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Cinemachine;
 
 public class RightClickManualRotate : MonoBehaviour
 {
     public float rotationSpeed = 1.5f;
-    private bool isRotating = false;
+    private CinemachineInputProvider inputProvider;
+    void Start()
+    {
+        inputProvider = GetComponent<CinemachineInputProvider>();
+    }
 
     void Update()
     {
-        if (Mouse.current.rightButton.isPressed)
-        {
-            isRotating = true;
-        }
-        else
-        {
-            isRotating = false;
-        }
-
+        bool isRotating = Mouse.current.rightButton.isPressed;
+        if (inputProvider != null)
+            inputProvider.enabled = isRotating;
         if (isRotating && CharacterManager.instance != null)
         {
             Debug.Log("right click rotate camera");

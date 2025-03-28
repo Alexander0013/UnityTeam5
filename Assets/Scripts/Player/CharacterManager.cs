@@ -307,13 +307,30 @@ public class CharacterManager : MonoBehaviour
         return character.transform.Find(cameraRootName);
     }
 
+    private void TrySwitchTo(int index)
+    {
+        if (index == currentCharacterIndex)
+            return;
+        PlayerHealth targetHealth = characters[index].GetComponent<PlayerHealth>();
+        if (targetHealth != null && !targetHealth.isDead)
+        {
+            SwitchToCharacter(index);
+        }
+        else
+        {
+            Debug.Log("player is died.");
+        }
+    }
 
     private void Update()
     {
-        // Switch character with “C” key, for testing
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            SwitchCharacter();
+            TrySwitchTo(0);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            TrySwitchTo(1);
         }
     }
     public GameObject GetCurrentPlayer()
