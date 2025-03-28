@@ -312,6 +312,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6824691199435201868, guid: b21844bdc32ca244aa45bb93a277d910,
         type: 3}
+      propertyPath: itemDisplayPrefab
+      value: 
+      objectReference: {fileID: 6762532824461183895, guid: 94ee6eb8ef26dc249b2cb2b0742b4aa8,
+        type: 3}
+    - target: {fileID: 6824691199435201868, guid: b21844bdc32ca244aa45bb93a277d910,
+        type: 3}
       propertyPath: bossHealthBarSpqwn
       value: 
       objectReference: {fileID: 384617994}

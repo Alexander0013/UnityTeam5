@@ -475,6 +475,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8bb030d8eed0e7049abe12b8bcd6b469,
+        type: 3}
+      propertyPath: m_TagString
+      value: Boss
+      objectReference: {fileID: 0}
     - target: {fileID: 1046893080411756856, guid: 8bb030d8eed0e7049abe12b8bcd6b469,
         type: 3}
       propertyPath: m_Layer
@@ -855,7 +860,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   chargeDestination: {x: 0, y: 0, z: 0}
-  summonEnemyCooldown: 30
   handHitPoint: {fileID: 4658906792232366603}
   hitEffectPrefab: {fileID: 4383557137612439351, guid: d06ae0bb7de11684daf5c79283c880d5,
     type: 3}
@@ -907,6 +911,7 @@ MonoBehaviour:
   hitEffectPrefab: {fileID: 6837884202847856402, guid: e43b3a7ea422a1e439d29504a193260b,
     type: 3}
   hitEffectPoint: {fileID: 8103086983206336076}
+  currentHealth: 0
 --- !u!54 &3910335052306428576
 Rigidbody:
   m_ObjectHideFlags: 0
