@@ -59,7 +59,7 @@ public class BossHealthBar : HealthBar
         StartCoroutine(FadeOutHealthBar(0));
     }
 
-    IEnumerator FadeOutHealthBar(float targetAlpha)
+    public IEnumerator FadeOutHealthBar(float targetAlpha)
     {
         if (!isFading)
         {
