@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11dcab5f56c4c644a9e713fad1898b35, type: 3}
   m_Name: RingF
   m_EditorClassIdentifier: 
-  itemName: "\u8056\u907A\u7269"
+  itemName: "\u6642\u4E4B\u6C99"
   itemImage: {fileID: 21300000, guid: ba651d92706fa484e8dbe65017d21525, type: 3}
   itemHeld: 1
-  itemInfo: "\u8840\u91CF\u6700\u5927\u503C+10"
+  itemInfo: "\u8840\u91CF\u6700\u5927\u503C+10\n\u85CD\u786F\u9069\u7528"
   itemType: 1
   damageModifier: 0
   healthModifier: 10

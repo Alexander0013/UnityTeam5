@@ -9,7 +9,7 @@ public class Item :ScriptableObject
     public string itemName;
     public Sprite itemImage;
     public int itemHeld;
-    [TextArea]
+    [TextArea(3, 10)]
     public string itemInfo;
     public ItemType itemType;
     

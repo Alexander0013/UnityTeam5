@@ -1930,9 +1930,9 @@ MonoBehaviour:
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 10
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 20
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -3039,6 +3039,7 @@ MonoBehaviour:
   myBag: {fileID: 5034843968126566949}
   equipmentUI_A: {fileID: 4936861362060718955}
   equipmentUI_B: {fileID: 7457957743004521511}
+  playerAonUsed: 1
   IsReady: 0
   playerHealthBar_A: {fileID: 9079405146357505333}
   playerHealthBar_B: {fileID: 9093567039246644743}

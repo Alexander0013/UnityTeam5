@@ -26,7 +26,6 @@ public class OpeningContorller : MonoBehaviour
     private void Update()
     {
         PauseWhenTimesUp();
-        //Debug.Log(audioSource.volume);
     }
 
     void PauseWhenTimesUp()
@@ -82,7 +81,6 @@ public class OpeningContorller : MonoBehaviour
     void OnVideoEnd(VideoPlayer vp)
     {
         StartCoroutine(SceneController.instance.FadeOutAndLoadSingle(1));
-
     }
 
     public void OnQuitButtonClick()

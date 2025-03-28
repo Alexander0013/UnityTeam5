@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 
 
@@ -10,8 +7,8 @@ public class Stat : ScriptableObject
 {
    
     [SerializeField] private AttackData baseData;  // 直接引用 AttackData
-    private Dictionary<int, float> damageModifiers = new Dictionary<int, float>();
-    private Dictionary<int, float> healthModifiers = new Dictionary<int, float>();
+    public SerializableDictionary<int, float> damageModifiers = new SerializableDictionary<int, float>();
+    public SerializableDictionary<int, float> healthModifiers = new SerializableDictionary<int, float>();
 
 
 

@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11dcab5f56c4c644a9e713fad1898b35, type: 3}
   m_Name: SwordF2
   m_EditorClassIdentifier: 
-  itemName: Sword2
+  itemName: "\u72FC\u4E4B\u672B\u8DEF"
   itemImage: {fileID: 21300000, guid: cd420ef4344b8294181e9b2967a27c0e, type: 3}
   itemHeld: 1
-  itemInfo: "\u653B\u64CA\u529B+20"
+  itemInfo: "\u653B\u64CA\u529B+20\n\u85CD\u786F\u9069\u7528"
   itemType: 1
   damageModifier: 20
   healthModifier: 0

@@ -40,8 +40,7 @@ public class ItemGiver : MonoBehaviour
             else
             {
                 item.itemHeld += 1;
-            }
-          
+            }          
             ItemAdded?.Invoke(item);
             Debug.Log("Item added: " + item.itemName);
         }
