@@ -1,13 +1,19 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class SceneController : MonoBehaviour
 {
     public static SceneController instance;
 
-    public CanvasGroup fadeCanvasGroup;
+    public CanvasGroup switchSceneCG;
+    public CanvasGroup EndindCG;
     public float fadeDuration = 1f;
+    [TextArea(3, 10)]
+    public string endingStory;
+    public TextMeshProUGUI endingText;
+
 
     void Awake()
     {
@@ -24,50 +30,48 @@ public class SceneController : MonoBehaviour
 
     void Start()
     {
-        fadeCanvasGroup.alpha = 0;
+        switchSceneCG.alpha = 0;
+        EndindCG.alpha = 0;
     }
 
-    // Single-scene load version (no additive).
-    /*
     public IEnumerator FadeOutAndLoadSingle(int buildIndex)
     {
-        // 1) Fade the screen to black
-        yield return StartCoroutine(Fade(1f));
-
-        // 2) Load the new scene in single mode
+        yield return StartCoroutine(Fade(1f, switchSceneCG));
         SceneManager.LoadScene(buildIndex, LoadSceneMode.Single);
-
-        // The old scene is automatically unloaded, the new scene is active.
-
-        // 3) Fade back in
-        yield return StartCoroutine(Fade(0f));
-    }
-    */
-    public IEnumerator FadeOutAndLoadSingle(int buildIndex)
-    {
-        yield return StartCoroutine(Fade(1f));
-        SceneManager.LoadScene(buildIndex, LoadSceneMode.Single);
-        yield return StartCoroutine(Fade(0f));
-        // NOW the scene is loaded, so call:
-        //CharacterManager.instance?.OnSceneSwitchComplete(buildIndex);
+        yield return StartCoroutine(Fade(0f, switchSceneCG));
     }
 
 
-    private IEnumerator Fade(float targetAlpha)
+    public IEnumerator Fade(float targetAlpha,CanvasGroup canvasGroup)
     {
-        float startAlpha = fadeCanvasGroup.alpha;
+        float startAlpha = canvasGroup.alpha;
         float timeElapsed = 0f;
 
         while (timeElapsed < fadeDuration)
         {
-            fadeCanvasGroup.alpha = Mathf.Lerp(
-                startAlpha, targetAlpha,
-                timeElapsed / fadeDuration
-            );
+            canvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha,timeElapsed / fadeDuration);
             timeElapsed += Time.deltaTime;
             yield return null;
         }
 
-        fadeCanvasGroup.alpha = targetAlpha;
+        canvasGroup.alpha = targetAlpha;
+    }
+
+    public void EndGame()
+    {
+        StartCoroutine(Fade(1f, EndindCG));
+        
+        StartCoroutine(DisplaySectence(endingStory));
+        //Time.timeScale = 0;
+    }
+
+    IEnumerator DisplaySectence(string sentence)
+    {
+        endingText.text = "";
+        foreach (char letter in sentence.ToCharArray())
+        {
+            endingText.text += letter;
+            yield return new WaitForSeconds(0.05f);
+        }
     }
 }

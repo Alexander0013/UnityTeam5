@@ -130,31 +130,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 28685017181287848, guid: b21844bdc32ca244aa45bb93a277d910,
-        type: 3}
-      propertyPath: m_text
-      value: "\u300A\u5E7B\u754C\u4E4B\u9470\u300B(0/5)"
-      objectReference: {fileID: 0}
-    - target: {fileID: 28685017181287848, guid: b21844bdc32ca244aa45bb93a277d910,
-        type: 3}
-      propertyPath: m_fontSize
-      value: 35
-      objectReference: {fileID: 0}
-    - target: {fileID: 28685017181287848, guid: b21844bdc32ca244aa45bb93a277d910,
-        type: 3}
-      propertyPath: m_fontStyle
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 28685017181287848, guid: b21844bdc32ca244aa45bb93a277d910,
-        type: 3}
-      propertyPath: m_fontSizeBase
-      value: 35
-      objectReference: {fileID: 0}
-    - target: {fileID: 28685017181287848, guid: b21844bdc32ca244aa45bb93a277d910,
-        type: 3}
-      propertyPath: m_HorizontalAlignment
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 91947375644002319, guid: b21844bdc32ca244aa45bb93a277d910,
         type: 3}
       propertyPath: m_Pivot.x
@@ -260,67 +235,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainCanvas0320
       objectReference: {fileID: 0}
-    - target: {fileID: 4497396339599933989, guid: b21844bdc32ca244aa45bb93a277d910,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 350
-      objectReference: {fileID: 0}
-    - target: {fileID: 4517282412759323307, guid: b21844bdc32ca244aa45bb93a277d910,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4517282412759323307, guid: b21844bdc32ca244aa45bb93a277d910,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4517282412759323307, guid: b21844bdc32ca244aa45bb93a277d910,
-        type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4517282412759323307, guid: b21844bdc32ca244aa45bb93a277d910,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4517282412759323307, guid: b21844bdc32ca244aa45bb93a277d910,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4517282412759323307, guid: b21844bdc32ca244aa45bb93a277d910,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4988731901100538204, guid: b21844bdc32ca244aa45bb93a277d910,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6789383273296207715, guid: b21844bdc32ca244aa45bb93a277d910,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 300
-      objectReference: {fileID: 0}
-    - target: {fileID: 6789383273296207715, guid: b21844bdc32ca244aa45bb93a277d910,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -750
-      objectReference: {fileID: 0}
-    - target: {fileID: 6824691199435201868, guid: b21844bdc32ca244aa45bb93a277d910,
-        type: 3}
-      propertyPath: itemDisplayPrefab
-      value: 
-      objectReference: {fileID: 6762532824461183895, guid: 94ee6eb8ef26dc249b2cb2b0742b4aa8,
-        type: 3}
-    - target: {fileID: 6824691199435201868, guid: b21844bdc32ca244aa45bb93a277d910,
-        type: 3}
-      propertyPath: bossHealthBarSpqwn
-      value: 
-      objectReference: {fileID: 384617994}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -394,12 +308,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4da04212a39b043cba2fc1decb3d4b78, type: 3}
---- !u!224 &384617994 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 4497396339599933989, guid: b21844bdc32ca244aa45bb93a277d910,
-    type: 3}
-  m_PrefabInstance: {fileID: 156890189}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &595822572
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1333,6 +1241,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SceneController
+      objectReference: {fileID: 0}
+    - target: {fileID: 6163445348876251460, guid: 5bb5cda1376d5724dbfdc2ad8761025c,
+        type: 3}
+      propertyPath: m_Alpha
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6640913602394251155, guid: 5bb5cda1376d5724dbfdc2ad8761025c,
         type: 3}

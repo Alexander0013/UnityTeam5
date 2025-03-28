@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
-using static DialogueManager;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -21,6 +19,8 @@ public class DialogueManager : MonoBehaviour
 
     public delegate void MissonStart();
     public MissonStart missonStart;
+
+    SceneController sceneController;
 
     void Awake()
     {
@@ -41,6 +41,7 @@ public class DialogueManager : MonoBehaviour
         dialogueBox.SetActive(true);
         canvasGroup = dialogueBox.GetComponent<CanvasGroup>();
         canvasGroup.alpha = 0;
+        sceneController = SceneController.instance;
     }
 
     public void StartDialogue(Dialogue dialogue)
@@ -90,11 +91,12 @@ public class DialogueManager : MonoBehaviour
         {
             missonStart?.Invoke();
             UI_Manager.instance.getMission = true;
-        }            
-        else if (UI_Manager.instance.getMission&& InventoryManager.instance.GetItemAmount(Item.ItemType.Other)==5)
+        }
+        else if (UI_Manager.instance.getMission && UI_Manager.instance.missionDone)
         {
             UI_Manager.instance.getMission = false;
-            UI_Manager.instance.missionDone = true;
+            UI_Manager.instance.MissionDone();
+            sceneController.EndGame();
         }        
     }
     //public void OnDialogueStartComplete()

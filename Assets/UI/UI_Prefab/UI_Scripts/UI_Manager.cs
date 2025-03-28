@@ -28,8 +28,7 @@ public class UI_Manager : MonoBehaviour
     bool bagIsOpen;
     bool equipAIsOpen_A;
     bool equipBIsOpen_B;
-    bool playerAonUsed = true;
-
+    public bool playerAonUsed = true;
     public bool IsReady = false;
 
     //PlayerHealthBar
@@ -222,11 +221,6 @@ public class UI_Manager : MonoBehaviour
         {
             TriggerDialogue(dialogue,startTalking);
             UI_Manager.instance.HideInteractionText();
-
-            if (missionDone)
-            {
-                MissionDone();
-            }            
         }
         //Treasure
         if (treasureCanOpen && Input.GetKeyDown(KeyCode.E) && currentTreasure != null)
@@ -543,7 +537,6 @@ public class UI_Manager : MonoBehaviour
     //Dialogue
     public void TriggerDialogue(Dialogue dialogue,bool starttalking)
     {
-        //Animator animator = dialogueBox.GetComponent<Animator>();
         if (!starttalking)
         {
             DialogueManager.instance.StartDialogue(dialogue);
@@ -558,8 +551,42 @@ public class UI_Manager : MonoBehaviour
     //Item Add
     public void OnItemAdded(Item item)
     {
-       displayedItems.Add(item);
-       StartCoroutine(DisplayItemWithDelay(item));
+        Debug.Log("Item added: " + item.itemName);
+        displayedItems.Add(item);
+        if (getMission)
+        {
+            if (InventoryManager.instance.GetItemAmount(Item.ItemType.Other) == 5)
+            {
+                missionDone = true;
+            }
+        }
+        StartCoroutine(DisplayItemWithDelay(item));               
+    }
+
+    IEnumerator DisplayItemWithDelay(Item item)
+    {
+        if (displayedItems.Count > 0)
+        {
+            yield return new WaitForSeconds(0.6f * displayedItems.Count); // 設定顯示物品之間的間隔，這裡是0.5秒
+        }
+        GameObject itemDisplay = Instantiate(itemDisplayPrefab, itemDisplayContainer);
+        itemDisplay.GetComponentInChildren<TextMeshProUGUI>().text = item.itemName;
+        Image itemImage = itemDisplay.transform.Find("Mask/Item Image").GetComponent<Image>();
+        if (itemImage != null)
+        {
+            itemImage.sprite = item.itemImage;  // 設置物品圖片
+        }
+        RectTransform rectTransform = itemDisplay.GetComponent<RectTransform>();
+        rectTransform.anchoredPosition = new Vector2(0, 0);
+
+        StartCoroutine(AnimateItemDisplay(itemDisplay, rectTransform));
+
+        if (item.itemType == Item.ItemType.Other)
+        {
+
+            taskTipText.text = "《幻界之鑰》(" + item.itemHeld + "/5)";
+        }
+        displayedItems.Remove(item);
     }
 
     private IEnumerator AnimateItemDisplay(GameObject itemDisplay, RectTransform rectTransform)
@@ -588,31 +615,7 @@ public class UI_Manager : MonoBehaviour
        
         Destroy(itemDisplay);
     }
-    IEnumerator DisplayItemWithDelay(Item item)
-    {
-        if (displayedItems.Count > 0)
-        {
-            yield return new WaitForSeconds(0.6f* displayedItems.Count); // 設定顯示物品之間的間隔，這裡是0.5秒
-        }
-        GameObject itemDisplay = Instantiate(itemDisplayPrefab, itemDisplayContainer);
-        itemDisplay.GetComponentInChildren<TextMeshProUGUI>().text = item.itemName;
-        Image itemImage = itemDisplay.transform.Find("Mask/Item Image").GetComponent<Image>();
-        if (itemImage != null)
-        {
-            itemImage.sprite = item.itemImage;  // 設置物品圖片
-        }
-        RectTransform rectTransform = itemDisplay.GetComponent<RectTransform>();        
-        rectTransform.anchoredPosition = new Vector2(0, 0);
-
-        StartCoroutine(AnimateItemDisplay(itemDisplay, rectTransform));
-        
-        if (item.itemType == Item.ItemType.Other)
-        {
-
-            taskTipText.text = "《幻界之鑰》(" + item.itemHeld + "/5)";
-        }
-        displayedItems.Remove(item);
-    }
+    
    
 
 

@@ -49,8 +49,7 @@ public class BossHealthBar : HealthBar
     public void InitializeHealthBar(GameObject boss)
     {
         this.boss = boss;
-        this.bossHealth = boss.GetComponent<BossHealth>();
-        
+        this.bossHealth = boss.GetComponent<BossHealth>();        
     }
 
     public void BossDie()
