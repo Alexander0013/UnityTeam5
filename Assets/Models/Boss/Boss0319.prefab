@@ -928,6 +928,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5234287900491466999}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8bb030d8eed0e7049abe12b8bcd6b469,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3745101964153103190}
   m_SourcePrefab: {fileID: 100100000, guid: 8bb030d8eed0e7049abe12b8bcd6b469, type: 3}
 --- !u!4 &639627660658280500 stripped
 Transform:
@@ -1175,3 +1179,19 @@ MonoBehaviour:
   getHitClip: {fileID: 8300000, guid: 0c8725911e1b1c54d909303c8ded27ca, type: 3}
   dieClip: {fileID: 8300000, guid: 1dcbbe986096e2441846c413b3451cc1, type: 3}
   roalingClip: {fileID: 8300000, guid: bb4888898b8adc34a92f53bbde5e1111, type: 3}
+--- !u!114 &3745101964153103190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8948824738537816371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c6df36402ac34a06a8840020941ba54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentElement: 0
+  effectDuration: 15
+  crystallizeShardPrefab: {fileID: 8489262180593950382, guid: c4aa4de1dbcfc44bd9eaa17b202a47ee,
+    type: 3}

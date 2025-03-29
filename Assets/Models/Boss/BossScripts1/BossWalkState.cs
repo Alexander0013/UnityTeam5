@@ -3,7 +3,7 @@ using System.Collections;
 
 public class BossWalkState : BossBaseState
 {
-    private float moveSpeed = 2.0f; // 追逐速度
+    private float moveSpeed = 4.0f; // 追逐速度
 
     public override void EnterState(BossFSM boss)
     {
