@@ -13,7 +13,7 @@ public class BossHealth : MonoBehaviour, IDamageable
     //public GameObject deathEffectPrefab;
     public GameObject hitEffectPrefab;
 
-    // ·s¼W¡G«ü©w¯S®Ä¥Í¦¨ÂIªº Transform¡]¨Ò¦p©ñ¦b Boss ¤lª«¥ó¤¤¡^
+    // ï¿½sï¿½Wï¿½Gï¿½ï¿½ï¿½wï¿½Sï¿½Ä¥Í¦ï¿½ï¿½Iï¿½ï¿½ Transformï¿½]ï¿½Ò¦pï¿½ï¿½b Boss ï¿½lï¿½ï¿½ï¿½ó¤¤¡^
     public Transform hitEffectPoint;
 
     public float currentHealth;
@@ -73,7 +73,7 @@ public class BossHealth : MonoBehaviour, IDamageable
 
     IEnumerator GetHitRoutine()
     {
-        // ¦pªG hitEffectPrefab »P hitEffectPoint §¡¦³³]©w¡A«h¦b hitEffectPoint ¦ì¸m¥Í¦¨¯S®Ä
+        // ï¿½pï¿½G hitEffectPrefab ï¿½P hitEffectPoint ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½wï¿½Aï¿½hï¿½b hitEffectPoint ï¿½ï¿½mï¿½Í¦ï¿½ï¿½Sï¿½ï¿½
         if (hitEffectPrefab != null && hitEffectPoint != null)
         {
             GameObject hitFx = Instantiate(hitEffectPrefab, hitEffectPoint.position, Quaternion.identity);
@@ -96,13 +96,6 @@ public class BossHealth : MonoBehaviour, IDamageable
         //Debug.Log($"{gameObject.name} has died.");
         animator.SetTrigger("Die");
 
-        //// (Optional) Let the FSM know we're dead so it can stop AI logic
-        //if (fsm != null)
-        //{
-        //    fsm.isDead = true;
-        //    // or do fsm.TransitionToState(fsm.deadState), if you want
-        //}
-
         // Spawn a death effect, if any
         if (deathEffectPrefab != null)
         {
@@ -116,6 +109,7 @@ public class BossHealth : MonoBehaviour, IDamageable
         Renderer[] renderers = GetComponentsInChildren<Renderer>();
         foreach (Renderer r in renderers)
         {
+            if (r == null) continue;
             Material[] newMats;
             if (bossDeathMaterials != null && bossDeathMaterials.Length == r.materials.Length)
             {
@@ -141,6 +135,7 @@ public class BossHealth : MonoBehaviour, IDamageable
 
             foreach (Renderer r in renderers)
             {
+                if (r == null) continue;
                 foreach (Material mat in r.materials)
                 {
                     if (mat.HasProperty("_DissolveAmount"))

@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 public class BossFSM : MonoBehaviour
 {
-    // ª¬ºA¹ê¨Ò¡]½Ð¨Ì»Ý¨D¨ú®øµù¸Ñ©Î·s¼Wª¬ºA¡^
+    // ï¿½ï¿½ï¿½Aï¿½ï¿½Ò¡]ï¿½Ð¨Ì»Ý¨Dï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ©Î·sï¿½Wï¿½ï¿½ï¿½Aï¿½^
     public BossIdleState idleState = new BossIdleState();
     public BossRoalingState roalingState = new BossRoalingState();
     public BossWalkState walkState = new BossWalkState();
@@ -14,15 +14,15 @@ public class BossFSM : MonoBehaviour
 
     [Header("Boss Settings")]
     public BossNPCStateData bossnpcData;
-    public float detectionRadius = 15f;    // °»´ú½d³ò
-    public float attackRadius = 2.5f;        // ªñ¾Ô§ðÀ»½d³ò¡]¥i¨Ñ swiping §PÂ_¨Ï¥Î¡^
-    public LayerMask playerLayer;          // ª±®a Layer
-    public Vector3 chargeDestination;      // ½Ä¨ë¥Øªº¦a¡]¦b Idle/ChargeIdle ®É¨M©w¡^
-    // ¥l³ê¼Ä¤H§Þ¯àªº§N«o®É¶¡¡]¬í¡^
+    public float detectionRadius = 15f;    // ï¿½ï¿½ï¿½ï¿½ï¿½dï¿½ï¿½
+    public float attackRadius = 2.5f;        // ï¿½ï¿½Ô§ï¿½ï¿½ï¿½ï¿½dï¿½ï¿½]ï¿½iï¿½ï¿½ swiping ï¿½Pï¿½_ï¿½Ï¥Î¡^
+    public LayerMask playerLayer;          // ï¿½ï¿½ï¿½a Layer
+    public Vector3 chargeDestination;      // ï¿½Ä¨ï¿½Øªï¿½ï¿½aï¿½]ï¿½b Idle/ChargeIdle ï¿½É¨Mï¿½wï¿½^
+    // ï¿½lï¿½ï¿½Ä¤Hï¿½Þ¯àªºï¿½Nï¿½oï¿½É¶ï¿½ï¿½]ï¿½ï¿½ï¿½^
     //public float summonEnemyCooldown = 30f;
     //private float currentSummonCooldown = 0f;
     [Header("Boss Attack Points")]
-    public Transform handHitPoint;         // §ðÀ»®É§P©w¤¤¤ß¡]swiping ¥Î¡^
+    public Transform handHitPoint;         // ï¿½ï¿½ï¿½ï¿½ï¿½É§Pï¿½wï¿½ï¿½ï¿½ß¡]swiping ï¿½Î¡^
     public GameObject hitEffectPrefab;
    
 
@@ -45,7 +45,7 @@ public class BossFSM : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("¶}©l°õ¦æ BossFSM¡ASnapToGround ¨Ã³]©wªì©lª¬ºA");
+        Debug.Log("ï¿½}ï¿½lï¿½ï¿½ï¿½ï¿½ BossFSMï¿½ASnapToGround ï¿½Ã³]ï¿½wï¿½ï¿½lï¿½ï¿½ï¿½A");
         SnapToGround();
         // Attempt an initial player find
         playerTarget = FindActiveLivingPlayer();
@@ -58,10 +58,10 @@ public class BossFSM : MonoBehaviour
         {
             currentState.UpdateState(this);
         }
-        // ¦pªG¥Ø¼Ðª±®a¦s¦b¦ý¤w¦º¤`¡A«h¤Á´«¨ì DanceState
+        // ï¿½pï¿½Gï¿½Ø¼Ðªï¿½ï¿½aï¿½sï¿½bï¿½ï¿½ï¿½wï¿½ï¿½ï¿½`ï¿½Aï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ DanceState
         if (playerTarget != null && !IsPlayerAlive(playerTarget))
         {
-            Debug.Log("ª±®a¦º¤`¡ABoss ¶i¤J Dance ª¬ºA");
+            Debug.Log("ï¿½ï¿½ï¿½aï¿½ï¿½ï¿½`ï¿½ABoss ï¿½iï¿½J Dance ï¿½ï¿½ï¿½A");
             TransitionToState(danceState);
         }
         if (currentState is BossRoalingState)
@@ -89,11 +89,11 @@ public class BossFSM : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("µLªk°»´ú¨ì¦a­±¡A½Ð½T»{¦aªO Collider ³]©w¥¿½T¨Ã¦b 'Ground' Layer");
+            Debug.LogWarning("ï¿½Lï¿½kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½aï¿½ï¿½ï¿½Aï¿½Ð½Tï¿½{ï¿½aï¿½O Collider ï¿½]ï¿½wï¿½ï¿½ï¿½Tï¿½Ã¦b 'Ground' Layer");
         }
     }
 
-    // §Q¥Î OverlapSphere °»´úª±®a
+    // ï¿½Qï¿½ï¿½ OverlapSphere ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½a
     public void DetectPlayer()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, detectionRadius, playerLayer);
@@ -103,23 +103,23 @@ public class BossFSM : MonoBehaviour
             playerTarget = detectedPlayer;
             float distance = Vector3.Distance(transform.position, playerTarget.position);
 
-            // Idle ª¬ºA¤U°»´ú¨ìª±®a¶i¤J½d³ò¡A¶i¤J Roaling
+            // Idle ï¿½ï¿½ï¿½Aï¿½Uï¿½ï¿½ï¿½ï¿½ï¿½ìª±ï¿½aï¿½iï¿½Jï¿½dï¿½ï¿½Aï¿½iï¿½J Roaling
             if (currentState is BossIdleState)
             {
-                Debug.Log("ª±®a¶i¤J°»´ú½d³ò¡ABoss ¶i¤J Roaling ª¬ºA");
+                Debug.Log("ï¿½ï¿½ï¿½aï¿½iï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½dï¿½ï¿½ABoss ï¿½iï¿½J Roaling ï¿½ï¿½ï¿½A");
                 TransitionToState(roalingState);
                 return;
             }
         }
         //else
         //{
-        //    // ª±®aÂ÷¶}°»´ú½d³ò«á¦^¨ì Idle
+        //    // ï¿½ï¿½ï¿½aï¿½ï¿½ï¿½}ï¿½ï¿½ï¿½ï¿½ï¿½dï¿½ï¿½ï¿½^ï¿½ï¿½ Idle
         //    if (playerTarget != null)
         //    {
         //        float distance = Vector3.Distance(transform.position, playerTarget.position);
         //        if (distance > detectionRadius * 1.5f)
         //        {
-        //            Debug.Log("ª±®a§¹¥þÂ÷¶}½d³ò¡ABoss ¦^¨ì Idle");
+        //            Debug.Log("ï¿½ï¿½ï¿½aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½}ï¿½dï¿½ï¿½ABoss ï¿½^ï¿½ï¿½ Idle");
         //            playerTarget = null;
         //            TransitionToState(idleState);
         //        }
@@ -127,12 +127,12 @@ public class BossFSM : MonoBehaviour
         //}
     }
 
-    // ª¬ºA¤Á´«
+    // ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½
     public void TransitionToState(BossBaseState newState)
     {
         if (newState == null)
         {
-            Debug.LogError("¹Á¸Õ¤Á´«¨ì null ª¬ºA¡I");
+            Debug.LogError("ï¿½ï¿½ï¿½Õ¤ï¿½ï¿½ï¿½ï¿½ï¿½ null ï¿½ï¿½ï¿½Aï¿½I");
             return;
         }
         if (currentState != null)
@@ -140,7 +140,7 @@ public class BossFSM : MonoBehaviour
             currentState.ExitState(this);
         }
         currentState = newState;
-        Debug.Log("¤Á´«ª¬ºA¡G" + newState.GetType().Name);
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½G" + newState.GetType().Name);
         currentState.EnterState(this);
         if (currentState is BossRoalingState)
         {
@@ -148,10 +148,10 @@ public class BossFSM : MonoBehaviour
         }
     }
 
-    // ¥Ñ Roaling °Êµe¨Æ¥ó©I¥s¡]¦b°Êµe°Å¿è¥½ºÝ²K¥[¨Æ¥ó¡A©I¥s¦¹¤èªk¡^
+    // ï¿½ï¿½ Roaling ï¿½Êµeï¿½Æ¥ï¿½Iï¿½sï¿½]ï¿½bï¿½Êµeï¿½Å¿è¥½ï¿½Ý²Kï¿½[ï¿½Æ¥ï¿½Aï¿½Iï¿½sï¿½ï¿½ï¿½ï¿½kï¿½^
     public void OnRoalingAnimationEnd()
     {
-        Debug.Log("Roaling °Êµe¨Æ¥óÄ²µo");
+        Debug.Log("Roaling ï¿½Êµeï¿½Æ¥ï¿½Ä²ï¿½o");
         if (playerTarget != null)
         {
             TransitionToState(walkState);
@@ -161,7 +161,7 @@ public class BossFSM : MonoBehaviour
             TransitionToState(idleState);
         }
     }
-    // ¥Î©ó Swiping §ðÀ»¨Æ¥ó¡]³z¹L°Êµe¨Æ¥ó©I¥s¡^
+    // ï¿½Î©ï¿½ Swiping ï¿½ï¿½ï¿½ï¿½ï¿½Æ¥ï¿½]ï¿½zï¿½Lï¿½Êµeï¿½Æ¥ï¿½Iï¿½sï¿½^
     public void AttackHitEvent()
     {
         if (currentState is BossSwipingState swipingState)
@@ -169,10 +169,10 @@ public class BossFSM : MonoBehaviour
             swipingState.OnAttackHit(this);
         }
     }
-    // ³z¹L¦¹¤èªk­pºâ swiping §ðÀ»¶Ë®`¡]¨Æ¥ó§P©w¡^
+    // ï¿½zï¿½Lï¿½ï¿½ï¿½ï¿½kï¿½pï¿½ï¿½ swiping ï¿½ï¿½ï¿½ï¿½ï¿½Ë®`ï¿½]ï¿½Æ¥ï¿½Pï¿½wï¿½^
     public void ApplyAttackDamage()
     {
-        Debug.Log("Boss³y¦¨¶Ë®`");
+        Debug.Log("Bossï¿½yï¿½ï¿½ï¿½Ë®`");
         float damage = bossnpcData.baseDamage * bossnpcData.comboMultiplier;
         float radius = bossnpcData.hitRadius;
         Vector3 attackCenter = handHitPoint.position;
@@ -187,25 +187,26 @@ public class BossFSM : MonoBehaviour
             }
             if (hitEffectPrefab != null)
             {
-                Instantiate(hitEffectPrefab, effectPosition, Quaternion.identity);
+                GameObject effect = Instantiate(hitEffectPrefab, effectPosition, Quaternion.identity);
+                Destroy(effect,1f);
             }
         }
     }
-    // ¥Î©ó Swiping °Êµeµ²§ô¨Æ¥ó
+    // ï¿½Î©ï¿½ Swiping ï¿½Êµeï¿½ï¿½ï¿½ï¿½ï¿½Æ¥ï¿½
     public void AttackAnimationEndEvent()
     {
         if (currentState is BossSwipingState swipingState)
         {
-            Debug.Log("Swiping °Êµeµ²§ô");
+            Debug.Log("Swiping ï¿½Êµeï¿½ï¿½ï¿½ï¿½");
             swipingState.OnAttackAnimationFinished(this);
         }
     }
-    // ¦b Scene µøµ¡¤¤¹º¥X°»´ú½d³ò¡]¤è«K½Õ¸Õ¡^
+    // ï¿½b Scene ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½dï¿½ï¿½]ï¿½ï¿½Kï¿½Õ¸Õ¡^
     private void OnDrawGizmosSelected()
     {
         if (detectionRadius > 0)
         {
-            //Debug.Log("¹º¥X½d³ò");
+            //Debug.Log("ï¿½ï¿½ï¿½Xï¿½dï¿½ï¿½");
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, detectionRadius);
         }
