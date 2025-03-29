@@ -1237,10 +1237,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SceneController
       objectReference: {fileID: 0}
-    - target: {fileID: 5779974297054424806, guid: 5bb5cda1376d5724dbfdc2ad8761025c,
+    - target: {fileID: 6163445348876251460, guid: 5bb5cda1376d5724dbfdc2ad8761025c,
         type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      propertyPath: m_Alpha
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

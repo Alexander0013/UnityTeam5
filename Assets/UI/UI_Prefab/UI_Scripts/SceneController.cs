@@ -2,6 +2,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using StarterAssets;
+using UnityEngine.InputSystem;
 
 public class SceneController : MonoBehaviour
 {
@@ -62,10 +64,9 @@ public class SceneController : MonoBehaviour
     public void EndGame()
     {
         EndindCG.gameObject.SetActive(true);
-        StartCoroutine(Fade(1f, EndindCG));        
+        StartCoroutine(Fade(1f, EndindCG));
         StartCoroutine(DisplaySectence(endingStory));
-        UI_Manager.instance.UpdateGameStateForUI(true);
-        //Time.timeScale = 0;
+        UpdateGameStateForUI(true);
     }
 
     IEnumerator DisplaySectence(string sentence)
@@ -83,5 +84,26 @@ public class SceneController : MonoBehaviour
     {
         Debug.Log("Quit");
         Application.Quit();
+    }
+
+    public void UpdateGameStateForUI(bool uiOpen)
+    {
+        StarterAssetsInputs inputController = UI_Manager.instance.inputController;
+        PlayerInput playerInputController = UI_Manager.instance.playerInputController;
+        if (uiOpen)
+        {
+            //Time.timeScale = 0.0f;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            if (UI_Manager.instance.inputController != null)
+            {
+                inputController.cursorLocked = false;
+                inputController.enabled = false;
+            }
+            if (playerInputController != null)
+            {
+                playerInputController.enabled = false;
+            }
+        }        
     }
 }

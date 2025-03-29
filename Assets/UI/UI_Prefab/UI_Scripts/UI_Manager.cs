@@ -54,8 +54,8 @@ public class UI_Manager : MonoBehaviour
     private Dictionary<GameObject, EnemyHealthBar> healthBars = new Dictionary<GameObject, EnemyHealthBar>();
 
     //Alex
-    private StarterAssetsInputs inputController;
-    private PlayerInput playerInputController;
+    public StarterAssetsInputs inputController;
+    public PlayerInput playerInputController;
 
     //Task Tip
     public GameObject taskTip;
@@ -91,6 +91,7 @@ public class UI_Manager : MonoBehaviour
     //Guide
     public GameObject guide;
     private Animator guideAnimator;
+    bool GuideIsOn = false;
 
     void Awake()
     {
@@ -163,7 +164,11 @@ public class UI_Manager : MonoBehaviour
         if (scene.buildIndex == 1 )
         {
             StartCoroutine(WaitForDM());
-            StartCoroutine(WaitForGuide());
+            if (!GuideIsOn)
+            {
+                StartCoroutine(WaitForGuide());
+                GuideIsOn = true;
+            }            
             taskTipText = taskTip.GetComponentInChildren<TextMeshProUGUI>();
         }
 

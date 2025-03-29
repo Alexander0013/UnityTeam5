@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System;
+using TMPro;
 
 public class BossHealth : MonoBehaviour, IDamageable
 {
@@ -24,6 +25,8 @@ public class BossHealth : MonoBehaviour, IDamageable
 
     public event Action<float> OnHealthChanged;
     public event Action OnDeath;
+
+    public GameObject floatingTextPrefab;
 
     private void Awake()
     {
@@ -61,6 +64,10 @@ public class BossHealth : MonoBehaviour, IDamageable
         {
             // HP is zero or below
             StartCoroutine(DieRoutine());
+        }
+        if (floatingTextPrefab)
+        {
+            ShowFloatingText(amount);
         }
     }
 
@@ -146,5 +153,18 @@ public class BossHealth : MonoBehaviour, IDamageable
         }
         // Finally, destroy the object
         Destroy(gameObject);
+    }
+
+    public void ShowFloatingText(float damage)
+    {
+        GameObject floatingText = Instantiate(floatingTextPrefab, transform.position, Quaternion.identity, transform);
+        floatingText.GetComponent<TextMeshPro>().text = damage.ToString();
+
+        Camera mainCamera = Camera.main;
+        if (mainCamera != null)
+        {
+            floatingText.transform.LookAt(mainCamera.transform.position);
+            floatingText.transform.Rotate(0f, 180f, 0f);
+        }
     }
 }

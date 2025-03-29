@@ -494,7 +494,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainSlider: {fileID: 1047674012019928410}
   yellowSlider: {fileID: 8099305428322496530}
-  smoothSpeed: 10
+  smoothSpeed: 50
   boss: {fileID: 0}
   bossHealth: {fileID: 0}
   fadeSpeed: 10
