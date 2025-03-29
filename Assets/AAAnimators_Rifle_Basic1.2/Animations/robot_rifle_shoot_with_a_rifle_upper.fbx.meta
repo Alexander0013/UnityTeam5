@@ -588,7 +588,7 @@ ModelImporter:
       takeName: robot_rifle_shoot_with_a_rifle_upper
       internalID: 7400000
       firstFrame: 193
-      lastFrame: 318
+      lastFrame: 247
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -608,23 +608,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.2274081
-        functionName: OnShootHitEvent
-        data: 
-        objectReferenceParameter: {fileID: 7858250507501975913, guid: 69c3af4264244416ba3832dfb165b83d,
-          type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
       - time: 0.5491637
-        functionName: OnShootHitEvent
-        data: 
-        objectReferenceParameter: {fileID: 7858250507501975913, guid: 69c3af4264244416ba3832dfb165b83d,
-          type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.8722109
         functionName: OnShootHitEvent
         data: 
         objectReferenceParameter: {fileID: 7858250507501975913, guid: 69c3af4264244416ba3832dfb165b83d,

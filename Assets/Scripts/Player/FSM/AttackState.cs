@@ -6,8 +6,8 @@ public class AttackState : PlayerBaseState
     private int comboCount;
     private float stateTimer = 0f;
     private float comboTimer = 0f;
-    private const float comboInputWindow = 0.5f;
-    private const float normalizedEndThreshold = 1.6f;
+    private const float comboInputWindow = 1.0f;
+    private const float normalizedEndThreshold = 1.0f;
     private const float maxStateDuration = 30f;
     private bool chainActive = true;
     private const float dashStep = 1f;
@@ -127,7 +127,7 @@ public class AttackState : PlayerBaseState
                 {
                     player.Animator.SetInteger("ComboCount", comboCount);
                     // Optionally re-trigger the attack
-                    // player.Animator.SetTrigger("AttackTrigger");
+                    //player.Animator.SetTrigger("AttackTrigger");
                 }
             }
             else

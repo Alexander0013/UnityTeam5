@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d30390054f027ee4592f4bf41d24a5d5, type: 3}
   m_Name: BossNPCStateData
   m_EditorClassIdentifier: 
-  baseDamage: 20
+  baseDamage: 10
   comboMultiplier: 1
   hitRadius: 1.5
   chargeDamage: 1
