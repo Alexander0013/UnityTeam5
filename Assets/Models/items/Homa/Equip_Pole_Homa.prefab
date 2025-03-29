@@ -83,6 +83,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Equip_Pole_Homa
       objectReference: {fileID: 0}
+    - target: {fileID: 8645290424582197120, guid: c8403a213f91b46fdac3482f175cfd7d,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 8645290424582197120, guid: c8403a213f91b46fdac3482f175cfd7d,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 8645290424582197120, guid: c8403a213f91b46fdac3482f175cfd7d,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 8645290424582197120, guid: c8403a213f91b46fdac3482f175cfd7d,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

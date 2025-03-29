@@ -65,7 +65,7 @@ public class TreasureTrigger : MonoBehaviour
                 allDead = true;
             }
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
         }
 
         // Once all enemies are dead, disable the shield and switch BGM

@@ -19,5 +19,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   health: 100
-  currentWeaponIndex: 0
+  currentWeaponIndex: 1
   element: 2
