@@ -88,6 +88,10 @@ public class UI_Manager : MonoBehaviour
     public Transform itemDisplayContainer;
     private List<Item> displayedItems = new List<Item>();
 
+    //Guide
+    public GameObject guide;
+    private Animator guideAnimator;
+
     void Awake()
     {
         if (instance == null)
@@ -159,6 +163,7 @@ public class UI_Manager : MonoBehaviour
         if (scene.buildIndex == 1 )
         {
             StartCoroutine(WaitForDM());
+            StartCoroutine(WaitForGuide());
             taskTipText = taskTip.GetComponentInChildren<TextMeshProUGUI>();
         }
 
@@ -551,7 +556,7 @@ public class UI_Manager : MonoBehaviour
     //Item Add
     public void OnItemAdded(Item item)
     {
-        Debug.Log("Item added: " + item.itemName);
+        //Debug.Log("Item added: " + item.itemName);
         displayedItems.Add(item);
         if (getMission)
         {
@@ -562,7 +567,6 @@ public class UI_Manager : MonoBehaviour
         }
         StartCoroutine(DisplayItemWithDelay(item));               
     }
-
     IEnumerator DisplayItemWithDelay(Item item)
     {
         if (displayedItems.Count > 0)
@@ -588,7 +592,6 @@ public class UI_Manager : MonoBehaviour
         }
         displayedItems.Remove(item);
     }
-
     private IEnumerator AnimateItemDisplay(GameObject itemDisplay, RectTransform rectTransform)
     {
         float elapsedTime = 0f;
@@ -607,15 +610,28 @@ public class UI_Manager : MonoBehaviour
             canvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsedTime-3 / duration);
             yield return null;
         }
-        canvasGroup.alpha = targetAlpha;  // 確保最終透明度
-        rectTransform.anchoredPosition = targetPos;  // 確保最終位置
-
-        // 等待一段時間後刪除物品
-        yield return new WaitForSeconds(1f);
+        canvasGroup.alpha = targetAlpha; 
+        rectTransform.anchoredPosition = targetPos;  
+        
+        yield return new WaitForSeconds(1.5f);
        
         Destroy(itemDisplay);
     }
-    
+    //Guide
+    void ShowGuide()
+    {
+        guide.SetActive(true);
+        guideAnimator = guide.GetComponent<Animator>();
+        guideAnimator.SetTrigger("SetGuide");
+    }
+    IEnumerator WaitForGuide()
+    {
+        yield return new WaitForSeconds(2f);
+        ShowGuide();        
+        yield return new WaitForSeconds(5f);
+        guideAnimator.SetTrigger("GuideOff");
+        yield break;
+    }
    
 
 
