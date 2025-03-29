@@ -3,8 +3,8 @@ using UnityEngine;
 public class EnemyChaseState : EnemyBaseState
 {
     private float speed = 2.5f;
-    private float lostPlayerTimer;
-    private float lostPlayerThreshold = 1.5f;
+    private float lostPlayerTimer = 0f;
+    private float lostPlayerThreshold = 2.5f;
     public Transform treasure;
 
     public override void EnterState(EnemyFSM enemy)
@@ -12,6 +12,7 @@ public class EnemyChaseState : EnemyBaseState
         //Debug.Log("Enter enemy Chase State");
         enemy.animator.SetBool("isWalking", true);
         enemy.animator.SetBool("isAttacking", false);
+        enemy.chaseMemoryTimer = enemy.chaseMemoryTime;
         lostPlayerTimer = 0f;
         treasure = enemy.transform.parent;
     }
@@ -43,14 +44,17 @@ public class EnemyChaseState : EnemyBaseState
         // If within detection range, chase
         if (distance <= enemy.detectionRadius)
         {
-            lostPlayerTimer = 0f;
+            lostPlayerTimer += Time.deltaTime;
             ChasePlayer(enemy);
+            if(lostPlayerTimer >= lostPlayerThreshold)
+            {
+                enemy.TransitionToState(enemy.idleState);
+            }
         }
         else
         {
-            // If the player is out of detection range, start a timer
-            lostPlayerTimer += Time.deltaTime;
-            if (lostPlayerTimer > lostPlayerThreshold)
+            enemy.chaseMemoryTimer -= Time.deltaTime;
+            if (enemy.chaseMemoryTimer <= 0f)
             {
                 enemy.TransitionToState(enemy.returnState);
             }

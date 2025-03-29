@@ -47,34 +47,41 @@ public class EnemyIdleState : EnemyBaseState
         // Decrement the idleTime while we're out of detection range
         // or we haven't chosen a new action yet
         idleTime -= Time.deltaTime;
+        if (enemy.IsPlayerInSight())
+        {
+            enemy.TransitionToState(enemy.chaseState);
+            return;
+        }
+        if (enemy.chaseMemoryTimer > 0f)
+        {
+            enemy.TransitionToState(enemy.chaseState);
+            return;
+        }
 
         // If the time is up, we do the next decision
         if (!deciding && idleTime <= 0f)
         {
             deciding = true; // so we only do one decision
 
-            // CASE 1: If distance > attackRadius && distance < detectionRadius
-            // we do a probability: remain idle or chase
-            if (distance > enemy.attackRadius && distance < enemy.detectionRadius)
+            if (enemy.IsPlayerInSight())
             {
-                DecideIdleOrChase(enemy);
-                return;
-            }
-            // CASE 2: If distance <= attackRadius
-            // we do a probability: idle, chase, or attack
-            else if (distance <= enemy.attackRadius)
-            {
-                DecideIdleChaseOrAttack(enemy);
-                return;
+                if (distance > enemy.attackRadius)
+                {
+                    DecideIdleOrChase(enemy);
+                    return;
+                }
+                else
+                {
+                    DecideIdleChaseOrAttack(enemy);
+                    return;
+                }
             }
             else
             {
-                // If we're still outside detection range (distance >= detectionRadius),
-                // just reset idleTime for another cycle
                 idleTime = Random.Range(minIdle, maxIdle);
                 deciding = false;
             }
-        }
+            }
     }
 
     public override void ExitState(EnemyFSM enemy)

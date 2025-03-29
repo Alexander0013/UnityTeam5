@@ -76,6 +76,10 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         {
             ShowFloatingText(amount);
         }
+        if (fsm != null && !fsm.isDead)
+        {
+            fsm.TransitionToState(fsm.gotHitState); // 讓敵人知道被打了
+        }
     }
 
     IEnumerator GetHitRoutine()
@@ -89,7 +93,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         }
 
         // Trigger the GotHit animation
-        animator.SetTrigger("GotHit");
+        //animator.SetTrigger("GotHit");
 
         // If the enemy was attacking, interrupt
         if (fsm != null && fsm.currentState is EnemyAttackState)

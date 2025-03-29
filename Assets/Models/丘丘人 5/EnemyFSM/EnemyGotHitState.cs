@@ -11,6 +11,11 @@ public class EnemyGotHitState : EnemyBaseState
         // Trigger the got hit animation
         enemy.animator.SetTrigger("GotHit");
         timer = 0f;
+
+        if (!enemy.IsPlayerInSight() && !enemy.isDead)
+        {
+            enemy.TransitionToState(enemy.chaseState);
+        }
     }
 
     public override void UpdateState(EnemyFSM enemy)
