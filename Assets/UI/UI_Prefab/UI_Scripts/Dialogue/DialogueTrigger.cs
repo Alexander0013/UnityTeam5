@@ -27,7 +27,7 @@ public class DialogueTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             GetDialogueButton();
-            UI_Manager.instance.ShowInteractionText("按E對話");
+            UI_Manager.instance.ShowInteractionText("對話");
             UI_Manager.instance.inDialogueRange = true;
             UI_Manager.instance.npcDT = this;
             if (!UI_Manager.instance.getMission)

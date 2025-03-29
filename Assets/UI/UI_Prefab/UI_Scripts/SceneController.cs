@@ -64,7 +64,7 @@ public class SceneController : MonoBehaviour
         EndindCG.gameObject.SetActive(true);
         StartCoroutine(Fade(1f, EndindCG));        
         StartCoroutine(DisplaySectence(endingStory));
-        
+        UI_Manager.instance.UpdateGameStateForUI(true);
         //Time.timeScale = 0;
     }
 
