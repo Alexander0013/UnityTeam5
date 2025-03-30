@@ -19,7 +19,9 @@ public class ArcherGotHitState : EnemyBaseState
         timer += Time.deltaTime;
         if (timer >= gotHitDuration)
         {
-            enemy.TransitionToState(((ArcherFSM)enemy).idleState);
+            ArcherIdleState idle = ((ArcherFSM)enemy).idleState;
+            idle.SetImmediateAttack();
+            enemy.TransitionToState(idle);
         }
     }
 

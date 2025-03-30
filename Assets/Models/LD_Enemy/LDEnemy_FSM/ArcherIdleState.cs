@@ -6,6 +6,7 @@ public class ArcherIdleState : EnemyBaseState
     private float minIdle = 1f;  // random idle range
     private float maxIdle = 2f;
     private float idleTime;
+    public void SetImmediateAttack() => idleTime = 0f;
 
     public override void EnterState(EnemyFSM enemy)
     {
