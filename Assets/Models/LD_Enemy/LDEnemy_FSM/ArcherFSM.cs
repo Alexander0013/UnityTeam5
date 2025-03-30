@@ -17,6 +17,9 @@ public class ArcherFSM : EnemyFSM
     public GameObject meleeImpactEffect;
     public GameObject tracerPrefab;
 
+    public override bool allowReturnState => false;
+
+
 
     protected override void Start()
     {

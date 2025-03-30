@@ -19,6 +19,7 @@ public class EnemyFSM : MonoBehaviour
     [Header("Chase Memory")]
     public float chaseMemoryTime = 3f;
     [HideInInspector] public float chaseMemoryTimer = 0f;
+    public virtual bool allowReturnState => true;
 
 
     public float attackRadius = 1.2f;
@@ -79,11 +80,15 @@ public class EnemyFSM : MonoBehaviour
             }
             // Otherwise, remain in the current state (which might be Return or Idle).
         }
-        float distanceFromTreasure = Vector3.Distance(transform.position, transform.parent.position);
-        if (distanceFromTreasure > 20f)
+        if (allowReturnState)
         {
-            TransitionToState(returnState);
+            float distanceFromTreasure = Vector3.Distance(transform.position, transform.parent.position);
+            if (distanceFromTreasure > 20f)
+            {
+                TransitionToState(returnState);
+            }
         }
+            
         // Let our current state perform its update logic.
         currentState.UpdateState(this);
         PreventTeamCollision();
