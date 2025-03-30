@@ -31,23 +31,34 @@ public class HealthBar : MonoBehaviour
         yellowBarTarget = targetValue; // make sure slider's target value correct
         if (!isRunning)
         {
-            StartCoroutine(SmoothYellowBar());
+            StartCoroutine(SmoothYellowBar(0.5f));
         }
     }
 
 
-    protected virtual IEnumerator SmoothYellowBar()
+    protected virtual IEnumerator SmoothYellowBar(float duration)
     {
         if (yellowSlider != null)
         {
+            float startValue = yellowSlider.value;
+            float timeElapsed = 0f;
             isRunning = true;
             yield return new WaitForSeconds(0.1f);
 
-            while (Mathf.Abs(yellowSlider.value - yellowBarTarget) > 0.01f) // Á×§KµL½a°j°é
+            //while (Mathf.Abs(yellowSlider.value - yellowBarTarget) > 0.01f) // Á×§KµL½a°j°é
+            //{
+            //    yellowSlider.value = Mathf.MoveTowards(yellowSlider.value, yellowBarTarget, smoothSpeed * Time.deltaTime);
+            //    yield return null;
+            //}
+
+            while (timeElapsed < duration)
             {
-                yellowSlider.value = Mathf.MoveTowards(yellowSlider.value, yellowBarTarget, smoothSpeed * Time.deltaTime);
+                timeElapsed += Time.deltaTime;
+                yellowSlider.value = Mathf.Lerp(startValue, mainSlider.value, timeElapsed / duration);
                 yield return null;
             }
+
+            yellowSlider.value = mainSlider.value;
             isRunning = false;
         }        
     }

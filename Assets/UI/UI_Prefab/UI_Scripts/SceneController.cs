@@ -92,7 +92,6 @@ public class SceneController : MonoBehaviour
         PlayerInput playerInputController = UI_Manager.instance.playerInputController;
         if (uiOpen)
         {
-            //Time.timeScale = 0.0f;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             if (UI_Manager.instance.inputController != null)
@@ -104,6 +103,20 @@ public class SceneController : MonoBehaviour
             {
                 playerInputController.enabled = false;
             }
-        }        
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            if (inputController != null)
+            {
+                inputController.cursorLocked = true;
+                inputController.enabled = true;
+            }
+            if (playerInputController != null)
+            {
+                playerInputController.enabled = true;
+            }
+        }
     }
 }

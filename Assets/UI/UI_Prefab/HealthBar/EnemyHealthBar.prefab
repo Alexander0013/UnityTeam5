@@ -54,7 +54,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainSlider: {fileID: 4533763825841127555}
   yellowSlider: {fileID: 518617961930520706}
-  smoothSpeed: 20
+  smoothSpeed: 40
   offset: {x: 0, y: 1.5, z: 0}
   shooterOffset: {x: 0, y: 2, z: 0}
   visibleDistance: 8
