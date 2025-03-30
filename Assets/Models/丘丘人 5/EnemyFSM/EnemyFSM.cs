@@ -20,6 +20,9 @@ public class EnemyFSM : MonoBehaviour
     public float chaseMemoryTime = 3f;
     [HideInInspector] public float chaseMemoryTimer = 0f;
     public virtual bool allowReturnState => true;
+    public virtual bool allowChaseOnHit => true;
+
+    public virtual bool hasChaseState => true;
 
 
     public float attackRadius = 1.2f;
@@ -215,7 +218,7 @@ public class EnemyFSM : MonoBehaviour
     }
     public void OnHitByPlayer()
     {
-        if (!IsPlayerInSight() && !isDead)
+        if (allowChaseOnHit && !IsPlayerInSight() && !isDead)
         {
             TransitionToState(chaseState);
         }

@@ -18,6 +18,7 @@ public class ArcherFSM : EnemyFSM
     public GameObject tracerPrefab;
 
     public override bool allowReturnState => false;
+    private Vector3 fixedXZPosition;
 
 
 
@@ -25,6 +26,7 @@ public class ArcherFSM : EnemyFSM
     {
         playerTarget = FindActiveLivingPlayer();
         TransitionToState(idleState);
+        fixedXZPosition = new Vector3(transform.position.x, 0f, transform.position.z);
     }
 
     protected override void Update()
@@ -46,6 +48,8 @@ public class ArcherFSM : EnemyFSM
             }
         }
         currentState.UpdateState(this);
+        Vector3 current = transform.position;
+        transform.position = new Vector3(fixedXZPosition.x, current.y, fixedXZPosition.z);
     }
     public void OnShootHitEvent()
     {

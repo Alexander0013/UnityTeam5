@@ -12,7 +12,7 @@ public class EnemyGotHitState : EnemyBaseState
         enemy.animator.SetTrigger("GotHit");
         timer = 0f;
 
-        if (!enemy.IsPlayerInSight() && !enemy.isDead)
+        if (enemy.allowChaseOnHit && !enemy.IsPlayerInSight() && !enemy.isDead)
         {
             enemy.TransitionToState(enemy.chaseState);
         }
