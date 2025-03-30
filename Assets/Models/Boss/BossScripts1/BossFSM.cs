@@ -172,6 +172,7 @@ public class BossFSM : MonoBehaviour
     // �z�L����k�p�� swiping �����ˮ`�]�ƥ�P�w�^
     public void ApplyAttackDamage()
     {
+        PLayAttackSound();
         Debug.Log("Boss�y���ˮ`");
         float damage = bossnpcData.baseDamage * bossnpcData.comboMultiplier;
         float radius = bossnpcData.hitRadius;

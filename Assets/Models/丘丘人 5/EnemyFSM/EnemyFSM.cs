@@ -15,6 +15,12 @@ public class EnemyFSM : MonoBehaviour
     [Header("Enemy Settings")]
     public NPCStateData npcData;
     public float detectionRadius = 8f;
+    public float fieldOfViewAngle = 120f;
+    [Header("Chase Memory")]
+    public float chaseMemoryTime = 3f;
+    [HideInInspector] public float chaseMemoryTimer = 0f;
+
+
     public float attackRadius = 1.2f;
     public Transform treasureTransform;
     public float treasureReturnRadius = 1f;
@@ -44,6 +50,11 @@ public class EnemyFSM : MonoBehaviour
     {
         // Skip updates if we're flagged dead or have no current state
         if (isDead || currentState == null) return;
+
+        if (chaseMemoryTimer > 0f)
+        {
+            chaseMemoryTimer -= Time.deltaTime;
+        }
         // 1) Check if the currently assigned player is valid
         if (playerTarget != null)
         {
@@ -187,5 +198,23 @@ public class EnemyFSM : MonoBehaviour
     {
         Debug.Log("TestEvent called!");
     }
+    public bool IsPlayerInSight()
+    {
+        if (playerTarget == null) return false;
+
+        Vector3 directionToPlayer = (playerTarget.position - transform.position).normalized;
+        float angle = Vector3.Angle(transform.forward, directionToPlayer);
+        float distance = Vector3.Distance(transform.position, playerTarget.position);
+
+        return angle < fieldOfViewAngle / 2f && distance <= detectionRadius;
+    }
+    public void OnHitByPlayer()
+    {
+        if (!IsPlayerInSight() && !isDead)
+        {
+            TransitionToState(chaseState);
+        }
+    }
+
 }
 
