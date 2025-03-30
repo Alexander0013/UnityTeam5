@@ -15,6 +15,8 @@ public class EnemyFSM : MonoBehaviour
     [Header("Enemy Settings")]
     public NPCStateData npcData;
     public float detectionRadius = 8f;
+    public float chaseRadius = 3f;
+
     public float fieldOfViewAngle = 120f;
     [Header("Chase Memory")]
     public float chaseMemoryTime = 3f;
