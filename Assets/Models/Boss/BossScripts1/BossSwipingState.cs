@@ -5,28 +5,27 @@ public class BossSwipingState : BossBaseState
 {
     public override void EnterState(BossFSM boss)
     {
-        boss.PLayAttackSound();
-        Debug.Log("Boss ¶i¤J Swiping ª¬ºA");
+        Debug.Log("Boss ï¿½iï¿½J Swiping ï¿½ï¿½ï¿½A");
         if (boss.playerTarget != null)
         {
             boss.StartCoroutine(SmoothRotateToTarget(boss, boss.playerTarget.position, 0.3f));
         }
-        // ¥ý²M°£©Î­«¸m¤£»Ý­nªº°Ñ¼Æ
+        // ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½Î­ï¿½ï¿½mï¿½ï¿½ï¿½Ý­nï¿½ï¿½ï¿½Ñ¼ï¿½
         boss.animator.ResetTrigger("Walk");
         boss.animator.SetBool("Walk", false);
         boss.animator.SetBool("isSwiping", false);
         boss.animator.ResetTrigger("Dance");
-        // ¥­·Æ¹L´ç¨ì Swiping °Êµe
+        // ï¿½ï¿½ï¿½Æ¹Lï¿½ï¿½ï¿½ Swiping ï¿½Êµe
         boss.animator.CrossFade("Swiping", 0.1f, 0, 0f);
 
-        // ³]¸m swiping °Ñ¼Æ¡]½T«O¦b¹L´ç§¹¦¨«á¡^
+        // ï¿½]ï¿½m swiping ï¿½Ñ¼Æ¡]ï¿½Tï¿½Oï¿½bï¿½Lï¿½ç§¹ï¿½ï¿½ï¿½ï¿½^
         boss.animator.SetBool("isSwiping", true);
     }
     private IEnumerator SmoothRotateToTarget(BossFSM boss, Vector3 targetPos, float duration)
     {
         float elapsed = 0f;
         Quaternion startRot = boss.transform.rotation;
-        // ¶È¦b¤ô¥­­±±ÛÂà
+        // ï¿½È¦bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         Vector3 direction = (targetPos - boss.transform.position).normalized;
         direction.y = 0f;
         Quaternion targetRot = Quaternion.LookRotation(direction);
@@ -43,7 +42,7 @@ public class BossSwipingState : BossBaseState
     {
         if (boss.playerTarget == null)
         {
-            Debug.Log("ª±®aÂ÷¶}°»´ú½d³ò¡A¤Á´«¦^ Walk ª¬ºA");
+            Debug.Log("ï¿½ï¿½ï¿½aï¿½ï¿½ï¿½}ï¿½ï¿½ï¿½ï¿½ï¿½dï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½^ Walk ï¿½ï¿½ï¿½A");
             boss.TransitionToState(boss.walkState);
             
         }
@@ -51,35 +50,35 @@ public class BossSwipingState : BossBaseState
 
     public override void ExitState(BossFSM boss)
     {
-        Debug.Log("Boss Â÷¶} Swiping ª¬ºA");
+        Debug.Log("Boss ï¿½ï¿½ï¿½} Swiping ï¿½ï¿½ï¿½A");
         boss.animator.SetBool("isSwiping", false);
     }
 
-    // ¥Ñ°Êµe¨Æ¥ó©I¥s¡AÀË¬d¬O§_©R¤¤ª±®a
+    // ï¿½Ñ°Êµeï¿½Æ¥ï¿½Iï¿½sï¿½Aï¿½Ë¬dï¿½Oï¿½_ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½a
     public void OnAttackHit(BossFSM boss)
     {
         boss.ApplyAttackDamage();
   
     }
 
-    // §ðÀ»°Êµeµ²§ô«á¡A¦^¨ì StandBy ª¬ºAÅý Boss ¨M©w¤U¤@¨B°Ê§@
+    // ï¿½ï¿½ï¿½ï¿½ï¿½Êµeï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½^ï¿½ï¿½ StandBy ï¿½ï¿½ï¿½Aï¿½ï¿½ Boss ï¿½Mï¿½wï¿½Uï¿½@ï¿½Bï¿½Ê§@
     public void OnAttackAnimationFinished(BossFSM boss)
     {
         boss.StartCoroutine(DelayedSwipingTransition(boss));
     }
     private IEnumerator DelayedSwipingTransition(BossFSM boss)
     {
-        // ©µ¿ð0.2¬í¡A½T«O°Êµe§¹¥þµ²§ô¥B Animator °Ñ¼ÆÃ­©w
+        // ï¿½ï¿½ï¿½ï¿½0.2ï¿½ï¿½ï¿½Aï¿½Tï¿½Oï¿½Êµeï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B Animator ï¿½Ñ¼ï¿½Ã­ï¿½w
         yield return new WaitForSeconds(0.2f);
         float distance = Vector3.Distance(boss.transform.position, boss.playerTarget.position);
         if (distance <= boss.attackRadius)
         {
-            Debug.Log("ª±®a¤´¦b swiping ½d³ò¡A«ùÄò swiping");
+            Debug.Log("ï¿½ï¿½ï¿½aï¿½ï¿½ï¿½b swiping ï¿½dï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ swiping");
             boss.TransitionToState(boss.swipingState);
         }
         else
         {
-            Debug.Log("ª±®a¤wÂ÷¶} swiping ½d³ò¡Aªð¦^ WalkState");
+            Debug.Log("ï¿½ï¿½ï¿½aï¿½wï¿½ï¿½ï¿½} swiping ï¿½dï¿½ï¿½Aï¿½ï¿½^ WalkState");
             boss.TransitionToState(boss.walkState);
         }
     }
