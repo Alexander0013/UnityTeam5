@@ -39,19 +39,10 @@ public class EnemyIdleState : EnemyBaseState
 
     public override void UpdateState(EnemyFSM enemy)
     {
-        if (enemy.isDead) return;
+        if (enemy.isDead || enemy.playerTarget == null) return;
 
-        if (enemy.playerTarget == null) return;
         float distance = Vector3.Distance(enemy.transform.position, enemy.playerTarget.position);
-
-        // Decrement the idleTime while we're out of detection range
-        // or we haven't chosen a new action yet
         idleTime -= Time.deltaTime;
-        if (enemy.IsPlayerInSight())
-        {
-            enemy.TransitionToState(enemy.chaseState);
-            return;
-        }
         if (enemy.chaseMemoryTimer > 0f)
         {
             enemy.TransitionToState(enemy.chaseState);
@@ -59,29 +50,30 @@ public class EnemyIdleState : EnemyBaseState
         }
 
         // If the time is up, we do the next decision
-        if (!deciding && idleTime <= 0f)
+        if (!deciding && idleTime <= 0f && enemy.IsPlayerInSight())
         {
             deciding = true; // so we only do one decision
-
-            if (enemy.IsPlayerInSight())
+            if (distance <= enemy.attackRadius)
             {
-                if (distance > enemy.attackRadius)
-                {
-                    DecideIdleOrChase(enemy);
-                    return;
-                }
-                else
-                {
-                    DecideIdleChaseOrAttack(enemy);
-                    return;
-                }
+                DecideIdleChaseOrAttack(enemy);
+            }
+            else if (distance <= enemy.chaseRadius)
+            {
+                DecideIdleOrChase(enemy);
             }
             else
             {
                 idleTime = Random.Range(minIdle, maxIdle);
                 deciding = false;
             }
-            }
+            return;
+        }
+        if (!deciding && idleTime <= 0f)
+        {
+            idleTime = Random.Range(minIdle, maxIdle);
+            deciding = false;
+        }
+            
     }
 
     public override void ExitState(EnemyFSM enemy)
