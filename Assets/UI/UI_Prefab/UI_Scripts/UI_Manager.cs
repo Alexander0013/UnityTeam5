@@ -176,8 +176,6 @@ public class UI_Manager : MonoBehaviour
         {
             StartCoroutine(GenerateHealthBarsForEnemies());
             CreateBossHealthBar();
-            //bossHealthBar.SetActive(true);
-            //bossHealthBar.GetComponent<CanvasGroup>().alpha = 0;
         }       
 
         IsReady = true;
@@ -229,6 +227,11 @@ public class UI_Manager : MonoBehaviour
         //Dialogue
         if (inDialogueRange && Input.GetKeyDown(KeyCode.E))
         {
+            if (guide.activeSelf)
+            {
+                StopCoroutine(WaitForGuide());
+                guideAnimator.SetTrigger("GuideOff");
+            }
             TriggerDialogue(dialogue,startTalking);
             UI_Manager.instance.HideInteractionText();
         }

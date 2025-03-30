@@ -26,6 +26,7 @@ public class DialogueTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            UI_Manager.instance.startTalking = false;
             GetDialogueButton();
             UI_Manager.instance.ShowInteractionText("¹ï¸Ü");
             UI_Manager.instance.inDialogueRange = true;

@@ -46,6 +46,7 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(Dialogue dialogue)
     {
+        SceneController.instance.UpdateGameStateForUI(true);
         canvasGroup.alpha = 1;
         animator.SetBool("IsTalking", true);
         animator.SetTrigger("StartTalking");
@@ -85,8 +86,9 @@ public class DialogueManager : MonoBehaviour
 
     public void EndDialogue()
     {
+        SceneController.instance.UpdateGameStateForUI(false);
         animator.SetBool("IsTalking", false);
-        UI_Manager.instance.startTalking = false;
+        //UI_Manager.instance.startTalking = false;
         if (!UI_Manager.instance.getMission)
         {
             missonStart?.Invoke();
