@@ -84,9 +84,9 @@ public class EnemyIdleState : EnemyBaseState
 
     private void DecideIdleOrChase(EnemyFSM enemy)
     {
-        // Weighted random: e.g., 30% remain idle, 70% chase
+        // Weighted random: e.g., 10% remain idle, 90% chase
         float rand = Random.value; // 0..1
-        if (rand < 0.3f)
+        if (rand < 0.1f)
         {
             // remain idle: pick a new idleTime
             idleTime = Random.Range(minIdle, maxIdle);
@@ -104,16 +104,16 @@ public class EnemyIdleState : EnemyBaseState
 
     private void DecideIdleChaseOrAttack(EnemyFSM enemy)
     {
-        // Weighted random: 10% idle, 20% chase, 70% attack
+        // Weighted random: 1% idle, 4% chase, 95% attack
         float rand = Random.value; // 0..1
-        if (rand < 0.1f)
+        if (rand < 0.01f)
         {
             // remain idle
             idleTime = Random.Range(minIdle, maxIdle);
             deciding = false;
             //Debug.Log("Decided: remain idle (within attackRadius)");
         }
-        else if (rand < 0.2f)
+        else if (rand < 0.05f)
         {
             //Debug.Log("Decided: chase (within attackRadius)");
             enemy.TransitionToState(enemy.chaseState);
