@@ -39,7 +39,7 @@ public class EnemyHealthBar : HealthBar
         if(elementalStatus == null ) { Debug.Log("elementalStatus null"); }
         if(elementalStatus!=null )
         {
-            //elementalStatus.OnCrystallizeReaction += ShowElement;
+            elementalStatus.OnElementApplied += ShowElement;
         }
         this.elementImage.SetActive(false);
         cam = UI_Manager.instance.mainCamera;
@@ -54,7 +54,10 @@ public class EnemyHealthBar : HealthBar
 
     private void OnDisable()
     {
-        elementalStatus.OnCrystallizeReaction -= ShowElement;
+        if (elementalStatus != null)
+        {
+            elementalStatus.OnElementApplied -= ShowElement;
+        }
         enemyHealth.OnHealthChanged -= UpdateHealthBar;
         enemyHealth.OnDeath -= DestroyHealthBar;
     }

@@ -15,6 +15,7 @@ public class ElementalStatus : MonoBehaviour
     // Define an event that is fired when a reaction occurs.
     // The event passes the element that reacted and the position.
     public event Action<ElementType, Vector3> OnCrystallizeReaction;
+    public event Action<ElementType> OnElementApplied;
 
     /// <summary>
     /// Apply an elemental effect to the character.
@@ -29,6 +30,7 @@ public class ElementalStatus : MonoBehaviour
             currentElement = newElement;
             effectDuration = duration;
             //Debug.Log($"{gameObject.name} is now affected by {newElement} for {duration} seconds.");
+            OnElementApplied?.Invoke(newElement);
         }
         else
         {
@@ -46,6 +48,7 @@ public class ElementalStatus : MonoBehaviour
                 // Otherwise, refresh the duration of the existing effect (or optionally combine effects).
                 effectDuration = duration;
                 //Debug.Log($"{gameObject.name} refreshes its {currentElement} effect for {duration} seconds.");
+                OnElementApplied?.Invoke(currentElement);
             }
         }
     }
