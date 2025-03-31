@@ -230,12 +230,32 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 460441110927513023, guid: b21844bdc32ca244aa45bb93a277d910,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 460441110927513023, guid: b21844bdc32ca244aa45bb93a277d910,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1241420616435136194, guid: b21844bdc32ca244aa45bb93a277d910,
         type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1241420616435136194, guid: b21844bdc32ca244aa45bb93a277d910,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1730491906466985342, guid: b21844bdc32ca244aa45bb93a277d910,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1730491906466985342, guid: b21844bdc32ca244aa45bb93a277d910,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -788,7 +808,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.3
+  m_Volume: 0.05
   m_Pitch: 1
   Loop: 0
   Mute: 0

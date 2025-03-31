@@ -19,6 +19,8 @@ public class AudioManager : MonoBehaviour
     public float fadeDuration = 2.0f;
     public bool isBattleMusicActive = false;
 
+    private float masterMusicVolume = 0.3f;
+
     private void Awake()
     {
         // Singleton pattern: ensure only one AudioManager exists.
@@ -32,7 +34,7 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
         }
         musicSource.clip = openingMusic;
-        musicSource.volume = 1.0f;
+        musicSource.volume = masterMusicVolume;
         musicSource.Play();
 
     }
@@ -77,12 +79,11 @@ public class AudioManager : MonoBehaviour
 
     IEnumerator CrossFadeMusic(AudioClip newClip)
     {
-        float startVolume = musicSource.volume;
 
         // Fade out current music.
         for (float t = 0; t < fadeDuration; t += Time.deltaTime)
         {
-            musicSource.volume = Mathf.Lerp(startVolume, 0, t / fadeDuration);
+            musicSource.volume = Mathf.Lerp(0, masterMusicVolume, t / fadeDuration);
             yield return null;
         }
         musicSource.Stop();
@@ -92,10 +93,10 @@ public class AudioManager : MonoBehaviour
         // Fade in new music.
         for (float t = 0; t < fadeDuration; t += Time.deltaTime)
         {
-            musicSource.volume = Mathf.Lerp(0, startVolume, t / fadeDuration);
+            musicSource.volume = Mathf.Lerp(0, masterMusicVolume, t / fadeDuration);
             yield return null;
         }
-        musicSource.volume = startVolume;
+        musicSource.volume = masterMusicVolume;
     }
 
     // Call this to switch to battle music (e.g., in PureNature when battle begins).
