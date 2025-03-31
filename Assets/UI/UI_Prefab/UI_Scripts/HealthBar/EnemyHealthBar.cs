@@ -16,10 +16,14 @@ public class EnemyHealthBar : HealthBar
 
     public Vector3 offset;
     public Vector3 shooterOffset;
+    public GameObject elementImage;
+    public bool element = false;
 
     //HealthBar Fade in/out
     public float visibleDistance;
     public float fadeSpeed;
+
+    private ElementalStatus elementalStatus;
     
     bool isFading = false;
     float targetAlpha;
@@ -30,19 +34,30 @@ public class EnemyHealthBar : HealthBar
         this.enemyHealth = enemy.GetComponent<EnemyHealth>();
         this.EnemyTransform = enemy.transform;
         this.canvasGroup = GetComponent<CanvasGroup>();
-
+        this.elementalStatus = enemy.GetComponent<ElementalStatus>();
+        
+        if(elementalStatus == null ) { Debug.Log("elementalStatus null"); }
+        if(elementalStatus!=null )
+        {
+            elementalStatus.OnElementApplied += ShowElement;
+        }
+        this.elementImage.SetActive(false);
         cam = UI_Manager.instance.mainCamera;
         canvas = UI_Manager.instance.canvas;
         rectTransform = UI_Manager.instance.rectTransform;
         canvasGroup.alpha = 0f;
         enemyHealth.OnHealthChanged += UpdateHealthBar;
         enemyHealth.OnDeath += DestroyHealthBar;
-                
+
         SetHealthBar(Enemy.GetComponent<EnemyFSM>().npcData.maxHealth);
     }
 
     private void OnDisable()
     {
+        if (elementalStatus != null)
+        {
+            elementalStatus.OnElementApplied -= ShowElement;
+        }
         enemyHealth.OnHealthChanged -= UpdateHealthBar;
         enemyHealth.OnDeath -= DestroyHealthBar;
     }
@@ -105,9 +120,23 @@ public class EnemyHealthBar : HealthBar
 
     void DestroyHealthBar()
     {
+
         UI_Manager.instance.UnregisterHealthBar(Enemy);
         StopAllCoroutines();
         StartCoroutine(FadeOutHealthBar(0));        
         Destroy(gameObject);
+    }
+
+    void ShowElement(ElementType elementType)
+    {
+        Debug.Log("elementType="+elementType);
+        if(elementType== ElementType.Electro)
+        {
+            elementImage.SetActive(true);
+        }
+        else
+        {
+            elementImage.SetActive(false);
+        }
     }
 }
