@@ -10,24 +10,24 @@ public class DialogueTrigger : MonoBehaviour
     public GameObject ButtonPrefab;
     public Transform buttonTransform;
     public ItemGiver itemGivers;
-    GameObject button;
+    //GameObject button;
 
 
-    void Start()
-    {
-        UI_Manager.instance.startDialogue+= StartDialogue;
-    }
-    void OnDisable()
-    {
-        UI_Manager.instance.startDialogue -= StartDialogue;
-    }
+    //void Start()
+    //{
+    //    UI_Manager.instance.startDialogue+= StartDialogue;
+    //}
+    //void OnDisable()
+    //{
+    //    UI_Manager.instance.startDialogue -= StartDialogue;
+    //}
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             UI_Manager.instance.startTalking = false;
-            GetDialogueButton();
+            //GetDialogueButton();
             UI_Manager.instance.ShowInteractionText("¹ï¸Ü");
             UI_Manager.instance.inDialogueRange = true;
             UI_Manager.instance.npcDT = this;
@@ -53,36 +53,36 @@ public class DialogueTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Destroy(button);
+            //Destroy(button);
             UI_Manager.instance.inDialogueRange = false;
             UI_Manager.instance.dialogue = null;
             UI_Manager.instance.HideInteractionText();
         }
     }
 
-    public void FixedUpdate()
-    {
-        if (button != null)
-        {
-            button.transform.position = Camera.main.WorldToScreenPoint(buttonTransform.position);
-        }
-    }
+    //public void FixedUpdate()
+    //{
+    //    if (button != null)
+    //    {
+    //        button.transform.position = Camera.main.WorldToScreenPoint(buttonTransform.position);
+    //    }
+    //}
 
 
-    void GetDialogueButton()
-    {
-        if (button == null)
-        {
-            button = Instantiate(ButtonPrefab, UI_Manager.instance.canvas.transform);
-            button.transform.position = Camera.main.WorldToScreenPoint(buttonTransform.position);
-        }       
-    }
+    //void GetDialogueButton()
+    //{
+    //    if (button == null)
+    //    {
+    //        button = Instantiate(ButtonPrefab, UI_Manager.instance.canvas.transform);
+    //        button.transform.position = Camera.main.WorldToScreenPoint(buttonTransform.position);
+    //    }       
+    //}
 
-    void StartDialogue()
-    {
-        if(button != null)
-            Destroy(button);
-    }
+    //void StartDialogue()
+    //{
+    //    if(button != null)
+    //        Destroy(button);
+    //}
 
     public void GetItemFromNPC()
     {

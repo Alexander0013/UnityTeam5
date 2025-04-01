@@ -579,7 +579,7 @@ public class UI_Manager : MonoBehaviour
     {
         if (displayedItems.Count > 0)
         {
-            yield return new WaitForSeconds(0.6f * displayedItems.Count); // 設定顯示物品之間的間隔，這裡是0.5秒
+            yield return new WaitForSeconds(0.55f * displayedItems.Count); 
         }
         GameObject itemDisplay = Instantiate(itemDisplayPrefab, itemDisplayContainer);
         itemDisplay.GetComponentInChildren<TextMeshProUGUI>().text = item.itemName;
