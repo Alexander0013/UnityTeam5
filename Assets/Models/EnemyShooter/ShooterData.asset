@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbd03c3e7b96944b2bb200680f493b4a, type: 3}
   m_Name: ShooterData
   m_EditorClassIdentifier: 
-  baseDamage: 10
+  baseDamage: 5
   comboMultiplier: 1
   hitRadius: 2.5
   maxHealth: 125
