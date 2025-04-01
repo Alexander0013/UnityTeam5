@@ -2431,7 +2431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d576a86697a5b4da5a41eb945ee98db3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxShieldHP: 10
+  maxShieldHP: 15
   shieldElement: 0
   shieldVisualPrefab: {fileID: 1289543790355709915, guid: 947c2514bb952446587edee47c0d8aa9,
     type: 3}

@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbd03c3e7b96944b2bb200680f493b4a, type: 3}
   m_Name: NPCStateData
   m_EditorClassIdentifier: 
-  baseDamage: 10
+  baseDamage: 5
   comboMultiplier: 1
   hitRadius: 1
-  maxHealth: 200
+  maxHealth: 250
   playerLayers:
     serializedVersion: 2
     m_Bits: 128

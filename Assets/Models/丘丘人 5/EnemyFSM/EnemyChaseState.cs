@@ -23,13 +23,25 @@ public class EnemyChaseState : EnemyBaseState
         if (enemy.playerTarget == null)
         {
             enemy.TransitionToState(enemy.returnState);
-            return;
         }
         // Check if blocked by another enemy before chasing
         if (IsBlockedByOtherEnemy(enemy))
         {
             enemy.TransitionToState(enemy.returnState);
-            return;
+        }
+        if (enemy.IsPlayerInSight()) 
+        {
+            ChasePlayer(enemy);
+        }
+        else
+        {
+            enemy.chaseMemoryTime -= Time.deltaTime;
+            ChasePlayer(enemy);
+            if (enemy.chaseMemoryTime <= 0)
+            {
+                enemy.chaseMemoryTime = 5f;
+                enemy.TransitionToState(enemy.idleState);
+            }
         }
 
         float distance = Vector3.Distance(enemy.transform.position, enemy.playerTarget.position);
@@ -40,31 +52,13 @@ public class EnemyChaseState : EnemyBaseState
             enemy.TransitionToState(enemy.attackState);
             return;
         }
-
-        // If within detection range, chase
-        if (distance <= enemy.detectionRadius)
-        {
-            lostPlayerTimer += Time.deltaTime;
-            ChasePlayer(enemy);
-            if(lostPlayerTimer >= lostPlayerThreshold)
-            {
-                enemy.TransitionToState(enemy.idleState);
-            }
-        }
-        else
-        {
-            enemy.chaseMemoryTimer -= Time.deltaTime;
-            if (enemy.chaseMemoryTimer <= 0f)
-            {
-                enemy.TransitionToState(enemy.returnState);
-            }
-        }
     }
 
     public override void ExitState(EnemyFSM enemy)
     {
         // When leaving chase, stop walking
         enemy.animator.SetBool("isWalking", false);
+        enemy.chaseMemoryTime = 5f;
     }
 
     private void ChasePlayer(EnemyFSM enemy)
