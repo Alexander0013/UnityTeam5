@@ -136,7 +136,7 @@ public class EnemyFSM : MonoBehaviour
     /// Returns the first valid player transform that is activeInHierarchy and has HP > 0,
     /// or null if none found.
     /// </summary>
-    protected Transform FindActiveLivingPlayer()
+    public Transform FindActiveLivingPlayer()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject p in players)

@@ -17,9 +17,20 @@ public class ArcherIdleState : EnemyBaseState
 
     public override void UpdateState(EnemyFSM enemy)
     {
-        if (enemy.playerTarget == null) return;
         idleTime -= Time.deltaTime;
-        float distance = Vector3.Distance(enemy.transform.position, enemy.playerTarget.position);
+        if (enemy.playerTarget == null)
+        {
+            Transform newTarget = enemy.FindActiveLivingPlayer();
+            if (newTarget != null)
+            {
+                Debug.Log("[ArcherIdleState] find new target");
+                enemy.playerTarget = newTarget;
+                enemy.TransitionToState(((ArcherFSM)enemy).idleState);
+            }
+        }
+        else
+        {
+            float distance = Vector3.Distance(enemy.transform.position, enemy.playerTarget.position);
         if (idleTime <= 0f)
         {
             // Use npcData.hitRadius for close-range melee.
@@ -37,6 +48,8 @@ public class ArcherIdleState : EnemyBaseState
                 idleTime = Random.Range(minIdle, maxIdle);
             }
         }
+        }
+        
         // Otherwise, remain idle.
     }
 
